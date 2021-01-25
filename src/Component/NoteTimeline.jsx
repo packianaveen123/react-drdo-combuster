@@ -2,15 +2,17 @@ import react from 'react';
 
 export default function NoteTimeline(props) {
   const displayNotes= (props) =>{
-  const {  categories } = props;
+  const {  notes } = props;
 
-  if (categories.length > 0) {
+  if (notes.length > 0) {
     return (
-      categories.map((note, index) => {
+      notes.map((note, index) => {
         console.log(note);
         return (
           <div key={note._id}>
-            <p>{note.name}</p>
+            <p>{note.currentStatus}</p>
+            <p>{note.T1}</p>
+            <p>{note.T1}</p>
           </div>
         )
       })
