@@ -13,7 +13,7 @@ import FetchingData from './Component/FetchingData';
 function App() {
   return (
     <div>
-      <FetchingData />
+      <Turbine />
     </div>
   );
 }
