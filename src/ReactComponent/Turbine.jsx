@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Form, FormControl, Col, Container, Row, Table, Pagination,InputGroup } from 'react-bootstrap';
 import { MdEdit } from "react-icons/md";
-import Calender from './Calender';
+import Calender from '../Component/Calender';
 import {turbinedatas} from '../Data/TableData.json';
 
 import './Style.css';
