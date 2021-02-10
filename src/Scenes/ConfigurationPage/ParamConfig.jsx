@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Table, Tag, Space, Pagination } from 'antd';
-import { paramdatas } from '../Data/TestData.json';
+import { paramdatas } from '../../Data/TestData.json';
 import {
     EditOutlined
 } from '@ant-design/icons';
@@ -11,7 +11,7 @@ export default class ParamConfig extends Component {
             <div style={{ paddingTop: "10px" }}>
                 <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
                     <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Param Configuration</h2>
-                    <Row style={{paddingTop:"20px"}} >
+                    <Row style={{ paddingTop: "20px" }} >
                         <Col sm={2}>
                             <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)' }}>Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
                             <span> &nbsp; &nbsp; &nbsp;</span>
@@ -84,7 +84,6 @@ export default class ParamConfig extends Component {
                     <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px", paddingRight: "20px" }}>
                         <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Param Configuration</h2>
                         <Table dataSource={paramdatas} style={{ backgroundColor: "#131633" }} >
-
                             <Column title="S.No" dataIndex="SNo" />
                             <Column title="Name" dataIndex="Name" />
                             <Column title="Unit" dataIndex="Unit" />
@@ -99,7 +98,6 @@ export default class ParamConfig extends Component {
                                         <EditOutlined />
                                     </Space>
                                 )} />
-                            
                         </Table>,
          </Layout>
                 </div>

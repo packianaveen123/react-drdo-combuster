@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Table, Tag, Space, Pagination } from 'antd';
-import { testdatas } from '../Data/TestData.json';
+import { testdatas } from '../../Data/TestData.json';
 import {
   EditOutlined
 } from '@ant-design/icons';
@@ -62,7 +62,7 @@ export default class TurbineConfig extends Component {
 
         <div style={{ paddingTop: "10px" }}>
           <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" ,paddingRight:"20px"}}>
-            <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Test Param</h2>
+            <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Turbine Configuration</h2>
             <Table dataSource={testdatas} style={{ backgroundColor: "#131633" }} >
 
               <Column title="S.No" dataIndex="SNo"  />
