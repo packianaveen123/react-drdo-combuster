@@ -27,7 +27,7 @@ export default class GridContainer extends Component {
                             </form>
                         </Col>
                     </Row>
-                    <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+                    <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
                         <Col xs={8}>
                             <form>
                                 <Row>
@@ -36,7 +36,7 @@ export default class GridContainer extends Component {
                                     </Col>
                                     <Col xs={4}>
                                         <Input.Group compact>
-                                            <Select defaultValue="Select Turbine ID" style={{ width: "300px" }}>
+                                            <Select defaultValue="Select Turbine ID" >
                                                 <Option value="Option1">Option1</Option>
                                                 <Option value="Option2">Option2</Option>
                                                 <Option value="Option3">Option3</Option>
@@ -55,7 +55,7 @@ export default class GridContainer extends Component {
                                     </Col>
                                     <Col xs={4}>
                                         <Input.Group compact>
-                                            <Select defaultValue="Select Tester" style={{ width: "300px" }}>
+                                            <Select defaultValue="Select Tester" >
                                                 <Option value="Option1">Option1</Option>
                                                 <Option value="Option2">Option2</Option>
                                                 <Option value="Option3">Option3</Option>
