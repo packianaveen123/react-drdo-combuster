@@ -20,14 +20,15 @@ export default class SearcgBox extends Component {
                             name="search"
                             placeholder="Search..."
                             style={{
-                                width: '40rem',
+                                width: '42rem',
                                 border: "none",
+                                fontsize: '1rem',
+                                Color: "#666873",
                                 backgroundColor: 'transparent',
-                                borderBottom: "1px solid gray",
+                                borderBottom: "1px solid #3e434d",
                             }}
                         />                 
             </div>
-
 
         );
     }

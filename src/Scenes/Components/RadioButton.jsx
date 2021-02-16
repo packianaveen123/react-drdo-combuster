@@ -9,8 +9,8 @@ export default class RadioButton extends Component {
             <Radio.Group name="radiogroup" 
             defaultValue={1} 
             style={{
-                border:'1px solid gray',
-                width:"343px",
+                border:'1px solid #3e434d',
+                width:"300px",
                 height:"40px",
                 paddingTop:'4px',
                 paddingLeft:'20px'

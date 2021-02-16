@@ -12,23 +12,23 @@ export default class TurbineConfig extends Component {
       <div style={{ paddingTop: "1px" }}>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
           <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>Enertek</text>
-            <text style={{ color: '#8a8d93', fontSize: "25px" }}>  / Config / Turbine Config</text>
+            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
+            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Turbine Config</text>
           </Row>
         </Layout>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
           <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Turbine Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Turbine ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Turbine ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input />
+              <Input style={{  width: "320px" }}placeholder= "Turbine ID" />
             </Col>
 
             <Col sm={3}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={5}>
@@ -37,23 +37,23 @@ export default class TurbineConfig extends Component {
             </Col>
 
             <Col sm={2}>
-              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input />
+              <Input style={{ width: "320px" }} placeholder="Nozzle Area"/>
             </Col>
           </Row>
           <Row style={{ paddingTop: "20px" }}>
             <Col sm={2}>
-              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
             </Col>
             <Col sm={6}>
-              <Input style={{ height: "120px", width: "500px" }} />
+              <Input style={{ height: "100px", width: "805px" }} placeholder="Description..."/>
             </Col>
           </Row>
 
-          <Row sm={6} style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+          <Row sm={6} style={{ paddingTop: '25px', paddingLeft: "35%", paddingBottom: '30px' }}>
             <Col xs={4}>
               <Button > Save</Button>
               <span> &nbsp;</span>
@@ -62,9 +62,7 @@ export default class TurbineConfig extends Component {
               <Button > Clear</Button>
               <span> &nbsp;</span>
             </Col>
-            <Col xs={4}>
-              <Button> Reset</Button>
-            </Col>
+           
           </Row>
         </Layout>
 
@@ -77,10 +75,10 @@ export default class TurbineConfig extends Component {
               <Col span={10}><SearchBox /></Col>
               <Col span={6}>
                 <Row style={{ paddingTop: '5px', paddingLeft: "18%", paddingBottom: '10px' }}>
-                  <Col span={10}>
+                  <Col span={8}>
                     <Button> Excel</Button>
                   </Col>
-                  <Col span={10}>
+                  <Col span={8}>
                     <Button> PDF</Button>
                   </Col>
                 </Row>

@@ -55,8 +55,8 @@ class TransferComponent extends React.Component {
       <Transfer
         dataSource={this.state.mockData}
         listStyle={{
-          width: 450,
-          height: 450,
+          width: 550,
+          height: 350,
         }}
         targetKeys={this.state.targetKeys}
         onChange={this.handleChange}
@@ -67,4 +67,4 @@ class TransferComponent extends React.Component {
   }
 }
 
-export default TransferComponent
+export default TransferComponent;

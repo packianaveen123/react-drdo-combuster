@@ -15,28 +15,28 @@ export default class TestConfig extends Component {
       <div style={{ paddingTop: "1px" }}>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
           <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>Enertek</text>
-            <text style={{ color: '#8a8d93', fontSize: "25px" }}>  / Config / Test Config</text>
+            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
+            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Test Config</text>
           </Row>
         </Layout>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
           <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Test Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
-              <Input />
+              <Input style={{Color:"#666873"}}placeholder="Name" />
             </Col>
 
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '20px' }}>Unit<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
               <Input.Group compact>
-                <Select defaultValue="Select" >
+                <Select defaultValue="Value" style={{ width: '450px' }}>
                   <Option value="Option1">Option1</Option>
                   <Option value="Option2">Option2</Option>
                   <Option value="Option3">Option3</Option>
@@ -70,10 +70,10 @@ export default class TestConfig extends Component {
               <Col span={10}><SearchBox /></Col>
               <Col span={6}>
                 <Row style={{ paddingTop: '5px', paddingLeft: "18%", paddingBottom: '10px' }}>
-                  <Col span={10}>
+                  <Col span={8}>
                     <Button > Excel</Button>
                   </Col>
-                  <Col span={10}>
+                  <Col span={8}>
                     <Button > PDF</Button>
                   </Col>
                 </Row>
@@ -94,7 +94,34 @@ export default class TestConfig extends Component {
                 )}
               />
             </Table>,
-         </Layout>
+
+            {/* <table >
+              <thead>
+                <tr >
+                  <th>S.No</th>
+                  <th>Name</th>
+                  <th>Unit</th>
+                  <th>Value</th>
+                  <th>Edit</th> 
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  testdatas.map((item, i) =>
+                    <tr key={i}>
+                      <td>{item.SNo}</td>
+                      <td>{item.Name}</td>
+                      <td>{item.Unit}</td>
+                      <td>{item.Value}</td>
+                      <td>{item.Edit}</td>
+                    </tr>)
+                }
+              </tbody>
+            </table> */}
+
+
+
+          </Layout>
         </div>
       </div>
     )

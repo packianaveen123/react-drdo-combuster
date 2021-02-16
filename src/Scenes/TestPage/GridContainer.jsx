@@ -19,7 +19,7 @@ export default class GridContainer extends Component {
                         <Col xs={8} style={{ paddingLeft: "20px" }}>
                             <form>
                                 <Row>
-                                    <Col xs={4}>
+                                    <Col xs={5}>
                                         <label for="text" class="label" >Mode</label>
                                     </Col>
                                     <RadioButton />
@@ -28,15 +28,15 @@ export default class GridContainer extends Component {
                         </Col>
                     </Row>
                     <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
-                        <Col xs={8}>
+                        <Col span={8}>
                             <form>
                                 <Row>
-                                    <Col xs={4}>
+                                    <Col span={5}>
                                         <label for="text" class="label" >Turbine ID</label>
                                     </Col>
-                                    <Col xs={4}>
-                                        <Input.Group compact>
-                                            <Select defaultValue="Select Turbine ID" >
+                                    <Col span={6}>
+                                        <Input.Group compact >
+                                            <Select defaultValue="Select Turbine ID" style={{width:'300px'}} >
                                                 <Option value="Option1">Option1</Option>
                                                 <Option value="Option2">Option2</Option>
                                                 <Option value="Option3">Option3</Option>
@@ -50,12 +50,12 @@ export default class GridContainer extends Component {
                         <Col xs={8}>
                             <form>
                                 <Row>
-                                    <Col xs={4}>
+                                    <Col span={5}>
                                         <label for="text" class="label" >Tester</label>
                                     </Col>
-                                    <Col xs={4}>
-                                        <Input.Group compact>
-                                            <Select defaultValue="Select Tester" >
+                                    <Col span={6} >
+                                        <Input.Group compact  >
+                                            <Select defaultValue="Select Tester" style={{width:'250px'}}>
                                                 <Option value="Option1">Option1</Option>
                                                 <Option value="Option2">Option2</Option>
                                                 <Option value="Option3">Option3</Option>
@@ -69,11 +69,11 @@ export default class GridContainer extends Component {
                         <Col xs={8}>
                             <form>
                                 <Row>
-                                    <Col xs={4}>
+                                    <Col span={5}>
                                         <label for="text" class="label" >Witness</label>
                                     </Col>
-                                    <Col xs={4}>
-                                        <Input />
+                                    <Col span={6}>
+                                        <Input  placeholder= "witness" style={{ width: "320px" }}/>
                                     </Col>
                                 </Row>
                             </form>

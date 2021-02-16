@@ -6,18 +6,17 @@ import {
     EditOutlined
 } from '@ant-design/icons';
 import TransferComponent from '../Components/TransferComponent';
-
+import ColorBar from '../Components/ColorBar';
 
 export default class DashboardConfig extends Component {
     render() {
         return (
 
-
             <div style={{ paddingTop: "1px" }}>
                 <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
                     <Row>
-                    <text style={{ color: '#42dad6', fontSize: "25px" }}>Enertek</text>
-                    <text style={{ color: '#8a8d93', fontSize: "25px" }}>  / Config / Dashboard Config</text>
+                    <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
+                    <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Dashboard Config</text>
                     </Row>
                 </Layout>
                 <Layout style={{ backgroundColor: "#131633", paddingTop: "30px", paddingLeft: "20px", paddingRight: "20px" }}>
@@ -29,19 +28,19 @@ export default class DashboardConfig extends Component {
                             <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px', fontSize: '25px' }}>Selected Param</h2>
                         </Col>
                     </Row>
-                    <div><TransferComponent /></div>
-
-                    <Row style={{ paddingTop: '25px', paddingLeft: "25%", paddingBottom: '30px' }}>
-                        <Col xs={4}>
-                            <Button > Save</Button>
+                    <div style={{paddingLeft:'80px'}}><TransferComponent /></div>
+                    <div><ColorBar/></div>
+                    <Row style={{ paddingTop: '25px', paddingLeft: "40%", paddingBottom: '30px' }}>
+                        <Col xs={3}>
+                            <Button > Update</Button>
                             <span> &nbsp;</span>
                         </Col>
-                        <Col xs={4}>
-                            <Button > Clear</Button>
-                            <span> &nbsp;</span>
-                        </Col>
-                        <Col xs={4}>
+                        <Col xs={3}>
                             <Button > Reset</Button>
+                            <span> &nbsp;</span>
+                        </Col>
+                        <Col xs={3}>
+                            <Button > Clear</Button>
                         </Col>
                     </Row>
                 </Layout>

@@ -3,9 +3,9 @@ import { Layout, Menu, Switch } from 'antd';
 import 'antd/dist/antd.css';
 import '../Styles/style.css';
 import {
-  MenuUnfoldOutlined,MenuFoldOutlined,
-  DashboardOutlined,LogoutOutlined,
-  FolderOutlined,LineChartOutlined,
+  MenuUnfoldOutlined, MenuFoldOutlined,
+  DashboardOutlined, LogoutOutlined,
+  FolderOutlined, LineChartOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
 import { GiPaperWindmill } from "react-icons/gi";
@@ -17,11 +17,15 @@ import { BrowserRouter as Router, Route, Link, Switch as SW } from 'react-router
 
 import Demo from './Demo';
 import Demotwo from './Demotwo';
+import FooterElement from './Components/footer/FooterElement';
 import TestConfig from './ConfigurationPage/TestConfig';
 import TurbineConfig from './ConfigurationPage/TurbineConfig';
 import ParamConfig from './ConfigurationPage/ParamConfig';
 import DashboardConfig from './ConfigurationPage/DashboardConfig';
 import TransferComponent from './Components/TransferComponent';
+import RunningReport from './Components/Reports/RunningReport';
+import ExportData from './Components/Reports/ExportData';
+
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 class MainComponent extends Component {
@@ -53,30 +57,29 @@ class MainComponent extends Component {
               {this.state.showCompanyName ? <LogoValue /> : null}
             </div>
 
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
+            <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline" >
 
-              <SubMenu key="sub1" icon={<DashboardOutlined />} title="Dashboard"  >
-                <Menu.Item key="3" icon={<LineChartOutlined style={{ color: '#42dbdc' }} />}> <Link to="/runningreport1" style={{ textDecoration: 'none', color: '#fff' }}> Graph View </Link></Menu.Item>
-                <Menu.Item key="4" icon={<AiOutlineTable style={{ color: '#42dbdc' }} />}> <Link to="/runningreport2" style={{ textDecoration: 'none', color: '#fff' }}> Table View </Link></Menu.Item>
-                <Menu.Item key="5" icon={<FiImage style={{ color: '#42dbdc' }} />}> <Link to="/runningreport3" style={{ textDecoration: 'none', color: '#fff' }}> Image View </Link></Menu.Item>
+              <SubMenu key="sub1" icon={<DashboardOutlined />} title="Dashboard" style={{ fontSize: '15px' }} >
+                <Menu.Item key="1" icon={<LineChartOutlined style={{ color: '#42dbdc' }} />}> <Link to="/runningreport1" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Graph View </Link></Menu.Item>
+                <Menu.Item key="2" icon={<AiOutlineTable style={{ color: '#42dbdc' }} />}> <Link to="/runningreport2" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Table View </Link></Menu.Item>
               </SubMenu>
 
-              <Menu.Item key="2" icon={<DashboardOutlined />} >
+              <Menu.Item key="10" icon={<DashboardOutlined />} >
                 <text style={{ marginBottom: '10px' }}>
-                  <Link to="/dashboard" style={{ textDecoration: 'none', color: 'rgb(151, 150, 151)', fontSize: '15px' }}> Test </Link>
+                  <Link to="/dashboard" class="test-input" style={{ textDecoration: 'none', color: '#adaeb8', fontSize: '18px' }}> Test </Link>
                 </text>
               </Menu.Item>
 
-              <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration"  >
-                <Menu.Item key="3" icon={<DiYii style={{ color: '#42dbdc' }} />}> <Link to="/runningreport3" style={{ textDecoration: 'none', color: '#fff' }}> Test Config </Link></Menu.Item>
-                <Menu.Item key="4" icon={<FiSliders style={{ color: '#42dbdc' }} />}> <Link to="/runningreport4" style={{ textDecoration: 'none', color: '#fff' }}> Param Config </Link></Menu.Item>
-                <Menu.Item key="5" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> <Link to="/runningreport5" style={{ textDecoration: 'none', color: '#fff' }}> Turbine Config </Link></Menu.Item>
-                <Menu.Item key="6" icon={<FiSettings style={{ color: '#42dbdc' }} />}> <Link to="/runningreport6" style={{ textDecoration: 'none', color: '#fff' }}> Dashboard Config </Link></Menu.Item>
+              <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration" style={{ fontSize: '15px' }}  >
+                <Menu.Item key="4" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> <Link to="/runningreport6" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Turbine Config </Link></Menu.Item>
+                <Menu.Item key="5" icon={<FiSettings style={{ color: '#42dbdc' }} />}> <Link to="/runningreport7" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Dashboard Config </Link></Menu.Item>
+                <Menu.Item key="6" icon={<FiSliders style={{ color: '#42dbdc' }} />}> <Link to="/runningreport5" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Param Config </Link></Menu.Item>
+                <Menu.Item key="7" icon={<DiYii style={{ color: '#42dbdc' }} />}> <Link to="/runningreport4" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Test Config </Link></Menu.Item>        
               </SubMenu>
 
-              <SubMenu key="sub3" icon={<FolderOutlined />} title="Report"  >
-                <Menu.Item key="3" icon={<FiActivity style={{ color: '#42dbdc' }} />}> <Link to="/runningreport1" style={{ textDecoration: 'none', color: '#fff' }}> Running </Link></Menu.Item>
-                <Menu.Item key="4" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}> <Link to="/runningreport2" style={{ textDecoration: 'none', color: '#fff' }}>  Export Data </Link></Menu.Item>
+              <SubMenu key="sub3" icon={<FolderOutlined />} title="Report" style={{ fontSize: '15px' }}  >
+                <Menu.Item key="8" icon={<FiActivity style={{ color: '#42dbdc' }} />}> <Link to="/runningreport" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Running </Link></Menu.Item>
+                <Menu.Item key="9" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}> <Link to="/exportdata" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}>  Export Data </Link></Menu.Item>
               </SubMenu>
 
             </Menu>
@@ -109,16 +112,21 @@ class MainComponent extends Component {
 
                 <SW>
                   <Route exact path='/dashboard' component={Demotwo}></Route>
-                  <Route exact path='/runningreport3' component={TestConfig}></Route>
-                  <Route exact path='/runningreport4' component={ParamConfig}></Route>
-                  <Route exact path='/runningreport5' component={TurbineConfig}></Route>
-                  <Route exact path='/runningreport6' component={DashboardConfig}></Route>
+                  <Route exact path='/runningreport4' component={TestConfig}></Route>
+                  <Route exact path='/runningreport5' component={ParamConfig}></Route>
+                  <Route exact path='/runningreport6' component={TurbineConfig}></Route>
+                  <Route exact path='/runningreport7' component={DashboardConfig}></Route>
                   <Route exact path='/runningreport10' component={TransferComponent}></Route>
+                  <Route exact path='/runningreport' component={RunningReport}></Route>
+                  <Route exact path='/exportdata' component={ExportData}></Route>
+                  <Route exact path='/exportdata' component={ExportData}></Route>
+                  <Route exact path='/exportdata' component={ExportData}></Route>
                   <Route exact path='/logout' component={Demo}></Route>
+
                 </SW>
               </Content>
             </div>
-
+            <FooterElement />
           </Layout>
         </Layout>
       </Router>
@@ -127,8 +135,8 @@ class MainComponent extends Component {
 }
 const LogoValue = () => (
   <div className="testlogo" >
-    <text style={{ color: '#42dad6', fontSize: "15px" }}>ENERTEK</text>
-    <text style={{ color: '#8a8d93', fontSize: "15px" }}>COMBUSTER</text>
+    <text style={{ color: '#42dad6', fontSize: "20px" }}>ENERTEK</text>
+    <text style={{ color: '#8a8d93', fontSize: "20px" }}>COMBUSTER</text>
   </div>
 )
 
