@@ -3,7 +3,7 @@ import { Col, Row, Layout, Input, Button, Table, Space, Select, InputNumber } fr
 
 import { testdatas } from '../../Data/TestData.json';
 import SearchBox from '../Components/SearchBox';
-
+import TableElement from '../Components/TableElement';
 import {
   EditOutlined
 } from '@ant-design/icons';
@@ -27,7 +27,7 @@ export default class TestConfig extends Component {
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
-              <Input style={{Color:"#666873"}}placeholder="Name" />
+              <Input style={{ Color: "#666873" }} placeholder="Name" />
             </Col>
 
             <Col sm={2}>
@@ -79,7 +79,8 @@ export default class TestConfig extends Component {
                 </Row>
               </Col>
             </Row>
-            <Table dataSource={testdatas} style={{ backgroundColor: "#131633" }} >
+
+            {/* <Table dataSource={testdatas} style={{ backgroundColor: "#131633" }} >
               <Column title="S.No" dataIndex="SNo" />
               <Column title="Name" dataIndex="Name" />
               <Column title="Unit" dataIndex="Unit" />
@@ -93,31 +94,9 @@ export default class TestConfig extends Component {
                   </Space>
                 )}
               />
-            </Table>,
+            </Table>, */}
 
-            {/* <table >
-              <thead>
-                <tr >
-                  <th>S.No</th>
-                  <th>Name</th>
-                  <th>Unit</th>
-                  <th>Value</th>
-                  <th>Edit</th> 
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  testdatas.map((item, i) =>
-                    <tr key={i}>
-                      <td>{item.SNo}</td>
-                      <td>{item.Name}</td>
-                      <td>{item.Unit}</td>
-                      <td>{item.Value}</td>
-                      <td>{item.Edit}</td>
-                    </tr>)
-                }
-              </tbody>
-            </table> */}
+              <TableElement/>
 
 
 

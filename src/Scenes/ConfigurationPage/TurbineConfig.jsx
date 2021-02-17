@@ -5,7 +5,7 @@ import {
   EditOutlined
 } from '@ant-design/icons';
 import SearchBox from '../Components/SearchBox';
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 export default class TurbineConfig extends Component {
   render() {
     return (

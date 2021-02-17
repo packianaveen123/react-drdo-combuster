@@ -21,7 +21,7 @@ export default class SearcgBox extends Component {
                             placeholder="Search..."
                             style={{
                                 width: '42rem',
-                                border: "none",
+                                border: 'transparent',
                                 fontsize: '1rem',
                                 Color: "#666873",
                                 backgroundColor: 'transparent',

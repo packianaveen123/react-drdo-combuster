@@ -172,10 +172,10 @@
   -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
   box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
 } */
-.ant-input:hover {
+/* .ant-input:hover {
    border-color: gray; 
   border-right-width: 1px !important;
-}
+} */
 /* ---datepicker--- */
 .ant-picker {
   width:230px;
@@ -185,6 +185,13 @@
   border: 1px solid #3e434d;
   border-radius: 2px;
 }
+/* .ant-picker:focus, .ant-picker-focused {
+  border-color: #42dbdc;
+  border-right-width: 1px !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+} */
 .ant-picker-suffix {
   color: rgb(151, 150, 151);
   font-size: 18px;
@@ -264,7 +271,6 @@ color:white;
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
 }
-
 .ant-table-tbody > tr:nth-child(2n+1) > td {
   background-color: #282b2f;
   /* border-top: 1px solid #dee2e6; */
@@ -356,8 +362,119 @@ color:white;
   margin-bottom: 30px;
 }
 
+/*
+* ==========================================================
+*             Login page
+* ==========================================================
+*/
+.background{
+  background: url(../Images/bg.jpeg); 
+  background-image: 1024*74;
+}
+.login-page {
+  position: relative;
+}
+.login-page::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -1;
+  background-size: cover;
+  top: 0;
+  right: 0;
+}
+.login-page .container {
+  min-height: 100vh;
+  z-index: 1;
+}
+.login-page .form-holder {
+  width: 100%;  
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  padding-top: 110px;
+}
+.login-page .form-holder .info,
+.login-page .form-holder .form {
+  min-height: 70vh;
+  padding: 40px;
+  height: 100%;
+}
+.login-page .form-holder div[class*='col-'] {
+  padding: 0;
+}
+.login-page .form-holder .info {
+  background: rgba(219, 101, 116, 0.95);
+  color: #fff;
+}
+.login-page .form-holder .info h1 {
+  font-size: 3.5em;
+  font-weight: 500;
+}
+.login-page .form-holder .info p {
+  font-weight: 300;
+  font-size: 18px;
+}
+.login-page .form-holder .form {
+  background: #131633;
+}
 
+/* .login-page .form-holder .form .form-group {
+  position: relative;
+  margin-bottom: 30px;
+} */
 
+/* .login-page .form-holder .form .content {
+  width: 100%;
+} */
 
+/* .login-page .form-holder .form form {
+  width: 100%;
+  max-width: 400px;
+} */
 
+/* .login-page .form-holder .form #login,
+.login-page .form-holder .form #register {
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #fff;
+} */
 
+.login-page .form-holder .form a.forgot-pass,
+.login-page .form-holder .form a.signup,  .form a.login {
+  font-size: 0.9rem;
+  color: #42dbdc;
+}
+
+/* .login-page .form-holder .form small {
+  color: #aaa;
+} */
+
+/* .login-page .form-holder .form .terms-conditions label {
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.9rem;
+} */
+
+.login-page .copyrights {
+  width: 100%;
+  z-index: 9999;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+}
+
+@media (max-width: 991px) {
+  .login-page .form-holder .info,
+  .login-page .form-holder .form {
+    min-height: auto;
+    padding: 40px;
+    height: 100%;
+  }
+}
+
+.anticon {
+  color:#fff;
+}

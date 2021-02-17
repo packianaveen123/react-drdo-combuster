@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button } from 'antd';
 
-
 import {
     EditOutlined
 } from '@ant-design/icons';
