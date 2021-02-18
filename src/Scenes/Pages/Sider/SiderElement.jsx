@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Switch } from 'antd';
-import 'antd/dist/antd.css';
+
 import {
   MenuUnfoldOutlined, MenuFoldOutlined,
   DashboardOutlined, LogoutOutlined,
@@ -9,14 +9,14 @@ import {
 } from '@ant-design/icons';
 import { GiPaperWindmill } from "react-icons/gi";
 import { DiYii } from "react-icons/di"
-import { FiSettings, FiImage, FiSliders, FiActivity } from "react-icons/fi";
+import { FiSettings, FiSliders, FiActivity } from "react-icons/fi";
 import { AiOutlineTable, AiFillDatabase } from "react-icons/ai";
 
 import { BrowserRouter as Router, Route, Link, Switch as SW } from 'react-router-dom';
 
-import FooterElement from '../footer/FooterElement';
+import FooterElement from '../../Components/footer/FooterElement';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class SiderElement extends Component {
@@ -39,7 +39,7 @@ class SiderElement extends Component {
   render() {
     console.log(this.props.sensorData)
     return (
-      <Router>
+    
         <Layout >
 
           <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -51,22 +51,22 @@ class SiderElement extends Component {
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
               <SubMenu key="sub1" icon={<DashboardOutlined />} title="Dashboard" style={{ fontSize: '15px' }} >
                 <Menu.Item key="1" icon={<LineChartOutlined style={{ color: '#42dbdc' }} />}> <Link to="/graphview" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Graph View </Link></Menu.Item>
-                <Menu.Item key="2" icon={<AiOutlineTable style={{ color: '#42dbdc' }} />}> <Link to="/tableelement" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Table View </Link></Menu.Item>
+                <Menu.Item key="2" icon={<AiOutlineTable style={{ color: '#42dbdc' }} />}> <Link to="/TableElement" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Table View </Link></Menu.Item>
               </SubMenu>
               <Menu.Item key="10" icon={<DashboardOutlined />} >
                 <text style={{ marginBottom: '10px' }}>
-                  <Link to="/dashboard" class="test-input" style={{ textDecoration: 'none', color: '#adaeb8', fontSize: '18px' }}> Test </Link>
+                  <Link to="/TestPage" class="test-input" style={{ textDecoration: 'none', color: '#adaeb8', fontSize: '18px' }}> Test </Link>
                 </text>
               </Menu.Item>
               <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration" style={{ fontSize: '15px' }}  >
-                <Menu.Item key="4" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> <Link to="/turbineconfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Turbine Config </Link></Menu.Item>
-                <Menu.Item key="5" icon={<FiSettings style={{ color: '#42dbdc' }} />}> <Link to="/dashboardconfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Dashboard Config </Link></Menu.Item>
-                <Menu.Item key="6" icon={<FiSliders style={{ color: '#42dbdc' }} />}> <Link to="/paramconfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Param Config </Link></Menu.Item>
-                <Menu.Item key="7" icon={<DiYii style={{ color: '#42dbdc' }} />}> <Link to="/testconfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Test Config </Link></Menu.Item>        
+                <Menu.Item key="4" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> <Link to="/TurbineConfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Turbine Config </Link></Menu.Item>
+                <Menu.Item key="5" icon={<FiSettings style={{ color: '#42dbdc' }} />}> <Link to="/DashboardConfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Dashboard Config </Link></Menu.Item>
+                <Menu.Item key="6" icon={<FiSliders style={{ color: '#42dbdc' }} />}> <Link to="/ParamConfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Param Config </Link></Menu.Item>
+                <Menu.Item key="7" icon={<DiYii style={{ color: '#42dbdc' }} />}> <Link to="/TestConfig" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Test Config </Link></Menu.Item>        
               </SubMenu>
               <SubMenu key="sub3" icon={<FolderOutlined />} title="Report" style={{ fontSize: '15px' }}  >
-                <Menu.Item key="8" icon={<FiActivity style={{ color: '#42dbdc' }} />}> <Link to="/runningreport" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Running </Link></Menu.Item>
-                <Menu.Item key="9" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}> <Link to="/exportdata" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}>  Export Data </Link></Menu.Item>
+                <Menu.Item key="8" icon={<FiActivity style={{ color: '#42dbdc' }} />}> <Link to="/RunningReport" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}> Running </Link></Menu.Item>
+                <Menu.Item key="9" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}> <Link to="/ExportData" style={{ textDecoration: 'none', color: '#666873', fontSize: '15px' }}>  Export Data </Link></Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
@@ -80,7 +80,7 @@ class SiderElement extends Component {
               <div class="logout-element">
                 <a id="logout" href="#" class="nav-link">
                   <span class="logout-content">
-                    <Link to="/logout">Logout <LogoutOutlined /></Link>
+                    <Link to="/LoginPage">Logout <LogoutOutlined /></Link>
                   </span>
                 </a>
                 <div className="welcome-message">
@@ -88,10 +88,14 @@ class SiderElement extends Component {
                 </div>
               </div>
             </Header>
+
+
+
+            
             {/* <FooterElement /> */}
           </Layout>
         </Layout>
-      </Router>
+     
     )
   }
 }

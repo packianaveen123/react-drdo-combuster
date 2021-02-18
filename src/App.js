@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
-import MainComponent from './Scenes/MainComponent';
+import MainComponent from './Scenes/Pages/MainComponent';
 import LoginPage from '../src/Scenes/Components/Login/LoginPage';
-
 import RegisterPage from '../src/Scenes/Components/Register/RegisterPage';
 export default class App extends Component {
   render() {

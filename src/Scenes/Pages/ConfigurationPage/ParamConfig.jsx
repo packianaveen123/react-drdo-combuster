@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Table, Select, Space, Pagination } from 'antd';
-import { paramdatas } from '../../Data/TestData.json';
+import { paramdatas } from '../../../Data/TestData.json';
 import {
     EditOutlined
 } from '@ant-design/icons';
-import SearchBox from '../Components/SearchBox';
+import SearchBox from '../../Components/SearchBox';
 const { Column } = Table;
 const { Option } = Select;
 export default class ParamConfig extends Component {

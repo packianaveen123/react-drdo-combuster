@@ -4,8 +4,8 @@ import { Col, Row, Layout, Input, Button } from 'antd';
 import {
     EditOutlined
 } from '@ant-design/icons';
-import TransferComponent from '../Components/TransferComponent';
-import ColorBar from '../Components/ColorBar';
+import TransferComponent from '../../Components/TransferComponent';
+import ColorBar from '../../Components/ColorBar';
 
 export default class DashboardConfig extends Component {
     render() {

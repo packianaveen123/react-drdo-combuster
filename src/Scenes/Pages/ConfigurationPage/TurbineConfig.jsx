@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Table, Tag, Space, Pagination, DatePicker } from 'antd';
-import { testdatas } from '../../Data/TestData.json';
+import { testdatas } from '../../../Data/TestData.json';
 import {
   EditOutlined
 } from '@ant-design/icons';
-import SearchBox from '../Components/SearchBox';
+import SearchBox from '../../Components/SearchBox';
 const { Column } = Table;
 export default class TurbineConfig extends Component {
   render() {

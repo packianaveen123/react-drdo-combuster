@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Table, Space, Select, InputNumber } from 'antd';
 
-import { testdatas } from '../../Data/TestData.json';
-import SearchBox from '../Components/SearchBox';
-import TableElement from '../Components/TableElement';
+import { testdatas } from '../../../Data/TestData.json';
+import SearchBox from '../../Components/SearchBox';
+import TableElement from '../../Components/TableElement';
 import {
   EditOutlined
 } from '@ant-design/icons';

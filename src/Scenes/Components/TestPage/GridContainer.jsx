@@ -8,7 +8,7 @@ import {
     QuestionOutlined,
     RedoOutlined
 } from '@ant-design/icons';
-import RadioButton from '../Components/RadioButton';
+import RadioButton from '../RadioButton';
 const { Option } = Select;
 export default class GridContainer extends Component {
     render() {
