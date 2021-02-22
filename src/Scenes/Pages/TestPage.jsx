@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import GridElement from '../Components/TestPage/GridElement';
-import GridContainer from '../Components/TestPage/GridContainer';
+import GridElement from '../Components/TestComponent/GridElement';
+import GridContainer from '../Components/TestComponent/GridContainer';
 export default class TestPage extends Component {
     render() {
         return (

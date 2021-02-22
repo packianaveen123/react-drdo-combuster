@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Col, Row, Layout, Input, Button, Table, Tag, Space, Pagination, DatePicker } from 'antd';
-import { testdatas } from '../../../Data/TestData.json';
-import {
-  EditOutlined
-} from '@ant-design/icons';
+import TableElement from '../../Components/TableElement';
 import SearchBox from '../../Components/SearchBox';
-const { Column } = Table;
-export default class TurbineConfig extends Component {
+
+class TurbineConfig extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { tableData } = this.props;
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
@@ -24,7 +26,7 @@ export default class TurbineConfig extends Component {
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input style={{  width: "320px" }}placeholder= "Turbine ID" />
+              <Input style={{ width: "320px" }} placeholder="Turbine ID" />
             </Col>
 
             <Col sm={3}>
@@ -41,7 +43,7 @@ export default class TurbineConfig extends Component {
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input style={{ width: "320px" }} placeholder="Nozzle Area"/>
+              <Input style={{ width: "320px" }} placeholder="Nozzle Area" />
             </Col>
           </Row>
           <Row style={{ paddingTop: "20px" }}>
@@ -49,7 +51,7 @@ export default class TurbineConfig extends Component {
               <label style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
             </Col>
             <Col sm={6}>
-              <Input style={{ height: "100px", width: "805px" }} placeholder="Description..."/>
+              <Input style={{ height: "100px", width: "805px" }} placeholder="Description..." />
             </Col>
           </Row>
 
@@ -62,7 +64,7 @@ export default class TurbineConfig extends Component {
               <Button > Clear</Button>
               <span> &nbsp;</span>
             </Col>
-           
+
           </Row>
         </Layout>
 
@@ -85,26 +87,31 @@ export default class TurbineConfig extends Component {
               </Col>
             </Row>
 
-            <Table dataSource={testdatas} style={{ backgroundColor: "#131633" }} >
+            <TableElement
+              data={tableData}
+              editable={true}
+            />
 
-              <Column title="S.No" dataIndex="SNo" />
-              <Column title="Name" dataIndex="Name" />
-              <Column title="Unit" dataIndex="Unit" />
-              <Column title="Value" dataIndex="Value" />
-
-              <Column
-                title="Edit"
-                key="edit"
-                render={() => (
-                  <Space size="middle">
-                    <EditOutlined />
-                  </Space>
-                )}
-              />
-            </Table>,
-         </Layout>
+          </Layout>
         </div>
       </div>
     )
   }
 }
+
+
+const mapStateToProps = state => ({
+  turbineConfig: state.app.turbineConfig,
+  tableData: state.app.testdata,
+  user: state.app.userParams
+})
+
+const mapDispatchToProps = {
+  
+}
+
+const turbineContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TurbineConfig)
+export default turbineContainer;

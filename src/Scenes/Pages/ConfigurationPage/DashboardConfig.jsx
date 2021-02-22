@@ -12,12 +12,7 @@ export default class DashboardConfig extends Component {
         return (
 
             <div style={{ paddingTop: "1px" }}>
-                <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
-                    <Row>
-                    <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
-                    <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Dashboard Config</text>
-                    </Row>
-                </Layout>
+                
                 <Layout style={{ backgroundColor: "#131633", paddingTop: "30px", paddingLeft: "20px", paddingRight: "20px" }}>
                     <Row>
                         <Col span={12}>

@@ -1,14 +1,17 @@
-import React, { Component } from 'react'
-import { Col, Row, Layout, Input, Button, Table, Select, Space, Pagination } from 'antd';
-import { paramdatas } from '../../../Data/TestData.json';
-import {
-    EditOutlined
-} from '@ant-design/icons';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Col, Row, Layout, Input, Button, Select, } from 'antd';
+
 import SearchBox from '../../Components/SearchBox';
-const { Column } = Table;
+import TableElement from '../../Components/TableElement';
 const { Option } = Select;
-export default class ParamConfig extends Component {
+
+class ParamConfig extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
+        const { tableData } = this.props;
         return (
             <div style={{ paddingTop: "1px" }}>
                 <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
@@ -34,7 +37,7 @@ export default class ParamConfig extends Component {
                         </Col>
                         <Col sm={9}>
                             <Input.Group compact>
-                                <Select defaultValue="Select"   style={{width:'450px'}}>
+                                <Select defaultValue="Select" style={{ width: '450px' }}>
                                     <Option value="Option1">km/cm2</Option>
                                     <Option value="Option2">Lit</Option>
                                     <Option value="Option3">Degree C</Option>
@@ -50,7 +53,7 @@ export default class ParamConfig extends Component {
                             <span> &nbsp; &nbsp; &nbsp;</span>
                         </Col>
                         <Col sm={9}>
-                            <Input placeholder="Param Index"/>
+                            <Input placeholder="Param Index" />
                         </Col>
 
                         <Col sm={3}>
@@ -58,7 +61,7 @@ export default class ParamConfig extends Component {
                             <span> &nbsp; &nbsp; &nbsp;</span>
                         </Col>
                         <Col sm={9}>
-                            <Input placeholder="Lower Limit"/>
+                            <Input placeholder="Lower Limit" />
                         </Col>
                     </Row>
 
@@ -68,7 +71,7 @@ export default class ParamConfig extends Component {
                             <span> &nbsp; &nbsp; &nbsp;</span>
                         </Col>
                         <Col sm={9}>
-                            <Input placeholder="Normal Limit"/>
+                            <Input placeholder="Normal Limit" />
                         </Col>
 
                         <Col sm={3}>
@@ -76,12 +79,12 @@ export default class ParamConfig extends Component {
                             <span> &nbsp; &nbsp; &nbsp;</span>
                         </Col>
                         <Col sm={9}>
-                            <Input placeholder="Upper Limit"/>
+                            <Input placeholder="Upper Limit" />
                         </Col>
                     </Row>
 
                     <Row style={{ paddingTop: '25px', paddingLeft: "35%", paddingBottom: '30px' }}>
-                        
+
                         <Col xs={4}>
                             <Button > Clear</Button>
                             <span> &nbsp;</span>
@@ -111,25 +114,32 @@ export default class ParamConfig extends Component {
                             </Col>
                         </Row>
 
-                        <Table dataSource={paramdatas} style={{ backgroundColor: "#131633" }} >
-                            <Column title="S.No" dataIndex="SNo" />
-                            <Column title="Name" dataIndex="Name" />
-                            <Column title="Unit" dataIndex="Unit" />
-                            <Column title="Lowwer Limit" dataIndex="LowerLimit" />
-                            <Column title="Normal Limit" dataIndex="NormalLimit" />
-                            <Column title="Upper Limit" dataIndex="UpperLimit" />
-                            <Column
-                                title="Edit"
-                                key="edit"
-                                render={() => (
-                                    <Space size="middle">
-                                        <EditOutlined />
-                                    </Space>
-                                )} />
-                        </Table>,
-         </Layout>
+                        <TableElement
+                            data={tableData}
+                            editable={true}
+                            lowerLimit={true}
+                            normalLimit={true}
+                            upperLimit={true}
+                        />
+                    </Layout>
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    paramConfig: state.app.paramConfig,
+    tableData: state.app.paramdata,
+    user: state.app.userParams
+})
+
+const mapDispatchToProps = {
+
+}
+
+const paramContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ParamConfig)
+export default paramContainer;

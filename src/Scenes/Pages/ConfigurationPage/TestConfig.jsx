@@ -1,24 +1,25 @@
-import React, { Component } from 'react'
-import { Col, Row, Layout, Input, Button, Table, Space, Select, InputNumber } from 'antd';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateTestConfig } from '../../redux/action';
 
-import { testdatas } from '../../../Data/TestData.json';
+import { Col, Row, Layout, Input, Button, Table, Select, } from 'antd';
+
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
-import {
-  EditOutlined
-} from '@ant-design/icons';
-const { Column } = Table;
+
 const { Option } = Select;
-export default class TestConfig extends Component {
+
+class TestConfig extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    console.log(this.props.tableData)
+    const { tableData } = this.props;
     return (
-      <div style={{ paddingTop: "1px" }}>
-        <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
-          <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
-            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Test Config</text>
-          </Row>
-        </Layout>
+      <div style={{ paddingTop: "10px" }}>
+
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
           <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Test Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
@@ -80,29 +81,30 @@ export default class TestConfig extends Component {
               </Col>
             </Row>
 
-            {/* <Table dataSource={testdatas} style={{ backgroundColor: "#131633" }} >
-              <Column title="S.No" dataIndex="SNo" />
-              <Column title="Name" dataIndex="Name" />
-              <Column title="Unit" dataIndex="Unit" />
-              <Column title="Value" dataIndex="Value" />
-              <Column
-                title="Edit"
-                key="edit"
-                render={() => (
-                  <Space size="middle">
-                    <EditOutlined />
-                  </Space>
-                )}
-              />
-            </Table>, */}
-
-              <TableElement/>
-
-
-
+            <TableElement
+              data={tableData}
+              editable={true}
+             
+            />
           </Layout>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  testConfig: state.app.testConfig,
+  tableData: state.app.testdata,
+  user: state.app.userParams
+})
+
+const mapDispatchToProps = {
+
+}
+
+const testContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TestConfig)
+export default testContainer;

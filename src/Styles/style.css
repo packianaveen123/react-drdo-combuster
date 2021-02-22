@@ -6,18 +6,28 @@
 .trigger {
   padding: 0 24px;
   font-size: 20px;
-  line-height: 84px;
+  line-height: 75px;
   cursor: pointer;
   transition: color 0.3s;
   color: rgb(146, 143, 143);
+  padding-left: 70px;
 }
 .trigger:hover {
   color: #fff;
 }
+/* ---header--- */
 .logo {
-  height: 32px;
-  margin: 16px;
-} 
+
+}
+
+.ant-layout-header {
+  background-color:#131633;
+  height: 75px; 
+}
+
+.testlogo{
+  float: left;
+}
 
  /* --------------------------------- 
       --header/centerbody--
@@ -25,10 +35,16 @@
 
 /* --header-- */
 .ant-layout  
-.ant-layout-header 
 {
-  background-color:#131633;
-  height:80px;
+  /* background-color:#131633; */
+  /* height:80px; */
+}
+.ant-layout-content {
+  -ms-flex: auto;
+  flex: auto;
+  background-color: #212840;
+  min-height: 0;
+  padding: 25px;
 }
 /*  Navbar  */
 .logout-content {
@@ -50,10 +66,9 @@
  /* body */
  .site-layout{
   background:#212840;
+  height: 80px;
 }
-.site-layout-background{
-  background:#212840;
-}
+
 /* ----------------------------------
            sider
  -----------------------------------*/
@@ -155,16 +170,27 @@
   font-size: 1rem;
   border: 1px solid  #3e434d !important;
   color:#666873;
-  background-color: transparent;
+  background-color: transparent !important;
 }
 .ant-input{
   width: 450px;
   height: 40px;
   font-size: 15px;
-  background-color: transparent;
+  background-color: transparent !important;
   border: 1px solid #3e434d;
   color:#666873;
 }
+.ant-input-affix-wrapper > input.ant-input {
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: transparent !important;
+}
+
+ .ant-form-item-has-error .ant-input:hover
+  {
+  background-color: transparent !important;
+ }
 /* .ant-input:focus, .ant-input-focused {
   border-color: #42dbdc;
   border-right-width: 1px !important;
@@ -176,6 +202,8 @@
    border-color: gray; 
   border-right-width: 1px !important;
 } */
+
+
 /* ---datepicker--- */
 .ant-picker {
   width:230px;
@@ -477,4 +505,19 @@ color:white;
 
 .anticon {
   color:#fff;
+}
+/* Footer */
+.footer{
+  height: "70px";
+  width: '100%';
+  font-size: '0.75rem';
+  font-family: 'muli';
+  font-weight: '800';
+  /* font-size: '17px'; */
+  padding-top: '20px';
+  padding-left: '30rem';
+  background-color: '#131633';
+  position: 'absolute';
+  bottom: '0px';
+  color: "#9e9fac"
 }
