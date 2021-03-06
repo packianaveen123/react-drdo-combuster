@@ -3,9 +3,13 @@ import { Layout} from 'antd';
 
 import TestConfig from './ConfigurationPage/TestConfig';
 import FooterElement from '../Components/footer/FooterElement';
-import HeaderComponent from '../Components/HeaderComponent';
-import TitleComponent from '../Components/TitleComponent';
+import HeaderComponent from '../Components/Header/HeaderComponent';
+import TitleElement from '../Components/TitleElement';
 import LeftbarComponent from '../Components/LeftbarComponent';
+import TestPage from './TestPage';
+import GraphView from '../Pages/DashboardPage/GraphView';
+import TableView from './DashboardPage/TableView';
+import RunningReport from './Reports/RunningReport';
 
 const { Content,Header, Footer } = Layout;
 
@@ -18,8 +22,8 @@ class MainComponent extends Component {
         <Layout>
           <LeftbarComponent />
           <Content>
-            <TitleComponent />
-            <TestConfig />
+            <TitleElement />
+            <RunningReport />
           </Content>
         </Layout>
         <Footer>Footer</Footer>
@@ -27,6 +31,4 @@ class MainComponent extends Component {
     )
   }
 }
-
-
 export default MainComponent;

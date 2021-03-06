@@ -4,6 +4,7 @@ const appReducer = (state = InitialState, action) => {
     const newState = {}
     Object.assign(newState, state)
     switch (action.type) {
+
         case 'UPDATE_USER_PARAMETER':
             newState.userParams = action.payload
             return newState
@@ -11,6 +12,8 @@ const appReducer = (state = InitialState, action) => {
         case 'TOGGLE_LEFTBAR_VIEW':
             newState.leftBarView = !newState.leftBarView
             return newState
+        case 'UPDATE_CHART_DATA':
+          newState.chartData = action.data
 
         case 'UPDATE_TEST_CONFIG':
             newState.testConfig = action.data

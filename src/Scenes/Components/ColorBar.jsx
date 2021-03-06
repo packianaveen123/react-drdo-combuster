@@ -8,7 +8,7 @@ export default class ColorBar extends Component {
                     <Col span="8">
                         <Row>
                         <Col span="6">
-                            <label style={{color:'#acadb7'}}>LowerColor</label>
+                            <label class="label">LowerColor</label>
                         </Col>
                     
                         <Col span="6">
@@ -29,7 +29,7 @@ export default class ColorBar extends Component {
                     <Col span="8">
                         <Row>
                         <Col span="6">
-                            <label style={{color:'#acadb7'}}>NormalColor</label>
+                            <label class="label" >NormalColor</label>
                         </Col>
                     
                         <Col span="6">
@@ -50,7 +50,7 @@ export default class ColorBar extends Component {
                     <Col span="8">
                         <Row>
                         <Col span="6">
-                            <label style={{color:'#acadb7'}}>UpperColor</label>
+                            <label class="label" >UpperColor</label>
                         </Col>
                     
                         <Col span="6">

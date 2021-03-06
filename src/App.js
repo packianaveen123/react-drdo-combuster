@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 
 import NavigationComponent from './Scenes/Pages/NavigationComponent';
-import LoginPage from './Scenes/Components/Login/LoginPage';
-import RegisterPage from './Scenes/Components/Register/RegisterPage';
+import LoginPage from './Scenes/Components/Forms/LoginPage';
+import RegisterPage from './Scenes/Components/Forms/RegisterPage';
+import ForgotPassword from './Scenes/Components/Forms/ForgotPassword';
+import Demo from '../src/Scenes/Demo';
+import Demotwo from '../src/Scenes/Demotwo';
+import Testvb from './testvb';
+import CardComponent from './Scenes/Components/ChartContainer/CardComponent'
+import TableElement from './Scenes/Components/TableElement';
+import ParamConfig from './Scenes/Pages/ConfigurationPage/ParamConfig';
 
 export default class App extends Component {
   render() {
     return (
       <div>
         <NavigationComponent />
-        {/* <LoginPage /> */}
-        {/* <RegisterPage /> */}
+        {/* <LoginPage />
+        <RegisterPage />
+        <ForgotPassword/> */}
+        {/* <Demo/> */}
+        {/* <Demotwo/> */}
+        {/* <Testvb /> */}
+        {/* <CardComponent/> */}
+        {/* <TableElement/> */}
+        {/* <ParamConfig/> */}
       </div>
     )
   }

@@ -13,7 +13,7 @@ const { Option } = Select;
 export default class GridContainer extends Component {
     render() {
         return (
-            <div style={{ paddingTop: "50px" }}>
+            <div style={{ paddingTop: "30px" }}>
                 <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
                     <Row >
                         <Col xs={8} style={{ paddingLeft: "20px" }}>
@@ -32,11 +32,11 @@ export default class GridContainer extends Component {
                             <form>
                                 <Row>
                                     <Col span={5}>
-                                        <label for="text" class="label" >Turbine ID</label>
+                                        <label for="text" class="label" >Turbo ID</label>
                                     </Col>
                                     <Col span={6}>
                                         <Input.Group compact >
-                                            <Select defaultValue="Select Turbine ID" style={{width:'300px'}} >
+                                            <Select defaultValue="Select Turbo ID" style={{width:'300px'}} >
                                                 <Option value="Option1">Option1</Option>
                                                 <Option value="Option2">Option2</Option>
                                                 <Option value="Option3">Option3</Option>

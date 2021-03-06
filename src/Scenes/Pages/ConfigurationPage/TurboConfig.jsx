@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Row, Layout, Input, Button, Table, Tag, Space, Pagination, DatePicker } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker } from 'antd';
 import TableElement from '../../Components/TableElement';
 import SearchBox from '../../Components/SearchBox';
-
-class TurbineConfig extends Component {
+import TitleElement from '../../Components/TitleElement';
+class TurboConfig extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     const { tableData } = this.props;
+    const text = <span> </span>;
+
+
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
-          <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
-            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Config / Turbine Config</text>
-          </Row>
+          <TitleElement />
         </Layout>
-        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-          <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Turbine Configuration</h2>
+        <Layout class="layout-container">
+          <h2 class="h2">Turbo Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Turbine ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" class="label" >Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input style={{ width: "320px" }} placeholder="Turbine ID" />
+              <Input style={{ width: "320px" }} placeholder="Turbo ID" />
             </Col>
 
             <Col sm={3}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" class="label" >Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={5}>
@@ -39,16 +39,25 @@ class TurbineConfig extends Component {
             </Col>
 
             <Col sm={2}>
-              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label class="label">Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={6}>
-              <Input style={{ width: "320px" }} placeholder="Nozzle Area" />
+              <div>
+                <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
+                  <InputNumber
+                    min={0.0002} max={0.0005} step={0.0002}
+                    defaultValue={0.003}
+                    onChange={onChange}
+                    placeholder="Nozzle Area"
+                    style={{ width: "320px" }} />
+                </Tooltip>
+              </div>
             </Col>
           </Row>
           <Row style={{ paddingTop: "20px" }}>
             <Col sm={2}>
-              <label style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label class="label" >Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
             </Col>
             <Col sm={6}>
               <Input style={{ height: "100px", width: "805px" }} placeholder="Description..." />
@@ -58,21 +67,19 @@ class TurbineConfig extends Component {
           <Row sm={6} style={{ paddingTop: '25px', paddingLeft: "35%", paddingBottom: '30px' }}>
             <Col xs={4}>
               <Button > Save</Button>
-              <span> &nbsp;</span>
             </Col>
             <Col xs={4}>
               <Button > Clear</Button>
-              <span> &nbsp;</span>
             </Col>
 
           </Row>
         </Layout>
 
         <div style={{ paddingTop: "35px" }}>
-          <Layout style={{ backgroundColor: "#131633", paddingTop: "30px", paddingLeft: "20px", paddingRight: "20px" }}>
+          <Layout class="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Turbine Configuration</h2>
+                <h2 class="h2">Turbo Configuration</h2>
               </Col>
               <Col span={10}><SearchBox /></Col>
               <Col span={6}>
@@ -89,29 +96,38 @@ class TurbineConfig extends Component {
 
             <TableElement
               data={tableData}
-              editable={true}
+              TurboID={true}
+              InstalledDate={true}
+              Status={true}
+              editable={true}            
+              Name={false}
+              value={false}
+              Unit={false}
+              lowerLimit={false}
+              normalLimit={false}
+              upperLimit={false}
             />
-
           </Layout>
         </div>
       </div>
     )
   }
 }
-
-
+const onChange = (value) => (
+  console.log('changed', value)
+)
 const mapStateToProps = state => ({
-  turbineConfig: state.app.turbineConfig,
-  tableData: state.app.testdata,
+  TurboConfig: state.app.TurboConfig,
+  tableData: state.app.Turbodata,
   user: state.app.userParams
 })
 
 const mapDispatchToProps = {
-  
+
 }
 
-const turbineContainer = connect(
+const TurboContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TurbineConfig)
-export default turbineContainer;
+)(TurboConfig)
+export default TurboContainer;

@@ -15,8 +15,8 @@ export default class RadioButton extends Component {
                 paddingTop:'4px',
                 paddingLeft:'20px'
                 }}>
-                <Radio value={1} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbine 1</Radio>
-                <Radio value={2} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbine 2</Radio>             
+                <Radio value={1} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbo 1</Radio>
+                <Radio value={2} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbo 2</Radio>             
             </Radio.Group>
             </div>
         );

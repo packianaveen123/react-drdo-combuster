@@ -3,10 +3,13 @@ export const updateUserParameter = userParams => ({
     payload: userParams
   })
 
-
   export const toggleLeftBar = bool => ({
     type: 'TOGGLE_LEFTBAR_VIEW',
     payload: bool
+  })
+  export const updateChartData = data => ({
+    type: 'UPDATE_CHART_DATA',
+    payload: data
   })
   export const updateTestConfig = data => ({
     type: 'UPDATE_TEST_CONFIG',

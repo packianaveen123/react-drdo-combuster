@@ -1,9 +1,10 @@
 const InitialState = {
     userParams: null,
     leftBarView: false,
+     chartData: [],
     testConfig: [],
-    turbineConfig:[ ],
-    paramConfig:[ ],
+    TurboConfig:[],
+    paramConfig:[],
     testdata: [
         {
           "SNo": "1",
@@ -55,7 +56,7 @@ const InitialState = {
           "SNo": "2",
           "Name": "Ambient Pressure ",
           "Unit": " km/cm2",
-          "LowerLimit": "1.013",
+          "LowerLimit": "1.012",
           "NormalLimit": "1.013",
           "UpperLimit": "1.014",
           "Edit": "-"
@@ -64,7 +65,7 @@ const InitialState = {
           "SNo": "3",
           "Name": "Combuster OutletTemprature",
           "Unit": " Degree C",
-          "LowerLimit": "1.013",
+          "LowerLimit": "1.011",
           "NormalLimit": "1.013",
           "UpperLimit": "1.014",
           "Edit": "-"
@@ -73,7 +74,7 @@ const InitialState = {
           "SNo": "4",
           "Name": "Combuster Pressure ",
           "Unit": " km/cm2",
-          "LowerLimit": "1.013",
+          "LowerLimit": "1.012",
           "NormalLimit": "1.013",
           "UpperLimit": "1.014",
           "Edit": "-"
@@ -82,30 +83,30 @@ const InitialState = {
           "SNo": "5",
           "Name": "Stage 3 Temprature ",
           "Unit": " Degree C",
-          "LowerLimit": "1.013",
+          "LowerLimit": "1.011",
           "NormalLimit": "1.013",
           "UpperLimit": "1.014",
           "Edit": "-"
         }
       ],
-      "turbinedatas": [
+      Turbodata: [
         {
           "SNo": "1",
-          "TurbineID": " performance test",
+          "TurboID": " performance test",
           "InstalledDate": " 1/12/2020",
           "Status": "Active",
           "Edit": "-"
         },
         {
           "SNo": "2",
-          "TurbineID": " performance test",
+          "TurboID": " performance test",
           "InstalledDate": " 13/12/2020",
           "Status": "Active",
           "Edit": "-"
         },
         {
           "SNo": "3",
-          "TurbineID": " performance test",
+          "TurboID": " performance test",
           "InstalledDate": " 19/12/2020",
           "Status": "Active",
           "Edit": "-"

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTestConfig } from '../../redux/action';
-
-import { Col, Row, Layout, Input, Button, Table, Select, } from 'antd';
+import { Col, Row, Layout, Input, Button, InputNumber, Select, } from 'antd';
 
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
@@ -20,11 +18,11 @@ class TestConfig extends Component {
     return (
       <div style={{ paddingTop: "10px" }}>
 
-        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-          <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Test Configuration</h2>
+        <Layout class="layout-container">
+          <h2 class="h2" >Test Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" class="label">Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
@@ -32,18 +30,15 @@ class TestConfig extends Component {
             </Col>
 
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-              <span> &nbsp; &nbsp; &nbsp;</span>
+              <label class="label" >Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+
             </Col>
             <Col sm={10}>
-              <Input.Group compact>
-                <Select defaultValue="Value" style={{ width: '450px' }}>
-                  <Option value="Option1">Option1</Option>
-                  <Option value="Option2">Option2</Option>
-                  <Option value="Option3">Option3</Option>
-                  <Option value="Option4">Option4</Option>
-                </Select>
-              </Input.Group>
+              <InputNumber
+                min={-100} max={100}
+                onChange={onChange}
+                placeholder="Value"
+              />
             </Col>
           </Row>
 
@@ -63,10 +58,10 @@ class TestConfig extends Component {
         </Layout>
 
         <div style={{ paddingTop: "35px" }}>
-          <Layout style={{ backgroundColor: "#131633", paddingTop: "30px", paddingLeft: "20px", paddingRight: "20px" }}>
+          <Layout class="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Test Configuration</h2>
+                <h2 class="h2">Test Configuration</h2>
               </Col>
               <Col span={10}><SearchBox /></Col>
               <Col span={6}>
@@ -83,8 +78,17 @@ class TestConfig extends Component {
 
             <TableElement
               data={tableData}
+              Name={true}
+              Unit={true}
+              value={true}
               editable={true}
-             
+              lowerLimit={false}
+              normalLimit={false}
+              upperLimit={false}
+              TurboID={false}
+              InstalledDate={false}
+              Status={false}
+
             />
           </Layout>
         </div>
@@ -92,7 +96,9 @@ class TestConfig extends Component {
     )
   }
 }
-
+const onChange = (value) => (
+  console.log('changed', value)
+)
 const mapStateToProps = state => ({
   testConfig: state.app.testConfig,
   tableData: state.app.testdata,

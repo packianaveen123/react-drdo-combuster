@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 
 import { Transfer } from 'antd';
 
-class TransferComponent extends React.Component {
+class TransferElement extends React.Component {
   state = {
     mockData: [],
     targetKeys: [],
@@ -67,4 +67,4 @@ class TransferComponent extends React.Component {
   }
 }
 
-export default TransferComponent;
+export default TransferElement;

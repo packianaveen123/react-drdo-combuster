@@ -2,21 +2,21 @@ import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
-export default class RunningReport extends Component {
+export default class ExportData extends Component {
   render() {
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
           <Row>
             <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
-            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Report / Running Report</text>
+            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Report / Export Data </text>
           </Row>
         </Layout>
-        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-          <h2 style={{ color: 'rgb(151, 150, 151)', paddingTop: '10px' }}>Running Report</h2>
+        <Layout class="layout-container">
+          <h2 class="h2"> Export Report</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Turbine ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" class="label">Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
@@ -33,7 +33,7 @@ export default class RunningReport extends Component {
             </Col>
 
             <Col sm={2}>
-              <label htmlFor="name" style={{ color: 'rgb(151, 150, 151)', fontSize: '15px' }}>Test No<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label htmlFor="name" class="label" >Test No<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
@@ -50,7 +50,7 @@ export default class RunningReport extends Component {
 
           <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
             <Col xs={4}>
-              <Button > view</Button>
+              <Button > View</Button>
               <span> &nbsp;</span>
             </Col>
             <Col xs={4}>
@@ -59,6 +59,9 @@ export default class RunningReport extends Component {
             </Col>
 
           </Row>
+          <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+
+          </Layout>
         </Layout>
       </div>
     )

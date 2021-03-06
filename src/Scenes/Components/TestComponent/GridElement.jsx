@@ -18,7 +18,7 @@ class GridElement extends Component {
             </Card>
           </Col>
           <Col span={4}>
-            <Card title="TURBINE INLET TEMPERATURE" bordered={false} style={{ backgroundColor: "#131633", color: 'white' }}>
+            <Card title="Turbo INLET TEMPERATURE" bordered={false} style={{ backgroundColor: "#131633", color: 'white' }}>
               0.0
             </Card>
           </Col>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {  Row, Layout } from 'antd';
-export default class TitleComponent extends Component {
+export default class TitleElement extends Component {
     constructor(props){
         super(props);
         
