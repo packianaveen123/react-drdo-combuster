@@ -7,12 +7,12 @@ class StatusBlock extends Component {
   constructor(props){
     super(props);
     this.state={
-      cardList:this.props.cardlist
+      // cardList:this.props.cardlist
     }
   }
-  state = {
-    persons: []
-  }
+  // state = {
+  //   persons: []
+  // }
 
   // interval = setInterval(() => {
   //   this.requestChartData();
@@ -27,7 +27,7 @@ class StatusBlock extends Component {
   //   })
   // }
   render() {
-   console.log(this.props);
+   console.log(this.props)
     return (
       <div class="container-fluid">
         <Row>

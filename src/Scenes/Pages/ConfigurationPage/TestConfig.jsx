@@ -4,17 +4,42 @@ import { Col, Row, Layout, Input, Button, InputNumber, Select, } from 'antd';
 
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
-
+import axios from 'axios';
 const { Option } = Select;
 
 class TestConfig extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      testData: ""
+    }
+  }
+  componentDidMount() {
+    axios.get('http://localhost/TVS/test_config.php')
+      .then((data) => {
+        this.setState({
+          testData: data
+        }, () => {
+          console.log(this.state.testData)
+        })
+      }).catch((err) => {
+        console.log(err);
+      })
   }
 
+  // requestTableData() {
+  //   axios.get('http://localhost/TVS/test_config.php')
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
+  
   render() {
-    console.log(this.props.tableData)
-    const { tableData } = this.props;
+    // console.log(this.props.tableData)
+     const { tableData } = this.props;
     return (
       <div style={{ paddingTop: "10px" }}>
 
@@ -77,7 +102,7 @@ class TestConfig extends Component {
             </Row>
 
             <TableElement
-              data={tableData}
+              // data={tableData}
               Name={true}
               Unit={true}
               value={true}
@@ -88,8 +113,8 @@ class TestConfig extends Component {
               TurboID={false}
               InstalledDate={false}
               Status={false}
-
             />
+            
           </Layout>
         </div>
       </div>
@@ -99,18 +124,18 @@ class TestConfig extends Component {
 const onChange = (value) => (
   console.log('changed', value)
 )
-const mapStateToProps = state => ({
-  testConfig: state.app.testConfig,
-  tableData: state.app.testdata,
-  user: state.app.userParams
-})
+// const mapStateToProps = state => ({
+//   testConfig: state.app.testConfig,
+//   tableData: state.app.testdata,
+//   user: state.app.userParams
+// })
 
-const mapDispatchToProps = {
+// const mapDispatchToProps = {
 
-}
+// }
 
-const testContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TestConfig)
-export default testContainer;
+// const testContainer = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(TestConfig)
+export default TestConfig;
