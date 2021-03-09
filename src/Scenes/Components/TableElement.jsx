@@ -25,7 +25,7 @@ export default class TableElement extends Component {
   }
   render() {
     const { data } = this.props;
-    // console.log(data);
+    console.log(data);
     return (
       <div>
         <Table dataSource={data} style={{ backgroundColor: "#131633" }} >
@@ -39,7 +39,7 @@ export default class TableElement extends Component {
                 dataIndex="Name"
               /> : []
           }
-          {
+          {/* {
             this.props.Unit ?
               <Column
                 title="Unit"
@@ -102,7 +102,7 @@ export default class TableElement extends Component {
                 key="Status"
                 dataIndex="Status"
               /> : []
-          }
+          } */}
           {
             this.props.editable ?
               <Column

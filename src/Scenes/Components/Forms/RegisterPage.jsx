@@ -1,26 +1,35 @@
 import React, { Component } from 'react'
-import { Col, Row, Input, Button, Form } from 'antd';
+import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import axios from 'axios';
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+      IsuserName_reg: false,
+      Isemail_reg: false
+
     }
   }
   onFinish = (values) => {
     axios.post('http://localhost/TVS/Registration.php',
-      values,    
+      values,
     )
       // console.log(values)
-      .then(res => {        
+      .then(res => {
         if (res.data == "success") {
           // this.setState({ redirect: true });
-          alert('success') 
+          alert('success')
         }
         else if (res.data == "Sorry... username already taken") {
-          alert("Sorry... username already taken")
+          this.state.IsuserName_reg = true;
+          console.log(this.state.IsuserName_reg)
+          this.setState({ redirect: false });
+        }
+        else if (res.data == "email already taken") {
+          this.state.Isemail_reg = true;
+          console.log(this.state.Isemail_reg)
+          this.setState({ redirect: false });
         }
       })
       .catch(err => {
@@ -29,6 +38,9 @@ class RegisterPage extends Component {
   };
 
   render() {
+    const IsuserName_reg = this.state.IsuserName_reg;
+    const Isemail_reg = this.state.Isemail_reg;
+    console.log(Isemail_reg)
     return (
       <div class="background">
         <div class="login-page">
@@ -123,6 +135,8 @@ class RegisterPage extends Component {
                               placeholder="Confirm Password"
                             />
                           </Form.Item>
+
+                          {IsuserName_reg ? <Alert className="alert_error" message="Sorry... username already taken" type="error" /> : ''}
                           <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                             <Button type="primary" htmlType="submit" style={{ width: '82px' }}>
                               Signup

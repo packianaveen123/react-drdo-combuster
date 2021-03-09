@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, Input, Button, Form } from 'antd';
+import { Col, Row, Input, Button, Form,Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 import { updateUserParameter } from '../../../Redux/action';
 
 class LoginPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-
+    this.state = {
+      IsLogin : false
     }
   }
   onFinish = (values) => {
@@ -18,24 +18,26 @@ class LoginPage extends Component {
       values,
     )
 
-    .then(res => {
-      console.log(res.data)
+      .then(res => {
+        console.log(res.data)
 
-      if (res.data == "success") {
-        this.props.updateUserParameter(values)
-        //this.setState({ redirect: true });
-        //console.log(values)
-        alert("success")
-      }
-      else if (res.data == "failed") {
-        alert("incorrect password or username")
-      }
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-  render() { 
+        if (res.data == "success") {
+          this.props.updateUserParameter(values)
+          //this.setState({ redirect: true });
+          //console.log(values)
+          alert("success")
+        }
+        else if(res.data == "failed") {
+          this.state.IsLogin = true;  
+          console.log(this.state.IsLogin)
+          this.setState({redirect: false});
+          }
+      })
+      .catch(err => {
+        console.log(err.res)
+      })
+  };
+  render() {
     return (
       <div class="background">
         <div class="login-page">
@@ -84,7 +86,7 @@ class LoginPage extends Component {
                                 placeholder="Password"
                               />
                             </Form.Item>
-
+                            {this.state.IsLogin ? <Alert className="alert_error" message="Username or Password is Incorrect" type="error" /> : ''}
                             <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                               <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in

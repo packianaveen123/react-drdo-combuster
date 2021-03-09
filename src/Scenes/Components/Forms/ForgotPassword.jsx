@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Row, Input, Button, Form } from 'antd';
+import { Col, Row, Input, Button, Form ,Alert} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -7,38 +7,37 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect : false
+      redirect: false,
+      IsUserName: false
     }
   }
 
   onFinish = (values) => {
-    axios.post('http://localhost/TVS/forget.php', 
-    values,
+    axios.post('http://localhost/TVS/forget.php',
+      values,
     )
-    
-    .then(res => {
-      console.log(res.data)
-      if(res.data == "success") {
-        //this.setState({redirect: true});
-        alert("success")
-      }
-      else {
-        alert('Please enter a valid Username')
-        //this.setState({redirect: false});
-        
-      }
-      //console.log(res)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
+
+      .then(res => {
+        console.log(res.data)
+        if (res.data == "success") {
+          //this.setState({redirect: true});
+          alert("success")
+        }
+        else {
+          // alert('Please enter a valid Username');
+          this.state.IsUserName = true;
+          this.setState({ redirect: false });
+        }
+        //console.log(res)
+      })
+      .catch(err => {
+        console.log(err.res)
+      })
   };
 
-
-
-
   render() {
-   
+    const IsUserName = this.state.IsUserName;
+    console.log(IsUserName)
     return (
       <div class="background">
         <div class="login-page">
@@ -59,9 +58,9 @@ class ForgotPassword extends Component {
                   <Col span={12} >
                     <div class="form d-flex align-items-center">
                       <div class="content" style={{ marginLeft: '0px', paddingTop: "6rem" }}>
-                        <Form 
-                         initialValues={{ remember: true }}
-                         onFinish={this.onFinish}
+                        <Form
+                          initialValues={{ remember: true }}
+                          onFinish={this.onFinish}
                         >
                           <Form.Item
                             name="user_name"
@@ -114,7 +113,7 @@ class ForgotPassword extends Component {
                             />
                           </Form.Item>
 
-
+                          {IsUserName ? <Alert className="alert_error" message="Please enter a valid Username" type="error" /> : ''}
                           <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                             <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '84px' }}>
                               Submit

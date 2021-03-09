@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { Col, Row, Layout, Input, Button, Select,InputNumber } from 'antd';
 
 import SearchBox from '../../Components/SearchBox';
@@ -11,6 +12,20 @@ class ParamConfig extends Component {
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+    axios.get('http://localhost/TVS/param_config.php')
+      .then((data) => {
+        this.setState({
+          paramData: data
+        }, () => {
+          console.log(this.state.paramData)
+        })
+      }).catch((err) => {
+        console.log(err);
+      })
+  }
+
   render() {
     const { tableData } = this.props;
     return (
@@ -45,8 +60,7 @@ class ParamConfig extends Component {
 
           <Row style={{ paddingTop: "20px" }}>
             <Col sm={3}>
-              <label htmlFor="Param Index" class="label" >Param Index<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-             
+              <label htmlFor="Param Index" class="label" >Param Index<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>             
             </Col>
             <Col sm={9}>
               <Input placeholder="Param Index" />
@@ -118,7 +132,7 @@ class ParamConfig extends Component {
               </Col>
             </Row>
 
-            <TableElement
+            {/* <TableElement
               data={tableData}
               Name={true}
               Unit={true}
@@ -130,7 +144,7 @@ class ParamConfig extends Component {
               TurboID={false}
               InstalledDate={false}
               Status={false}                           
-            />
+            /> */}
           </Layout>
         </div>
       </div>
@@ -141,18 +155,20 @@ const onChange = (value) => (
   console.log('changed', value)
 )
 
-const mapStateToProps = state => ({
-  paramConfig: state.app.paramConfig,
-  tableData: state.app.paramdata,
-  user: state.app.userParams
-})
+// const mapStateToProps = state => ({
+//   paramConfig: state.app.paramConfig,
+//   tableData: state.app.paramdata,
+//   user: state.app.userParams
+// })
 
-const mapDispatchToProps = {
+// const mapDispatchToProps = {
 
-}
+// }
 
-const paramContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ParamConfig)
-export default paramContainer;
+// const paramContainer = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(ParamConfig)
+// export default paramContainer;
+
+export default ParamConfig;

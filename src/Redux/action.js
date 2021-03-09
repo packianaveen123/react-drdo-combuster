@@ -15,8 +15,8 @@ export const updateUserParameter = userParams => ({
     type: 'UPDATE_TEST_CONFIG',
     payload: data
   })
-  export const updateTurbineConfig = data => ({
-    type: 'UPDATE_TURBINE_CONFIG',
+  export const updateTurboConfig = data => ({
+    type: 'UPDATE_TURBO_CONFIG',
     payload: data
   })
   export const updateParamConfig = data => ({

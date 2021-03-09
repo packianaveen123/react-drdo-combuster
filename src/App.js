@@ -15,7 +15,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <NavigationComponent />
+        {/* <NavigationComponent /> */}
         {/* <LoginPage />
         <RegisterPage />
         <ForgotPassword/> */}
@@ -23,7 +23,7 @@ export default class App extends Component {
         {/* <Demotwo/> */}
         {/* <Testvb /> */}
         {/* <CardComponent/> */}
-        {/* <TableElement/> */}
+        <TableElement/>
         {/* <ParamConfig/> */}
       </div>
     )

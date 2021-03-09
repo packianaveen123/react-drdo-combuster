@@ -7,29 +7,23 @@ class StatusBlock extends Component {
   constructor(props){
     super(props);
     this.state={
-      // cardList:this.props.cardlist
+       cardList:this.props.cardlist,
+       persons: []
     }
   }
-  // state = {
-  //   persons: []
-  // }
-
-  // interval = setInterval(() => {
-  //   this.requestChartData();
-  // }, 1000);
-
-  // requestChartData() {
-
-  //   axios.get('http://localhost/TVS/index.php').then(res => {
-  //     const persons = res.data;
-  //     // console.log(res);
-  //     this.setState({ persons });
-  //   })
-  // }
+  
   render() {
-   console.log(this.props)
+   console.log(this.props.app)
+   let status_data = this.props.app
+   console.log(status_data.chartData[0])
+  //  this.setState({
+  //   persons: status_data.chartData[0]
+  // })
+   this.state.persons = status_data.chartData[0]
+   console.log(this.state.persons)
     return (
-      <div class="container-fluid">
+      
+        <div class="container-fluid">
         <Row>
           <Col span={4} style={{ paddingLeft: "0px", paddingRight: "10px" }}>
             <div class="statistic-block block" >
@@ -37,9 +31,9 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                 </Col>
-                <Col class="number dashtext-1" style={{ paddingLeft: '50%', fontSize: '25px' }}>{this.state.persons.map(person =>
-                  <span>{person.RPM}</span>
-                )}</Col>
+                <Col class="number dashtext-1" style={{ paddingLeft: '50%', fontSize: '25px' }}>
+                  <span>{this.state.persons.RPM}</span>
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '30', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-1"></div>
@@ -56,9 +50,11 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-2" style={{ paddingLeft: '50%', fontSize: '25px' }}>{this.state.persons.map(person =>
-                  <span>{this.props.T1}</span>
-                )}</Col>
+                <Col class="number dashtext-2" style={{ paddingLeft: '50%', fontSize: '25px' }}>
+                 
+                    <span>{this.state.persons.T1}</span>
+                  
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '70', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-2"></div>
@@ -76,9 +72,9 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-3" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  {this.state.persons.map(person =>
-                    <span>{person.T2}</span>
-                  )}</Col>
+                  
+                    <span>{this.state.persons.T2}</span>
+                  </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '55', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-3"></div>
@@ -96,9 +92,9 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  {this.state.persons.map(person =>
-                    <span>{person.T9}</span>
-                  )}</Col>
+                  
+                    <span>{this.state.persons.T9}</span>
+                  </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
@@ -116,9 +112,9 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  {this.state.persons.map(person =>
-                    <span>{person.P2}</span>
-                  )}</Col>
+                  
+                    <span>{this.state.persons.P2}</span>
+                  </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
@@ -136,9 +132,9 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  {this.state.persons.map(person =>
-                    <span>{person.P2}</span>
-                  )}</Col>
+                  
+                    <span>{this.state.persons.P2}</span>
+                  </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
