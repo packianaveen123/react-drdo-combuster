@@ -8,58 +8,15 @@ import TitleElement from '../../Components/TitleElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import axios from 'axios';
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
 
-const columns = [
-  {
-    title: 'S.No',
-    dataIndex: 'S.No',
-
-  },
-  {
-    title: 'Turbo ID',
-    dataIndex: 'Turbo ID',
-
-  },
-  {
-    title: 'Installed Date',
-    dataIndex: 'Installed Date',
-
-  },
-  {
-    title: 'nozzle_area',
-    dataIndex: 'nozzle_area',
-
-  },
-  {
-    title: 'Status',
-    dataIndex: 'Status',
-
-  },
-];
 class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
       truboData: ''
-  
     }
   }
   
-
   getData() {
     axios.get('http://localhost/TVS/turbo_config.php')
       .then(res => {
@@ -98,9 +55,9 @@ class TurboConfig extends Component {
   render() {
     const { tableData } = this.props;
     const text = <span> </span>;
-    const chartData = this.props.app; 
-    console.log(chartData.turboConfig)
-    // const chart = this.prepareChartParams(chartData)
+    const turbodata = this.props.app; 
+    console.log(turbodata.turboConfig)
+    // const chart = this.prepareChartParams(turbodata)
 
     return (
       <div style={{ paddingTop: "1px" }}> 
@@ -199,19 +156,9 @@ class TurboConfig extends Component {
             </Row>
 
             <TableElement
-              data={chartData.turboConfig}
-              // TurboID={true}
-              // InstalledDate={true}
-              // Status={true}
-              editable={true}            
-              // Name={false}
-              // value={false}
-              // Unit={false}
-              // lowerLimit={false}
-              // normalLimit={false}
-              // upperLimit={false}
+              data={turbodata.turboConfig}              
+              editable={true}
             />
-            {/* <Table columns={columns} dataSource={chartData.turboConfig} /> */}
           </Layout>
         </div>
       </div>

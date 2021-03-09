@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Row, Layout, Input, Button, InputNumber, Select, } from 'antd';
-
+import { Col, Row, Layout, Input, Button, InputNumber, Select, Form } from 'antd';
+import { updateTestConfig } from '../../../Redux/action';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
 import axios from 'axios';
@@ -16,12 +16,11 @@ class TestConfig extends Component {
   }
   componentDidMount() {
     axios.get('http://localhost/TVS/test_config.php')
-      .then((data) => {
-        this.setState({
-          testData: data
-        }, () => {
-          console.log(this.state.testData)
-        })
+      .then(res => {
+        let TestData = res.data;
+        this.props.updateTestConfig(TestData);
+        console.log(TestData)
+
       }).catch((err) => {
         console.log(err);
       })
@@ -36,50 +35,62 @@ class TestConfig extends Component {
   //       console.log(err);
   //     })
   // }
-  
+
   render() {
-    // console.log(this.props.tableData)
-     const { tableData } = this.props;
+
+
+    const { tableData } = this.props;
+    const testdata = this.props.app;
+    console.log(testdata.testConfig)
     return (
       <div style={{ paddingTop: "10px" }}>
 
         <Layout class="layout-container">
           <h2 class="h2" >Test Configuration</h2>
-          <Row style={{ paddingTop: "20px" }} >
-            <Col sm={2}>
-              <label htmlFor="name" class="label">Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-              <span> &nbsp; &nbsp; &nbsp;</span>
-            </Col>
-            <Col sm={10}>
-              <Input style={{ Color: "#666873" }} placeholder="Name" />
-            </Col>
+          <Form onFinish={this.onFinish}>
+            <Row style={{ paddingTop: "20px" }} >
+              <Col sm={2}>
+                <label htmlFor="name" class="label">Name<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+                <span> &nbsp; &nbsp; &nbsp;</span>
+              </Col>
+              <Col sm={10}>
+                <Form.Item>
+                  <Input style={{ Color: "#666873" }} placeholder="Name" />
+                </Form.Item>
+              </Col>
 
-            <Col sm={2}>
-              <label class="label" >Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <Col sm={2}>
+                <label class="label" >Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              </Col>
+              <Col sm={10}>
+                <Form.Item>
+                  <InputNumber
+                    min={-100} max={100}
+                    onChange={onChange}
+                    placeholder="Value"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-            </Col>
-            <Col sm={10}>
-              <InputNumber
-                min={-100} max={100}
-                onChange={onChange}
-                placeholder="Value"
-              />
-            </Col>
-          </Row>
-
-          <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
-            <Col xs={4}>
-              <Button > Save</Button>
-              <span> &nbsp;</span>
-            </Col>
-            <Col xs={4}>
-              <Button > Clear</Button>
-              <span> &nbsp;</span>
-            </Col>
-            <Col xs={4}>
-              <Button > Reset</Button>
-            </Col>
-          </Row>
+            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+              <Col xs={4}>
+                <Form.Item>
+                  <Button htmlType="submit"> Save</Button>
+                </Form.Item>
+              </Col>
+              <Col xs={4}>
+                <Form.Item>
+                  <Button > Clear</Button>
+                </Form.Item>
+              </Col>
+              <Col xs={4}>
+                <Form.Item>
+                  <Button > Reset</Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
         </Layout>
 
         <div style={{ paddingTop: "35px" }}>
@@ -102,19 +113,9 @@ class TestConfig extends Component {
             </Row>
 
             <TableElement
-              // data={tableData}
-              Name={true}
-              Unit={true}
-              value={true}
+              data={testdata.testConfig}
               editable={true}
-              lowerLimit={false}
-              normalLimit={false}
-              upperLimit={false}
-              TurboID={false}
-              InstalledDate={false}
-              Status={false}
             />
-            
           </Layout>
         </div>
       </div>
@@ -124,18 +125,17 @@ class TestConfig extends Component {
 const onChange = (value) => (
   console.log('changed', value)
 )
-// const mapStateToProps = state => ({
-//   testConfig: state.app.testConfig,
-//   tableData: state.app.testdata,
-//   user: state.app.userParams
-// })
 
-// const mapDispatchToProps = {
+const mapStateToProps = state => ({
+  app: state.app
+})
 
-// }
+const mapDispatchToProps = {
+  updateTestConfig
+}
 
-// const testContainer = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(TestConfig)
-export default TestConfig;
+const testContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TestConfig)
+export default testContainer;

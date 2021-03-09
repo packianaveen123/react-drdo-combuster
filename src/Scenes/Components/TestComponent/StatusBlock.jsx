@@ -150,11 +150,9 @@ class StatusBlock extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   app: state.app
 })
-
 const mapDispatchToProps = {}
 
 const statuspage = connect(
