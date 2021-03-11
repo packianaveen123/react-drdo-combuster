@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Row, Layout, Input, Button, InputNumber, Select, Form } from 'antd';
 import { updateTestConfig } from '../../../Redux/action';
+import { Col, Row, Layout, Input, Button, InputNumber, Select, Form } from 'antd';
+
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
 import axios from 'axios';
@@ -14,7 +15,11 @@ class TestConfig extends Component {
       testData: ""
     }
   }
-  componentDidMount() {
+
+  componentWillMount() {
+    this.getTestData()
+  }
+  getTestData() {
     axios.get('http://localhost/TVS/test_config.php')
       .then(res => {
         let TestData = res.data;
@@ -26,20 +31,8 @@ class TestConfig extends Component {
       })
   }
 
-  // requestTableData() {
-  //   axios.get('http://localhost/TVS/test_config.php')
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }
-
-  render() {
-
-
-    const { tableData } = this.props;
+  
+  render() {    
     const testdata = this.props.app;
     console.log(testdata.testConfig)
     return (
@@ -112,10 +105,12 @@ class TestConfig extends Component {
               </Col>
             </Row>
 
+            
+            {testdata.testConfig ?
             <TableElement
-              data={testdata.testConfig}
+              data={testdata.testConfig}             
               editable={true}
-            />
+            />: []}  
           </Layout>
         </div>
       </div>

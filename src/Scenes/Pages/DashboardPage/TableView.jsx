@@ -7,15 +7,7 @@ export default class TableView extends Component {
   render() {
     return (
       <div>
-        <StatusBlock />
-        <Row style={{ paddingTop: '30px' }}>
-          <Col span={16}>
-            <TableElement />
-          </Col>
-          <Col style={{ paddingLeft: '40px' }}>
-            <TableElement />
-          </Col>
-        </Row>
+        <StatusBlock />      
 
       </div>
     )

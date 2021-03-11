@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout} from 'antd';
 
 import TurboConfig from './ConfigurationPage/TurboConfig';
+import DashboardConfig from './ConfigurationPage/DashboardConfig';
 import FooterElement from '../Components/footer/FooterElement';
 import HeaderComponent from '../Components/Header/HeaderComponent';
 import TitleElement from '../Components/TitleElement';
@@ -23,7 +24,7 @@ class MainComponent extends Component {
           <LeftbarComponent />
           <Content>
             <TitleElement />
-            <TurboConfig />
+            <DashboardConfig />
           </Content>
         </Layout>
         <Footer>Footer</Footer>

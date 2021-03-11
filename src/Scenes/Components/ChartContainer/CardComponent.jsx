@@ -23,6 +23,7 @@ class CardComponent extends Component {
     axios.get('http://localhost/TVS/graph.php').then(res => {     
       let chartdata = res.data;
       this.props.updateChartData(chartdata);
+      console.log(chartdata)
     }).catch(err => {
         console.log(err);
       })
@@ -56,6 +57,8 @@ class CardComponent extends Component {
     chartArray.push(t9);
     chartArray.push(rpm);
     chartArray.push(p2);
+    console.log(chartArray)
+    const  chartValue= []
     for (let i = 0; i < chartArray.length; i++) {
       let chart =
       {
@@ -67,11 +70,7 @@ class CardComponent extends Component {
           chartLabel: chartLabel[i],
           chartBackgroundColor: [
             'rgba(24,144,255,0.2)'
-            // 'rgba(54, 162, 235, 0.1)',
-            // 'rgba(255, 206, 86, 0.1)',
-            // 'rgba(75, 192, 192, 0.2)',
-            // 'rgba(153, 102, 255, 0.2)',
-            // 'rgba(255, 99, 132, 0.2)'
+           
           ],
           chartBorderColor: [
             'rgba(24, 144, 255, 0.5)',
@@ -80,148 +79,41 @@ class CardComponent extends Component {
             'rgba(24, 144, 255, 0.5)',
             'rgba(24, 144, 255, 0.5)',
             'rgba(24, 144, 255, 0.5)'
-          ]
-          
-        }
-          
+          ]          
+        }          
       }    
-      return chart  
+      chartValue.push(chart  )
     }
+    return chartValue
   }
 
   render() {
     const { loading } = this.state;
-    const chartData = this.props.app.chartData; 
+    const chartData = this.props.app.chartData ? this.props.app.chartData : null; 
     const chart = this.prepareChartParams(chartData)
-     console.log(chart.dataSet.chartData)
-    if (chart !== undefined && chart.dataSet.chartData.length >= 5) {
+     console.log(chart)
+    if (chart !== undefined && chart.length >= 5) {
       return (
         <div style={{ backgroundColor: '#212840' }}>
           <div className="site-card-wrapper">
-            <Row gutter={16}>
-              <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col><Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col><Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart.title}
-                  <GraphComponent
-                    data={chart.dataSet.chartData ? chart.dataSet.chartData : []}
-                    labels={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : []}
-                    label={chart.dataSet.chartLabel ? chart.dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart.dataSet.chartBackgroundColor ? chart.dataSet.chartBackgroundColor : []}
-                    borderColor={chart.dataSet.chartBorderColor ? chart.dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-              {/* <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart[1].title}
-                  <GraphComponent
-                    data={chart[1].dataSet.chartData ? chart[1].dataSet.chartData : []}
-                    labels={chart[1].labels ? chart[1].labels : []}
-                    label={chart[1].dataSet.chartLabel ? chart[1].dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart[1].dataSet.chartBackgroundColor ? chart[1].dataSet.chartBackgroundColor : []}
-                    borderColor={chart[1].dataSet.chartBorderColor ? chart[1].dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-
-              <Col span={6}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart[2].title}
-                  <GraphComponent
-                    data={chart[2].dataSet.chartData ? chart[2].dataSet.chartData : []}
-                    labels={chart[2].labels ? chart[2].labels : []}
-                    label={chart[2].dataSet.chartLabel ? chart[2].dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart[2].dataSet.chartBackgroundColor ? chart[2].dataSet.chartBackgroundColor : []}
-                    borderColor={chart[2].dataSet.chartBorderColor ? chart[2].dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-
-              <Col span={6} style={{ paddingTop: '15px' }}>
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart[3].title}
-                  <GraphComponent
-                    data={chart[3].dataSet.chartData ? chart[3].dataSet.chartData : []}
-                    labels={chart[3].labels ? chart[3].labels : []}
-                    label={chart[3].dataSet.chartLabel ? chart[3].dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart[3].dataSet.chartBackgroundColor ? chart[3].dataSet.chartBackgroundColor : []}
-                    borderColor={chart[3].dataSet.chartBorderColor ? chart[3].dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-
-              <Col span={6} style={{ paddingTop: '15px' }} >
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart[4].title}
-                  <GraphComponent
-                    data={chart[4].dataSet.chartData ? chart[4].dataSet.chartData : []}
-                    labels={chart[4].labels ? chart[4].labels : []}
-                    label={chart[4].dataSet.chartLabel ? chart[4].dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart[4].dataSet.chartBackgroundColor ? chart[4].dataSet.chartBackgroundColor : []}
-                    borderColor={chart[4].dataSet.chartBorderColor ? chart[4].dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col>
-
-              <Col span={chart[4].size} style={{ paddingTop: '15px' }} >
-                <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{chart[4].title}
-                  <GraphComponent
-                    data={chart[4].dataSet.chartData ? chart[4].dataSet.chartData : []}
-                    labels={chart[4].labels ? chart[4].labels : []}
-                    label={chart[4].dataSet.chartLabel ? chart[4].dataSet.chartLabel : "No Lebel"}
-                    backgroundColor={chart[4].dataSet.chartBackgroundColor ? chart[4].dataSet.chartBackgroundColor : []}
-                    borderColor={chart[4].dataSet.chartBorderColor ? chart[4].dataSet.chartBorderColor : []}
-                  />
-                </Card>
-              </Col> */}
+            <Row gutter={16}>              
+                {chart ?
+                  chart.map(it => {
+                    return (
+                      <Col span={6}>
+                        <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
+                          <GraphComponent
+                            data={it.dataSet.chartData ? it.dataSet.chartData : []}
+                            labels={it.dataSet.chartLabel ? it.dataSet.chartLabel : []}
+                            label={it.dataSet.chartLabel ? it.dataSet.chartLabel : "No Lebel"}
+                            backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
+                            borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
+                          />
+                        </Card>
+                      </Col>
+                    )
+                  }) : []
+                }
             </Row>
           </div>
         </div>

@@ -1,13 +1,23 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
-
+import { updateTransferElement } from '../../Redux/action'
 import { Transfer } from 'antd';
-
+import axios from 'axios';
 class TransferElement extends React.Component {
   state = {
     mockData: [],
     targetKeys: [],
+    dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
+                    { "key": "2", "Name": "Turbo Chrager Outlet Temperature 1" },
+                    { "key": "3", "Name": "Cumbustor Inlet pressure 1" },
+                    { "key": "4", "Name": "RPM Combustor 1" },
+                    { "key": "5", "Name": "RPM Combustor 2" },
+                    { "key": "6", "Name": "Combustor Outlet Temperature 2" },
+                    { "key": "7", "Name": "Turbo Chrager Outlet Temperature 2" },
+                    { "key": "8", "Name": "Cumbustor Inlet pressure 2" },
+                    { "key": "9", "Name": "Gas Inlet pressure" }
+    ]
   };
 
   componentDidMount() {
@@ -17,14 +27,19 @@ class TransferElement extends React.Component {
   getMock = () => {
     const targetKeys = [];
     const mockData = [];
-    for (let i = 0; i < 20; i++) {
+
+
+    for (let i = 0; i < this.state.dashboardData.length; i++) {
       const data = {
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-        chosen: Math.random() * 2 > 1,
+        key: this.state.dashboardData[i].key,
+        title: this.state.dashboardData[i].Name,
+        chosen:false,
+        
       };
+      console.log(data)
+      console.log(Math.random() * 1 > 0)
       if (data.chosen) {
+
         targetKeys.push(data.key);
       }
       mockData.push(data);
@@ -33,14 +48,20 @@ class TransferElement extends React.Component {
   };
 
   handleChange = (targetKeys, direction, moveKeys) => {
-    console.log(targetKeys, direction, moveKeys);
+    console.log(targetKeys.length, direction, moveKeys);
+    if (targetKeys.length>6){
+      alert("select only 6 data")
+    }
+    else{
     this.setState({ targetKeys });
+    console.log(this.state.dashboardData)
+    }
   };
 
   renderItem = item => {
     const customLabel = (
       <span className="custom-item">
-        {item.title} - {item.description}
+        {item.title}
       </span>
     );
 
@@ -61,10 +82,23 @@ class TransferElement extends React.Component {
         targetKeys={this.state.targetKeys}
         onChange={this.handleChange}
         render={this.renderItem}
-     
+
       />
     );
+    console.log(this.state.targetKeys)
   }
 }
 
-export default TransferElement;
+const mapStateToProps = state => ({
+  app: state.app
+})
+const mapDispatchToProps = {
+  updateTransferElement
+}
+
+const transferPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransferElement)
+
+export default transferPage;

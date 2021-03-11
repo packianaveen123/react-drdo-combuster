@@ -14,13 +14,24 @@ const appReducer = (state = InitialState, action) => {
       newState.chartData = action.payload ? action.payload : []
       return newState
     case 'UPDATE_TEST_CONFIG':
-      newState.testConfig = action.payload
+      newState.testConfig = action.payload ? action.payload : []
       return newState
     case 'UPDATE_TURBO_CONFIG':
       newState.turboConfig = action.payload ? action.payload : []
       return newState
     case 'UPDATE_PARAM_CONFIG':
-      newState.paramConfig = action.payload
+      newState.paramConfig = action.payload ? action.payload : []
+      return newState
+
+ case 'UPDATE_PARAM_CONFIGURATION':
+      newState.paramConfiguration =  action.payload ? action.payload : []
+      return newState
+
+    case 'UPDATE_TRANSFER_ELEMENT':
+      newState.transferElement = action.payload
+      return newState
+    case 'UPDATE_COLOR_BAR':
+      newState.colorBar = action.payload
       return newState
     default:
       return newState

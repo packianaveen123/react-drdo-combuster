@@ -4,6 +4,11 @@ const InitialState = {
     chartData: [],
     testConfig: [],
     TurboConfig:[],
-    paramConfig:[],    
+    paramConfig:[],  
+    paramConfiguration:[],
+    transferElement:[],  
+    colorBar:{
+      
+    },
   }
   export default InitialState

@@ -9,56 +9,48 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import axios from 'axios';
 
+
 class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
       truboData: ''
+  
     }
   }
-  
-  getData() {
-    axios.get('http://localhost/TVS/turbo_config.php')
-      .then(res => {
-        let TurboData = res.data;
-      this.props.updateTurboConfig(TurboData);
-      console.log(TurboData)
-        
+ 
+  getConfigData = () => {
+    axios.get('http://localhost/TVS/turbo_config.php').then(res => {
+        let TurboData = res.data       
+        this.props.updateTurboConfig(TurboData)
+        console.log(TurboData)
       }).catch((err) => {
         console.log(err);
       })
   }
 
+  // TODO
+  // handle the fetch call from remote
+  componentDidMount() {
+    this.getConfigData()
+  }
 
-  onFinish = (values) => {
-    
-    axios.post('http://localhost/TVS/turbo_config_validation.php',
-      values,
-    )
-      .then(res => {
-        console.log(res.data)
 
-        if (res.data == "success") {
-          this.getData()
-          console.log(values)
-          alert("success")
+  onFinish = (values) => {    
+    axios.post('http://localhost/TVS/turbo_config_validation.php', values)
+      .then(res => {      
+        if (res.data == "success") {      
+          this.getConfigData()         
         }
-        else if (res.data == "failed") {
-          alert("incorrect ")
-        }
-      })
-      .catch(err => {
+        else  {}
+      }).catch(err => {
         console.log(err.res)
-      })
+      })  
   }
 
   render() {
-    const { tableData } = this.props;
-    const text = <span> </span>;
-    const turbodata = this.props.app; 
-    console.log(turbodata.turboConfig)
-    // const chart = this.prepareChartParams(turbodata)
-
+    const { appData } = this.props;
+    const { turboConfig } = appData ;
     return (
       <div style={{ paddingTop: "1px" }}> 
         <Layout class="layout-container">
@@ -135,7 +127,6 @@ class TurboConfig extends Component {
             </Row>
           </Form>
         </Layout>
-
         <div style={{ paddingTop: "35px" }}>
           <Layout class="bottom-container">
             <Row>
@@ -154,22 +145,20 @@ class TurboConfig extends Component {
                 </Row>
               </Col>
             </Row>
-
+            {turboConfig ?
             <TableElement
-              data={turbodata.turboConfig}              
+              data={turboConfig}             
               editable={true}
-            />
+            />: []}  
           </Layout>
         </div>
       </div>
     )
   }
 }
-const onChange = (value) => (
-  console.log('changed', value)
-)
+
 const mapStateToProps = state => ({
-  app: state.app
+  appData: state.app
 })
 
 const mapDispatchToProps = {
