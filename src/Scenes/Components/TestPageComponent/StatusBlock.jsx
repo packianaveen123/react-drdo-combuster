@@ -28,7 +28,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                 </Col>
                 <Col class="number dashtext-1" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  <span>{persons ? persons.RPM : 'No Data'}</span>
+                  <span>{persons ? persons.RPM : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -48,7 +48,7 @@ class StatusBlock extends Component {
                 </Col>
                 <Col class="number dashtext-2" style={{ paddingLeft: '50%', fontSize: '25px' }}>
                  
-                    <span>{persons ? persons.RPM : 'No Data'}</span>
+                    <span>{persons ? persons.T1 : ''}</span>
                   
                 </Col>
               </Row>
@@ -69,7 +69,7 @@ class StatusBlock extends Component {
                 </Col>
                 <Col class="number dashtext-3" style={{ paddingLeft: '50%', fontSize: '25px' }}>
                   
-                    <span>{persons ? persons.RPM : 'No Data'}</span>
+                    <span>{persons ? persons.T2 : ''}</span>
                   </Col>
               </Row>
               <div class="progress progress-template">
@@ -89,7 +89,7 @@ class StatusBlock extends Component {
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
                   
-                    <span>{persons ? persons.RPM : 'No Data'}</span>
+                    <span>{persons ? persons.T9 : ''}</span>
                   </Col>
               </Row>
               <div class="progress progress-template">
@@ -109,7 +109,7 @@ class StatusBlock extends Component {
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
                   
-                    <span>{persons ? persons.RPM : 'No Data'}</span>
+                    <span>{persons ? persons.P2 : ''}</span>
                   </Col>
               </Row>
               <div class="progress progress-template">
@@ -129,7 +129,7 @@ class StatusBlock extends Component {
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
                   
-                    <span>{persons ? persons.RPM : 'No Data'}</span>
+                    <span>{persons ? persons.RPM : ''}</span>
                   </Col>
               </Row>
               <div class="progress progress-template">

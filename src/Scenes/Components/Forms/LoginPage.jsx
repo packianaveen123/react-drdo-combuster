@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Col, Row, Input, Button, Form,Alert } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Col, Row, Input, Button, Form, Alert } from 'antd';
+import { UserOutlined, LockOutlined ,EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,7 @@ class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      IsLogin : false
+      IsLogin: false
     }
   }
   onFinish = (values) => {
@@ -27,11 +27,11 @@ class LoginPage extends Component {
           //console.log(values)
           alert("success")
         }
-        else if(res.data == "failed") {
-          this.state.IsLogin = true;  
+        else if (res.data == "failed") {
+          this.state.IsLogin = true;
           console.log(this.state.IsLogin)
-          this.setState({redirect: false});
-          }
+          this.setState({ redirect: false });
+        }
       })
       .catch(err => {
         console.log(err.res)
@@ -84,7 +84,8 @@ class LoginPage extends Component {
                                 prefix={<LockOutlined className="site-form-item-icon" />}
                                 type="password"
                                 placeholder="Password"
-                              />
+                                iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                              />                             
                             </Form.Item>
                             {this.state.IsLogin ? <Alert className="alert_error" message="Username or Password is Incorrect" type="error" /> : ''}
                             <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>

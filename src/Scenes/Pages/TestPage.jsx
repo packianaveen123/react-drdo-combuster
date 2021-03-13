@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import GridElement from '../Components/TestComponent/GridElement';
-import GridContainer from '../Components/TestComponent/GridContainer';
-import StatusBlock from '../Components/TestComponent/StatusBlock';
+
+import GridContainer from '../Components/TestPageComponent/GridContainer';
+import StatusBlock from '../Components/TestPageComponent/StatusBlock';
 
 export default class TestPage extends Component {
     render() {

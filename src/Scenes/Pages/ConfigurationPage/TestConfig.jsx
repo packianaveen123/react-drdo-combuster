@@ -103,9 +103,7 @@ class TestConfig extends Component {
                   </Col>
                 </Row>
               </Col>
-            </Row>
-
-            
+            </Row>            
             {testdata.testConfig ?
             <TableElement
               data={testdata.testConfig}             

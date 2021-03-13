@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {  updateparamConfiguration } from '../../../Redux/action';
+import {  updateParamConfig } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, Select, InputNumber } from 'antd';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
@@ -22,20 +22,18 @@ class ParamConfig extends Component {
   getParamData = () => {
        axios.get('http://localhost/TVS/param_config.php').then(res => {
         let paramData = res.data
-        this.props. updateparamConfiguration(paramData)
+        this.props. updateParamConfig(paramData)
         console.log(paramData)
       }).catch((err) => {
         console.log(err);
       })
   }
   
-
-
   render() {
     // const paramData = this.props.app;
-    // console.log(paramData.paramConfiguration)
+    // console.log(paramData.paramConfig)
     const { appData } = this.props;
-    const { paramConfig } = appData.paramConfiguration ;
+    const { paramConfig } = appData.paramConfig ;
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -159,7 +157,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateparamConfiguration
+  updateParamConfig
 }
 
 const paramContainer = connect(

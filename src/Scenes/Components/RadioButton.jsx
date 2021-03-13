@@ -13,7 +13,7 @@ export default class RadioButton extends Component {
                 width:"300px",
                 height:"40px",
                 paddingTop:'4px',
-                paddingLeft:'20px'
+                paddingLeft:'25px'
                 }}>
                 <Radio value={1} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbo 1</Radio>
                 <Radio value={2} style={{color:'rgb(151, 150, 151)',fontSize:"18px"}}>Turbo 2</Radio>             

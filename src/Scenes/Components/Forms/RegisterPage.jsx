@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined ,EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import axios from 'axios';
 class RegisterPage extends Component {
   constructor(props) {
@@ -106,6 +106,7 @@ class RegisterPage extends Component {
                               style={{ backgroundColor: '#131633' }}
                               prefix={<LockOutlined className="site-form-item-icon" />}
                               placeholder="Password"
+                              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             />
                           </Form.Item>
 
@@ -133,6 +134,7 @@ class RegisterPage extends Component {
                               style={{ backgroundColor: '#131633' }}
                               prefix={<LockOutlined className="site-form-item-icon" />}
                               placeholder="Confirm Password"
+                              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             />
                           </Form.Item>
 

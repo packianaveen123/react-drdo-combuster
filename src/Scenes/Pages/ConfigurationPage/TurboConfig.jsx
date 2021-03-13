@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {updateTurboConfig} from '../../../Redux/action';
+import { updateTurboConfig } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Table, Form } from 'antd';
 import TableElement from '../../Components/TableElement';
 import SearchBox from '../../Components/SearchBox';
@@ -14,19 +14,19 @@ class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      truboData: ''
-  
+      truboData: '',
+      nozzle_area: null,
     }
   }
- 
+
   getConfigData = () => {
     axios.get('http://localhost/TVS/turbo_config.php').then(res => {
-        let TurboData = res.data       
-        this.props.updateTurboConfig(TurboData)
-        console.log(TurboData)
-      }).catch((err) => {
-        console.log(err);
-      })
+      let TurboData = res.data
+      this.props.updateTurboConfig(TurboData)
+      console.log(TurboData)
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   // TODO
@@ -35,24 +35,34 @@ class TurboConfig extends Component {
     this.getConfigData()
   }
 
-
-  onFinish = (values) => {    
+  onFinish = (values) => {
     axios.post('http://localhost/TVS/turbo_config_validation.php', values)
-      .then(res => {      
-        if (res.data == "success") {      
-          this.getConfigData()         
+      .then(res => {
+        if (res.data == "success") {
+          this.getConfigData()
         }
-        else  {}
+        else { }
       }).catch(err => {
         console.log(err.res)
-      })  
+      })
   }
+
+  // handleNumber = (e) => {
+  //   let nam = e.target.name;
+  //   let val = e.target.value;
+  //   if (nam === "nozzle_area") {
+  //     if (!Number(val)) {
+  //       alert("Your age must be a number");
+  //     }
+  //   }
+  //   this.setState({[nam]: val});
+  // }
 
   render() {
     const { appData } = this.props;
-    const { turboConfig } = appData ;
+    const { turboConfig } = appData;
     return (
-      <div style={{ paddingTop: "1px" }}> 
+      <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
           <h2 class="h2">Turbo Configuration</h2>
           <Form onFinish={this.onFinish}>
@@ -66,26 +76,22 @@ class TurboConfig extends Component {
                   <Input style={{ width: "320px" }} placeholder="Turbo ID" />
                 </Form.Item>
               </Col>
-
               <Col sm={3}>
                 <label htmlFor="name" class="label" >Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
               </Col>
               <Col sm={5}>
-                {/* <Input /> */}
                 <Form.Item name="date">
                   <DatePicker defaultValue={moment('2015-01-01', 'YYYY-MM-DD')} style={{ backgroundColor: "#131633" }} />
                 </Form.Item>
               </Col>
-
               <Col sm={2}>
                 <label class="label">Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-               
               </Col>
               <Col sm={6}>
                 <div>
-                  <Form.Item 
-                  name="nozzle_area" >
+                  <Form.Item
+                    name="nozzle_area" >
                     {/* <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
                       <InputNumber
                         min={0.0002} max={0.0005} step={0.0002}
@@ -94,12 +100,16 @@ class TurboConfig extends Component {
                         placeholder="Nozzle Area"
                         style={{ width: "320px" }} />
                     </Tooltip> */}
-                    <InputNumber
-                     min={0.0002} max={0.0005} 
-                     defaultValue={0.0245} 
-                     step ={0.0001}
-                     style={{ width: "320px" }} 
+                    <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
+                      <InputNumber
+                        name="nozzle_area"
+                        min={0.0002} max={0.0005}
+                        defaultValue={0.0245}
+                        step={0.0001}
+                        style={{ width: "320px" }}
+                      //  onChange={this.handleNumber}
                       />
+                    </Tooltip>
                   </Form.Item>
                 </div>
               </Col>
@@ -146,13 +156,13 @@ class TurboConfig extends Component {
               </Col>
             </Row>
             {turboConfig ?
-            <TableElement
-              data={turboConfig}             
-              editable={true}
-            />: []}  
+              <TableElement
+                data={turboConfig}
+                editable={true}
+              /> : []}
           </Layout>
         </div>
-      </div>
+      </div >
     )
   }
 }

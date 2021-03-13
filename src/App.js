@@ -5,7 +5,6 @@ import LoginPage from './Scenes/Components/Forms/LoginPage';
 import RegisterPage from './Scenes/Components/Forms/RegisterPage';
 import ForgotPassword from './Scenes/Components/Forms/ForgotPassword';
 import Demo from '../src/Scenes/Demo';
-import Demotwo from '../src/Scenes/Demotwo';
 import Testvb from './testvb';
 import CardComponent from './Scenes/Components/ChartContainer/CardComponent'
 import TableElement from './Scenes/Components/TableElement';
@@ -20,7 +19,6 @@ export default class App extends Component {
         <RegisterPage />
         <ForgotPassword/> */}
         {/* <Demo/> */}
-        {/* <Demotwo/> */}
         {/* <Testvb /> */}
         {/* <CardComponent/> */}
         {/* <TableElement/> */}

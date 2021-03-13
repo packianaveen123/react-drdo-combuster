@@ -92,6 +92,7 @@
 }
 .ant-layout-sider {
   background:#131633;
+  
 }
 .ant-layout-sider-children {
   height: 100%;
@@ -302,6 +303,9 @@
   color: black;
   background-color: #d13c4f;
   border-color: #cf3145;
+}
+.btn-test{
+  background-color: none !important;
 }
 
 /*

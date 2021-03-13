@@ -33,6 +33,9 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_COLOR_BAR':
       newState.colorBar = action.payload
       return newState
+    case 'UPDATE_CURRENT_PAGE':
+      newState.currentPage = action.payload ? action.payload : []
+      return newState
     default:
       return newState
   }

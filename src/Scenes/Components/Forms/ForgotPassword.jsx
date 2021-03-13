@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row, Input, Button, Form ,Alert} from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined,EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
 
 class ForgotPassword extends Component {
@@ -83,6 +83,7 @@ class ForgotPassword extends Component {
                               style={{ backgroundColor: '#131633' }}
                               prefix={<LockOutlined className="site-form-item-icon" />}
                               placeholder="Password"
+                              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             />
                           </Form.Item>
 
@@ -110,6 +111,7 @@ class ForgotPassword extends Component {
                               style={{ backgroundColor: '#131633' }}
                               prefix={<LockOutlined className="site-form-item-icon" />}
                               placeholder="Confirm Password"
+                              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             />
                           </Form.Item>
 

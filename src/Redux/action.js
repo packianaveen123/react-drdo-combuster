@@ -23,14 +23,12 @@ export const updateUserParameter = userParams => ({
     type: 'UPDATE_PARAM_CONFIG',
     payload: data
   })
-  
-  export const updateparamConfiguration = data => ({
-    type: 'UPDATE_PARAM_CONFIGURATION',
-    payload: data
-  })
-
   export const updateTransferElement = data => ({
     type: 'UPDATE_TRANSFER_ELEMENT',
+    payload: data
+  })
+  export const updateCurrentpage = data => ({
+    type: 'UPDATE_CURRENT_PAGE',
     payload: data
   })
   export const updateColorBar = data => ({
