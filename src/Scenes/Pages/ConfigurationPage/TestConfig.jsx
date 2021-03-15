@@ -33,8 +33,7 @@ class TestConfig extends Component {
 
   
   render() {    
-    const testdata = this.props.app;
-    console.log(testdata.testConfig)
+    const testdata = this.props.app;    
     return (
       <div style={{ paddingTop: "10px" }}>
 
@@ -106,7 +105,7 @@ class TestConfig extends Component {
             </Row>            
             {testdata.testConfig ?
             <TableElement
-              data={testdata.testConfig}             
+              data={testdata.testConfig ? testdata.testConfig : []}             
               editable={true}
             />: []}  
           </Layout>

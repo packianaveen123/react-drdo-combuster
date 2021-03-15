@@ -12,10 +12,10 @@ const { Column } = Table;
     console.log('this is:', event);
   }
   render() {
-    const { data } = this.props; 
+    const { data } = this.props;
      
     let columns = []
-    if (data !== null || data !== undefined) {
+    if ((data !== null || data !== undefined) && data.length > 0) {
       columns = Object.keys(data[0])      
     }
       
@@ -27,7 +27,7 @@ const { Column } = Table;
           onSelect={(e) => this.handleClick}
         >         
             { 
-            columns ?      
+            columns && columns.length > 0 ?      
               columns.map(col => {                         
                 return <Column
                   title= {col}

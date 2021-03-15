@@ -6,12 +6,6 @@ export default class ExportData extends Component {
   render() {
     return (
       <div style={{ paddingTop: "1px" }}>
-        <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
-          <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek</text>
-            <text style={{ color: '#585a5f', fontSize: "25px" }}>  / Report / Export Data </text>
-          </Row>
-        </Layout>
         <Layout class="layout-container">
           <h2 class="h2"> Export Report</h2>
           <Row style={{ paddingTop: "20px" }} >

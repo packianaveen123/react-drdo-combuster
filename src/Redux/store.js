@@ -1,4 +1,5 @@
 const InitialState = {
+    mainPage: 'testPage',
     userParams: null,
     leftBarView: false,
     collapsed : true,
@@ -8,7 +9,7 @@ const InitialState = {
     paramConfig:[],    
     transferElement:[], 
     currentPage : [],  
-    mainTestPage : [],  
+    mainTestPage : [],
     dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
                     { "key": "2", "Name": "Turbo Chrager Outlet Temperature 1" },
                     { "key": "3", "Name": "Cumbustor Inlet pressure 1" },

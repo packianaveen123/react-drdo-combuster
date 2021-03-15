@@ -22,18 +22,15 @@ class ParamConfig extends Component {
   getParamData = () => {
        axios.get('http://localhost/TVS/param_config.php').then(res => {
         let paramData = res.data
-        this.props. updateParamConfig(paramData)
+        this.props.updateParamConfig(paramData)
         console.log(paramData)
       }).catch((err) => {
         console.log(err);
       })
   }
   
-  render() {
-    // const paramData = this.props.app;
-    // console.log(paramData.paramConfig)
-    const { appData } = this.props;
-    const { paramConfig } = appData.paramConfig ;
+  render() {  
+    const appData = this.props.app;    
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -137,9 +134,9 @@ class ParamConfig extends Component {
               </Col>
             </Row>
 
-            {paramConfig ?
+            {appData.paramConfig ?
             <TableElement
-              data={paramConfig}             
+              data={appData ? appData.paramConfig : []}           
               editable={true}
             />: []} 
           </Layout>
@@ -153,7 +150,7 @@ const onChange = (value) => (
 )
 
 const mapStateToProps = state => ({
-  appData: state.app
+  app: state.app
 })
 
 const mapDispatchToProps = {

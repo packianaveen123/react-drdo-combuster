@@ -22,11 +22,9 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_PARAM_CONFIG':
       newState.paramConfig = action.payload ? action.payload : []
       return newState
-
- case 'UPDATE_PARAM_CONFIGURATION':
-      newState.paramConfiguration =  action.payload ? action.payload : []
+    case 'UPDATE_PARAM_CONFIGURATION':
+      newState.paramConfiguration = action.payload ? action.payload : []
       return newState
-
     case 'UPDATE_TRANSFER_ELEMENT':
       newState.transferElement = action.payload
       return newState
@@ -35,6 +33,9 @@ const appReducer = (state = InitialState, action) => {
       return newState
     case 'UPDATE_CURRENT_PAGE':
       newState.currentPage = action.payload ? action.payload : []
+      return newState
+    case 'NAVIGATE_MAIN_PAGE':
+      newState.mainPage = action.payload ? action.payload : "dashboardConfig"
       return newState
     default:
       return newState

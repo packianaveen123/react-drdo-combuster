@@ -11,10 +11,10 @@ const { Option } = Select;
 class GridContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = {     
+    this.state = {
       testerValue: false,
-      testValue : ''
-      
+      testValue: ''
+
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -22,11 +22,9 @@ class GridContainer extends Component {
   onClick = () => {
     this.setState({ testerValue: true })
     // console.log(this.state.someVal)
-    
-
   }
 
-  handleChange = (e) =>  {
+  handleChange = (e) => {
     this.setState({ testValue: e.target.value })
   }
 
@@ -36,7 +34,7 @@ class GridContainer extends Component {
     return (
       <div style={{ paddingTop: "30px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-          <Row >
+          <Row>
             <Col xs={8} style={{ paddingLeft: "20px" }}>
               <form>
                 <Row>
@@ -48,7 +46,7 @@ class GridContainer extends Component {
               </form>
             </Col>
           </Row>
-          <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
+          <Row style={{paddingTop: "28px", paddingLeft: "20px"}}>
             <Col span={8}>
               <form>
                 <Row>
@@ -56,8 +54,8 @@ class GridContainer extends Component {
                     <label for="text" class="label" >Turbo ID</label>
                   </Col>
                   <Col span={6}>
-                    <Input.Group compact >
-                      <Select defaultValue="Select Turbo ID" style={{ width: '300px' }} >
+                    <Input.Group compact>
+                      <Select defaultValue="Select Turbo ID" style={{ width: '300px'}}>
                         <Option value="Option1">Option1</Option>
                         <Option value="Option2">Option2</Option>
                         <Option value="Option3">Option3</Option>
@@ -111,7 +109,6 @@ class GridContainer extends Component {
 
           <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingRight: "20px" }}>
             <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
-
             <Col span={4}>
               <Card style={{ width: 200 }}>
                 <DownloadOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
@@ -154,7 +151,6 @@ class GridContainer extends Component {
           </Row>
         </Layout>
       </div>
-
     )
   }
 }

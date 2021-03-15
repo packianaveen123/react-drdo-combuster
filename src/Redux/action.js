@@ -35,4 +35,8 @@ export const updateUserParameter = userParams => ({
     type: 'UPDATE_COLOR_BAR',
     payload: data
   })
+  export const navigateMainPage = data => ({
+    type: 'NAVIGATE_MAIN_PAGE',
+    payload: data
+  })
   

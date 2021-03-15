@@ -11,25 +11,19 @@ import TestPage from './TestPage';
 import GraphView from '../Pages/DashboardPage/GraphView';
 import TableView from './DashboardPage/TableView';
 import RunningReport from './Reports/RunningReport';
+import TestConfig from './ConfigurationPage/TestConfig'
+import ParamConfig from './ConfigurationPage/ParamConfig'
+import ExportData from './Reports/ExportData';
 
 const { Content, Header, Footer } = Layout;
 
 export class MainComponent extends Component {
-
   constructor(props) {
-    super(props);
-    this.state = {
-      activeComponent: TestPage
-    };
-    //   this.hideComponent = this.hideComponent.bind(this);
+    super(props);   
   }
-  // componentDidMount() {
-  //   this.props.updateCurrentpage(DashboardConfig)
-  // }
-
   render() {
-    console.log(this.props.app.currentPage)
-    console.log(this.state.activeComponent)
+    const appData = this.props.app;
+    const {mainPage} = appData
     return (
       <Layout>
         <Header style={{ paddingLeft: '0', paddingRight: '0' }}><HeaderComponent /></Header>
@@ -37,11 +31,18 @@ export class MainComponent extends Component {
           <LeftbarComponent />
           <Content>
             <TitleElement />
-            <this.state.activeComponent />
-            {/* <this.props.app.currentPage /> */}
+            {mainPage === 'graphView' ? <GraphView /> : []}  
+            {mainPage === 'tableView' ? <TableView /> : []}  
+            {mainPage === 'testPage' ? <TestPage /> : []}
+            {mainPage === 'turboConfig' ? <TurboConfig /> : []}
+            {mainPage === 'dashboardConfig' ? <DashboardConfig /> : []}                       
+            {mainPage === 'testConfig' ? <TestConfig /> : []}  
+            {mainPage === 'paramConfig' ? <ParamConfig /> : []} 
+            {mainPage === 'runningReport' ? <RunningReport /> : []} 
+            {mainPage === 'exportData' ? <ExportData /> : []}                     
           </Content>
         </Layout>
-        <Footer>Footer</Footer>
+        <Footer><FooterElement/></Footer>
       </Layout>
     )
   }
@@ -50,13 +51,11 @@ const mapStateToProps = state => ({
   app: state.app
 })
 
-// const mapDispatchToProps = {
-//   updateTurboConfig
-// }
+const mapDispatchToProps = {}
 
 const MainContainer = connect(
   mapStateToProps,
-  // mapDispatchToProps
+  mapDispatchToProps
 )(MainComponent)
 export default MainContainer;
 
