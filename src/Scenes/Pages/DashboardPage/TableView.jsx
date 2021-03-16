@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Col, Row } from 'antd';
-import TableElement from '../../Components/TableElement';
 import StatusBlock from '../../Components/TestPageComponent/StatusBlock';
 
 export default class TableView extends Component {
@@ -8,7 +6,6 @@ export default class TableView extends Component {
     return (
       <div>
         <StatusBlock />      
-
       </div>
     )
   }

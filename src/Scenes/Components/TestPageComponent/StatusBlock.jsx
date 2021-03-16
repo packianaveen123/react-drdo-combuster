@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Col, Row } from 'antd';
-import axios from 'axios';
 import { connect } from 'react-redux';
 
 class StatusBlock extends Component {
@@ -22,7 +21,7 @@ class StatusBlock extends Component {
         <div class="container-fluid">
         <Row>
           <Col span={4} style={{ paddingLeft: "0px", paddingRight: "10px" }}>
-            <div class="statistic-block block" >
+            <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
                 <Col>
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />

@@ -13,7 +13,7 @@ class ChartComponent extends Component {
     }
   }
   render() {
-    const { data, labels, label, backgroundColor, borderColor } = this.state
+    const { data, label, backgroundColor, borderColor } = this.state
     return (
       <div>
         <Line

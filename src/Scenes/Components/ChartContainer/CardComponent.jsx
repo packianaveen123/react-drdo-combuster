@@ -87,7 +87,6 @@ class CardComponent extends Component {
   }
 
   render() {
-    const { loading } = this.state;
     const chartData = this.props.app.chartData ? this.props.app.chartData : null; 
     const chart = this.prepareChartParams(chartData)
      console.log(chart)

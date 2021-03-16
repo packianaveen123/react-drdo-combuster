@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
-import { updateTransferElement } from '../../Redux/action'
-import { Col, Row, Input, Button, Form, Transfer } from 'antd';
-import axios from 'axios';
-import Layout from 'antd/lib/layout/layout';
-import {updateCurrentpage} from '../../Redux/action';
+import { Col, Row, Button, Form, Transfer } from 'antd';
+import {updateTransferElement} from '../../Redux/action';
 import TurboConfig from '../Pages/ConfigurationPage/TurboConfig';
 class TransferElement extends React.Component {
   constructor(props) {
@@ -67,7 +64,7 @@ class TransferElement extends React.Component {
     this.getMock()
   }
   submitClick = () => {
-    this.props.updateCurrentpage(TurboConfig)
+    this.props.updateTransferElement(TurboConfig)
   }
   renderItem = item => {
     const customLabel = (
@@ -122,7 +119,7 @@ const mapStateToProps = state => ({
   app: state.app
 })
 const mapDispatchToProps = {
-  updateCurrentpage
+  updateTransferElement
 }
 
 const transferPage = connect(

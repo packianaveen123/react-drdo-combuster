@@ -1,26 +1,15 @@
 import React, { Component } from 'react'
-import { Col, Row, Layout, Input, Button ,Form } from 'antd';
-import axios from 'axios';
+import { Col, Row, Layout} from 'antd';
 import { connect } from 'react-redux';
-import {
-  EditOutlined
-} from '@ant-design/icons';
 import TransferElement from '../../Components/TransferElement';
-import ColorBar from '../../Components/ColorBar';
 
 export class DashboardConfig extends Component {
   constructor(props){
     super(props);
-    this.state={
-       
+    this.state={ 
     }
   }
   render() {
-    
-    // let status_data = this.props.app
-    // console.log(status_data.chartData[0])
-    // this.state.persons = status_data.chartData[0]
-    // console.log(this.state.persons)
     return (
       <div style={{ paddingTop: "1px" }}>      
           <Layout style={{ backgroundColor: "#131633", paddingTop: "30px", paddingLeft: "20px", paddingRight: "20px" }}>

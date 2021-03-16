@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTestConfig } from '../../../Redux/action';
-import { Col, Row, Layout, Input, Button, InputNumber, Select, Form } from 'antd';
-
+import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
 import axios from 'axios';
-const { Option } = Select;
 
 class TestConfig extends Component {
   constructor(props) {

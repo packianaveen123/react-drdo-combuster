@@ -3,36 +3,54 @@ import { Card, Col, Row, Layout, Divider, Input, Select, Button } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
-  QuestionOutlined, RedoOutlined
+  QuestionOutlined, RedoOutlined, DeleteOutlined
 } from '@ant-design/icons';
+import { updateTestingPage } from '../../../Redux/action';
 import { connect } from 'react-redux';
 import RadioButton from '../RadioButton';
+
 const { Option } = Select;
+
 class GridContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      testerValue: false,
-      testValue: ''
-
+      testIdValue : [],
+      value: '',
+      list: [],
     }
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  onClick = () => {
-    this.setState({ testerValue: true })
-    // console.log(this.state.someVal)
-  }
 
-  handleChange = (e) => {
-    this.setState({ testValue: e.target.value })
-  }
+  onChangeValue = event => {
+    this.setState({ value: event.target.value });
+  };
+
+  onAddItem = () => {
+    this.setState(state => {
+      // const list = state.list.concat(state.value);
+      const list = [...state.list, state.value];
+      return {
+        list,
+        value: '',
+      };
+    });
+  };
 
   render() {
-    let value_1 = this.state.testValue
-    console.log(value_1)
+    const appData = this.props.app;    
+    const testIdValue = this.props.app.turboConfig;
+    console.log(testIdValue);
+    // const doubleValue = testIdValue.map()
+    const lists = this.state.list;
     return (
       <div style={{ paddingTop: "30px" }}>
+        <ul>
+          {lists.map(item => {
+            <li key={item}>{item}<DeleteOutlined style={{ color: "white" }} /></li>
+            console.log(lists);
+          })}
+        </ul>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
           <Row>
             <Col xs={8} style={{ paddingLeft: "20px" }}>
@@ -46,7 +64,7 @@ class GridContainer extends Component {
               </form>
             </Col>
           </Row>
-          <Row style={{paddingTop: "28px", paddingLeft: "20px"}}>
+          <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
             <Col span={8}>
               <form>
                 <Row>
@@ -55,11 +73,17 @@ class GridContainer extends Component {
                   </Col>
                   <Col span={6}>
                     <Input.Group compact>
-                      <Select defaultValue="Select Turbo ID" style={{ width: '300px'}}>
-                        <Option value="Option1">Option1</Option>
-                        <Option value="Option2">Option2</Option>
+                      <Select defaultValue="Select Turbo ID" style={{ width: '300px' }}>
+                        <Option value="Option1">
+                          {testIdValue.map(turbo_id => {
+                            <li key={turbo_id}>{turbo_id}</li>
+                            //console.log(testIdValue);
+                          })}
+                           {/* <span>{testIdValue ? testIdValue.turbo_id : ''}</span> */}
+                        </Option>
+                        {/* <Option value="Option2">Option2</Option>
                         <Option value="Option3">Option3</Option>
-                        <Option value="Option4">Option4</Option>
+                        <Option value="Option4">Option4</Option> */}
                       </Select>
                     </Input.Group>
                   </Col>
@@ -76,16 +100,18 @@ class GridContainer extends Component {
                     <Input placeholder="Tester"
                       name="Tester"
                       style={{ width: "300px" }}
-                      value={this.state.testValue}
-                      onChange={this.handleChange}
+                      value={this.state.value}
+                      onChange={this.onChangeValue}
                     />
-                    {this.state.testerValue ?
-                      <div style={{ color: 'white' }}>{value_1}</div> : []}
+                    {this.state.list ?
+                      <div style={{ color: 'white' }}>{this.state.list}</div> : []}
+
                   </Col>
                   <Col>
                     <Button
                       style={{ width: "2px" }}
-                      onClick={() => this.onClick()}>+</Button>
+                      onClick={this.onAddItem}
+                    >+</Button>
                   </Col>
                 </Row>
               </form>
@@ -107,8 +133,8 @@ class GridContainer extends Component {
             </Col>
           </Row>
 
-          <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingRight: "20px" }}>
-            <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
+          <Row style={{ paddingTop: "20px", paddingRight: "20px" }}>
+            <Divider style={{ borderColor: "#42dad6" }} />
             <Col span={4}>
               <Card style={{ width: 200 }}>
                 <DownloadOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
@@ -155,10 +181,12 @@ class GridContainer extends Component {
   }
 }
 const mapStateToProps = state => ({
-  appData: state.app
+  app: state.app
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  updateTestingPage
+}
 
 const Grid = connect(
   mapStateToProps,

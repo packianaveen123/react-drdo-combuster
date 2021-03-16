@@ -19,11 +19,11 @@ class RunningReport extends Component {
       .then(res => {
         console.log(res.data)
 
-        if (res.data == "success") {
+        if (res.data === "success") {
           console.log(values)
           alert("success")
         }
-        else if (res.data == "failed") {
+        else if (res.data === "failed") {
           alert("incorrect ")
         }
       })

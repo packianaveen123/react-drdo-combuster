@@ -1,62 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTurboConfig } from '../../../Redux/action';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Table, Form } from 'antd';
+import {turbineConfigSubmit} from '../../../Services/requests'
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form } from 'antd';
 import TableElement from '../../Components/TableElement';
 import SearchBox from '../../Components/SearchBox';
-import TitleElement from '../../Components/TitleElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import axios from 'axios';
-
 
 class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      truboData: '',
       nozzle_area: null,
     }
-  }
-
-  getConfigData = () => {
-    axios.get('http://localhost/TVS/turbo_config.php').then(res => {
-      let TurboData = res.data
-      this.props.updateTurboConfig(TurboData)
-      console.log(TurboData)
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
-  // TODO
-  // handle the fetch call from remote
-  componentDidMount() {
-    this.getConfigData()
-  }
+  }  
 
   onFinish = (values) => {
-    axios.post('http://localhost/TVS/turbo_config_validation.php', values)
-      .then(res => {
-        if (res.data == "success") {
-          this.getConfigData()
-        }
-        else { }
-      }).catch(err => {
-        console.log(err.res)
-      })
+    turbineConfigSubmit(values, (data) => {
+      this.props.updateTurboConfig(data)
+    })
   }
-
-  // handleNumber = (e) => {
-  //   let nam = e.target.name;
-  //   let val = e.target.value;
-  //   if (nam === "nozzle_area") {
-  //     if (!Number(val)) {
-  //       alert("Your age must be a number");
-  //     }
-  //   }
-  //   this.setState({[nam]: val});
-  // }
 
   render() {
     const { appData } = this.props;
@@ -92,14 +56,6 @@ class TurboConfig extends Component {
                 <div>
                   <Form.Item
                     name="nozzle_area" >
-                    {/* <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
-                      <InputNumber
-                        min={0.0002} max={0.0005} step={0.0002}
-                        defaultValue={0.003}
-                        onChange={onChange}
-                        placeholder="Nozzle Area"
-                        style={{ width: "320px" }} />
-                    </Tooltip> */}
                     <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
                       <InputNumber
                         name="nozzle_area"
@@ -159,7 +115,7 @@ class TurboConfig extends Component {
               <TableElement
                 data={turboConfig}
                 editable={true}
-              /> : []}
+              /> : [] }
           </Layout>
         </div>
       </div >

@@ -27,12 +27,12 @@ export const updateUserParameter = userParams => ({
     type: 'UPDATE_TRANSFER_ELEMENT',
     payload: data
   })
-  export const updateCurrentpage = data => ({
-    type: 'UPDATE_CURRENT_PAGE',
-    payload: data
-  })
   export const updateColorBar = data => ({
     type: 'UPDATE_COLOR_BAR',
+    payload: data
+  })
+  export const updateTestingPage = data => ({
+    type: 'UPDATE_TESTING_PAGE',
     payload: data
   })
   export const navigateMainPage = data => ({
