@@ -6,10 +6,6 @@ export default class SearcgBox extends Component {
   render() {
     return (
       <div >
-        {/* <Search placeholder="input search text"
-                allowClear onSearch={onSearch} 
-                 /> */}
-
         <Input type="search"
           name="search"
           placeholder="Search..."

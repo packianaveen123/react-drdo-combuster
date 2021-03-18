@@ -3,11 +3,12 @@ import { Card, Col, Row, Layout, Divider, Input, Select, Button } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
-  QuestionOutlined, RedoOutlined, DeleteOutlined
+  QuestionOutlined, RedoOutlined
 } from '@ant-design/icons';
 import { updateTestingPage } from '../../../Redux/action';
 import { connect } from 'react-redux';
 import RadioButton from '../RadioButton';
+import ListItems from '../../ListItems';
 
 const { Option } = Select;
 
@@ -15,42 +16,62 @@ class GridContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      testIdValue : [],
-      value: '',
-      list: [],
+      items: [],
+      currentItem: {
+        text: '',
+        text1: '',
+        key: ''
+      },
     }
+    this.addItem = this.addItem.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleInput1 = this.handleInput1.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
-
-  onChangeValue = event => {
-    this.setState({ value: event.target.value });
-  };
-
-  onAddItem = () => {
-    this.setState(state => {
-      // const list = state.list.concat(state.value);
-      const list = [...state.list, state.value];
-      return {
-        list,
-        value: '',
-      };
-    });
-  };
+  addItem(e) {
+    e.preventDefault();
+    const newItem = this.state.currentItem;
+    if (newItem.text !== "") {
+      const items = [...this.state.items, newItem];
+      this.setState({
+        items: items,
+        currentItem: {
+          text: '',
+          key: ''
+        }
+      })
+    }
+  }
+  handleInput(e) {
+    this.setState({
+      currentItem: {
+        text: e.target.value,
+        key: Date.now()
+      }
+    })
+  }
+  handleInput1(e) {
+    this.setState({
+      currentItem: {
+        text1: e.target.value,
+        key: Date.now()
+      }
+    })
+  }
+  deleteItem(key) {
+    const filteredItems = this.state.items.filter(item =>
+      item.key !== key);
+    this.setState({
+      items: filteredItems
+    })
+  }
 
   render() {
-    const appData = this.props.app;    
     const testIdValue = this.props.app.turboConfig;
-    console.log(testIdValue);
-    // const doubleValue = testIdValue.map()
-    const lists = this.state.list;
+
     return (
       <div style={{ paddingTop: "30px" }}>
-        <ul>
-          {lists.map(item => {
-            <li key={item}>{item}<DeleteOutlined style={{ color: "white" }} /></li>
-            console.log(lists);
-          })}
-        </ul>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
           <Row>
             <Col xs={8} style={{ paddingLeft: "20px" }}>
@@ -74,16 +95,11 @@ class GridContainer extends Component {
                   <Col span={6}>
                     <Input.Group compact>
                       <Select defaultValue="Select Turbo ID" style={{ width: '300px' }}>
-                        <Option value="Option1">
-                          {testIdValue.map(turbo_id => {
-                            <li key={turbo_id}>{turbo_id}</li>
-                            //console.log(testIdValue);
-                          })}
-                           {/* <span>{testIdValue ? testIdValue.turbo_id : ''}</span> */}
-                        </Option>
-                        {/* <Option value="Option2">Option2</Option>
-                        <Option value="Option3">Option3</Option>
-                        <Option value="Option4">Option4</Option> */}
+                        {testIdValue.map(it => (
+                          <Option key={it.TurboID} value={it.TurboID}>
+                            {it.TurboID}
+                          </Option>
+                        ))}
                       </Select>
                     </Input.Group>
                   </Col>
@@ -91,7 +107,7 @@ class GridContainer extends Component {
               </form>
             </Col>
             <Col xs={8}>
-              <form>
+              <form onSubmit={this.addItem}>
                 <Row>
                   <Col span={4}>
                     <label for="text" class="label" >Tester</label>
@@ -100,36 +116,51 @@ class GridContainer extends Component {
                     <Input placeholder="Tester"
                       name="Tester"
                       style={{ width: "300px" }}
-                      value={this.state.value}
-                      onChange={this.onChangeValue}
+                      value={this.state.currentItem.text}
+                      onChange={this.handleInput}
                     />
-                    {this.state.list ?
-                      <div style={{ color: 'white' }}>{this.state.list}</div> : []}
-
                   </Col>
                   <Col>
-                    <Button
-                      style={{ width: "2px" }}
-                      onClick={this.onAddItem}
-                    >+</Button>
+                    <button
+                      style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
+                      type="submit"
+                    >+</button>
                   </Col>
                 </Row>
               </form>
+              <Row style={{ paddingLeft: '5rem' }}>
+                <p>{this.state.items.text}</p>
+                <ListItems items={this.state.items} deleteItem={this.deleteItem} />
+              </Row>
             </Col>
+
             <Col xs={8}>
-              <form>
+              <form onSubmit={this.addItem}>
                 <Row>
                   <Col span={4}>
                     <label for="text" class="label" >Witness</label>
                   </Col>
                   <Col span={15}>
-                    <Input placeholder="Witness" style={{ width: "300px" }} />
+                    <Input placeholder="Witness"
+                      name="Witness"
+                      style={{ width: "300px" }}
+                      placeholder="Enter Witness"
+                      value={this.state.currentItem.text1}
+                      onChange={this.handleInput1}
+                    />
                   </Col>
                   <Col>
-                    <Button style={{ width: "2px" }}>+</Button>
+                    <button
+                      style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
+                      type="submit"
+                    >+</button>
                   </Col>
                 </Row>
               </form>
+              <Row style={{ paddingLeft: '5rem' }}>
+                <p>{this.state.items.text}</p>
+                <ListItems items={this.state.items} deleteItem={this.deleteItem} />
+              </Row>
             </Col>
           </Row>
 

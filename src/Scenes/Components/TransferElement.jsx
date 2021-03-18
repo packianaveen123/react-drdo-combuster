@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
 import { Col, Row, Button, Form, Transfer } from 'antd';
-import {updateTransferElement} from '../../Redux/action';
+import { updateTransferElement } from '../../Redux/action';
 import TurboConfig from '../Pages/ConfigurationPage/TurboConfig';
 class TransferElement extends React.Component {
   constructor(props) {

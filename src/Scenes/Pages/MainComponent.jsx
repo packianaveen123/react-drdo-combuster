@@ -14,9 +14,20 @@ import RunningReport from './Reports/RunningReport';
 import TestConfig from './ConfigurationPage/TestConfig'
 import ParamConfig from './ConfigurationPage/ParamConfig'
 import ExportData from './Reports/ExportData';
+import Demo from '../Demo'
 
-import { updateTurboConfig } from '../../Redux/action';
-import { getTurboConfigData } from '../../Services/requests';
+import {
+  updateTurboConfig, updateTestConfig,
+  updateParamConfig, updateChartData,
+  updateUserParameter
+} from '../../Redux/action';
+
+import {
+  getTurboConfigData, getTestConfigData,
+  getParamConfigData, requestChartData,
+  loginValidation
+} from '../../Services/requests';
+
 
 const { Content, Header, Footer } = Layout;
 
@@ -24,7 +35,6 @@ export class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.stste = {
-
     }
   }
 
@@ -32,6 +42,18 @@ export class MainComponent extends Component {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
       this.props.updateTurboConfig(data)
+    })
+    getTestConfigData((data) => {
+      this.props.updateTestConfig(data)
+    })
+    getParamConfigData((data) => {
+      this.props.updateParamConfig(data)
+    })
+    requestChartData((data) => {
+      this.props.updateChartData(data);
+    })
+    loginValidation((data) => {
+      this.props.updateUserParameter(data)
     })
   }
 
@@ -53,7 +75,7 @@ export class MainComponent extends Component {
             {mainPage === 'paramConfig' ? <ParamConfig /> : []}
             {mainPage === 'testPage' ? <TestPage /> : []}
             {mainPage === 'runningReport' ? <RunningReport /> : []}
-            {mainPage === 'exportData' ? <ExportData /> : []}
+            {mainPage === 'demo' ? <Demo /> : []}
           </Content>
         </Layout>
         <Footer><FooterElement /></Footer>
@@ -66,7 +88,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateTurboConfig
+  updateTurboConfig,
+  updateTestConfig,
+  updateParamConfig,
+  updateChartData,
+  updateUserParameter
 }
 
 const MainContainer = connect(

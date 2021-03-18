@@ -3,22 +3,21 @@ import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
 
 class StatusBlock extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-       cardList:this.props.cardlist,
-       persons: []
+    this.state = {
+      cardList: this.props.cardlist,
+      persons: []
     }
   }
-  
+
   render() {
-   console.log(this.props.app)
-   let {chartData} = this.props.app
-   const persons = chartData || chartData.legth > 1 ? chartData[0] : null
-   console.log(this.state.persons)
+    console.log(this.props.app)
+    let { chartData } = this.props.app
+    const persons = chartData || chartData.legth > 1 ? chartData[0] : null
+    console.log(this.state.persons)
     return (
-      
-        <div class="container-fluid">
+      <div class="container-fluid">
         <Row>
           <Col span={4} style={{ paddingLeft: "0px", paddingRight: "10px" }}>
             <div class="statistic-block block">
@@ -26,7 +25,7 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                 </Col>
-                <Col class="number dashtext-1" style={{ paddingLeft: '50%', fontSize: '25px' }}>
+                <Col class="number dashtext-1" style={{ paddingLeft: '30%', fontSize: '25px' }}>
                   <span>{persons ? persons.RPM : ''}</span>
                 </Col>
               </Row>
@@ -45,10 +44,8 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-2" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                 
-                    <span>{persons ? persons.T1 : ''}</span>
-                  
+                <Col class="number dashtext-2" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                  <span>{persons ? persons.T1 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -66,10 +63,9 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-3" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  
-                    <span>{persons ? persons.T2 : ''}</span>
-                  </Col>
+                <Col class="number dashtext-3" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                  <span>{persons ? persons.T2 : ''}</span>
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '55', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-3"></div>
@@ -86,10 +82,9 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  
-                    <span>{persons ? persons.T9 : ''}</span>
-                  </Col>
+                <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                  <span>{persons ? persons.T9 : ''}</span>
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
@@ -106,10 +101,9 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  
-                    <span>{persons ? persons.P2 : ''}</span>
-                  </Col>
+                <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                  <span>{persons ? persons.P2 : ''}</span>
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
@@ -126,10 +120,9 @@ class StatusBlock extends Component {
                 <Col>
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
-                <Col class="number dashtext-4" style={{ paddingLeft: '50%', fontSize: '25px' }}>
-                  
-                    <span>{persons ? persons.RPM : ''}</span>
-                  </Col>
+                <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                  <span>{persons ? persons.RPM : ''}</span>
+                </Col>
               </Row>
               <div class="progress progress-template">
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
@@ -154,7 +147,6 @@ const statuspage = connect(
   mapStateToProps,
   mapDispatchToProps
 )(StatusBlock)
-
 export default statuspage;
 
 

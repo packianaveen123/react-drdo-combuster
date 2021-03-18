@@ -1,7 +1,11 @@
 const url = {
   BASE_URL: 'http://localhost/TVS/',
   TURBO_CONFIG: 'turbo_config.php',
-  TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php'
+  TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
+  TEST_CONFIG: 'test_config.php',
+  PARAM_CONFIG: 'param_config.php',
+  LOGIN_VALIDATION: 'login_validation.php',
+  GRAPH_CHART_DATA: 'graph.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
@@ -12,8 +16,56 @@ const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
 { "key": "6", "Name": "Combustor Outlet Temperature 2" },
 { "key": "7", "Name": "Turbo Chrager Outlet Temperature 2" },
 { "key": "8", "Name": "Cumbustor Inlet pressure 2" },
-{ "key": "9", "Name": "Gas Inlet pressure" }    ]
+{ "key": "9", "Name": "Gas Inlet pressure" }]
 
+const titleElements = [
+  {
+    Name: "graphView",
+    Title: "Graph View",
+    Type: "Dashboard"
+  },
+  {
+    Name: "tableView",
+    Title: "Table View",
+    Type: "Dashboard"
+  },
+  {
+    Name: "testConfig",
+    Title: "Test Config",
+    Type: "Config"
+  },
+  {
+    Name: "turboConfig",
+    Title: "Turbo Config",
+    Type: "Config"
+  },
+  {
+    Name: "paramConfig",
+    Title: "Param Config",
+    Type: "Config"
+  },
+  {
+    Name: "dashboardConfig",
+    Title: "Dashboard Config",
+    Type: "Config"
+  },
+  {
+    Name: "testPage",
+    Title: "Test Page",
+    Type: "Test"
+  },
+  {
+    Name: "runningReport",
+    Title: "Running Report",
+    Type: "Report"
+  },
+  {
+    Name: "exportData",
+    Title: "Export Data",
+    Type: "Report"
+  },
+
+]
 export {
-  url, dashboardData
+  url, dashboardData, titleElements
 }

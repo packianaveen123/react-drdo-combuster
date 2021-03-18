@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTurboConfig } from '../../../Redux/action';
-import {turbineConfigSubmit} from '../../../Services/requests'
+import { turbineConfigSubmit } from '../../../Services/requests'
 import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form } from 'antd';
 import TableElement from '../../Components/TableElement';
 import SearchBox from '../../Components/SearchBox';
@@ -14,7 +14,7 @@ class TurboConfig extends Component {
     this.state = {
       nozzle_area: null,
     }
-  }  
+  }
 
   onFinish = (values) => {
     turbineConfigSubmit(values, (data) => {
@@ -87,7 +87,7 @@ class TurboConfig extends Component {
                   <Button htmlType="submit" > Save</Button>  </Form.Item>
               </Col>
               <Col xs={4}>
-                <Button > Clear</Button>
+                <Button> Clear</Button>
               </Col>
 
             </Row>
@@ -115,7 +115,7 @@ class TurboConfig extends Component {
               <TableElement
                 data={turboConfig}
                 editable={true}
-              /> : [] }
+              /> : []}
           </Layout>
         </div>
       </div >

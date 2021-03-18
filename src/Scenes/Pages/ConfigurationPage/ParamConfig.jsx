@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import {  updateParamConfig } from '../../../Redux/action';
+import { updateParamConfig } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, Select, InputNumber } from 'antd';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
-import TitleElement from '../../Components/TitleElement';
+
 const { Option } = Select;
 
 class ParamConfig extends Component {
@@ -16,21 +15,8 @@ class ParamConfig extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getParamData()
-  }
-  getParamData = () => {
-       axios.get('http://localhost/TVS/param_config.php').then(res => {
-        let paramData = res.data
-        this.props.updateParamConfig(paramData)
-        console.log(paramData)
-      }).catch((err) => {
-        console.log(err);
-      })
-  }
-  
-  render() {  
-    const appData = this.props.app;    
+  render() {
+    const appData = this.props.app;
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -121,24 +107,14 @@ class ParamConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Param Configuration</h2>
               </Col>
-              <Col span={10}><SearchBox /></Col>
-              <Col span={6}>
-                <Row style={{ paddingTop: '5px', paddingLeft: "18%", paddingBottom: '10px' }}>
-                  <Col span={8}>
-                    <Button > Excel</Button>
-                  </Col>
-                  <Col span={8}>
-                    <Button > PDF</Button>
-                  </Col>
-                </Row>
-              </Col>
+              <Col span={10}><SearchBox /></Col>             
             </Row>
 
             {appData.paramConfig ?
-            <TableElement
-              data={appData ? appData.paramConfig : []}           
-              editable={true}
-            />: []} 
+              <TableElement
+                data={appData ? appData.paramConfig : []}
+                editable={true}
+              /> : []}
           </Layout>
         </div>
       </div>

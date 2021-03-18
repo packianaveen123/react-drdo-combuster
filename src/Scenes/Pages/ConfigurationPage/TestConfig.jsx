@@ -4,7 +4,6 @@ import { updateTestConfig } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
-import axios from 'axios';
 
 class TestConfig extends Component {
   constructor(props) {
@@ -14,27 +13,10 @@ class TestConfig extends Component {
     }
   }
 
-  componentWillMount() {
-    this.getTestData()
-  }
-  getTestData() {
-    axios.get('http://localhost/TVS/test_config.php')
-      .then(res => {
-        let TestData = res.data;
-        this.props.updateTestConfig(TestData);
-        console.log(TestData)
-
-      }).catch((err) => {
-        console.log(err);
-      })
-  }
-
-  
-  render() {    
-    const testdata = this.props.app;    
+  render() {
+    const testdata = this.props.app;
     return (
-      <div style={{ paddingTop: "10px" }}>
-
+      <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
           <h2 class="h2" >Test Configuration</h2>
           <Form onFinish={this.onFinish}>
@@ -89,23 +71,16 @@ class TestConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Test Configuration</h2>
               </Col>
-              <Col span={10}><SearchBox /></Col>
-              <Col span={6}>
-                <Row style={{ paddingTop: '5px', paddingLeft: "18%", paddingBottom: '10px' }}>
-                  <Col span={8}>
-                    <Button > Excel</Button>
-                  </Col>
-                  <Col span={8}>
-                    <Button > PDF</Button>
-                  </Col>
-                </Row>
+              <Col span={10}>
+                <SearchBox />
               </Col>
-            </Row>            
+              
+            </Row>
             {testdata.testConfig ?
-            <TableElement
-              data={testdata.testConfig ? testdata.testConfig : []}             
-              editable={true}
-            />: []}  
+              <TableElement
+                data={testdata.testConfig ? testdata.testConfig : []}
+                editable={true}
+              /> : []}
           </Layout>
         </div>
       </div>

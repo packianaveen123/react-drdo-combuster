@@ -3,15 +3,15 @@ import { Col, Row } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateColorBar } from '../../Redux/action';
- class ColorBar extends Component {
-   constructor(props) {
-     super(props);
-     this.state = {
-      colors: []    
+class ColorBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      colors: []
     };
-     this.handleColorChange = this.handleColorChange.bind(this);
-   }
-  
+    this.handleColorChange = this.handleColorChange.bind(this);
+  }
+
   componentDidMount() {
     this.getMock();
   }
@@ -23,15 +23,15 @@ import { updateColorBar } from '../../Redux/action';
     }
     this.props.updateColorBar(colorChange);
   }
- 
-  handleInputChangeNC(e){
+
+  handleInputChangeNC(e) {
     console.log('CHANGE')
     this.setState({
       normalcolor: e.target.value
     })
     console.log(this.state.normalcolor)
   }
-  handleInputChangeUC(e){
+  handleInputChangeUC(e) {
     console.log('CHANGE')
     this.setState({
       uppercolor: e.target.value
@@ -45,84 +45,89 @@ import { updateColorBar } from '../../Redux/action';
         this.props.updateColorBar(ColorData);
         console.log(ColorData)
         this.setState({
-          colors : ColorData
+          colors: ColorData
         })
 
       }).catch((err) => {
         console.log(err);
-      })   
+      })
   }
-  
- 
-    render() {
-        return (
-            <div>
-                <Row style={{ paddingTop: "50px" }}>
-                    <Col span="8">
-                        <Row>
-                        <Col span="6">
-                            <label class="label">LowerColor</label>
-                        </Col>
-                    
-                        <Col span="6">
-                            <input type="color" 
-                            ng-model="LowerColor"
-                            class="form-control" 
-                            placeholder="Symbol"                             
-                            onChange={(innerHTML) => this.handleColorChange('low',innerHTML)}                          
-                            style={{width:"20rem",
-                            height:"30px",
-                            backgroundColor:"#131633",
-                            borderColor:"1 px solid #3e434d"}} />
 
-                        </Col>
-                        </Row>
-                    </Col>
+  render() {
+    return (
+      <div>
+        <Row style={{ paddingTop: "50px" }}>
+          <Col span="8">
+            <Row>
+              <Col span="6">
+                <label class="label">LowerColor</label>
+              </Col>
 
-                    <Col span="8">
-                        <Row>
-                        <Col span="6">
-                            <label class="label" >NormalColor</label>
-                        </Col>
-                    
-                        <Col span="6">
-                            <input type="color" 
-                            ng-model="LowerColor" 
-                            class="form-control" 
-                            placeholder="Symbol" 
-                            onChange={(innerHTML) => this.handleColorChange('normal',innerHTML)}                             
-                            style={{width:"20rem",
-                            height:"30px",
-                            backgroundColor:"#131633",
-                            borderColor:"1 px solid gray"}} />
+              <Col span="6">
+                <input type="color"
+                  ng-model="LowerColor"
+                  class="form-control"
+                  placeholder="Symbol"
+                  onChange={(innerHTML) => this.handleColorChange('low', innerHTML)}
+                  style={{
+                    width: "20rem",
+                    height: "30px",
+                    backgroundColor: "#131633",
+                    borderColor: "1 px solid #3e434d"
+                  }} />
 
-                        </Col>
-                        </Row>
-                    </Col>
+              </Col>
+            </Row>
+          </Col>
 
-                    <Col span="8">
-                        <Row>
-                        <Col span="6">
-                            <label class="label" >UpperColor</label>
-                        </Col>
-                    
-                        <Col span="6">
-                            <input type="color" 
-                            ng-model="LowerColor" 
-                            class="form-control" 
-                            placeholder="Symbol"                             
-                            onChange={(innerHTML) => this.handleColorChange('up', innerHTML)}                            
-                            style={{width:"20rem",
-                            height:"30px",
-                            backgroundColor:"#131633",
-                            borderColor:"1 px solid gray"}} />
-                        </Col>
-                        </Row>
-                    </Col>                    
-                </Row>
-            </div>
-        )
-    }
+          <Col span="8">
+            <Row>
+              <Col span="6">
+                <label class="label" >NormalColor</label>
+              </Col>
+
+              <Col span="6">
+                <input type="color"
+                  ng-model="LowerColor"
+                  class="form-control"
+                  placeholder="Symbol"
+                  onChange={(innerHTML) => this.handleColorChange('normal', innerHTML)}
+                  style={{
+                    width: "20rem",
+                    height: "30px",
+                    backgroundColor: "#131633",
+                    borderColor: "1 px solid gray"
+                  }} />
+
+              </Col>
+            </Row>
+          </Col>
+
+          <Col span="8">
+            <Row>
+              <Col span="6">
+                <label class="label" >UpperColor</label>
+              </Col>
+
+              <Col span="6">
+                <input type="color"
+                  ng-model="LowerColor"
+                  class="form-control"
+                  placeholder="Symbol"
+                  onChange={(innerHTML) => this.handleColorChange('up', innerHTML)}
+                  style={{
+                    width: "20rem",
+                    height: "30px",
+                    backgroundColor: "#131633",
+                    borderColor: "1 px solid gray"
+                  }} />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({

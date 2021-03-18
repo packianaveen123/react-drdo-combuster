@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Card, Col, Row } from 'antd';
 import GraphComponent from './ChartComponent';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import {updateChartData} from '../../../Redux/action';
+import {requestChartData} from '../../../Services/requests';
  
 class CardComponent extends Component {
   constructor(props) {
@@ -15,18 +15,8 @@ class CardComponent extends Component {
   }
 
   interval = setInterval(() => {
-    this.requestChartData();
+    requestChartData();
   }, 1000);
-
-  requestChartData() {
-    axios.get('http://localhost/TVS/graph.php').then(res => {     
-      let chartdata = res.data;
-      this.props.updateChartData(chartdata);
-      console.log(chartdata)
-    }).catch(err => {
-        console.log(err);
-      })
-  }
 
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })

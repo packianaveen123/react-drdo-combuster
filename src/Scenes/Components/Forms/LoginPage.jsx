@@ -3,7 +3,6 @@ import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined ,EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
 import { updateUserParameter } from '../../../Redux/action';
 
 class LoginPage extends Component {
@@ -14,28 +13,31 @@ class LoginPage extends Component {
     }
   }
   onFinish = (values) => {
-    axios.post('http://localhost/TVS/login_validation.php',
-      values,
-    )
+    loginValidation(values, (data) =>{
+      this.props.updateUserParameter(data) 
+    })
+    // axios.post('http://localhost/TVS/login_validation.php',
+    //   values,
+    // )
 
-      .then(res => {
-        console.log(res.data)
+    //   .then(res => {
+    //     console.log(res.data)
 
-        if (res.data == "success") {
-          this.props.updateUserParameter(values)
-          //this.setState({ redirect: true });
-          //console.log(values)
-          alert("success")
-        }
-        else if (res.data == "failed") {
-          this.state.IsLogin = true;
-          console.log(this.state.IsLogin)
-          this.setState({ redirect: false });
-        }
-      })
-      .catch(err => {
-        console.log(err.res)
-      })
+    //     if (res.data == "success") {
+    //       this.props.updateUserParameter(values)
+    //       //this.setState({ redirect: true });
+    //       //console.log(values)
+    //       alert("success")
+    //     }
+    //     else if (res.data == "failed") {
+    //       this.state.IsLogin = true;
+    //       console.log(this.state.IsLogin)
+    //       this.setState({ redirect: false });
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err.res)
+    //   })
   };
   render() {
     return (
