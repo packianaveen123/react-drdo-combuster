@@ -66,11 +66,11 @@ const requestChartData = (callBack) => {
 const loginValidation = (values, callBack) => {
   axios.post(loginValidationUrl, values)
     .then(res => {
-      if (res.data == "success") {
+      if (res.data === "success") {
         alert("success")
         callBack(res.data)
       }
-      else if (res.data == "failed") {
+      else if (res.data === "failed") {
         this.state.IsLogin = true;
         this.setState({ redirect: false });
       }

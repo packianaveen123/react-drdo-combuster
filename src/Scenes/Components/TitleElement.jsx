@@ -8,18 +8,16 @@ class TitleElement extends Component {
     this.state = {
       titleValue: ''
     }
-
   }
   render() {
     const titleValue = this.props.app.titleElements;
     console.log(titleValue);
     return (
       <div>
-        {titleValue.filter(it => (
-          it.Name = this.props.titleValue
+        {/* {titleValue.filter(it => (
+          it.name === this.props.titleValue
         )
-        )}
-
+        )} */}
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px", paddingTop: '10px' }}>
           <Row>
             <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek </text>

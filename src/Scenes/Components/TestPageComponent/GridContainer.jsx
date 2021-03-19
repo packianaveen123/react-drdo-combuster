@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Layout, Divider, Input, Select, Button } from 'antd';
+import { Card, Col, Row, Layout, Divider, Input, Select } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
@@ -11,59 +11,69 @@ import RadioButton from '../RadioButton';
 import ListItems from '../../ListItems';
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 class GridContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items: [],
-      currentItem: {
-        text: '',
-        text1: '',
-        key: ''
+      testerItems: [],
+      witnessItems: [],
+      currentTesterItem: {
+        text: ''
       },
+      currentWitnessItem: {
+        text: ''
+      }
     }
     this.addItem = this.addItem.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleInput1 = this.handleInput1.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
+    this.handleTesterInput = this.handleTesterInput.bind(this);
+    this.handleWitnessInput = this.handleWitnessInput.bind(this);
+    this.deleteTesterItem = this.deleteTesterItem.bind(this);
+    this.deleteWitnessItem = this.deleteWitnessItem.bind(this);
   }
 
-  addItem(e) {
+  addItem(e, key) {
+    console.log(e, key)
     e.preventDefault();
-    const newItem = this.state.currentItem;
+    const { currentTesterItem, currentWitnessItem, testerItems, witnessItems } = this.state
+    const newItem = key === 'tester' ? currentTesterItem : currentWitnessItem
     if (newItem.text !== "") {
-      const items = [...this.state.items, newItem];
-      this.setState({
-        items: items,
-        currentItem: {
-          text: '',
-          key: ''
-        }
-      })
+      key === 'tester' ?
+        this.setState({ testerItems: [...testerItems, newItem] }) :
+        this.setState({ witnessItems: [...witnessItems, newItem] })
     }
   }
-  handleInput(e) {
+  handleTesterInput(e) {
     this.setState({
-      currentItem: {
-        text: e.target.value,
-        key: Date.now()
+      currentTesterItem: {
+        text: e.target.value
       }
     })
   }
-  handleInput1(e) {
+  handleWitnessInput(e) {
     this.setState({
-      currentItem: {
-        text1: e.target.value,
-        key: Date.now()
+      currentWitnessItem: {
+        text: e.target.value
       }
     })
   }
-  deleteItem(key) {
-    const filteredItems = this.state.items.filter(item =>
+  deleteTesterItem(e, key) {
+    const { testerItems, witnessItems } = this.state
+    const selectItem = key === 'tester' ? testerItems : witnessItems
+    const filteredItems = this.state.testerItems.filter(item =>
       item.key !== key);
     this.setState({
-      items: filteredItems
+      testerItems: [filteredItems, selectItem]
+    })
+  }
+  deleteWitnessItem(key) {
+    const { testerItems, witnessItems } = this.state
+    const selectItem = key === 'witness' ? testerItems : witnessItems
+    const filteredItems = this.state.witnessItems.filter(item =>
+      item.key !== key);
+    this.setState({
+      witnessItems: [filteredItems, selectItem]
     })
   }
 
@@ -107,7 +117,7 @@ class GridContainer extends Component {
               </form>
             </Col>
             <Col xs={8}>
-              <form onSubmit={this.addItem}>
+              <form onSubmit={(e) => this.addItem(e, 'tester')}>
                 <Row>
                   <Col span={4}>
                     <label for="text" class="label" >Tester</label>
@@ -116,8 +126,8 @@ class GridContainer extends Component {
                     <Input placeholder="Tester"
                       name="Tester"
                       style={{ width: "300px" }}
-                      value={this.state.currentItem.text}
-                      onChange={this.handleInput}
+                      value={this.state.currentTesterItem.text}
+                      onChange={this.handleTesterInput}
                     />
                   </Col>
                   <Col>
@@ -129,13 +139,19 @@ class GridContainer extends Component {
                 </Row>
               </form>
               <Row style={{ paddingLeft: '5rem' }}>
-                <p>{this.state.items.text}</p>
-                <ListItems items={this.state.items} deleteItem={this.deleteItem} />
+                <Select
+                  mode="multiple"
+                  defaultValue={this.state.testerItems}
+                  onChange={this.deleteTesterItem}
+                  style={{ width: '100%' }}
+                />
+                {/*                 
+                <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} /> */}
               </Row>
             </Col>
 
             <Col xs={8}>
-              <form onSubmit={this.addItem}>
+              <form onSubmit={(e) => this.addItem(e, 'witness')}>
                 <Row>
                   <Col span={4}>
                     <label for="text" class="label" >Witness</label>
@@ -145,8 +161,8 @@ class GridContainer extends Component {
                       name="Witness"
                       style={{ width: "300px" }}
                       placeholder="Enter Witness"
-                      value={this.state.currentItem.text1}
-                      onChange={this.handleInput1}
+                      value={this.state.currentWitnessItem.text}
+                      onChange={this.handleWitnessInput}
                     />
                   </Col>
                   <Col>
@@ -158,8 +174,7 @@ class GridContainer extends Component {
                 </Row>
               </form>
               <Row style={{ paddingLeft: '5rem' }}>
-                <p>{this.state.items.text}</p>
-                <ListItems items={this.state.items} deleteItem={this.deleteItem} />
+                <ListItems items={this.state.witnessItems} deleteItem={this.deleteWitnessItem} />
               </Row>
             </Col>
           </Row>
