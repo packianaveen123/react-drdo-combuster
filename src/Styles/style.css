@@ -96,7 +96,7 @@
 }
 .ant-layout-sider-children {
   height: 100%;
-  min-height: 768px;
+  min-height: 1024px;
   margin-top: 7.9px;
   padding-top: 4.1px;
 }
@@ -289,7 +289,7 @@
   background-color : #42dbdc;
   color:black;
   font-weight: bold !important;
-  border: 1px solid #1e7272;
+  border: 2px solid #1e7272;
   border-radius: 0.35rem;
   width: 75px ;
   height: 42px ;
@@ -680,4 +680,43 @@
   /* background: #131633; */
   color: #fff;
   padding: 10px;
+  width: 231px;
 }
+/* list */
+
+.list{
+  color: #fff;
+  /* width: 300px;
+  margin: 20px auto;
+  height: 50px; */
+  background-color: #131633;
+  /* border-radius: 5px; */
+}
+.list p{
+  /* padding: 0px; */
+  position: relative;
+  transition: ease-in-out;
+}
+.list p input{
+  background-color: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+}
+.list p input:focus{
+  outline: none;
+}
+.list p span{
+  position: absolute;
+  /* right: 10px; */
+}
+.faicons{
+  margin: 0 5px;
+  font-size: 15px;
+  cursor: pointer;
+  padding-top: 10px;
+}
+
+
+
+

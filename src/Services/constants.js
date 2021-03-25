@@ -1,11 +1,13 @@
 const url = {
-  BASE_URL: 'http://localhost/TVS/',
+  BASE_URL: 'http://192.168.0.167:5000/',
   TURBO_CONFIG: 'turbo_config.php',
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
   PARAM_CONFIG: 'param_config.php',
   LOGIN_VALIDATION: 'login_validation.php',
-  GRAPH_CHART_DATA: 'graph.php'
+  GRAPH_CHART_DATA: 'graph.php',
+  SHUTDOWN_CLICK: 'shutdown.php',
+  RESET_CLICK: 'reset.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },

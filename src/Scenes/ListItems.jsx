@@ -3,15 +3,16 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 function ListItems(props) {
   const items = props.items;
+
   const listItems = items.map(item => {
+    console.log(item)
     return <div className="list" key={item.key}>
       <p>
         <input type="text" id={item.key} value={item.text} />
         <span>
-          <DeleteOutlined style={{ color: 'white' }} className="faicons"
-            onClick={() => {
-              props.deleteItem(item.key)
-            }} icon="trash" />
+          <DeleteOutlined className="faicons" onClick={() => {
+            props.deleteItem(item.text)
+          }} icon="trash" />
         </span>
       </p>
     </div>
@@ -21,4 +22,4 @@ function ListItems(props) {
   </div>;
 }
 
-export default ListItems
+export default ListItems;

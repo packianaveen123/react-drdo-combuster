@@ -37,6 +37,64 @@ const appReducer = (state = InitialState, action) => {
     case 'NAVIGATE_MAIN_PAGE':
       newState.mainPage = action.payload ? action.payload : "dashboardConfig"
       return newState
+    case 'SHUTDOWN_INITIATED':
+      newState.shutdownInitiated = true                             //shutdownInitiated
+      return newState
+    case 'SHOW_RESET_INITIATED':
+      newState.showReset = true                                     //showReset
+      return newState
+    case 'COMMUNICATION_FAILED_INITIATED':
+      newState.communicationFailed = true                                   //communicationFailed
+      return newState
+    case 'COMMUNICATION_INITIATED':
+      newState.communication = true                                   //communication
+      return newState
+    case 'TARGET_STATE_INITIATED':
+      newState.targetState = true                                   //targetState
+      return newState
+    case 'SHOW_TARGET_INITIATED':
+      newState.showTarget = true                                   //showTarget
+      return newState
+    case 'TURBO_START_INITIATED':
+      newState.turboStart = true                                   //turboStart
+      return newState
+    case 'GAS_OPEN_INITIATED':
+      newState.gasOpend = true                                   //gasOpend
+      return newState
+    case 'STAGE_ONE_INITIATED':
+      newState.stageOne = true                                   //stageOne
+      return newState
+    case 'FUEL_OPENED_INITIATED':
+      newState.fuelOpened = true                                   //fuelOpened
+      return newState
+    case 'STAGE_TWO_INITIATED':
+      newState.stageTwo = true                                   //stageTwo
+      return newState
+    case 'GAS_CLOSED':
+      newState.gasClosed = true                                   //gasClosed
+      return newState
+    case 'STAGE_THREE_INITIATED':
+      newState.stageThree = true                                   //stageThree
+      return newState
+    case 'CURRENT_DATE_TIME':
+      newState.currentDateTime = action.payload                                 //currentDateTime
+      return newState
+    case 'TARGET_RPM':
+      newState.targetRPM = action.payload                                 //targetRPM
+      return newState
+    case 'TARGET_TEMP':
+      newState.targetTemp = action.payload                                 //targetTemp
+      return newState
+    case 'RESET_TEMP':
+      newState.resetTemp = action.payload                                 //resetTemp
+      return newState
+    case 'RESET_RPM':
+      newState.resetRPM = action.payload                                 //resetRPM
+      return newState
+
+
+
+
     default:
       return newState
   }

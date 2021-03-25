@@ -62,7 +62,7 @@ export class MainComponent extends Component {
     const { mainPage } = appData;
     return (
       <Layout>
-        <Header style={{ paddingLeft: '0', paddingRight: '0' }}><HeaderComponent /></Header>
+        <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>
         <Layout>
           <LeftbarComponent />
           <Content>

@@ -45,9 +45,9 @@ class TurboConfig extends Component {
                 <span> &nbsp; &nbsp; &nbsp;</span>
               </Col>
               <Col sm={5}>
-                <Form.Item name="date">
-                  <DatePicker defaultValue={moment('2015-01-01', 'YYYY-MM-DD')} style={{ backgroundColor: "#131633" }} />
-                </Form.Item>
+                <Input.Group compact>
+                  <DatePicker defaultValue={moment(Date.Now)} style={{ backgroundColor: "#131633" }} />
+                </Input.Group >
               </Col>
               <Col sm={2}>
                 <label class="label">Nozzle Area<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>

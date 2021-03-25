@@ -15,7 +15,6 @@ class HeaderComponent extends Component {
   }
   collapse = () => {
     this.props.toggleLeftBar()
-
   }
   render() {
     const { collapsed } = this.props.app.leftBarView;

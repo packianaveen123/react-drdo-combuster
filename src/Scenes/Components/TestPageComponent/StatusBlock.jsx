@@ -1,23 +1,59 @@
 import React, { Component } from "react";
 import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
-
+const styles = {
+  online: {
+    color: "green",
+    position: "absolute",
+    right: 20,
+    top: 60,
+    fontWeight: "bold"
+  },
+  offline: {
+    color: "red",
+    position: "absolute",
+    right: 20,
+    top: 120,
+    fontWeight: "bold",
+    fontSize: 20
+  }
+}
 class StatusBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cardList: this.props.cardlist,
-      persons: []
+      persons: [],
+      isRpmUpArrow: true,
+      isT1UpArrow: true,
+      isT2UpArrow: true,
+      isT9UpArrow: true,
+      isP2UpArrow: true
     }
   }
 
   render() {
-    console.log(this.props.app)
-    let { chartData } = this.props.app
-    const persons = chartData || chartData.legth > 1 ? chartData[0] : null
-    console.log(this.state.persons)
+    console.log(this.props.app.chartData[0])
+    // let { chartData } = this.props.app.chartData[0]
+    let persons;
+    { this.props.app.chartData[0] ? persons = this.props.app.chartData[0] : persons = '' }
+    const date = new Date();
+    const receivedDate = persons.testdatadate;
+    const db_date = new Date(receivedDate);
+    let isActive = false;
+    if ((date - db_date) < 20000) { isActive = true }
+    // console.log(persons.testdatadate)
     return (
       <div class="container-fluid">
+        <div className="machinestatus">
+          <row>
+            {isActive ?
+              <text style={styles.online}>LIVE</text>
+              :
+              <text style={styles.offline}>OFFLINE</text>
+            }
+          </row>
+        </div>
         <Row>
           <Col span={4} style={{ paddingLeft: "0px", paddingRight: "10px" }}>
             <div class="statistic-block block">
@@ -26,7 +62,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                 </Col>
                 <Col class="number dashtext-1" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.RPM : ''}</span>
+                  <span>{persons ? persons.rpm1rpm2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -45,7 +81,7 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-2" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.T1 : ''}</span>
+                  <span>{persons ? persons.T1T2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -64,7 +100,7 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-3" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.T2 : ''}</span>
+                  <span>{persons ? persons.T3T4 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -83,7 +119,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.T9 : ''}</span>
+                  <span>{persons ? persons.P1P2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -102,7 +138,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.P2 : ''}</span>
+                  <span>{persons ? persons.G1G2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -121,7 +157,7 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.RPM : ''}</span>
+                  <span>{persons ? persons.P3 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">

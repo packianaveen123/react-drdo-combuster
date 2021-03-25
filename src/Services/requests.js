@@ -9,6 +9,8 @@ const testConfigUrl = `${BASE_URL}${URL.TEST_CONFIG}`
 const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
 const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const graphChartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
+const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
+const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 
 const getTurboConfigData = (callBack) => {
   axios.get(turboConfigUrl).then(res => {
@@ -57,6 +59,7 @@ const requestChartData = (callBack) => {
   axios.get(graphChartDataUrl)
     .then(res => {
       let chartData = res.data;
+      console.log(chartData)
       callBack(chartData)
     }).catch(err => {
       console.log(err);
@@ -80,11 +83,31 @@ const loginValidation = (values, callBack) => {
     })
 }
 
+const shutdownClickEvent = (callBack) => {
+  axios.post(shutdownClickEventUrl)
+    .then(function (response) {
+      let shutdownValue = response
+      callBack(shutdownValue)
+    }).catch((err) => {
+      console.log(err);
+    })
+}
+
+const resetClickEvent = (callBack) => {
+  axios.post(resetClickEventUrl, { ResetRPM: this.state.ResetRPM, ResetTemp: this.state.ResetTemp })
+    .then(function (response) {
+      let resetValue = response
+      callBack(resetValue)
+    })
+}
+
 export {
   getTurboConfigData,
   turbineConfigSubmit,
   getTestConfigData,
   getParamConfigData,
   requestChartData,
-  loginValidation
+  loginValidation,
+  shutdownClickEvent,
+  resetClickEvent
 }

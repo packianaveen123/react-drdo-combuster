@@ -4,12 +4,12 @@ import GridContainer from '../Components/TestPageComponent/GridContainer';
 import StatusBlock from '../Components/TestPageComponent/StatusBlock';
 
 export default class TestPage extends Component {
-    render() {
-        return (
-            <div >
-                <StatusBlock/>
-                <GridContainer/>        
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div >
+        <StatusBlock />
+        <GridContainer />
+      </div>
+    )
+  }
 }
