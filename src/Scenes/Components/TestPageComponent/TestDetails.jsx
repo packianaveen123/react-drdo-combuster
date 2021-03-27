@@ -44,6 +44,7 @@ class GridContainer extends Component {
     }
     this.state.currentTesterItem = '';
     this.state.currentWitnessItem = '';
+
   }
   handleTesterInput(e) {
     this.setState({

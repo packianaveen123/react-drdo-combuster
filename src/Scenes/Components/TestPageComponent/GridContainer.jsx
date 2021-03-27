@@ -23,7 +23,7 @@ import {
 import { connect } from 'react-redux';
 import TestDetails from './TestDetails'
 import axios from 'axios';
-
+import Post from '../../Pages/Post';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -33,8 +33,11 @@ class GridContainer extends Component {
     super(props)
     var today = new Date(),
       time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-
+    this.postID = 0;
     this.state = {
+      resetTemp: [],
+      Body: '',
+      id: ''
       // testerValue: false,
       // testValue: '',
       // currentDateTime: time,
@@ -188,6 +191,28 @@ class GridContainer extends Component {
     }
   }
 
+  setPost = (event) => {
+    this.setState({
+      Body: event.target.value
+    })
+  }
+
+  addPost = () => {
+    this.postID = this.postID + 1;
+    const copyPostArray = Object.assign([], this.state.resetTemp)
+    copyPostArray.push({
+      id: this.postID,
+      body: this.state.Body
+    })
+    this.setState({
+      resetTemp: copyPostArray
+    })
+  }
+
+
+
+
+
   render() {
     const appData = this.props.app;
     const shutdownInitiated = this.props.app.shutdownInitiated;
@@ -297,7 +322,7 @@ class GridContainer extends Component {
                 }
                 {
                   showTarget ?
-                    <div>Target Temp : {targetTemp} Target RPM : {targetRPM}
+                    <div>Target Temp : {targetTemp}<br></br> Target RPM : {targetRPM}
                     </div> : []
                 }
                 {
@@ -392,33 +417,49 @@ class GridContainer extends Component {
                       </Row>
                       <Row>
                         <Input
-                          value={resetTemp}
-                          onChange={this.onChangeResettempvalue}
+                          // value={resetTemp}
+                          // onChange={this.onChangeResettempvalue}
+                          onBlur={this.setPost}
                           name="ResetTemp"
                           style={{ width: "75px" }}
                         />
 
-                        <Input
+                        {/* <Input
                           value={resetRPM}
                           onChange={this.onChangeResetRPMvalue}
                           name="ResetRPM"
                           style={{ width: "75px" }}
-                        />
+                        /> */}
 
-                        <Button style={{ width: "2px" }} onClick={() => this.ResetonClick()}>
+                        <Button
+                          style={{ width: "2px" }}
+                          // onClick={() => this.ResetonClick()}
+                          onClick={this.addPost}
+                        >
                           +
                         </Button>
                       </Row>
                     </p>
                     : []
                 }
-                {
+                {/* {
                   showReset ?
                     <div>
                       Target Temp : {resetTemp} <br></br>
                        Target RPM : {resetRPM}
                     </div> : []
-                }
+                } */}
+                <ul>
+                  {
+                    this.state.resetTemp.map((post, index) => {
+                      <Post
+                        key={post.id}
+                        id={post.id}
+                        body={post.body}
+                      />
+                    })
+                  }
+                </ul>
               </Card>,
             </Col>
 

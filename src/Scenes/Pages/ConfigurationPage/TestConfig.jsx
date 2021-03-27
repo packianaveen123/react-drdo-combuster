@@ -15,6 +15,7 @@ class TestConfig extends Component {
 
   render() {
     const testdata = this.props.app;
+    console.log(testdata)
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -34,6 +35,7 @@ class TestConfig extends Component {
               <Col sm={2}>
                 <label class="label" >Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               </Col>
+
               <Col sm={10}>
                 <Form.Item>
                   <InputNumber
@@ -74,13 +76,15 @@ class TestConfig extends Component {
               <Col span={10}>
                 <SearchBox />
               </Col>
-              
+
             </Row>
-            {testdata.testConfig ?
-              <TableElement
-                data={testdata.testConfig ? testdata.testConfig : []}
-                editable={true}
-              /> : []}
+            {
+              testdata.testConfig ?
+                <TableElement
+                  data={testdata.testConfig ? testdata.testConfig : []}
+                  editable={true}
+                /> : []
+            }
           </Layout>
         </div>
       </div>
