@@ -47,8 +47,6 @@ export default class Demo extends Component {
           +
                         </Button>
 
-
-
         <ul>
           {
             this.state.resetTemp.map((post, index) => {
@@ -64,3 +62,4 @@ export default class Demo extends Component {
     )
   }
 }
+

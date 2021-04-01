@@ -4,6 +4,7 @@ import { updateTestConfig } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
 import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
+import axios from 'axios';
 
 class TestConfig extends Component {
   constructor(props) {
@@ -13,6 +14,17 @@ class TestConfig extends Component {
     }
   }
 
+  onFinish = (values) => {
+    axios.post('http://192.168.0.167:5000/testconfigedit.php', values)
+      .then(res => {
+        if (res.data == "success") {
+
+        }
+        else { }
+      }).catch(err => {
+        console.log(err.res)
+      })
+  }
   render() {
     const testdata = this.props.app;
     console.log(testdata)
@@ -83,6 +95,7 @@ class TestConfig extends Component {
                 <TableElement
                   data={testdata.testConfig ? testdata.testConfig : []}
                   editable={true}
+
                 /> : []
             }
           </Layout>

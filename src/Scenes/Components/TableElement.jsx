@@ -1,69 +1,96 @@
 import React, { Component } from 'react'
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space } from 'antd';
+import { Table, Space, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
+
 const { Column } = Table;
 
 class TableComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inEditMode: {
-        status: false,
-        rowKey: null
-      }
+      EditMode: false,
+      data: [],
+      editRowIndex: null,
+      inputData: null
     }
-  }
-  handleClick(event) {
-    console.log('this is:', event);
-    alert('Button Clicked!');
-  }
-  handleButtonClick = () => {
-    alert('Button Clicked!');
+    this.updateInputValue = this.updateInputValue.bind(this);
   }
 
+  handleButtonClick = (index) => {
+    this.setState({
+      EditMode: true,
+      editRowIndex: index
+    })
+  }
+
+  updateInputValue = (event) => {
+    console.log(event)
+    this.setState
+      ({
+        inputData: event.target.value
+      })
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      data: props.data
+    };
+  }
   render() {
-    const { data } = this.props;
-    console.log(data)
-    const edit = ["edit"]
-    const val = data.concat(edit)
-    console.log(val)
-    let columns = []
-    let columnss = []
-    if ((data !== null || data !== undefined) && data.length > 0) {
-      columnss = Object.keys(data[0])
-      columns = columnss.concat(edit)
+    const { data, EditMode, editRowIndex } = this.state;
+    data.forEach((it, index) => {
+      it['Edit'] = <Space size="middle">
+        <EditOutlined style={{ fontSize: '18px' }} onClick={() => this.handleButtonClick(index)} />
+      </Space>
+    })
+    if (EditMode) {
+      data.forEach((item, currentIndex) => {
+        if (currentIndex === editRowIndex) {
+          Object
+            .keys(item)
+            .map((it) => {
+              item[it] =
+                it === 'Edit' ?
+                  <span>
+                    <a onClick={() => this.updateData('save')} style={{ marginRight: 8 }}>
+                      Save
+                    </a>
+                    <Popconfirm title="Sure to cancel?" onConfirm={() => this.updateData('cancel')}>
+                      <a>Cancel</a>
+                    </Popconfirm>
+                  </span>
+                  :
+                  <Input
+                    style={{ width: '300px' }}
+                    defaultValue={item[it]}
+                    value={this.state.it}
+                    onChange={this.updateInputValue}
+                  ></Input>
 
+              console.log(this.state.inputData, editRowIndex)
+            })
+        }
+      })
     }
-    console.log(columns)
+    let columns = []
+    if ((data !== null || data !== undefined) && data.length > 0) {
+      columns = Object.keys(data[0])
+    }
     return (
       <div>
         <Table
           dataSource={data}
           style={{ backgroundColor: "#131633" }}
-          onSelect={(e) => this.handleClick}
         >
           {
-
             columns && columns.length > 0 ?
               columns.map((col) => {
                 return <Column title={col} key={col} dataIndex={col}
                 />
               }) : []
           }
-          {/* {
-            this.props.editable ?
-              <Column
-                title="Edit"
-                key="edit"
-                style={{ fontSize: '20px' }}
-                render={() => (
-                  <Space size="middle">
-                    <EditOutlined style={{ fontSize: '18px' }} onClick={this.handleButtonClick} />
-                  </Space>
-                )}
-              /> : []
-          } */}
+
         </Table>
       </div>
     )

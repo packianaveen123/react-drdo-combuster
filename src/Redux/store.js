@@ -12,6 +12,9 @@ const InitialState = {
   testingPage: [],
   dashboardData: dashboardData,
   titleElements: titleElements,
+  editRowIndex: null,
+  inputData: null,
+  EditMode: false,
 
   testDetails: false,
   testerValue: false,

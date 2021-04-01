@@ -37,6 +37,17 @@ const appReducer = (state = InitialState, action) => {
     case 'NAVIGATE_MAIN_PAGE':
       newState.mainPage = action.payload ? action.payload : "dashboardConfig"
       return newState
+    case 'UPDATE_EDIT_ROWINDEX':
+      newState.editRowIndex = action.payload
+      return newState
+    case 'UPDATE_INPUT_DATA':
+      newState.inputData = action.payload
+      return newState
+    case 'EDITMODE_INITIATED':
+      newState.EditMode = true
+      return newState
+
+
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true                             //shutdownInitiated
       return newState
@@ -44,7 +55,7 @@ const appReducer = (state = InitialState, action) => {
       newState.showReset = true                                     //showReset
       return newState
     case 'COMMUNICATION_FAILED_INITIATED':
-      newState.communicationFailed = true                                   //communicationFailed
+      newState.communicationFailed = true                            //communicationFailed
       return newState
     case 'COMMUNICATION_INITIATED':
       newState.communication = true                                   //communication
@@ -77,19 +88,19 @@ const appReducer = (state = InitialState, action) => {
       newState.stageThree = true                                   //stageThree
       return newState
     case 'CURRENT_DATE_TIME':
-      newState.currentDateTime = action.payload                                 //currentDateTime
+      newState.currentDateTime = action.payload                    //currentDateTime
       return newState
     case 'TARGET_RPM':
-      newState.targetRPM = action.payload                                 //targetRPM
+      newState.targetRPM = action.payload                           //targetRPM
       return newState
     case 'TARGET_TEMP':
-      newState.targetTemp = action.payload                                 //targetTemp
+      newState.targetTemp = action.payload                            //targetTemp
       return newState
     case 'RESET_TEMP':
-      newState.resetTemp = action.payload                                 //resetTemp
+      newState.resetTemp = action.payload                            //resetTemp
       return newState
     case 'RESET_RPM':
-      newState.resetRPM = action.payload                                 //resetRPM
+      newState.resetRPM = action.payload                             //resetRPM
       return newState
 
 

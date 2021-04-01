@@ -39,6 +39,28 @@ export const navigateMainPage = data => ({
   type: 'NAVIGATE_MAIN_PAGE',
   payload: data
 })
+// editRowIndex
+export const updateEditRowIndex = data => ({
+  type: 'UPDATE_EDIT_ROWINDEX',
+  payload: data
+})
+// inputData
+export const updateInputData = data => ({
+  type: 'UPDATE_INPUT_DATA',
+  payload: data
+})
+// EditMode
+export const initiateEditMode = bool => ({
+  type: 'EDITMODE_INITIATED',
+  payload: bool
+})
+// testConfigTableEdit
+export const testConfigTableEdit = data => ({
+  type: 'UPDATE_TEST_CONFIG_TABLEEDIT',
+  payload: data
+})
+
+
 
 // shutdownInitiated
 export const initiateShutdown = bool => ({
