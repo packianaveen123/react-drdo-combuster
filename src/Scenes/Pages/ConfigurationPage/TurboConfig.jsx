@@ -99,17 +99,6 @@ class TurboConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Turbo Configuration</h2>
               </Col>
-              <Col span={10}><SearchBox /></Col>
-              <Col span={6}>
-                <Row style={{ paddingTop: '5px', paddingLeft: "18%", paddingBottom: '10px' }}>
-                  <Col span={8}>
-                    <Button> Excel</Button>
-                  </Col>
-                  <Col span={8}>
-                    <Button> PDF</Button>
-                  </Col>
-                </Row>
-              </Col>
             </Row>
             {turboConfig ?
               <TableElement

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTestConfig } from '../../../Redux/action';
+import { updateTestConfig, updateTitleElements } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
-import SearchBox from '../../Components/SearchBox';
 import TableElement from '../../Components/TableElement';
 import axios from 'axios';
 
@@ -14,7 +13,7 @@ class TestConfig extends Component {
     }
   }
 
-  onFinish = (values) => {
+  updateData = (values) => {
     axios.post('http://192.168.0.167:5000/testconfigedit.php', values)
       .then(res => {
         if (res.data == "success") {
@@ -28,6 +27,14 @@ class TestConfig extends Component {
   render() {
     const testdata = this.props.app;
     console.log(testdata)
+    console.log(this.props.app.testConfig[0].testparamname)
+    console.log(this.props.app.testConfig.testparamvalue)
+    console.log(this.props.app.editRowIndex)
+    // this.props.updateTitleElements({
+    //   title: 'Test Config',
+    //   type: 'Config',
+
+    // })
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -85,17 +92,15 @@ class TestConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Test Configuration</h2>
               </Col>
-              <Col span={10}>
-                <SearchBox />
-              </Col>
+
 
             </Row>
             {
               testdata.testConfig ?
                 <TableElement
                   data={testdata.testConfig ? testdata.testConfig : []}
-                  editable={true}
-
+                  editable={testdata.testparamvalue}
+                  filters={"testparamvalue"}
                 /> : []
             }
           </Layout>
@@ -113,7 +118,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateTestConfig
+  updateTestConfig,
+  updateTitleElements
 }
 
 const testContainer = connect(

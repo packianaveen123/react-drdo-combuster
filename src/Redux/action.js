@@ -39,6 +39,10 @@ export const navigateMainPage = data => ({
   type: 'NAVIGATE_MAIN_PAGE',
   payload: data
 })
+export const updateTitleElements = data => ({
+  type: 'UPDATE_TITLE_ELEMENTS',
+  payload: data
+})
 // editRowIndex
 export const updateEditRowIndex = data => ({
   type: 'UPDATE_EDIT_ROWINDEX',

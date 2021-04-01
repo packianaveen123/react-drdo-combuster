@@ -37,6 +37,11 @@ const appReducer = (state = InitialState, action) => {
     case 'NAVIGATE_MAIN_PAGE':
       newState.mainPage = action.payload ? action.payload : "dashboardConfig"
       return newState
+    case 'UPDATE_TITLE_ELEMENTS':
+      newState.titleElements = action.payload ? action.payload : []
+      return newState
+
+
     case 'UPDATE_EDIT_ROWINDEX':
       newState.editRowIndex = action.payload
       return newState

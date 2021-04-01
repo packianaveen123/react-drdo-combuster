@@ -107,7 +107,6 @@ class ParamConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Param Configuration</h2>
               </Col>
-              <Col span={10}><SearchBox /></Col>             
             </Row>
 
             {appData.paramConfig ?
