@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateParamConfig } from '../../../Redux/action';
+import { updateParamConfig, updateTitleElements } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, Select, InputNumber } from 'antd';
-import SearchBox from '../../Components/SearchBox';
-import TableElement from '../../Components/TableElement';
+import TableElement from '../../Components/subComponents/TableElement';
 
 const { Option } = Select;
 
@@ -14,7 +13,12 @@ class ParamConfig extends Component {
       paramData: ''
     }
   }
-
+  componentDidMount() {
+    this.props.updateTitleElements({
+      title: 'Param Config',
+      type: 'Config',
+    })
+  }
   render() {
     const appData = this.props.app;
     return (
@@ -113,6 +117,8 @@ class ParamConfig extends Component {
               <TableElement
                 data={appData ? appData.paramConfig : []}
                 editable={true}
+                editableColumn={["unit_id", "upperlimit", "lowerlimit", "normallimit"]}
+                childrenColumnName={"Param Config"}
               /> : []}
           </Layout>
         </div>
@@ -129,7 +135,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateParamConfig
+  updateParamConfig,
+  updateTitleElements
 }
 
 const paramContainer = connect(

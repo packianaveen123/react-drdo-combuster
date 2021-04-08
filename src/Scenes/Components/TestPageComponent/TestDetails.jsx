@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Select } from 'antd';
 
 import { connect } from 'react-redux';
-import RadioButton from '../RadioButton';
-import ListItems from '../../ListItems';
+import RadioButton from '../subComponents/RadioButton'
+import ListItems from '../../Components/subComponents/ListItems'
 
 import axios from 'axios';
 const { Option } = Select;
@@ -37,11 +37,17 @@ class GridContainer extends Component {
     e.preventDefault();
     const { currentTesterItem, currentWitnessItem, testerItems, witnessItems } = this.state
     const newItem = key === 'tester' ? currentTesterItem : currentWitnessItem
-    if (newItem.text !== "") {
+    if (this.props.items === newItem) {
+      alert("exist")
+    }
+    else if (newItem.text !== "") {
+
       key === 'tester' ?
         this.setState({ testerItems: [...testerItems, newItem] }) :
         this.setState({ witnessItems: [...witnessItems, newItem] })
     }
+
+
     this.state.currentTesterItem = '';
     this.state.currentWitnessItem = '';
 
@@ -52,6 +58,8 @@ class GridContainer extends Component {
         text: e.target.value
       }
     })
+    console.log(e.target.value)
+
   }
   handleWitnessInput(e) {
     this.setState({
@@ -92,7 +100,9 @@ class GridContainer extends Component {
       console.log(err);
     })
   }
+  check = () => {
 
+  }
   render() {
     const testIdValue = this.props.app.turboConfig;
     const { value } = this.state;
@@ -161,13 +171,6 @@ class GridContainer extends Component {
                       type="submit"
                     >+</button>
                   </Col>
-                  {/* <Search
-                    placeholder="input search text"
-                    enterButton="+"
-                    size="large"
-                    style={{ width: '300px' }}
-                    type="text"
-                  /> */}
                 </Row>
               </form>
               <Row style={{ paddingLeft: '5rem' }}>

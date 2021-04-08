@@ -209,29 +209,25 @@ class GridContainer extends Component {
     })
   }
 
-
-
-
-
   render() {
     const appData = this.props.app;
-    const shutdownInitiated = this.props.app.shutdownInitiated;
-    const showReset = this.props.app.showReset;
-    const communicationFailed = this.props.app.communicationFailed
-    const communication = this.props.app.communication
-    const targetState = this.props.app.targetState
-    const showTarget = this.props.app.showTarget
-    const turboStart = this.props.app.turboStart;
-    const gasOpend = this.props.app.gasOpend;
-    const stageOne = this.props.app.stageOne;
-    const fuelOpened = this.props.app.fuelOpened;
-    const stageTwo = this.props.app.stageTwo;
-    const gasClosed = this.props.app.gasClosed;
-    const stageThree = this.props.app.stageThree;
-    const targetTemp = this.props.app.targetTemp;
-    const targetRPM = this.props.app.targetRPM;
-    const resetTemp = this.props.app.resetTemp;
-    const resetRPM = this.props.app.resetRPM;
+    const shutdownInitiated = appData.shutdownInitiated;
+    const showReset = appData.showReset;
+    const communicationFailed = appData.communicationFailed
+    const communication = appData.communication
+    const targetState = appData.targetState
+    const showTarget = appData.showTarget
+    const turboStart = appData.turboStart;
+    const gasOpend = appData.gasOpend;
+    const stageOne = appData.stageOne;
+    const fuelOpened = appData.fuelOpened;
+    const stageTwo = appData.stageTwo;
+    const gasClosed = appData.gasClosed;
+    const stageThree = appData.stageThree;
+    const targetTemp = appData.targetTemp;
+    const targetRPM = appData.targetRPM;
+    const resetTemp = appData.resetTemp;
+    const resetRPM = appData.resetRPM;
 
     console.log(this.props.app);
     console.log(this.props.app.communication)

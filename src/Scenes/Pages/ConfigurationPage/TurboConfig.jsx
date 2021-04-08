@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTurboConfig } from '../../../Redux/action';
+import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
 import { turbineConfigSubmit } from '../../../Services/requests'
 import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form } from 'antd';
-import TableElement from '../../Components/TableElement';
-import SearchBox from '../../Components/SearchBox';
+import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
@@ -15,7 +14,12 @@ class TurboConfig extends Component {
       nozzle_area: null,
     }
   }
-
+  componentDidMount() {
+    this.props.updateTitleElements({
+      title: 'Turbo Config',
+      type: 'Config',
+    })
+  }
   onFinish = (values) => {
     turbineConfigSubmit(values, (data) => {
       this.props.updateTurboConfig(data)
@@ -104,6 +108,8 @@ class TurboConfig extends Component {
               <TableElement
                 data={turboConfig}
                 editable={true}
+                editableColumn={["status"]}
+                childrenColumnName={"Turbo Config"}
               /> : []}
           </Layout>
         </div>
@@ -117,7 +123,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateTurboConfig
+  updateTurboConfig,
+  updateTitleElements
 }
 
 const TurboContainer = connect(

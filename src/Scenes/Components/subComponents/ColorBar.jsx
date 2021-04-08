@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Col, Row } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateColorBar } from '../../Redux/action';
+import { updateColorBar } from '../../../Redux/action';
 class ColorBar extends Component {
   constructor(props) {
     super(props);

@@ -59,7 +59,6 @@ const requestChartData = (callBack) => {
   axios.get(graphChartDataUrl)
     .then(res => {
       let chartData = res.data;
-      console.log(chartData)
       callBack(chartData)
     }).catch(err => {
       console.log(err);

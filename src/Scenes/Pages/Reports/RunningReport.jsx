@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Select, Form } from 'antd';
 import axios from 'axios';
-import TableElement from '../../Components/TableElement'
+import { updateTitleElements } from '../../../Redux/action'
+import { connect } from 'react-redux';
+import TableElement from '../../Components/subComponents/TableElement'
 const { Option } = Select;
 class RunningReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     }
   }
-
+  componentDidMount() {
+    this.props.updateTitleElements({
+      title: 'Running Report',
+      type: 'Report',
+    })
+  }
   onFinish = (values) => {
     axios.post('http://localhost/TVS/graph_data.php',
       values
@@ -75,7 +81,7 @@ class RunningReport extends Component {
                   </Input.Group> */}
                   <Input
                     style={{ backgroundColor: '#131633' }}
-                    
+
                     placeholder="Username"
                   />
                 </Form.Item>
@@ -105,4 +111,16 @@ class RunningReport extends Component {
     )
   }
 }
-export default RunningReport;
+const mapStateToProps = state => ({
+  app: state.app
+})
+const mapDispatchToProps = {
+  updateTitleElements
+}
+
+const runningReport = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RunningReport)
+
+export default runningReport;

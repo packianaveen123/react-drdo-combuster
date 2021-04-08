@@ -41,18 +41,6 @@ const appReducer = (state = InitialState, action) => {
       newState.titleElements = action.payload ? action.payload : []
       return newState
 
-
-    case 'UPDATE_EDIT_ROWINDEX':
-      newState.editRowIndex = action.payload
-      return newState
-    case 'UPDATE_INPUT_DATA':
-      newState.inputData = action.payload
-      return newState
-    case 'EDITMODE_INITIATED':
-      newState.EditMode = true
-      return newState
-
-
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true                             //shutdownInitiated
       return newState

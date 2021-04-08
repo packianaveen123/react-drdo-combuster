@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { Col, Row, Layout, Input, Button, Select } from 'antd';
-
+import { updateTitleElements } from '../../../Redux/action'
+import { connect } from 'react-redux';
 const { Option } = Select;
-export default class ExportData extends Component {
+class ExportData extends Component {
+  componentDidMount() {
+    this.props.updateTitleElements({
+      title: 'ExportData',
+      type: 'Report',
+    })
+  }
   render() {
     return (
       <div style={{ paddingTop: "1px" }}>
@@ -61,3 +68,18 @@ export default class ExportData extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  app: state.app
+})
+const mapDispatchToProps = {
+  updateTitleElements
+}
+
+const exportData = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExportData)
+
+export default exportData;
+

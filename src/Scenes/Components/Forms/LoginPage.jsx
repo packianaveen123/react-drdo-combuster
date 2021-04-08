@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
-import { UserOutlined, LockOutlined ,EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateUserParameter } from '../../../Redux/action';
@@ -13,8 +13,8 @@ class LoginPage extends Component {
     }
   }
   onFinish = (values) => {
-    loginValidation(values, (data) =>{
-      this.props.updateUserParameter(data) 
+    loginValidation(values, (data) => {
+      this.props.updateUserParameter(data)
     })
     // axios.post('http://localhost/TVS/login_validation.php',
     //   values,
@@ -87,9 +87,11 @@ class LoginPage extends Component {
                                 type="password"
                                 placeholder="Password"
                                 iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                              />                             
+                              />
                             </Form.Item>
-                            {this.state.IsLogin ? <Alert className="alert_error" message="Username or Password is Incorrect" type="error" /> : ''}
+                            {
+                              this.state.IsLogin ?
+                                <Alert className="alert_error" message="Username or Password is Incorrect" type="error" /> : ''}
                             <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                               <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in

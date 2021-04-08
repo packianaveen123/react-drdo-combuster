@@ -43,21 +43,6 @@ export const updateTitleElements = data => ({
   type: 'UPDATE_TITLE_ELEMENTS',
   payload: data
 })
-// editRowIndex
-export const updateEditRowIndex = data => ({
-  type: 'UPDATE_EDIT_ROWINDEX',
-  payload: data
-})
-// inputData
-export const updateInputData = data => ({
-  type: 'UPDATE_INPUT_DATA',
-  payload: data
-})
-// EditMode
-export const initiateEditMode = bool => ({
-  type: 'EDITMODE_INITIATED',
-  payload: bool
-})
 // testConfigTableEdit
 export const testConfigTableEdit = data => ({
   type: 'UPDATE_TEST_CONFIG_TABLEEDIT',

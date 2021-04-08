@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTestConfig, updateTitleElements } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
-import TableElement from '../../Components/TableElement';
+import TableElement from '../../Components/subComponents/TableElement';
 import axios from 'axios';
 
 class TestConfig extends Component {
@@ -12,29 +12,21 @@ class TestConfig extends Component {
       testData: ""
     }
   }
-
-  updateData = (values) => {
-    axios.post('http://192.168.0.167:5000/testconfigedit.php', values)
-      .then(res => {
-        if (res.data == "success") {
-
-        }
-        else { }
-      }).catch(err => {
-        console.log(err.res)
-      })
+  componentDidMount() {
+    this.props.updateTitleElements({
+      title: 'Test Config',
+      type: 'Config',
+    })
   }
+
   render() {
     const testdata = this.props.app;
-    console.log(testdata)
-    console.log(this.props.app.testConfig[0].testparamname)
-    console.log(this.props.app.testConfig.testparamvalue)
-    console.log(this.props.app.editRowIndex)
-    // this.props.updateTitleElements({
-    //   title: 'Test Config',
-    //   type: 'Config',
 
-    // })
+    console.log(testdata.testConfig)
+    console.log(this.props.app.testConfig[0].testparamname)
+    console.log(this.props.app.editRowIndex)
+    console.log()
+
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -52,7 +44,7 @@ class TestConfig extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label" >Value<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+                <label class="label" >Value<i style={{ color: "red", fontSize: '15px' }}> *</i></label>
               </Col>
 
               <Col sm={10}>
@@ -92,15 +84,14 @@ class TestConfig extends Component {
               <Col span={8}>
                 <h2 class="h2">Test Configuration</h2>
               </Col>
-
-
             </Row>
             {
               testdata.testConfig ?
                 <TableElement
                   data={testdata.testConfig ? testdata.testConfig : []}
-                  editable={testdata.testparamvalue}
-                  filters={"testparamvalue"}
+                  editable={true}
+                  editableColumn={["testparamvalue"]}
+                  childrenColumnName={"Test Config"}
                 /> : []
             }
           </Layout>

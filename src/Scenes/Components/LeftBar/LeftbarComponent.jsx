@@ -52,7 +52,7 @@ class LeftbarComponent extends Component {
           </SubMenu>
           <SubMenu key="sub3" icon={<FolderOutlined />} title="Report" style={{ fontSize: '15px' }}  >
             <Menu.Item key="runningReport" icon={<FiActivity style={{ color: '#42dbdc' }} />}>Running Report </Menu.Item>
-            <Menu.Item key="demo" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}>Export Data </Menu.Item>
+            <Menu.Item key="exportData" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}>Export Data </Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>

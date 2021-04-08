@@ -5,14 +5,14 @@ import TurboConfig from './ConfigurationPage/TurboConfig';
 import DashboardConfig from './ConfigurationPage/DashboardConfig';
 import FooterElement from '../Components/footer/FooterElement';
 import HeaderComponent from '../Components/Header/HeaderComponent';
-import TitleElement from '../Components/TitleElement';
+import TitleElement from '../Components/subComponents/TitleElement';
 import LeftbarComponent from '../Components/LeftBar/LeftbarComponent';
 import TestPage from './TestPage';
 import GraphView from '../Pages/DashboardPage/GraphView';
 import TableView from './DashboardPage/TableView';
 import RunningReport from './Reports/RunningReport';
-import TestConfig from './ConfigurationPage/TestConfig'
-import ParamConfig from './ConfigurationPage/ParamConfig'
+import TestConfig from './ConfigurationPage/TestConfig';
+import ParamConfig from './ConfigurationPage/ParamConfig';
 import ExportData from './Reports/ExportData';
 import Demo from '../Demo'
 
@@ -75,7 +75,7 @@ export class MainComponent extends Component {
             {mainPage === 'paramConfig' ? <ParamConfig /> : []}
             {mainPage === 'testPage' ? <TestPage /> : []}
             {mainPage === 'runningReport' ? <RunningReport /> : []}
-            {mainPage === 'demo' ? <Demo /> : []}
+            {mainPage === 'exportData' ? <ExportData /> : []}
           </Content>
         </Layout>
         <Footer><FooterElement /></Footer>
