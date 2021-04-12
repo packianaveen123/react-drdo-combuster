@@ -11,6 +11,7 @@ const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const graphChartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
+const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
 
 const getTurboConfigData = (callBack) => {
   axios.get(turboConfigUrl).then(res => {
@@ -100,6 +101,16 @@ const resetClickEvent = (callBack) => {
     })
 }
 
+const updateConfigData = (data, callBack) => {
+  axios.post(updateConfigDataUrl, data)
+    .then(res => {
+      let configData = res.data
+      callBack(configData)
+    }).catch(err => {
+      console.log(err.res)
+    })
+}
+
 export {
   getTurboConfigData,
   turbineConfigSubmit,
@@ -108,5 +119,6 @@ export {
   requestChartData,
   loginValidation,
   shutdownClickEvent,
-  resetClickEvent
+  resetClickEvent,
+  updateConfigData
 }

@@ -40,6 +40,9 @@ class HeaderComponent extends Component {
           <div className="welcome-message">
             <text>Welcome Admin</text>
           </div>
+          <div className="welcome-message">
+            <text> Logout</text>
+          </div>
         </div>
       </div>
     )

@@ -48,7 +48,11 @@ export const testConfigTableEdit = data => ({
   type: 'UPDATE_TEST_CONFIG_TABLEEDIT',
   payload: data
 })
-
+//loginState
+export const updateAppState = path => ({
+  type: 'UPDATE_APP_STATE',
+  payload: path
+})
 
 
 // shutdownInitiated

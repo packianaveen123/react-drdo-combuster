@@ -16,11 +16,11 @@ const store = createStore(
 
 const wrapApp = (AppComponent, reduxStore) => (
   <Provider store={reduxStore}>
-      <AppComponent />
+    <AppComponent />
   </Provider>
 )
 
-const rootHtml =   document.getElementById('root')
+const rootHtml = document.getElementById('root')
 ReactDOM.render(wrapApp(App, store), rootHtml)
 // console.log(store);
 

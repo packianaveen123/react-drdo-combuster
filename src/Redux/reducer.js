@@ -40,6 +40,12 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_TITLE_ELEMENTS':
       newState.titleElements = action.payload ? action.payload : []
       return newState
+    case 'UPDATE_APP_STATE':
+      newState.appState = action.payload ? action.payload : 'login'
+      return newState
+
+
+
 
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true                             //shutdownInitiated

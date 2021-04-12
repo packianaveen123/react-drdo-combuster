@@ -7,7 +7,8 @@ const url = {
   LOGIN_VALIDATION: 'login_validation.php',
   GRAPH_CHART_DATA: 'graph.php',
   SHUTDOWN_CLICK: 'shutdown.php',
-  RESET_CLICK: 'reset.php'
+  RESET_CLICK: 'reset.php',
+  UPDATE_CONFIG_DATA: 'testconfigedit.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },

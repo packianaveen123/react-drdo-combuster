@@ -47,7 +47,6 @@ class GridContainer extends Component {
         this.setState({ witnessItems: [...witnessItems, newItem] })
     }
 
-
     this.state.currentTesterItem = '';
     this.state.currentWitnessItem = '';
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 import { Table, Space, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
+import { updateConfigData } from '../../../Services/requests'
 import axios from 'axios';
 
 const { Column } = Table;
@@ -18,6 +19,7 @@ class TableComponent extends Component {
     this.updateInputValue = this.updateInputValue.bind(this);
   }
 
+
   handleButtonClick = (index) => {
     this.setState({
       EditMode: true,
@@ -30,19 +32,22 @@ class TableComponent extends Component {
     newEditData[colName] = event.target.value
     this.setState({ editData: newEditData })
     console.log(colName)
+    console.log(this.state.editData)
+    Object.assign({}, this.state.editData)
   }
 
   update = () => {
 
   }
   updateData = () => {
-    axios.post('http://192.168.0.167:5000/testconfigedit.php',
-      { page: this.props.childrenColumnName })
-      .then(res => {
-        console.log(res.data)
-      }).catch(err => {
-        console.log(err.res)
-      })
+    const configDataValue = {
+      page: this.props.childrenColumnName,
+      editData: Object.assign({}, this.state.editData),
+      editRowIndex: this.state.editRowIndex
+    }
+    updateConfigData(configDataValue, (data) => {
+      console.log(data)
+    })
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -112,7 +117,6 @@ class TableComponent extends Component {
                 />
               }) : []
           }
-
         </Table>
       </div>
     )

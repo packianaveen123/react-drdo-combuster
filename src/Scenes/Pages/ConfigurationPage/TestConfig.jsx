@@ -12,6 +12,7 @@ class TestConfig extends Component {
       testData: ""
     }
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: 'Test Config',
@@ -91,7 +92,7 @@ class TestConfig extends Component {
                   data={testdata.testConfig ? testdata.testConfig : []}
                   editable={true}
                   editableColumn={["testparamvalue"]}
-                  childrenColumnName={"Test Config"}
+                  childrenColumnName={"testparamconfig"}
                 /> : []
             }
           </Layout>

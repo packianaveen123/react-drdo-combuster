@@ -3,43 +3,52 @@ import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateUserParameter } from '../../../Redux/action';
+import { updateUserParameter, updateAppState } from '../../../Redux/action';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      IsLogin: false
+      IsLogin: false,
+      loginState: false
     }
   }
   onFinish = (values) => {
-    loginValidation(values, (data) => {
-      this.props.updateUserParameter(data)
-    })
-    // axios.post('http://localhost/TVS/login_validation.php',
-    //   values,
-    // )
-
-    //   .then(res => {
-    //     console.log(res.data)
-
-    //     if (res.data == "success") {
-    //       this.props.updateUserParameter(values)
-    //       //this.setState({ redirect: true });
-    //       //console.log(values)
-    //       alert("success")
-    //     }
-    //     else if (res.data == "failed") {
-    //       this.state.IsLogin = true;
-    //       console.log(this.state.IsLogin)
-    //       this.setState({ redirect: false });
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err.res)
-    //   })
+    // loginValidation(values, (data) => {
+    //   this.props.updateUserParameter(data)
+    // })
+    let that = this
+    axios.post('http://192.168.0.167:5000/login_validation.php',
+      values,
+    )
+      .then(res => {
+        console.log(res.data)
+        if (res.data == "success") {
+          // this.props.updateUserParameter(values)
+          that.props.updateAppState('main')
+          that.setState({ redirect: true });
+          console.log(res.data)
+          // alert("success")
+        }
+        else if (res.data == "failed") {
+          this.state.IsLogin = true;
+          console.log(this.state.IsLogin)
+          this.setState({ redirect: false });
+        }
+      })
+      .catch(err => {
+        console.log(err.res)
+      })
   };
+  signupEvent = () => {
+    this.props.updateAppState('signup');
+  }
+  forgotPasswordEvent = () => {
+    this.props.updateAppState('forgotPassword');
+  }
   render() {
+    const appData = this.props.app;
+
     return (
       <div class="background">
         <div class="login-page">
@@ -98,8 +107,12 @@ class LoginPage extends Component {
                             </Button>
                             </Form.Item>
 
-                            <a href="#" class="forgot-pass">Forgot Password?</a><br></br>
-                            <text style={{ color: 'rgb(151, 150, 151)' }}>Do not have an account?</text> <a href="#" class="signup">Signup</a>
+                            <div onClick={this.forgotPasswordEvent}>
+                              <a class="forgot-pass">Forgot Password?</a><br></br>
+                            </div>
+                            <div onClick={this.signupEvent} class="signup">
+                              <text style={{ color: 'rgb(151, 150, 151)' }}>Do not have an account? <a class="forgot-pass">Signup</a></text>
+                            </div>
                           </Form>
                         </div>
                       </div>
@@ -120,7 +133,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateUserParameter
+  updateUserParameter,
+  updateAppState
 }
 
 const login = connect(

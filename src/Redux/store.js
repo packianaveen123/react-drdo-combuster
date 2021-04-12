@@ -18,6 +18,8 @@ const InitialState = {
   testValue: '',
   reset: false,
 
+  appState: "login",
+
   showReset: false,
   shutdownInitiated: false,
   communicationFailed: false,

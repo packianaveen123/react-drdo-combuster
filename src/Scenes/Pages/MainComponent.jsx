@@ -14,7 +14,7 @@ import RunningReport from './Reports/RunningReport';
 import TestConfig from './ConfigurationPage/TestConfig';
 import ParamConfig from './ConfigurationPage/ParamConfig';
 import ExportData from './Reports/ExportData';
-import Demo from '../Demo'
+
 
 import {
   updateTurboConfig, updateTestConfig,
@@ -60,6 +60,7 @@ export class MainComponent extends Component {
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
+
     return (
       <Layout>
         <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>

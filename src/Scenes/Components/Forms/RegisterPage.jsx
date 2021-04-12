@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined ,EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateAppState } from '../../../Redux/action';
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -12,13 +14,13 @@ class RegisterPage extends Component {
     }
   }
   onFinish = (values) => {
-    axios.post('http://localhost/TVS/Registration.php',
+    axios.post('http://192.168.0.167:5000/Registration.php',
       values,
     )
-      // console.log(values)
       .then(res => {
+        console.log(res.data)
         if (res.data == "success") {
-          // this.setState({ redirect: true });
+          this.setState({ redirect: true });
           alert('success')
         }
         else if (res.data == "Sorry... username already taken") {
@@ -32,15 +34,19 @@ class RegisterPage extends Component {
           this.setState({ redirect: false });
         }
       })
+
       .catch(err => {
         console.log(err.res)
       })
   };
-
+  backToLoginEvent = () => {
+    this.props.updateAppState('login');
+    console.log(this.props.initiateRegisterState)
+  }
   render() {
     const IsuserName_reg = this.state.IsuserName_reg;
     const Isemail_reg = this.state.Isemail_reg;
-    console.log(Isemail_reg)
+
     return (
       <div class="background">
         <div class="login-page">
@@ -139,14 +145,23 @@ class RegisterPage extends Component {
                           </Form.Item>
 
                           {IsuserName_reg ? <Alert className="alert_error" message="Sorry... username already taken" type="error" /> : ''}
-                          <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
+                          <Form.Item
+                            onFinish={this.signupEvent}
+                            style={{
+                              paddingTop: '35px',
+                              paddingBottom: '30px',
+                              paddingLeft: '40%'
+                            }}
+
+                          >
                             <Button type="primary" htmlType="submit" style={{ width: '82px' }}>
                               Signup
                           </Button>
                           </Form.Item>
 
-                          <div>
-                            <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Already have an account? <a to="/">Login</a></text>
+                          <div onClick={this.backToLoginEvent}>
+                            <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Already have an account?
+                            <a class="forgot-pass">Login</a></text>
                           </div>
 
                         </Form>
@@ -162,4 +177,16 @@ class RegisterPage extends Component {
     )
   }
 }
-export default RegisterPage;
+const mapStateToProps = state => ({
+  app: state.app
+})
+
+const mapDispatchToProps = {
+  updateAppState
+}
+
+const registerPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterPage)
+export default registerPage;

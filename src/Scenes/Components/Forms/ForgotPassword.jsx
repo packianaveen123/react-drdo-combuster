@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Col, Row, Input, Button, Form ,Alert} from 'antd';
-import { UserOutlined, LockOutlined,EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Col, Row, Input, Button, Form, Alert } from 'antd';
+import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateAppState } from '../../../Redux/action';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -34,7 +36,10 @@ class ForgotPassword extends Component {
         console.log(err.res)
       })
   };
-
+  backToLoginEvent = () => {
+    this.props.updateAppState('login');
+    console.log(this.props.initiateRegisterState)
+  }
   render() {
     const IsUserName = this.state.IsUserName;
     console.log(IsUserName)
@@ -120,11 +125,11 @@ class ForgotPassword extends Component {
                             <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '84px' }}>
                               Submit
                               </Button>
-
                           </Form.Item>
 
-                          <div>
-                            <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Back to Login page? <a to="/">Login</a></text>
+                          <div onClick={this.backToLoginEvent}>
+                            <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Back to Login page?
+                            <a class="forgot-pass">Login</a></text>
                           </div>
                         </Form>
                       </div>
@@ -139,4 +144,17 @@ class ForgotPassword extends Component {
     )
   }
 }
-export default ForgotPassword;
+const mapStateToProps = state => ({
+  app: state.app
+})
+
+const mapDispatchToProps = {
+  updateAppState
+}
+
+const forgotPasswordPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPassword)
+
+export default forgotPasswordPage;
