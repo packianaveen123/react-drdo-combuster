@@ -1,29 +1,25 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Col, Row, Layout, Input, Select } from 'antd';
-
 import { connect } from 'react-redux';
-import RadioButton from '../subComponents/RadioButton'
-import ListItems from '../../Components/subComponents/ListItems'
-
+import RadioButton from '../subComponents/RadioButton';
+import ListItems from '../../Components/subComponents/ListItems';
 import axios from 'axios';
-const { Option } = Select;
-const { Search } = Input;
 
-class GridContainer extends Component {
+const { Option } = Select;
+
+class TestDetails extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      testingData: '',
-      value: '',
+      testingData: null,
+      value: null,
       testerItems: [],
       witnessItems: [],
-      turboIdval: '',
-      currentTesterItem: {
-        text: ''
-      },
-      currentWitnessItem: {
-        text: ''
-      },
+      turboIdval: null,
+      currentTesterItem: null,
+      currentWitnessItem: null,
+      isDuplicateTester: false,
+      isDuplicateWitness: false
     }
     this.addItem = this.addItem.bind(this);
     this.handleTesterInput = this.handleTesterInput.bind(this);
@@ -33,53 +29,57 @@ class GridContainer extends Component {
   }
 
   addItem(e, key) {
-    console.log(e, key)
     e.preventDefault();
     const { currentTesterItem, currentWitnessItem, testerItems, witnessItems } = this.state
     const newItem = key === 'tester' ? currentTesterItem : currentWitnessItem
-    if (this.props.items === newItem) {
-      alert("exist")
+    const isDuplicateTester = testerItems.includes(newItem);
+    const isDuplicateWitness = witnessItems.includes(newItem);
+    if (isDuplicateTester) {
+      this.setState({
+        isDuplicateTester: isDuplicateTester
+      })
+      alert('duplicate value')
     }
-    else if (newItem.text !== "") {
 
+    if (isDuplicateWitness) {
+      this.setState({
+        isDuplicateWitness: isDuplicateWitness
+      })
+      alert('duplicate value')
+
+    }
+
+    if (newItem !== null && !isDuplicateTester && !isDuplicateWitness) {
       key === 'tester' ?
-        this.setState({ testerItems: [...testerItems, newItem] }) :
-        this.setState({ witnessItems: [...witnessItems, newItem] })
+        this.setState({
+          testerItems: [...testerItems, newItem],
+          currentTesterItem: null
+        }) :
+        this.setState({
+          witnessItems: [...witnessItems, newItem],
+          currentWitnessItem: null
+        })
     }
-
-    this.state.currentTesterItem = '';
-    this.state.currentWitnessItem = '';
-
   }
   handleTesterInput(e) {
     this.setState({
-      currentTesterItem: {
-        text: e.target.value
-      }
+      currentTesterItem: e.target.value
     })
-    console.log(e.target.value)
-
   }
   handleWitnessInput(e) {
     this.setState({
-      currentWitnessItem: {
-        text: e.target.value
-      }
+      currentWitnessItem: e.target.value
     })
   }
   deleteTesterItem(text) {
-    const filteredItems = this.state.testerItems.filter(item => item.text !== text);
-    console.log(text)
+    const filteredItems = this.state.testerItems.filter(item => item !== text);
     this.setState({
       testerItems: filteredItems
     })
-    console.log(this.state.testerItems)
-    console.log(filteredItems)
   }
 
   deleteWitnessItem(text) {
-    const filteredItems = this.state.witnessItems.filter(item =>
-      item.text !== text);
+    const filteredItems = this.state.witnessItems.filter(item => item !== text);
     this.setState({
       witnessItems: filteredItems
     })
@@ -99,13 +99,10 @@ class GridContainer extends Component {
       console.log(err);
     })
   }
-  check = () => {
 
-  }
   render() {
     const testIdValue = this.props.app.turboConfig;
     const { value } = this.state;
-
     return (
       <div style={{ paddingTop: "30px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
@@ -160,7 +157,7 @@ class GridContainer extends Component {
                     <Input placeholder="Tester"
                       name="Tester"
                       style={{ width: "300px" }}
-                      value={this.state.currentTesterItem.text}
+                      value={this.state.currentTesterItem}
                       onChange={this.handleTesterInput}
                     />
                   </Col>
@@ -188,7 +185,7 @@ class GridContainer extends Component {
                       name="Witness"
                       style={{ width: "300px" }}
                       placeholder="Enter Witness"
-                      value={this.state.currentWitnessItem.text}
+                      value={this.state.currentWitnessItem}
                       onChange={this.handleWitnessInput}
                       onfocus="this.value=''"
                     />
@@ -215,12 +212,10 @@ const mapStateToProps = state => ({
   app: state.app
 })
 
-const mapDispatchToProps = {
-
-}
+const mapDispatchToProps = {}
 
 const Grid = connect(
   mapStateToProps,
   mapDispatchToProps
-)(GridContainer)
+)(TestDetails)
 export default Grid;

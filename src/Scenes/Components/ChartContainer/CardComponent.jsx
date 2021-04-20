@@ -14,9 +14,9 @@ class CardComponent extends Component {
     }
   }
 
-  interval = setInterval(() => {
-    requestChartData();
-  }, 1000);
+  // interval = setInterval(() => {
+  //   requestChartData();
+  // }, 1000);
 
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })
@@ -27,16 +27,18 @@ class CardComponent extends Component {
     let t9 = [];
     let rpm = [];
     let p2 = [];
+    let g1 = [];
     let date_Time = [];
     for (let i = 0; i < chartdata.length; i++) {
       t1.push(chartdata[i].T1T2);
       t2.push(chartdata[i].T3T4);
       t9.push(chartdata[i].P1P2);
       rpm.push(chartdata[i].rpm1rpm2);
-      p2.push(chartdata[i].G1G2);
+      p2.push(chartdata[i].P3);
+      g1.push(chartdata[i].G1G2);
       date_Time.push(new Date(chartdata[i].date_Time).toLocaleTimeString([], { hour12: false }));
     }
-    let chartLabel = ["Temp1", "Temp2", "Temp9", "RPM", "Pressure"];
+    let chartLabel = ["Temp1", "Temp2", "Temp9", "RPM", "Pressure", "Gas Flow"];
     for (let i = 0; i < chartdata.chartLabel; i++) {
       chartLabel = chartLabel[i];
     }
@@ -46,6 +48,7 @@ class CardComponent extends Component {
     chartArray.push(t9);
     chartArray.push(rpm);
     chartArray.push(p2);
+    chartArray.push(g1);
     console.log(chartArray)
     const chartValue = []
     for (let i = 0; i < chartArray.length; i++) {

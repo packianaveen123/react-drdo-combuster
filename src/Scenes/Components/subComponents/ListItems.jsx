@@ -3,35 +3,25 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 function ListItems(props) {
   const items = props.items;
-  // const unique = items.filter((value, index) => {
-  //   return items.indexOf(value) === index;
-  //   if (items(text) === value) {
-  //     alert("exist")
-  //   }
-  // })
-  // console.log(unique)
 
-  const listItems = items.map(item => {
-    console.log(item)
-    console.log(items)
 
-    return <div className="list" key={item.key}>
+  const listItems = items.map((item, index) => {
+
+    return <div className="list" key={index}>
       <p>
-        <input type="text" id={item.key} value={item.text} />
+        <input type="text" id={item} value={item} />
         <span>
           <DeleteOutlined className="faicons" onClick={() => {
-            props.deleteItem(item.text)
+            props.deleteItem(item)
           }} icon="trash" />
         </span>
       </p>
     </div>
   })
 
-
   return <div>
     {listItems}
   </div>;
-
 }
 
 export default ListItems;

@@ -44,7 +44,9 @@ const appReducer = (state = InitialState, action) => {
       newState.appState = action.payload ? action.payload : 'login'
       return newState
 
-
+    case 'UPDATE_TABLE_DATA':
+      newState.tableData = action.payload ? action.payload : []     //tableView
+      return newState
 
 
     case 'SHUTDOWN_INITIATED':
@@ -66,7 +68,7 @@ const appReducer = (state = InitialState, action) => {
       newState.showTarget = true                                   //showTarget
       return newState
     case 'TURBO_START_INITIATED':
-      newState.turboStart = true                                   //turboStart
+      newState.turboStart = action.payload ? action.payload : []
       return newState
     case 'GAS_OPEN_INITIATED':
       newState.gasOpend = true                                   //gasOpend

@@ -26,7 +26,7 @@ const InitialState = {
   communication: false,
   targetState: false,
   showTarget: false,
-  turboStart: false,
+  turboStart: [],
   gasOpend: false,
   stageOne: false,
   fuelOpened: false,

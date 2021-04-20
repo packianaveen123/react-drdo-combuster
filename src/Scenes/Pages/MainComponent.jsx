@@ -49,9 +49,9 @@ export class MainComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
-    requestChartData((data) => {
-      this.props.updateChartData(data);
-    })
+    // requestChartData((data) => {
+    //   this.props.updateChartData(data);
+    // })
     loginValidation((data) => {
       this.props.updateUserParameter(data)
     })

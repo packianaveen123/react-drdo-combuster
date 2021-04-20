@@ -53,6 +53,13 @@ export const updateAppState = path => ({
   type: 'UPDATE_APP_STATE',
   payload: path
 })
+// table
+export const updateTableData = data => ({
+  type: 'UPDATE_TABLE_DATA',
+  payload: data
+})
+
+
 
 
 // shutdownInitiated
@@ -86,9 +93,9 @@ export const initiateShowTarget = bool => ({
   payload: bool
 })
 // turboStart
-export const initiateTurboStart = bool => ({
+export const initiateTurboStart = data => ({
   type: 'TURBO_START_INITIATED',
-  payload: bool
+  payload: data
 })
 // gasOpend
 export const initiateGasOpened = bool => ({

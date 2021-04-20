@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import GridContainer from '../Components/TestPageComponent/GridContainer';
 import StatusBlock from '../Components/TestPageComponent/StatusBlock';
-import { updateTitleElements } from '../../Redux/action'
+import { updateTitleElements } from '../../Redux/action';
 import { connect } from 'react-redux';
 
 class TestPage extends Component {
@@ -11,9 +11,10 @@ class TestPage extends Component {
       type: 'Test',
     })
   }
+
   render() {
     return (
-      <div >
+      <div>
         <StatusBlock />
         <GridContainer />
       </div>
@@ -24,6 +25,7 @@ class TestPage extends Component {
 const mapStateToProps = state => ({
   app: state.app
 })
+
 const mapDispatchToProps = {
   updateTitleElements
 }

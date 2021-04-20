@@ -6,8 +6,9 @@ const styles = {
     color: "green",
     position: "absolute",
     right: 20,
-    top: 60,
-    fontWeight: "bold"
+    top: 120,
+    fontWeight: "bold",
+    fontSize: 20
   },
   offline: {
     color: "red",
@@ -41,7 +42,7 @@ class StatusBlock extends Component {
     const receivedDate = persons.testdatadate;
     const db_date = new Date(receivedDate);
     let isActive = false;
-    if ((date - db_date) < 20000) { isActive = true }
+    if ((date - db_date) < 5000) { isActive = true }
     // console.log(persons.testdatadate)
     return (
       <div class="container-fluid">
@@ -126,7 +127,7 @@ class StatusBlock extends Component {
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
               </div>
               <div class="title">
-                <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Temperature 9</strong>
+                <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Pressure 1</strong>
               </div>
             </div>
           </Col>
@@ -164,7 +165,7 @@ class StatusBlock extends Component {
                 <div role="progressbar" style={{ width: '100%', ariavaluenow: '35', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-4"></div>
               </div>
               <div class="title">
-                <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Pressure 2</strong>
+                <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Gas Flow </strong>
               </div>
             </div>
           </Col>
