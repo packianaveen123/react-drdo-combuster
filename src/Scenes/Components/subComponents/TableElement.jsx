@@ -3,18 +3,24 @@ import { EditOutlined } from '@ant-design/icons';
 import { Table, Space, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { updateConfigData } from '../../../Services/requests'
-import axios from 'axios';
-
+import {
+  updateTurboConfig,
+  updateTestConfig,
+  updateParamConfig
+} from '../../../Redux/action'
+const { Map } = require('immutable');
 const { Column } = Table;
 
 class TableComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentData: [],
       data: [],
       EditMode: false,
       editRowIndex: null,
-      editData: []
+      editData: [],
+      editCancel: false
     }
     this.updateInputValue = this.updateInputValue.bind(this);
   }
@@ -36,9 +42,13 @@ class TableComponent extends Component {
     Object.assign({}, this.state.editData)
   }
 
-  update = () => {
-
+  cancelEditMode = () => {
+    this.setState({
+      EditMode: false,
+      editCancel: true
+    })
   }
+
   updateData = () => {
     const configDataValue = {
       page: this.props.childrenColumnName,
@@ -52,23 +62,41 @@ class TableComponent extends Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
+      currentData: props.data,
       data: props.data
     };
   }
   render() {
     const appData = this.props.app;
-    const { data, EditMode } = this.state;
+    const { data: tableData, EditMode, editCancel } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
 
-    console.log(editRowIndex)
-    data.forEach((it, index) => {
+    tableData.forEach((it, index) => {
       it['Edit'] = <Space size="middle">
-        <EditOutlined style={{ fontSize: '18px' }} onClick={() => this.handleButtonClick(index)} />
+        <EditOutlined
+          style={{ fontSize: '18px' }}
+          onClick={() => this.handleButtonClick(index)}
+          disabled={!index} />
       </Space>
     })
+    if (editCancel && !EditMode) {
+      tableData.forEach((item, index) => {
+        if (index === editRowIndex) {
+          Object.keys(item).map(it => {
+            if (it != 'Edit') {
+              editableColumn.map(colName => {
+                if (it === colName) {
+                  item[it] = item[it].props.defaultValue
+                }
+              })
+            }
+          })
+        }
+      })
+    }
     if (EditMode) {
-      data.forEach((item, currentIndex) => {
+      tableData.forEach((item, currentIndex) => {
         if (currentIndex === editRowIndex) {
           Object
             .keys(item)
@@ -79,7 +107,7 @@ class TableComponent extends Component {
                     <a onClick={() => this.updateData('save')} style={{ marginRight: 8 }}>
                       Save
                     </a>
-                    <Popconfirm title="Sure to cancel?" onConfirm={() => this.update('cancel')}>
+                    <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancelEditMode()}>
                       <a>Cancel</a>
                     </Popconfirm>
                   </span>
@@ -101,13 +129,13 @@ class TableComponent extends Component {
       })
     }
     let columns = []
-    if ((data !== null || data !== undefined) && data.length > 0) {
-      columns = Object.keys(data[0])
+    if ((tableData !== null || tableData !== undefined) && tableData.length > 0) {
+      columns = Object.keys(tableData[0])
     }
     return (
       <div>
         <Table
-          dataSource={data}
+          dataSource={tableData}
           style={{ backgroundColor: "#131633" }}
         >
           {
@@ -126,7 +154,11 @@ class TableComponent extends Component {
 const mapStateToProps = state => ({
   app: state.app
 })
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  updateTurboConfig,
+  updateTestConfig,
+  updateParamConfig
+}
 
 const tablePage = connect(
   mapStateToProps,

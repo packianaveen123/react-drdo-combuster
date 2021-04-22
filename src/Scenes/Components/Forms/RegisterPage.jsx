@@ -21,7 +21,8 @@ class RegisterPage extends Component {
         console.log(res.data)
         if (res.data == "success") {
           this.setState({ redirect: true });
-          alert('success')
+          this.props.updateAppState('login');
+
         }
         else if (res.data == "Sorry... username already taken") {
           this.state.IsuserName_reg = true;
@@ -43,6 +44,7 @@ class RegisterPage extends Component {
     this.props.updateAppState('login');
     console.log(this.props.initiateRegisterState)
   }
+
   render() {
     const IsuserName_reg = this.state.IsuserName_reg;
     const Isemail_reg = this.state.Isemail_reg;
@@ -146,7 +148,6 @@ class RegisterPage extends Component {
 
                           {IsuserName_reg ? <Alert className="alert_error" message="Sorry... username already taken" type="error" /> : ''}
                           <Form.Item
-                            onFinish={this.signupEvent}
                             style={{
                               paddingTop: '35px',
                               paddingBottom: '30px',

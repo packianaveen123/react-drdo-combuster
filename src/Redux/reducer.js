@@ -48,6 +48,17 @@ const appReducer = (state = InitialState, action) => {
       newState.tableData = action.payload ? action.payload : []     //tableView
       return newState
 
+    case 'UPDATE_LOGIN_EVENT':
+      newState.IsLogin = action.payload ? action.payload : []            //loginEvent
+      return newState
+
+    case 'UPDATE_FORGOT_EVENT':
+      newState.IsUserName = action.payload ? action.payload : []            //IsUserName forgot
+      return newState
+
+
+
+
 
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true                             //shutdownInitiated
@@ -86,7 +97,8 @@ const appReducer = (state = InitialState, action) => {
       newState.gasClosed = true                                   //gasClosed
       return newState
     case 'STAGE_THREE_INITIATED':
-      newState.stageThree = true                                   //stageThree
+      newState.stageThree = true
+      newState.showReset = true                                  //stageThree
       return newState
     case 'CURRENT_DATE_TIME':
       newState.currentDateTime = action.payload                    //currentDateTime
@@ -104,7 +116,20 @@ const appReducer = (state = InitialState, action) => {
       newState.resetRPM = action.payload                             //resetRPM
       return newState
 
+    case 'STOP_DB_INSERT':
+      newState.stageThree = false                                       //fuelOpened
+      newState.communication = false
+      newState.showTarget = false
+      newState.showReset = false
+      newState.targetRPM = ''
+      newState.targetTemp = ''
+      newState.shutdownInitiated = false
 
+      return newState
+
+    case 'START_DB_INSERT':
+      newState.stopDbInsert = false                                   //fuelOpened
+      return newState
 
 
     default:

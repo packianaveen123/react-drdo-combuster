@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { toggleLeftBar } from '../../../Redux/action'
+import { toggleLeftBar, updateAppState } from '../../../Redux/action'
 import {
   MenuUnfoldOutlined, MenuFoldOutlined,
 } from '@ant-design/icons';
@@ -15,6 +15,10 @@ class HeaderComponent extends Component {
   }
   collapse = () => {
     this.props.toggleLeftBar()
+  }
+  backToLoginEvent = () => {
+    this.props.updateAppState('login');
+    console.log(this.props.initiateRegisterState)
   }
   render() {
     const { collapsed } = this.props.app.leftBarView;
@@ -32,16 +36,12 @@ class HeaderComponent extends Component {
         })}
 
         <div class="logout-element">
-          <a id="logout" href="#" class="nav-link">
-            <span class="logout-content">
-              {/* <Link to="/LoginPage">Logout <LogoutOutlined /></Link> */}
-            </span>
-          </a>
+          <div className="logout-content" onClick={this.backToLoginEvent}>
+            <text> Logout</text>
+          </div>
+
           <div className="welcome-message">
             <text>Welcome Admin</text>
-          </div>
-          <div className="welcome-message">
-            <text> Logout</text>
           </div>
         </div>
       </div>
@@ -62,7 +62,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  toggleLeftBar
+  toggleLeftBar,
+  updateAppState
 }
 
 const HeaderContainer = connect(

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
-import { turbineConfigSubmit } from '../../../Services/requests'
+import { turbineConfigSubmit } from '../../../Services/requests';
 import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';

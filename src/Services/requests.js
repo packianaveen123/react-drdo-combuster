@@ -7,11 +7,14 @@ const turboConfigUrl = `${BASE_URL}${URL.TURBO_CONFIG}`
 const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
 const testConfigUrl = `${BASE_URL}${URL.TEST_CONFIG}`
 const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
-const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const graphChartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
+const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
+const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
+
+let that = this;
 
 const getTurboConfigData = (callBack) => {
   axios.get(turboConfigUrl).then(res => {
@@ -56,7 +59,7 @@ const getParamConfigData = (callBack) => {
     })
 }
 
-const requestChartData = (callBack) => {
+const requestingChartData = (callBack) => {
   axios.get(graphChartDataUrl)
     .then(res => {
       let chartData = res.data;
@@ -66,22 +69,10 @@ const requestChartData = (callBack) => {
     })
 }
 
-const loginValidation = (values, callBack) => {
-  axios.post(loginValidationUrl, values)
-    .then(res => {
-      if (res.data === "success") {
-        alert("success")
-        callBack(res.data)
-      }
-      else if (res.data === "failed") {
-        this.state.IsLogin = true;
-        this.setState({ redirect: false });
-      }
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-}
+
+
+
+
 
 const shutdownClickEvent = (callBack) => {
   axios.post(shutdownClickEventUrl)
@@ -111,14 +102,53 @@ const updateConfigData = (data, callBack) => {
     })
 }
 
+const loginValidation = (values, callBack) => {
+  axios.post(loginValidationUrl, values)
+    .then(res => {
+      if (res.data === "success") {
+        alert("success")
+        callBack(res.data)
+        that.props.updateAppState('main')
+        console.log(res.data)
+      }
+      else if (res.data === "failed") {
+        // this.state.IsLogin = true;
+        // this.setState({ redirect: false });
+      }
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+}
+
+const forgotValidation = (values) => {
+  axios.post(forgotValidationUrl, values)
+    .then(res => {
+      console.log(res.data)
+      if (res.data == "success") {
+        this.props.updateAppState('login');
+      }
+      else {
+        this.state.IsUserName = true;
+        this.setState({ redirect: false });
+      }
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
 export {
   getTurboConfigData,
   turbineConfigSubmit,
   getTestConfigData,
   getParamConfigData,
-  requestChartData,
-  loginValidation,
   shutdownClickEvent,
   resetClickEvent,
-  updateConfigData
+  updateConfigData,
+  loginValidation,
+  forgotValidation,
+  requestingChartData
+
 }

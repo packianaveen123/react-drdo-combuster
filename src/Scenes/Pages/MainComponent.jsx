@@ -51,10 +51,7 @@ export class MainComponent extends Component {
     })
     // requestChartData((data) => {
     //   this.props.updateChartData(data);
-    // })
-    loginValidation((data) => {
-      this.props.updateUserParameter(data)
-    })
+    // })    
   }
 
   render() {

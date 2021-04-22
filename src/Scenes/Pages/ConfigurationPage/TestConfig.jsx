@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateTestConfig, updateTitleElements } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
-import axios from 'axios';
+
 
 class TestConfig extends Component {
   constructor(props) {
@@ -22,11 +22,6 @@ class TestConfig extends Component {
 
   render() {
     const testdata = this.props.app;
-
-    console.log(testdata.testConfig)
-    console.log(this.props.app.testConfig[0].testparamname)
-    console.log(this.props.app.editRowIndex)
-    console.log()
 
     return (
       <div style={{ paddingTop: "1px" }}>
@@ -93,6 +88,7 @@ class TestConfig extends Component {
                   editable={true}
                   editableColumn={["testparamvalue"]}
                   childrenColumnName={"testparamconfig"}
+                  parent={"testConfig"}
                 /> : []
             }
           </Layout>

@@ -22,6 +22,7 @@ class App extends Component {
         {appState === 'login' ? <LoginPage /> : []}
         {appState === 'signup' ? <RegisterPage /> : []}
         {appState === 'forgotPassword' ? <ForgotPassword /> : []}
+        {appState === 'logout' ? <LoginPage /> : []}
       </div>
     )
   }
@@ -31,9 +32,7 @@ const mapStateToProps = state => ({
   appState: state.app.appState
 })
 
-const mapDispatchToProps = {
-
-}
+const mapDispatchToProps = {}
 
 const appPage = connect(
   mapStateToProps,

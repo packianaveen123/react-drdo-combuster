@@ -4,11 +4,12 @@ const url = {
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
   PARAM_CONFIG: 'param_config.php',
-  LOGIN_VALIDATION: 'login_validation.php',
   GRAPH_CHART_DATA: 'graph.php',
   SHUTDOWN_CLICK: 'shutdown.php',
   RESET_CLICK: 'reset.php',
-  UPDATE_CONFIG_DATA: 'testconfigedit.php'
+  UPDATE_CONFIG_DATA: 'testconfigedit.php',
+  LOGIN_VALIDATION: 'login_validation.php',
+  FORGOT_VALIDATION: 'forget.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
@@ -30,7 +31,7 @@ const titleElements = [
 const testParamHash = {
   Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
   Startdata: ['Start Completed', 'ignite', 'gasopened', 'stage1', 'fuelopened', 'stage2', 'fuelopened', 'stage2', 'gasclosed', 'stage3'],
-  Shutdowndata: ['nshutdowncompleted'],
+  Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
   Resetdata: ['Reset Values']
 }
 export {

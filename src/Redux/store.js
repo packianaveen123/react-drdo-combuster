@@ -1,6 +1,7 @@
 import { dashboardData, titleElements } from '../Services/constants'
 const InitialState = {
   mainPage: 'testPage',
+  appState: "login",
   userParams: null,
   leftBarView: false,
   collapsed: true,
@@ -18,7 +19,10 @@ const InitialState = {
   testValue: '',
   reset: false,
 
-  appState: "login",
+  IsLogin: false,
+  IsUserName: [],
+
+  stopDbInsert: false,
 
   showReset: false,
   shutdownInitiated: false,

@@ -14,7 +14,7 @@ import {
   initiateFuelOpened, initiateStageTwo,
   initiateGasClosed, initiateStageThree,
   getTargetRPM, getTargetTemp,
-  getResetTemp, getResetRPM
+  getResetTemp, getResetRPM, stopDbInsert, startDbInsert
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import TestDetails from '../TestPageComponent/TestDetails';
@@ -36,12 +36,12 @@ class GridContainer extends Component {
     super(props)
 
     this.state = {
-      turbomode: '',
+      turbomode: '1',
       testingData: null,
       value: null,
       testerItems: [],
       witnessItems: [],
-      turboIdval: null,
+      turboIdval: '',
       currentTesterItem: null,
       currentWitnessItem: null,
       isDuplicateTester: false,
@@ -162,9 +162,12 @@ class GridContainer extends Component {
   requestChartData1() {
     axios.get('http://192.168.0.167:5000/getdata.php',).then(res => {
       let chartdata = res.data;
-      // this.props.updateChartData(chartdata);
-      console.log(res.data)
-      this.props.initiateTurboStart(res.data);
+      if (this.props.app.stopDbInsert === false) {
+        this.props.initiateTurboStart(res.data);
+      }
+      else {
+        this.props.initiateTurboStart(null)
+      }
 
     }).catch(err => {
       console.log(err);
@@ -204,6 +207,7 @@ class GridContainer extends Component {
   }
 
   initializeClick = () => {
+    this.props.startDbInsert()
     if (this.state.turboIdVal === '' || this.state.turboIdVal === undefined) {
       this.setState({
         errormsg: "Please Select the turbine ID"
@@ -222,6 +226,7 @@ class GridContainer extends Component {
 
     }
     if (this.state.turboIdVal !== undefined && this.state.turbomode !== '' && this.state.testerItems.length !== 0) {
+      console.log(this.state.turboIdVal)
       axios.post('http://192.168.0.167:5000/gettestid.php', { turboIdVal: this.state.turboIdVal, testerItems: this.state.testerItems, witnessItems: this.state.witnessItems, turbomode: this.state.turbomode },)
         .then(res => {
           this.communicationstatus()
@@ -341,12 +346,6 @@ class GridContainer extends Component {
         axios.post('http://192.168.0.167:5000/start.php', { targetRPM: this.props.app.targetRPM, targetTemp: this.props.app.targetTemp },)
           .then(res => {
             let startData = res.data;
-            console.log(startData)
-
-            if (startData) {
-              // this.props.initiateTurboStart();
-              // 
-            }
             console.log(this.props.app.turboStart)
             axios.post('http://192.168.0.167:7000/testdatainsert.php')
               .then(function (response) {
@@ -373,16 +372,16 @@ class GridContainer extends Component {
       errormsg: ''
     })
   }
+
   Reloadall = () => {
-    this.props.initiateTurboStart([]);
-    // this.props.initiateCommunication();
+    this.props.stopDbInsert()
     this.setState({
       turbomode: '',
       testingData: null,
       value: null,
       testerItems: [],
       witnessItems: [],
-      turboIdval: null,
+      turboIdval: '',
       currentTesterItem: null,
       currentWitnessItem: null,
       isDuplicateTester: false,
@@ -422,14 +421,138 @@ class GridContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
-    console.log(value)
+    console.log(this.props.app)
     console.log(StartdataArray)
     console.log(ShutdowndataArray)
     console.log(ResetdataArray)
     return (
       <div style={{ paddingTop: "30px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px", minHeight: "768px" }}>
-          <TestDetails />
+          <div style={{ paddingTop: "30px" }}>
+            <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+              <Row>
+                <Col xs={8} style={{ paddingLeft: "20px" }}>
+                  <form>
+                    <Row>
+                      <Col xs={5}>
+                        <label for="text" class="label" >Mode</label>
+                      </Col>
+                      <Radio.Group name="radiogroup"
+                        defaultValue={1}
+                        onChange={this.onChangeradio}
+
+                        style={{
+                          border: '1px solid #3e434d',
+                          width: "300px",
+                          height: "40px",
+                          paddingTop: '4px',
+                          paddingLeft: '25px'
+                        }}>
+                        <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
+                        <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
+                      </Radio.Group>
+                    </Row>
+                  </form>
+                </Col>
+              </Row>
+              <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
+                <Col span={8}>
+                  <form >
+                    <Row>
+                      <Col span={5}>
+                        <label for="text" class="label" >Turbo ID</label>
+                      </Col>
+                      <Col span={6}>
+                        <Input.Group compact>
+                          <Select
+                            defaultValue="Select Turbo ID"
+                            style={{ width: '300px' }}
+                            onChange={this.handleChangetestID}
+                          >
+                            {testIdValue.map(it => (
+                              <Option key={it.turboname} value={it.turboname}>
+                                {it.turboname}
+                              </Option>
+                            ))}
+                          </Select>
+                        </Input.Group>
+                      </Col>
+                    </Row>
+                  </form>
+                  <Row style={{ paddingLeft: '5rem' }}>
+                    {this.state.turboIdval}
+                  </Row>
+                </Col>
+                <Col xs={8}>
+                  <form onSubmit={(e) => this.addItem(e, 'tester')}>
+                    <Row>
+                      <Col span={4}>
+                        <label for="text" class="label" >Tester</label>
+                      </Col>
+                      <Col span={15} >
+                        <Input placeholder="Tester"
+                          name="Tester"
+                          style={{ width: "300px" }}
+                          value={this.state.currentTesterItem}
+                          onChange={this.handleTesterInput}
+                        />
+                      </Col>
+                      <Col>
+                        <button
+                          style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
+                          type="submit"
+                        >+</button>
+                      </Col>
+                    </Row>
+                  </form>
+                  <Row style={{ paddingLeft: '5rem' }}>
+                    <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} />
+                  </Row>
+                </Col>
+
+                <Col xs={8}>
+                  <form onSubmit={(e) => this.addItem(e, 'witness')}>
+                    <Row>
+                      <Col span={4}>
+                        <label for="text" class="label" >Witness</label>
+                      </Col>
+                      <Col span={15}>
+                        <Input placeholder="Witness"
+                          name="Witness"
+                          style={{ width: "300px" }}
+                          placeholder="Enter Witness"
+                          value={this.state.currentWitnessItem}
+                          onChange={this.handleWitnessInput}
+                          onfocus="this.value=''"
+                        />
+                      </Col>
+                      <Col>
+                        <button
+                          style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
+                          type="submit"
+                        >+</button>
+                      </Col>
+                    </Row>
+
+                  </form>
+                  <Row style={{ paddingLeft: '5rem' }}>
+                    <ListItems items={this.state.witnessItems} deleteItem={this.deleteWitnessItem} />
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                {this.state.errormsg ?
+                  <Alert message={this.state.errormsg} type="error"
+                    action={
+                      <Space>
+                        <Button size="small" type="ghost" onClick={() => this.errorDoneClick()}>
+                          Done
+                  </Button>
+                      </Space>
+                    } /> : ''}
+              </Row>
+            </Layout>
+          </div>
           <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingRight: "20px" }}>
             <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
             <Col span={3}>
@@ -453,13 +576,6 @@ class GridContainer extends Component {
                           <div>
                             <CheckOutlined style={{ color: 'green' }} />
                             {item.testcommandsTime} - {item.name}
-                            {(() => {
-                              if (item.name === "stage3" && count === 1) {
-                                this.props.initiateStageThree();
-                                count++;
-                                console.log(count)
-                              }
-                            })()}
                           </div>
                         )
                       })}
@@ -527,13 +643,6 @@ class GridContainer extends Component {
                             <div>
                               <CheckOutlined style={{ color: 'green' }} />
                               {item.testcommandsTime} - {item.name}
-                              {(() => {
-                                if (item.name === "stage3" && count === 1) {
-                                  this.props.initiateStageThree();
-                                  count++;
-                                  console.log(count)
-                                }
-                              })()}
                             </div>
                           )
                         })}
@@ -553,7 +662,7 @@ class GridContainer extends Component {
                 <SyncOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
                 <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 {
-                  this.props.app.stageThree ?
+                  StartdataArray.find(it => it.name === 'stage3') ?
                     <p>
                       <Row>
                         <p>Reset Temp</p>
@@ -581,26 +690,24 @@ class GridContainer extends Component {
                     </p>
                     : []
                 }
-                {
-                  showReset ?
-                    <div>
-                      {ResetdataArray.map(item => {
-                        return (
-                          <div>
-                            <CheckOutlined style={{ color: 'green' }} />
-                            {item.testcommandsTime} -{item.name}-{item.value}
-                            {(() => {
-                              if (item.name === "stage3" && count === 1) {
-                                this.props.initiateStageThree();
-                                count++;
-                                console.log(count)
-                              }
-                            })()}
-                          </div>
-                        )
-                      })}
-                    </div> : []
-                }
+
+                <div>
+                  {ResetdataArray.map(item => {
+                    return (
+                      <div>
+                        <CheckOutlined style={{ color: 'green' }} />
+                        {item.testcommandsTime} -{item.name}-{item.value}
+                        {(() => {
+                          if (item.name === "stage3" && count === 1) {
+                            this.props.initiateStageThree();
+                            count++;
+                            console.log(count)
+                          }
+                        })()}
+                      </div>
+                    )
+                  })}
+                </div>
               </Card>,
             </Col>
 
@@ -615,19 +722,7 @@ class GridContainer extends Component {
                 </div>
                 <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p>
               </Card>,
-              {
-                shutdownInitiated ?
-                  <p style={{ height: '15px', color: 'white' }}>
-                    <Row>
-                      <CheckOutlined style={{ color: 'green' }} />
-                      <p>
-                        {
-                          this.state.currentDateTime
-                        } - shutdown Initiated
-                      </p>
-                    </Row>
-                  </p> : []
-              }
+
               {
                 shutdownInitiated ?
                   <p style={{ height: '15px', color: 'white' }}>
@@ -637,13 +732,6 @@ class GridContainer extends Component {
                           <div>
                             <CheckOutlined style={{ color: 'green' }} />
                             {item.testcommandsTime} - {item.name}
-                            {(() => {
-                              if (item.name === "stage3" && count === 1) {
-                                this.props.initiateStageThree();
-                                count++;
-                                console.log(count)
-                              }
-                            })()}
                           </div>
                         )
                       })}
@@ -653,7 +741,7 @@ class GridContainer extends Component {
 
             <Col span={3}>
               <Card style={{ width: 100 }}>
-                <div onClick={this.onClick}>
+                <div style={{ cursor: 'pointer' }} onClick={() => this.Reloadall()}>
                   <RedoOutlined style={{ paddingLeft: '5px', paddingTop: '1px', color: 'green', fontSize: "30px", cursor: 'pointer' }} onClick={() => this.Reloadall()} />
                 </div>
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: 'px' }}>Reset</p>
@@ -662,8 +750,7 @@ class GridContainer extends Component {
 
             <Col span={2}>
               <Popover
-
-                title={<div><p>Valve status On:</p><p> {this.state.valvestatustime}</p></div>}
+                title={<div><p style={{ fontWeight: 'bold' }}>Valve status at: {this.state.valvestatustime}</p></div>}
                 content={<div><p>svcoolingair : {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
                   <p>svnaturalgastopilotflame : {this.state.svnaturalgastopilotflame}</p>
                   <p>svdilution : {this.state.svdilution}</p>
@@ -711,6 +798,8 @@ const mapDispatchToProps = {
   getResetTemp,
   getResetRPM,
   updateChartData,
+  stopDbInsert,
+  startDbInsert
 }
 
 const Grid = connect(

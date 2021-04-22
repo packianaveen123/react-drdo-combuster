@@ -59,7 +59,26 @@ export const updateTableData = data => ({
   payload: data
 })
 
+// loginEvent
+export const updateLoginEvent = bool => ({
+  type: 'UPDATE_LOGIN_EVENT',
+  payload: bool
+})
 
+export const updateForgotEvent = data => ({
+  type: 'UPDATE_FORGOT_EVENT',
+  payload: data
+})
+
+
+export const stopDbInsert = bool => ({
+  type: 'STOP_DB_INSERT',
+  payload: bool
+})
+export const startDbInsert = bool => ({
+  type: 'START_DB_INSERT',
+  payload: bool
+})
 
 
 // shutdownInitiated

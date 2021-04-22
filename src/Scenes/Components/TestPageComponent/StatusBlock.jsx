@@ -32,10 +32,15 @@ class StatusBlock extends Component {
       isP2UpArrow: true
     }
   }
-
   render() {
-    console.log(this.props.app.chartData[0])
+    console.log(this.props.app.turboStart)
     // let { chartData } = this.props.app.chartData[0]
+    let nShutdown = false
+    this.props.app.turboStart.map(It => {
+      if (It.name === 'nshutdowncompleted') {
+        nShutdown = true
+      }
+    })
     let persons;
     { this.props.app.chartData[0] ? persons = this.props.app.chartData[0] : persons = '' }
     const date = new Date();
@@ -48,10 +53,16 @@ class StatusBlock extends Component {
       <div class="container-fluid">
         <div className="machinestatus">
           <row>
-            {isActive ?
-              <text style={styles.online}>LIVE</text>
+            {nShutdown ?
+              <text style={styles.offline}>N-Shutdown</text>
               :
-              <text style={styles.offline}>OFFLINE</text>
+              <row>
+                {isActive ?
+                  <text style={styles.online}>LIVE</text>
+                  :
+                  <text style={styles.offline}>OFFLINE</text>
+                }
+              </row>
             }
           </row>
         </div>
@@ -74,7 +85,6 @@ class StatusBlock extends Component {
               </div>
             </div>
           </Col>
-
           <Col span={4} style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
@@ -93,7 +103,6 @@ class StatusBlock extends Component {
               </div>
             </div>
           </Col>
-
           <Col span={4} style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
@@ -112,7 +121,6 @@ class StatusBlock extends Component {
               </div>
             </div>
           </Col>
-
           <Col span={4} style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
@@ -131,7 +139,6 @@ class StatusBlock extends Component {
               </div>
             </div>
           </Col>
-
           <Col span={4} style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
@@ -150,7 +157,6 @@ class StatusBlock extends Component {
               </div>
             </div>
           </Col>
-
           <Col span={4} style={{ paddingLeft: "10px", paddingRight: "0px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
@@ -174,16 +180,12 @@ class StatusBlock extends Component {
     )
   }
 }
-
 const mapStateToProps = state => ({
   app: state.app
 })
 const mapDispatchToProps = {}
-
 const statuspage = connect(
   mapStateToProps,
   mapDispatchToProps
 )(StatusBlock)
 export default statuspage;
-
-

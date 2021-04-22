@@ -46,7 +46,6 @@ class TestDetails extends Component {
         isDuplicateWitness: isDuplicateWitness
       })
       alert('duplicate value')
-
     }
 
     if (newItem !== null && !isDuplicateTester && !isDuplicateWitness) {

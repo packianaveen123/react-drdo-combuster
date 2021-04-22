@@ -32,11 +32,6 @@
  -----------------------------------*/
 
 /* --header-- */
-/* .ant-layout  
-{
-  background-color:#131633;
-  height:80px;
-} */
 .ant-layout-content {
   -ms-flex: auto;
   flex: auto;
@@ -46,17 +41,19 @@
 }
 /*  Navbar  */
 .logout-content {
-  color: #fff;
+  color:rgb(151, 150, 151);  
+  margin-top: -60px;  
   float: right;
-  margin-top: -60px;
-  margin-right: 30px;
+  margin-right: 40px;
   font-size: 20px;
 }
+.logout-content :hover {
+  color: #42dbdc !important;
+  cursor: pointer;
+}
 .welcome-message{
-  color:rgb(151, 150, 151);
-  /* position: absolute; */
-  margin-top: -60px;
-  /* margin-left: 60rem; */
+  color:rgb(151, 150, 151);  
+  margin-top: -60px;  
   float: right;
   margin-right: 40px;
   font-size: 20px;
@@ -138,7 +135,6 @@
 .ant-menu-item-selected
  {
   color: red !important;
-
 } */
 
 /* ----------------------------------
@@ -329,8 +325,7 @@
   color: #fff;
 }
 .ant-table-tbody > tr > td {
-  color:rgb(192, 196, 201);
-  /* background: #454547; */
+  color:rgb(192, 196, 201);  
   background: #131633;
   border-bottom:none;
   -webkit-transition: background 0.3s;
@@ -433,7 +428,7 @@
 .ant-transfer-operation .ant-btn:first-child {
   margin-bottom: 30px;
 }
-/* --dashboard btn-- */
+/* ---dashboard btn--- */
 .ant-btn-primary[disabled], 
 .ant-btn-primary[disabled]:hover, 
 .ant-btn-primary[disabled]:focus, 
@@ -575,18 +570,11 @@
  -----------------------------------*/
  .ant-layout-footer {
   padding: 8px 50px;
-  color: "red" !important;
-  font-size: 14px;
+  font-size: 18px;
   background-color: #131633;
   height: "30px";
-  width: '100%';
-  font-size: '0.75rem';
-  font-family: 'muli';
-  font-weight: '800';  
-  padding-top: '20px';
-  padding-left: '30rem'; 
-  position: 'absolute';
-  bottom: '0px';
+  width: '100%';  
+  font-family: 'muli'; 
 }
  
 /* Statistic Block */
@@ -683,17 +671,13 @@
   width: 231px;
 }
 /* list */
-
 .list{
   color: #fff;
-  /* width: 300px;
-  margin: 20px auto;
-  height: 50px; */
+  
   background-color: #131633;
   /* border-radius: 5px; */
 }
-.list p{
-  /* padding: 0px; */
+.list p{ 
   position: relative;
   transition: ease-in-out;
 }
@@ -716,7 +700,3 @@
   cursor: pointer;
   padding-top: 10px;
 }
-
-
-
-

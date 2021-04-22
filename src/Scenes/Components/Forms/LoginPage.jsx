@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import axios from 'axios';
+import { loginValidation } from '../../../Services/requests';
 import { connect } from 'react-redux';
-import { updateUserParameter, updateAppState } from '../../../Redux/action';
+import { updateUserParameter, updateAppState, updateLoginEvent } from '../../../Redux/action';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -13,10 +14,20 @@ class LoginPage extends Component {
       loginState: false
     }
   }
+
+  // onFinish = (values) => {
+  //   loginValidation(values, (data) => {
+  //     this.props.updateLoginEvent(true);
+  //     this.props.updateAppState('main')
+  //   })
+  // }
+
   onFinish = (values) => {
     // loginValidation(values, (data) => {
     //   this.props.updateUserParameter(data)
+
     // })
+
     let that = this
     axios.post('http://192.168.0.167:5000/login_validation.php',
       values,
@@ -26,20 +37,21 @@ class LoginPage extends Component {
         if (res.data == "success") {
           // this.props.updateUserParameter(values)
           that.props.updateAppState('main')
-          that.setState({ redirect: true });
+
           console.log(res.data)
-          // alert("success")
+
         }
         else if (res.data == "failed") {
           this.state.IsLogin = true;
           console.log(this.state.IsLogin)
-          this.setState({ redirect: false });
+
         }
       })
       .catch(err => {
         console.log(err.res)
       })
   };
+
   signupEvent = () => {
     this.props.updateAppState('signup');
   }
@@ -134,6 +146,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateUserParameter,
+  updateLoginEvent,
   updateAppState
 }
 
