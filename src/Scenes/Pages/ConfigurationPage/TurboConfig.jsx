@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
 import { turbineConfigSubmit } from '../../../Services/requests';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Descriptions } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -11,7 +11,11 @@ class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nozzle_area: null,
+      turboID: null,
+      dateVal: '',
+      nozzleArea: null,
+      discriptionVal: null,
+      bladeVal: null
     }
   }
   componentDidMount() {
@@ -20,9 +24,42 @@ class TurboConfig extends Component {
       type: 'Config',
     })
   }
-  onFinish = (values) => {
-    turbineConfigSubmit(values, (data) => {
+  onFinish = () => {
+    const body = {
+      turbo_id: this.state.turboID,
+      date: this.state.dateVal,
+      nozzle_area: this.state.nozzleArea,
+      descriptions: this.state.discriptionVal,
+      noofblades: this.state.bladeVal
+    }
+    turbineConfigSubmit(body, (data) => {
       this.props.updateTurboConfig(data)
+    })
+  }
+
+  onchangeTurboID = (e) => {
+    this.setState({
+      turboID: e.target.value
+    })
+  };
+  updateDate = (e) => {
+    this.setState({
+      dateVal: e.target.value
+    })
+  }
+  handleNumber = (e) => {
+    this.setState({
+      nozzleArea: e.target.value
+    })
+  }
+  updateDiscription = (e) => {
+    this.setState({
+      discriptionVal: e.target.value
+    })
+  }
+  updateBlades = (e) => {
+    this.setState({
+      bladeVal: e.target.value
     })
   }
 
@@ -37,20 +74,26 @@ class TurboConfig extends Component {
             <Row style={{ paddingTop: "20px" }} >
               <Col sm={2}>
                 <label class="label" >Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-                <span> &nbsp; &nbsp; &nbsp;</span>
+
               </Col>
               <Col sm={6}>
-                <Form.Item name="turbo_id">
-                  <Input style={{ width: "320px" }} placeholder="Turbo ID" />
-                </Form.Item>
+                <Input
+                  name="turbo_id"
+                  style={{ width: "320px" }}
+                  placeholder="Turbo ID"
+                  onChange={this.onchangeTurboID} />
               </Col>
               <Col sm={3}>
                 <label htmlFor="name" class="label" >Installed Date<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-                <span> &nbsp; &nbsp; &nbsp;</span>
               </Col>
               <Col sm={5}>
                 <Input.Group compact>
-                  <DatePicker defaultValue={moment(Date.Now)} style={{ backgroundColor: "#131633" }} />
+                  <DatePicker
+                    name="date"
+                    defaultValue={moment(Date.Now)}
+                    style={{ backgroundColor: "#131633" }}
+                    onChange={this.updateDate}
+                  />
                 </Input.Group >
               </Col>
               <Col sm={2}>
@@ -58,19 +101,16 @@ class TurboConfig extends Component {
               </Col>
               <Col sm={6}>
                 <div>
-                  <Form.Item
-                    name="nozzle_area" >
-                    <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
-                      <InputNumber
-                        name="nozzle_area"
-                        min={0.0002} max={0.0005}
-                        defaultValue={0.0245}
-                        step={0.0001}
-                        style={{ width: "320px" }}
-                      //  onChange={this.handleNumber}
-                      />
-                    </Tooltip>
-                  </Form.Item>
+                  <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
+                    <InputNumber
+                      name="nozzle_area"
+                      min={0.0002} max={0.0005}
+                      defaultValue={0.0245}
+                      step={0.0001}
+                      style={{ width: "320px" }}
+                      onChange={this.handleNumber}
+                    />
+                  </Tooltip>
                 </div>
               </Col>
             </Row>
@@ -78,10 +118,23 @@ class TurboConfig extends Component {
               <Col sm={2}>
                 <label class="label" >Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               </Col>
-              <Col sm={6}>
-                <Form.Item name="description">
-                  <Input style={{ height: "100px", width: "805px" }} placeholder="Description..." />
-                </Form.Item>
+              <Col sm={14}>
+                <Input
+                  name="description"
+                  style={{ height: "100px", width: "760px" }}
+                  placeholder="Description..."
+                  onChange={this.updateDiscription} />
+              </Col>
+
+              <Col sm={2}>
+                <label class="label" >No of blades<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              </Col>
+              <Col sm={3}>
+                <Input
+                  name="noofblades"
+                  style={{ width: "320px" }}
+                  placeholder="No of Blades"
+                  onChange={this.updateBlades} />
               </Col>
             </Row>
 

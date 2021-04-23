@@ -25,9 +25,10 @@ const getTurboConfigData = (callBack) => {
   })
 }
 
-const turbineConfigSubmit = (values, callBack) => {
-  axios.post(turboConfigSubmitUrl, values)
+const turbineConfigSubmit = (body, callBack) => {
+  axios.post(turboConfigSubmitUrl, body)
     .then(res => {
+      console.log(res.data)
       if (res.data === "success") {
         getTurboConfigData((data) => {
           callBack(data)
@@ -68,7 +69,6 @@ const requestingChartData = (callBack) => {
       console.log(err);
     })
 }
-
 
 
 

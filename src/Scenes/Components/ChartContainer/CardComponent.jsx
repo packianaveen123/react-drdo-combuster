@@ -58,7 +58,6 @@ class CardComponent extends Component {
           chartLabel: chartLabel[i],
           chartBackgroundColor: [
             'rgba(24,144,255,0.2)'
-
           ],
           chartBorderColor: [
             'rgba(24, 144, 255, 0.5)',
@@ -87,17 +86,21 @@ class CardComponent extends Component {
               {chart ?
                 chart.map(it => {
                   return (
-                    <Col span={6}>
-                      <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
-                        <GraphComponent
-                          data={it.dataSet.chartData ? it.dataSet.chartData : []}
-                          labels={it.dataSet.chartLabel ? it.dataSet.chartLabel : []}
-                          label={it.dataSet.chartLabel ? it.dataSet.chartLabel : "No Lebel"}
-                          backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
-                          borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
-                        />
-                      </Card>
+
+                    <Col span={8}>
+                      <Row >
+                        <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
+                          <GraphComponent
+                            data={it.dataSet.chartData ? it.dataSet.chartData : []}
+                            labels={it.dataSet.chartLabel ? it.dataSet.chartLabel : []}
+                            label={it.dataSet.chartLabel ? it.dataSet.chartLabel : "No Lebel"}
+                            backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
+                            borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
+                          />
+                        </Card>
+                      </Row>
                     </Col>
+
                   )
                 }) : []
               }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm } from 'antd';
+import { Table, Space, Input, Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
@@ -23,6 +23,7 @@ class TableComponent extends Component {
     this.state = {
       data: [],
       editMode: false,
+      editSession: false,
       editRowIndex: null,
       editData: [],
       editCancel: false
@@ -37,7 +38,11 @@ class TableComponent extends Component {
       editRowIndex: index
     })
   }
-
+  startEdit = () => {
+    this.setState({
+      editSession: true,
+    })
+  }
   updateInputValue = (event, colName) => {
     const { editData: newEditData } = this.state
     newEditData[colName] = event.target.value
@@ -61,6 +66,7 @@ class TableComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
+
   }
 
   updateData = () => {
@@ -90,6 +96,7 @@ class TableComponent extends Component {
       } else {
         console.log(`500: error data response`)
       }
+      console.log(data)
     })
   }
 
@@ -100,17 +107,32 @@ class TableComponent extends Component {
   }
   render() {
     const appData = this.props.app;
-    const { data: tableData, editMode, editCancel } = this.state;
+    const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
-    tableData.forEach((it, index) => {
-      it['Edit'] = <Space size="middle">
-        <EditOutlined
-          style={{ fontSize: '18px' }}
-          onClick={() => this.handleButtonClick(index)}
-          disabled={!index} />
-      </Space>
-    })
+    console.log(this.state.editData);
+    console.log(this.state.editRowIndex);
+    if (editSession) {
+      tableData.forEach((it, index) => {
+        console.log(editSession && (index != editRowIndex))
+        it['Edit'] = <Space size="middle">
+          <EditOutlined
+            style={{
+              fontSize: '18px',
+              cursor: editRowIndex && index != editRowIndex ? "not-allowed! important" : "pointer"
+            }}
+            onClick={() => {
+              if (editSession && !editRowIndex && editRowIndex !== 0) {
+                this.handleButtonClick(index)
+              } else if (index === editRowIndex) {
+                this.handleButtonClick(index)
+              }
+            }
+            }
+          />
+        </Space>
+      })
+    }
     if (editCancel && !editMode) {
       tableData.forEach((item, index) => {
         if (index === editRowIndex) {
@@ -152,6 +174,7 @@ class TableComponent extends Component {
                         defaultValue={item[it]}
                         value={this.state.it}
                         onChange={(e) => this.updateInputValue(e, colName)}
+
                       ></Input>
                 })
               }
@@ -165,6 +188,15 @@ class TableComponent extends Component {
     }
     return (
       <div>
+        <div style={{ float: 'right' }}>
+          <Button
+            type="primary"
+            style={{ width: '6rem' }}
+            onClick={this.startEdit}
+          >
+            Start Edit
+        </Button>
+        </div>
         <Table
           dataSource={tableData}
           style={{ backgroundColor: "#131633" }}

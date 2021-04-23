@@ -442,7 +442,6 @@ class GridContainer extends Component {
                       <Radio.Group name="radiogroup"
                         defaultValue={1}
                         onChange={this.onChangeradio}
-
                         style={{
                           border: '1px solid #3e434d',
                           width: "300px",
