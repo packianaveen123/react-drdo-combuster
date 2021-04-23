@@ -7,6 +7,7 @@ const InitialState = {
   collapsed: true,
   chartData: [],
   testConfig: [],
+  testConfigPage: [],
   turboConfig: [],
   paramConfig: [],
   transferElement: [],
@@ -23,6 +24,7 @@ const InitialState = {
   IsUserName: [],
 
   stopDbInsert: false,
+  tableEdit: [],
 
   showReset: false,
   shutdownInitiated: false,

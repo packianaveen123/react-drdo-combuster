@@ -17,15 +17,14 @@ import ExportData from './Reports/ExportData';
 
 
 import {
-  updateTurboConfig, updateTestConfig,
+  updateTurboConfig, updateTestConfigPage,
   updateParamConfig, updateChartData,
   updateUserParameter
 } from '../../Redux/action';
 
 import {
   getTurboConfigData, getTestConfigData,
-  getParamConfigData, requestChartData,
-  loginValidation
+  getParamConfigData
 } from '../../Services/requests';
 
 
@@ -44,7 +43,7 @@ export class MainComponent extends Component {
       this.props.updateTurboConfig(data)
     })
     getTestConfigData((data) => {
-      this.props.updateTestConfig(data)
+      this.props.updateTestConfigPage(data)
     })
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
@@ -87,7 +86,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateTurboConfig,
-  updateTestConfig,
+  updateTestConfigPage,
   updateParamConfig,
   updateChartData,
   updateUserParameter

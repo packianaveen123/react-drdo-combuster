@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import StatusBlock from '../../Components/TestPageComponent/StatusBlock';
-import { Table, Tag, Space, Row, Button } from 'antd';
+import { Table, Row, Col } from 'antd';
 import axios from 'axios';
 import { updateTitleElements } from '../../../Redux/action'
 import { connect } from 'react-redux';
@@ -96,8 +96,21 @@ class TableView extends Component {
       <div>
         <StatusBlock />
         <div>
-          <Table style={{ marginTop: '50px', minWidth: '900px', float: 'left' }} pagination={false} columns={columns} dataSource={this.state.tabledata} />
-          <Table style={{ marginTop: '50px', minWidth: '400px', float: 'right', marginTop: '-350px' }} pagination={false} columns={columns1} dataSource={this.props.app.turboStart} />
+          <Row>
+            <Col >
+              <Table
+                style={{ marginTop: '50px', minWidth: '700px', float: 'left' }}
+                pagination={false}
+                columns={columns}
+                dataSource={this.state.tabledata} />
+            </Col>
+            <Col >
+              <Table
+                style={{ marginTop: '50px', paddingLeft: '30%', minWidth: '700px', float: 'right', }}
+                pagination={false} columns={columns1} dataSource={this.props.app.turboStart} />
+            </Col>
+          </Row>
+
         </div>
       </div>
     )

@@ -108,8 +108,8 @@ class TurboConfig extends Component {
               <TableElement
                 data={turboConfig}
                 editable={true}
-                editableColumn={["status"]}
-                childrenColumnName={"Turbo Config"}
+                editableColumn={["description", "status"]}
+                childrenColumnName={"turboconfig"}
               /> : []}
           </Layout>
         </div>

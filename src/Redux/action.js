@@ -15,6 +15,13 @@ export const updateTestConfig = data => ({
   type: 'UPDATE_TEST_CONFIG',
   payload: data
 })
+
+// testConfigPage
+export const updateTestConfigPage = data => ({
+  type: 'UPDATE_TEST_CONFIG_PAGE',
+  payload: data
+})
+
 export const updateTurboConfig = data => ({
   type: 'UPDATE_TURBO_CONFIG',
   payload: data
@@ -43,11 +50,14 @@ export const updateTitleElements = data => ({
   type: 'UPDATE_TITLE_ELEMENTS',
   payload: data
 })
+
 // testConfigTableEdit
-export const testConfigTableEdit = data => ({
-  type: 'UPDATE_TEST_CONFIG_TABLEEDIT',
+// tableEdit
+export const updateConfigTableEdit = data => ({
+  type: 'UPDATE_CONFIG_TABLEEDIT',
   payload: data
 })
+
 //loginState
 export const updateAppState = path => ({
   type: 'UPDATE_APP_STATE',

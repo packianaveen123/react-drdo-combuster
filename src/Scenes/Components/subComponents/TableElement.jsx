@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 import { Table, Space, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
-import { updateConfigData } from '../../../Services/requests'
+import {
+  updateConfigData, getTurboConfigData, getTestConfigData,
+  getParamConfigData
+} from '../../../Services/requests';
 import {
   updateTurboConfig,
-  updateTestConfig,
-  updateParamConfig
+  updateTestConfigPage,
+  updateParamConfig,
+  updateConfigTableEdit
 } from '../../../Redux/action'
+
+
 const { Map } = require('immutable');
 const { Column } = Table;
 
@@ -15,9 +21,8 @@ class TableComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentData: [],
       data: [],
-      EditMode: false,
+      editMode: false,
       editRowIndex: null,
       editData: [],
       editCancel: false
@@ -28,7 +33,7 @@ class TableComponent extends Component {
 
   handleButtonClick = (index) => {
     this.setState({
-      EditMode: true,
+      editMode: true,
       editRowIndex: index
     })
   }
@@ -37,15 +42,24 @@ class TableComponent extends Component {
     const { editData: newEditData } = this.state
     newEditData[colName] = event.target.value
     this.setState({ editData: newEditData })
-    console.log(colName)
-    console.log(this.state.editData)
-    Object.assign({}, this.state.editData)
   }
 
-  cancelEditMode = () => {
+  canceleditMode = () => {
+    let key = this.props.childrenColumnName;
     this.setState({
-      EditMode: false,
-      editCancel: true
+      editMode: false,
+      editRowIndex: null,
+      editData: [],
+      editCancel: false
+    })
+    getTurboConfigData((data) => {
+      this.props.updateTurboConfig(data)
+    })
+    getTestConfigData((data) => {
+      this.props.updateTestConfigPage(data)
+    })
+    getParamConfigData((data) => {
+      this.props.updateParamConfig(data)
     })
   }
 
@@ -56,22 +70,39 @@ class TableComponent extends Component {
       editRowIndex: this.state.editRowIndex
     }
     updateConfigData(configDataValue, (data) => {
-      console.log(data)
+      if (data) {
+        let key = this.props.childrenColumnName;
+        this.setState({
+          editMode: false,
+          editRowIndex: null,
+          editData: [],
+          editCancel: false
+        })
+        if (key === 'testparamconfig') {
+          this.props.updateTestConfigPage(data)
+        }
+        else if (key === 'turboconfig') {
+          this.props.updateTurboConfig(data)
+        }
+        else {
+          this.props.updateParamConfig(data)
+        }
+      } else {
+        console.log(`500: error data response`)
+      }
     })
   }
 
   static getDerivedStateFromProps(props, state) {
     return {
-      currentData: props.data,
-      data: props.data
+      data: props.data || []
     };
   }
   render() {
     const appData = this.props.app;
-    const { data: tableData, EditMode, editCancel } = this.state;
+    const { data: tableData, editMode, editCancel } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
-
     tableData.forEach((it, index) => {
       it['Edit'] = <Space size="middle">
         <EditOutlined
@@ -80,7 +111,7 @@ class TableComponent extends Component {
           disabled={!index} />
       </Space>
     })
-    if (editCancel && !EditMode) {
+    if (editCancel && !editMode) {
       tableData.forEach((item, index) => {
         if (index === editRowIndex) {
           Object.keys(item).map(it => {
@@ -95,7 +126,7 @@ class TableComponent extends Component {
         }
       })
     }
-    if (EditMode) {
+    if (editMode) {
       tableData.forEach((item, currentIndex) => {
         if (currentIndex === editRowIndex) {
           Object
@@ -107,7 +138,7 @@ class TableComponent extends Component {
                     <a onClick={() => this.updateData('save')} style={{ marginRight: 8 }}>
                       Save
                     </a>
-                    <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancelEditMode()}>
+                    <Popconfirm title="Sure to cancel?" onConfirm={this.canceleditMode}>
                       <a>Cancel</a>
                     </Popconfirm>
                   </span>
@@ -156,8 +187,9 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = {
   updateTurboConfig,
-  updateTestConfig,
-  updateParamConfig
+  updateTestConfigPage,
+  updateParamConfig,
+  updateConfigTableEdit
 }
 
 const tablePage = connect(

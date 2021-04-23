@@ -117,8 +117,8 @@ class ParamConfig extends Component {
               <TableElement
                 data={appData ? appData.paramConfig : []}
                 editable={true}
-                editableColumn={["unit_id", "upperlimit", "lowerlimit", "normallimit"]}
-                childrenColumnName={"Param Config"}
+                editableColumn={["upperlimit", "lowerlimit", "normallimit"]}
+                childrenColumnName={"paramconfig"}
               /> : []}
           </Layout>
         </div>

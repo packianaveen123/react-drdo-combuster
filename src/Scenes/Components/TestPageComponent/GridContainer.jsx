@@ -36,7 +36,7 @@ class GridContainer extends Component {
     super(props)
 
     this.state = {
-      turbomode: '1',
+      turboMode: '1',
       testingData: null,
       value: null,
       testerItems: [],
@@ -135,7 +135,7 @@ class GridContainer extends Component {
   onChangeradio = e => {
     console.log('radio checked', e.target.value);
     this.setState({
-      turbomode: e.target.value
+      turboMode: e.target.value
     })
     // setValue(e.target.value);
   };
@@ -219,15 +219,15 @@ class GridContainer extends Component {
       })
 
     }
-    if (this.state.turbomode === '' || this.state.turbomode === undefined) {
+    if (this.state.turboMode === '' || this.state.turboMode === undefined) {
       this.setState({
         errormsg: "Please Select the turbine"
       })
 
     }
-    if (this.state.turboIdVal !== undefined && this.state.turbomode !== '' && this.state.testerItems.length !== 0) {
+    if (this.state.turboIdVal !== undefined && this.state.turboMode !== '' && this.state.testerItems.length !== 0) {
       console.log(this.state.turboIdVal)
-      axios.post('http://192.168.0.167:5000/gettestid.php', { turboIdVal: this.state.turboIdVal, testerItems: this.state.testerItems, witnessItems: this.state.witnessItems, turbomode: this.state.turbomode },)
+      axios.post('http://192.168.0.167:5000/gettestid.php', { turboIdVal: this.state.turboIdVal, testerItems: this.state.testerItems, witnessItems: this.state.witnessItems, turboMode: this.state.turboMode },)
         .then(res => {
           this.communicationstatus()
           let interval = setInterval(() => {
@@ -374,32 +374,34 @@ class GridContainer extends Component {
   }
 
   Reloadall = () => {
-    this.props.stopDbInsert()
-    this.setState({
-      turbomode: '',
-      testingData: null,
-      value: null,
-      testerItems: [],
-      witnessItems: [],
-      turboIdval: '',
-      currentTesterItem: null,
-      currentWitnessItem: null,
-      isDuplicateTester: false,
-      isDuplicateWitness: false,
-      visible: false,
-      valvestatustime: '',
-      valvestatus: '',
-      svcoolingair: 'OFF',
-      svpilotflameair: 'OFF',
-      svnaturalgastopilotflame: 'OFF',
-      svdilution: 'OFF',
-      fcvcomplressorair: 'OFF',
-      fcvmaingasfuel: 'OFF',
-      currentDateTime: '',
-      turbostartname: [],
-      overalldata: [],
-      errormsg: ''
-    })
+    if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
+      this.props.stopDbInsert()
+      this.setState({
+        turboMode: '1',
+        testingData: null,
+        value: null,
+        testerItems: [],
+        witnessItems: [],
+        turboIdval: '',
+        currentTesterItem: null,
+        currentWitnessItem: null,
+        isDuplicateTester: false,
+        isDuplicateWitness: false,
+        visible: false,
+        valvestatustime: '',
+        valvestatus: '',
+        svcoolingair: 'OFF',
+        svpilotflameair: 'OFF',
+        svnaturalgastopilotflame: 'OFF',
+        svdilution: 'OFF',
+        fcvcomplressorair: 'OFF',
+        fcvmaingasfuel: 'OFF',
+        currentDateTime: '',
+        turbostartname: [],
+        overalldata: [],
+        errormsg: ''
+      })
+    }
   }
   render() {
     console.log(this.state.currentDateTime)

@@ -3,7 +3,7 @@ import { Card, Col, Row } from 'antd';
 import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
 import { updateChartData } from '../../../Redux/action';
-import { requestChartData } from '../../../Services/requests';
+
 
 class CardComponent extends Component {
   constructor(props) {
@@ -13,10 +13,6 @@ class CardComponent extends Component {
       cardList: []
     }
   }
-
-  // interval = setInterval(() => {
-  //   requestChartData();
-  // }, 1000);
 
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })

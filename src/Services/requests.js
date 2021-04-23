@@ -97,6 +97,7 @@ const updateConfigData = (data, callBack) => {
     .then(res => {
       let configData = res.data
       callBack(configData)
+      console.log(configData)
     }).catch(err => {
       console.log(err.res)
     })
@@ -125,7 +126,7 @@ const forgotValidation = (values) => {
   axios.post(forgotValidationUrl, values)
     .then(res => {
       console.log(res.data)
-      if (res.data == "success") {
+      if (res.data === "success") {
         this.props.updateAppState('login');
       }
       else {

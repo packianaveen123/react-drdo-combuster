@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTestConfig, updateTitleElements } from '../../../Redux/action';
+import { updateTestConfigPage, updateTitleElements } from '../../../Redux/action';
 import { Col, Row, Layout, Input, Button, InputNumber, Form } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 
@@ -82,9 +82,9 @@ class TestConfig extends Component {
               </Col>
             </Row>
             {
-              testdata.testConfig ?
+              testdata.testConfigPage ?
                 <TableElement
-                  data={testdata.testConfig ? testdata.testConfig : []}
+                  data={testdata.testConfigPage ? testdata.testConfigPage : []}
                   editable={true}
                   editableColumn={["testparamvalue"]}
                   childrenColumnName={"testparamconfig"}
@@ -106,7 +106,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateTestConfig,
+  updateTestConfigPage,
   updateTitleElements
 }
 
