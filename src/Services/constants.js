@@ -12,15 +12,13 @@ const url = {
   FORGOT_VALIDATION: 'forget.php'
 }
 
-const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature 1" },
-{ "key": "2", "Name": "Turbo Chrager Outlet Temperature 1" },
-{ "key": "3", "Name": "Cumbustor Inlet pressure 1" },
-{ "key": "4", "Name": "RPM Combustor 1" },
-{ "key": "5", "Name": "RPM Combustor 2" },
-{ "key": "6", "Name": "Combustor Outlet Temperature 2" },
-{ "key": "7", "Name": "Turbo Chrager Outlet Temperature 2" },
-{ "key": "8", "Name": "Cumbustor Inlet pressure 2" },
-{ "key": "9", "Name": "Gas Inlet pressure" }]
+const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
+{ "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
+{ "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
+{ "key": "4", "Name": "RPM Combustor", "chosen": true },
+{ "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
+{ "key": "6", "Name": "Gas Flow", "chosen": true }
+]
 
 const titleElements = [
   {
@@ -34,6 +32,13 @@ const testParamHash = {
   Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
   Resetdata: ['Reset Values']
 }
+const nozzleArea = {
+  nozzleArea_min: "0.0002",
+  nozzleArea_max: "0.0005",
+  nozzleArea_step: "0.0001",
+  nozzleArea_defalutValue: "0.0005"
+}
 export {
-  url, dashboardData, titleElements, testParamHash
+  url, dashboardData, titleElements,
+  testParamHash, nozzleArea
 }

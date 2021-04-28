@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Col, Row, Layout } from 'antd';
 import { connect } from 'react-redux';
 import TransferElement from '../../Components/subComponents/TransferElement';
+import ParamConfig from '../ConfigurationPage/ParamConfig';
 import { updateTitleElements } from '../../../Redux/action'
 export class DashboardConfig extends Component {
   constructor(props) {
@@ -29,7 +30,12 @@ export class DashboardConfig extends Component {
           </Row>
           <div style={{ paddingLeft: '80px' }}><TransferElement /></div>
         </Layout>
+
+        <div>
+          <ParamConfig />
+        </div>
       </div>
+
 
     )
   }

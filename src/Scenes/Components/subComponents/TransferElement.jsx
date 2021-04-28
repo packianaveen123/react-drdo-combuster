@@ -4,21 +4,19 @@ import 'antd/dist/antd.css';
 import { Col, Row, Button, Form, Transfer } from 'antd';
 import { updateTransferElement } from '../../../Redux/action';
 import TurboConfig from '../../Pages/ConfigurationPage/TurboConfig';
+
 class TransferElement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       mockData: [],
       targetKeys: [],
-      dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature 1", "chosen": true },
-      { "key": "2", "Name": "Turbo Chrager Outlet Temperature 1", "chosen": true },
-      { "key": "3", "Name": "Cumbustor Inlet pressure 1", "chosen": true },
-      { "key": "4", "Name": "RPM Combustor 1", "chosen": true },
-      { "key": "5", "Name": "RPM Combustor 2", "chosen": true },
-      { "key": "6", "Name": "Combustor Outlet Temperature 2", "chosen": true },
-      { "key": "7", "Name": "Turbo Chrager Outlet Temperature 2", "chosen": false },
-      { "key": "8", "Name": "Cumbustor Inlet pressure 2", "chosen": false },
-      { "key": "9", "Name": "Gas Inlet pressure", "chosen": false }
+      dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
+      { "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
+      { "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
+      { "key": "4", "Name": "RPM Combustor", "chosen": true },
+      { "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
+      { "key": "6", "Name": "Gas Flow", "chosen": true }
       ]
     }
   }

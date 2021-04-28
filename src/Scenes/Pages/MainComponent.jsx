@@ -41,6 +41,7 @@ export class MainComponent extends Component {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
       this.props.updateTurboConfig(data)
+      console.log(data)
     })
     getTestConfigData((data) => {
       this.props.updateTestConfigPage(data)

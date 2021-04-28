@@ -256,7 +256,7 @@
 -------------------------- */
  .ant-input-group.ant-input-group-compact > .ant-select:last-child > .ant-select-selector 
 {  
-  background-color:#131633;
+  background-color:transparent;
   color:#fff;
   /* width:450px; */
   height: 40px;

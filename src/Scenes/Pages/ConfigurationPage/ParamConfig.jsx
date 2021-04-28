@@ -13,17 +13,17 @@ class ParamConfig extends Component {
       paramData: ''
     }
   }
-  componentDidMount() {
-    this.props.updateTitleElements({
-      title: 'Param Config',
-      type: 'Config',
-    })
-  }
+  // componentDidMount() {
+  //   this.props.updateTitleElements({
+  //     title: 'Param Config',
+  //     type: 'Config',
+  //   })
+  // }
   render() {
     const appData = this.props.app;
     return (
       <div style={{ paddingTop: "1px" }}>
-        <Layout class="layout-container">
+        {/* <Layout class="layout-container">
           <h2 class="h2" >Param Configuration</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={3}>
@@ -103,13 +103,13 @@ class ParamConfig extends Component {
               <Button > Reset</Button>
             </Col>
           </Row>
-        </Layout>
+        </Layout> */}
 
         <div style={{ paddingTop: "35px" }}>
           <Layout class="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 class="h2">Param Configuration</h2>
+                <h2 class="h2">Color Configuration Table</h2>
               </Col>
             </Row>
 
@@ -117,7 +117,20 @@ class ParamConfig extends Component {
               <TableElement
                 data={appData ? appData.paramConfig : []}
                 editable={true}
-                editableColumn={["upperlimit", "lowerlimit", "normallimit"]}
+                editableColumn={[
+                  {
+                    'editFeild': "upperlimit",
+                    'inputType': 'input'
+                  },
+                  {
+                    'editFeild': "lowerlimit",
+                    'inputType': 'input'
+                  },
+                  {
+                    'editFeild': "normallimit",
+                    'inputType': 'input'
+                  }
+                ]}
                 childrenColumnName={"paramconfig"}
               /> : []}
           </Layout>

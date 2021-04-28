@@ -24,8 +24,8 @@ class TestConfig extends Component {
     const testdata = this.props.app;
 
     return (
-      <div style={{ paddingTop: "1px" }}>
-        <Layout class="layout-container">
+      <div style={{ paddingTop: "0px" }}>
+        {/* <Layout class="layout-container">
           <h2 class="h2" >Test Configuration</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "20px" }} >
@@ -72,9 +72,9 @@ class TestConfig extends Component {
               </Col>
             </Row>
           </Form>
-        </Layout>
+        </Layout> */}
 
-        <div style={{ paddingTop: "35px" }}>
+        <div style={{ paddingTop: "1px" }}>
           <Layout class="bottom-container">
             <Row>
               <Col span={8}>
@@ -86,7 +86,12 @@ class TestConfig extends Component {
                 <TableElement
                   data={testdata.testConfigPage ? testdata.testConfigPage : []}
                   editable={true}
-                  editableColumn={["testparamvalue"]}
+
+                  editableColumn={[
+                    {
+                      'editFeild': "testparamvalue",
+                      'inputType': 'input'
+                    }]}
                   childrenColumnName={"testparamconfig"}
                   parent={"testConfig"}
                 /> : []

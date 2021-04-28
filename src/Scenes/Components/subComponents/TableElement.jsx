@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm, Button } from 'antd';
+import { Table, Space, Input, Popconfirm, Button, Col, Row, Layout, Select } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
@@ -12,8 +13,8 @@ import {
   updateParamConfig,
   updateConfigTableEdit
 } from '../../../Redux/action'
-
-
+import axios from 'axios';
+const { Option } = Select
 const { Map } = require('immutable');
 const { Column } = Table;
 
@@ -22,11 +23,13 @@ class TableComponent extends Component {
     super(props);
     this.state = {
       data: [],
+      value: null,
       editMode: false,
       editSession: false,
       editRowIndex: null,
       editData: [],
-      editCancel: false
+      editCancel: false,
+      turbo_status: [{ status: 'installed' }, { status: 'Completed' }, { status: 'onRepair' }]
     }
     this.updateInputValue = this.updateInputValue.bind(this);
   }
@@ -48,7 +51,11 @@ class TableComponent extends Component {
     newEditData[colName] = event.target.value
     this.setState({ editData: newEditData })
   }
-
+  updateSelectValue = (event, colName) => {
+    const { editData: newEditData } = this.state
+    newEditData[colName] = event
+    this.setState({ editData: newEditData })
+  }
   canceleditMode = () => {
     let key = this.props.childrenColumnName;
     this.setState({
@@ -167,36 +174,75 @@ class TableComponent extends Component {
               }
               else {
                 editableColumn.map(colName => {
-                  if (it === colName)
-                    item[it] =
-                      <Input
-                        style={{ width: '200px' }}
-                        defaultValue={item[it]}
-                        value={this.state.it}
-                        onChange={(e) => this.updateInputValue(e, colName)}
-
-                      ></Input>
+                  if (colName.inputType === 'input') {
+                    if (it === colName.editFeild)
+                      item[it] =
+                        <Input
+                          style={{ width: '200px' }}
+                          defaultValue={item[it]}
+                          value={this.state.it}
+                          onChange={(e) => this.updateInputValue(e, colName.editFeild)}
+                        ></Input>
+                  }
+                  if (colName.inputType === "select") {
+                    if (it === colName.editFeild)
+                      item[it] =
+                        <Input.Group compact>
+                          <Select
+                            defaultValue={item[it]}
+                            style={{ width: '300px' }}
+                            onChange={(e) => this.updateSelectValue(e, colName.editFeild)}
+                          >
+                            {
+                              this.state.turbo_status.map(status => (
+                                <Option value={status.status}>
+                                  {status.status}
+                                </Option>
+                              ))
+                            }
+                          </Select>
+                        </Input.Group>
+                  }
                 })
+
               }
             })
         }
       })
     }
+
+
     let columns = []
     if ((tableData !== null || tableData !== undefined) && tableData.length > 0) {
       columns = Object.keys(tableData[0])
     }
     return (
       <div>
-        <div style={{ float: 'right' }}>
-          <Button
-            type="primary"
-            style={{ width: '6rem' }}
-            onClick={this.startEdit}
-          >
-            Start Edit
-        </Button>
+        <div>
+          <Row style={{ marginLeft: '85%' }}>
+            {
+              this.props.childrenColumnName !== "turboconfig" ?
+
+                <Col xs={12}>
+                  <Button
+                    type="primary"
+                    onClick={this.updateData}> Reset</Button>
+                </Col>
+                : []
+            }
+            <Col xs={12}>
+              <Button
+                type="primary"
+                style={{ width: '6rem' }}
+                onClick={this.startEdit}
+              >
+                Start Edit
+                  </Button>
+            </Col>
+          </Row>
         </div>
+
+
         <Table
           dataSource={tableData}
           style={{ backgroundColor: "#131633" }}
@@ -209,7 +255,7 @@ class TableComponent extends Component {
               }) : []
           }
         </Table>
-      </div>
+      </div >
     )
   }
 }

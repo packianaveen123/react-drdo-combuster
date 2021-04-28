@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
 import { turbineConfigSubmit } from '../../../Services/requests';
+import { nozzleArea } from '../../../Services/constants';
 import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Descriptions } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
+import { notification } from 'antd';
 import 'moment/locale/zh-cn';
 
 class TurboConfig extends Component {
@@ -13,11 +15,15 @@ class TurboConfig extends Component {
     this.state = {
       turboID: null,
       dateVal: '',
-      nozzleArea: null,
+      nozzleArea: '',
       discriptionVal: null,
-      bladeVal: null
+      bladeVal: '',
+
     }
+    this.updateDate = this.updateDate.bind(this)
+    this.updateBlades = this.updateBlades.bind(this)
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: 'Turbo Config',
@@ -25,6 +31,7 @@ class TurboConfig extends Component {
     })
   }
   onFinish = () => {
+    console.log(this.state.turboID, this.state.dateVal, this.state.nozzleArea, this.state.discriptionVal, this.state.bladeVal)
     const body = {
       turbo_id: this.state.turboID,
       date: this.state.dateVal,
@@ -42,14 +49,31 @@ class TurboConfig extends Component {
       turboID: e.target.value
     })
   };
-  updateDate = (e) => {
+  updateDate = (date, dateString) => {
+    console.log(typeof (dateString))
+    var installedDate = new Date(dateString)
+    var today = new Date();
+
+    if (today < installedDate) {
+      this.openNotification()
+    }
     this.setState({
-      dateVal: e.target.value
+      dateVal: dateString
     })
   }
-  handleNumber = (e) => {
+  openNotification = () => {
+    notification.open({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      onClick: () => {
+        console.log('Notification Clicked!');
+      },
+    });
+  }
+  handleNumber = (value) => {
     this.setState({
-      nozzleArea: e.target.value
+      nozzleArea: value
     })
   }
   updateDiscription = (e) => {
@@ -58,14 +82,19 @@ class TurboConfig extends Component {
     })
   }
   updateBlades = (e) => {
-    this.setState({
-      bladeVal: e.target.value
-    })
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === '' || re.test(e.target.value)) {
+      this.setState({
+        bladeVal: e.target.value
+      })
+    }
+    console.log(e)
   }
 
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
+    const { nozzleArea_min, nozzleArea_max, nozzleArea_step, nozzleArea_defalutValue } = nozzleArea
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
@@ -103,36 +132,41 @@ class TurboConfig extends Component {
                 <div>
                   <Tooltip placement="bottom" title='Range 0.0002 to 0.0005 m2' style={{ backgroundColor: 'pink' }}>
                     <InputNumber
-                      name="nozzle_area"
-                      min={0.0002} max={0.0005}
-                      defaultValue={0.0245}
-                      step={0.0001}
-                      style={{ width: "320px" }}
+                      style={{ width: '320px' }}
+                      defaultValue={nozzleArea_defalutValue}
+                      min={nozzleArea_min}
+                      max={nozzleArea_max}
+                      step={nozzleArea_step}
                       onChange={this.handleNumber}
-                    />
+                      stringMode
+                    />,
                   </Tooltip>
                 </div>
               </Col>
             </Row>
             <Row style={{ paddingTop: "20px" }}>
               <Col sm={2}>
-                <label class="label" >Description <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+                <label class="label" >Description <i style={{ color: 'red', fontSize: '15px' }}> </i></label>
               </Col>
               <Col sm={14}>
-                <Input
-                  name="description"
-                  style={{ height: "100px", width: "760px" }}
-                  placeholder="Description..."
-                  onChange={this.updateDiscription} />
+                <Tooltip placement="bottomLeft" title='Allowed 200 words only'>
+                  <Input
+                    name="description"
+                    style={{ height: "100px", width: "760px" }}
+                    placeholder="Description..."
+                    maxLength='200'
+                    onChange={this.updateDiscription} />
+                </Tooltip>
               </Col>
 
               <Col sm={2}>
-                <label class="label" >No of blades<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+                <label class="label" >No of Blades<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               </Col>
               <Col sm={3}>
                 <Input
                   name="noofblades"
                   style={{ width: "320px" }}
+                  value={this.state.bladeVal}
                   placeholder="No of Blades"
                   onChange={this.updateBlades} />
               </Col>
@@ -141,7 +175,8 @@ class TurboConfig extends Component {
             <Row sm={6} style={{ paddingTop: '25px', paddingLeft: "35%", paddingBottom: '30px' }}>
               <Col xs={4}>
                 <Form.Item>
-                  <Button htmlType="submit" > Save</Button>  </Form.Item>
+                  <Button htmlType="submit" > Save</Button>
+                </Form.Item>
               </Col>
               <Col xs={4}>
                 <Button> Clear</Button>
@@ -161,7 +196,17 @@ class TurboConfig extends Component {
               <TableElement
                 data={turboConfig}
                 editable={true}
-                editableColumn={["description", "status"]}
+                editableColumn={[
+                  {
+                    'editFeild': "description",
+                    'inputType': 'input'
+                  },
+                  {
+                    'editFeild': "status",
+                    'inputType': 'select'
+                  }
+                ]}
+
                 childrenColumnName={"turboconfig"}
               /> : []}
           </Layout>
