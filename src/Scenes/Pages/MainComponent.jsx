@@ -18,8 +18,7 @@ import ExportData from './Reports/ExportData';
 
 import {
   updateTurboConfig, updateTestConfigPage,
-  updateParamConfig, updateChartData,
-  updateUserParameter
+  updateParamConfig, updateUserParameter
 } from '../../Redux/action';
 
 import {
@@ -49,9 +48,6 @@ export class MainComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
-    // requestChartData((data) => {
-    //   this.props.updateChartData(data);
-    // })    
   }
 
   render() {
@@ -89,7 +85,6 @@ const mapDispatchToProps = {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
-  updateChartData,
   updateUserParameter
 }
 

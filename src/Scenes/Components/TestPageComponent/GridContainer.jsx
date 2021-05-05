@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Layout, Divider, Input, Select, Alert, Button, Radio, Popover, Space } from 'antd';
+import { Card, Col, Row, Layout, Divider, Input, Select, Alert, Button, Radio, Popover, Space, Typography } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
-  QuestionOutlined, RedoOutlined, CheckOutlined, DownOutlined
+  QuestionOutlined, RedoOutlined,
+  CheckOutlined, DownOutlined, CloseOutlined
 } from '@ant-design/icons';
 import {
   initiateShutdown, initiateShowReset,
@@ -20,7 +21,7 @@ import ListItems from '../subComponents/ListItems';
 import TestDetails from '../TestPageComponent/TestDetails';
 import {
   shutdownClickEvent, resetClickEvent,
-  requestChartData,
+  requestChartData, getChartData, getSensorData
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
 
@@ -29,8 +30,9 @@ import { updateChartData } from '../../../Redux/action';
 import { testParamHash } from '../../../Services/constants'
 const { Option } = Select;
 const { Search } = Input;
-let count = 1
+const { Text } = Typography;
 
+let count = 1
 class GridContainer extends Component {
   constructor(props) {
     super(props)
@@ -78,6 +80,7 @@ class GridContainer extends Component {
     const newItem = key === 'tester' ? currentTesterItem : currentWitnessItem
     const isDuplicateTester = testerItems.includes(newItem);
     const isDuplicateWitness = witnessItems.includes(newItem);
+
     if (isDuplicateTester) {
       this.setState({
         isDuplicateTester: isDuplicateTester
@@ -150,6 +153,21 @@ class GridContainer extends Component {
   onClick = () => {
     this.setState({ testerValue: true })
   }
+  shutdownClick = () => {
+    this.setState({
+      shutdownInitiated: true
+    })
+    shutdownClickEvent((data) => {
+      this.props.initiateShutdown(data)
+    })
+  }
+
+  // axios requests
+  requestChartData() {
+    getChartData((data) => {
+      this.props.updateChartData(data);
+    })
+  }
   requestChartData() {
     axios.get('http://192.168.0.167:5000/graph.php').then(res => {
       let chartdata = res.data;
@@ -159,35 +177,37 @@ class GridContainer extends Component {
       console.log(err);
     })
   }
-  requestChartData1() {
-    axios.get('http://192.168.0.167:5000/getdata.php',).then(res => {
-      let chartdata = res.data;
+
+  sensorData() {
+    getSensorData((data) => {
       if (this.props.app.stopDbInsert === false) {
-        this.props.initiateTurboStart(res.data);
+        this.props.initiateTurboStart(data);
       }
       else {
         this.props.initiateTurboStart(null)
       }
-
-    }).catch(err => {
-      console.log(err);
     })
   }
 
-  shutdownClick = () => {
-    this.setState({
-      shutdownInitiated: true
-    })
-    shutdownClickEvent((data) => {
-      this.props.initiateShutdown(data)
-    })
-  }
+  // sensorData() {
+  //   axios.get('http://192.168.0.167:5000/getdata.php',).then(res => {
+  //     let chartdata = res.data;
+  //     if (this.props.app.stopDbInsert === false) {
+  //       this.props.initiateTurboStart(res.data);
+  //     }
+  //     else {
+  //       this.props.initiateTurboStart(null)
+  //     }
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // }
+
   communicationstatus() {
     axios.get('http://192.168.0.167:5000/initialize.php')
       .then(res => {
         let CommunicationData = res.data;
         console.log(CommunicationData);
-
         if (CommunicationData.status === "1") {
           console.log(this.props)
           this.props.initiateCommunication();
@@ -231,7 +251,7 @@ class GridContainer extends Component {
         .then(res => {
           this.communicationstatus()
           let interval = setInterval(() => {
-            this.requestChartData1();
+            this.sensorData();
           }, 1000);
         })
         .catch((err) => {
@@ -464,18 +484,23 @@ class GridContainer extends Component {
                         <label for="text" class="label" >Turbo ID</label>
                       </Col>
                       <Col span={6}>
+
                         <Input.Group compact>
-                          <Select
-                            defaultValue="Select Turbo ID"
-                            style={{ width: '300px' }}
-                            onChange={this.handleChangetestID}
-                          >
-                            {testIdValue.map(it => (
-                              <Option key={it.turboname} value={it.turboname}>
-                                {it.turboname}
-                              </Option>
-                            ))}
-                          </Select>
+                          {
+                            testIdValue && testIdValue.length > 0 ?
+                              <Select
+                                defaultValue="Select Turbo ID"
+                                style={{ width: '300px' }}
+                                onChange={this.handleChangetestID}
+                              >
+
+                                {testIdValue.map(it => (
+                                  <Option key={it.turboname} value={it.turboname}>
+                                    {it.turboname}
+                                  </Option>
+                                ))}
+                              </Select> : <Text type="warning">No active turbines</Text>
+                          }
                         </Input.Group>
                       </Col>
                     </Row>
@@ -534,7 +559,6 @@ class GridContainer extends Component {
                         >+</button>
                       </Col>
                     </Row>
-
                   </form>
                   <Row style={{ paddingLeft: '5rem' }}>
                     <ListItems items={this.state.witnessItems} deleteItem={this.deleteWitnessItem} />
@@ -548,7 +572,7 @@ class GridContainer extends Component {
                       <Space>
                         <Button size="small" type="ghost" onClick={() => this.errorDoneClick()}>
                           Done
-                  </Button>
+                        </Button>
                       </Space>
                     } /> : ''}
               </Row>
@@ -564,7 +588,7 @@ class GridContainer extends Component {
                   communicationFailed ?
                     <p>
                       <Row>
-                        <CheckOutlined style={{ color: 'green' }} />
+                        <CloseOutlined style={{ color: 'red', marginTop: '1%' }} />
                         <p>{this.state.currentDateTime}- Communication failed</p>
                       </Row>
                     </p> : []

@@ -82,7 +82,7 @@ class TestConfig extends Component {
               </Col>
             </Row>
             {
-              testdata.testConfigPage ?
+              testdata.testConfigPage && testdata.testConfigPage.length > 0 ?
                 <TableElement
                   data={testdata.testConfigPage ? testdata.testConfigPage : []}
                   editable={true}

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateAppState, updateForgotEvent } from '../../../Redux/action';
+import { forgotValidation } from '../../../Services/requests';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -15,33 +15,23 @@ class ForgotPassword extends Component {
   }
 
   onFinish = (values) => {
-    axios.post('http://192.168.0.167:5000/forget.php',
-      values,
-    )
-      .then(res => {
-        console.log(res.data)
-        if (res.data == "success") {
-          this.props.updateAppState('login');
-        }
-        else {
-          this.state.IsUserName = true;
-
-          this.setState({ redirect: false });
-        }
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err.res)
-      })
-  };
+    forgotValidation(values, (data) => {
+      if (data == "success") {
+        this.props.updateAppState('login');
+      }
+      else {
+        this.state.IsUserName = true;
+        this.setState({ redirect: false });
+      }
+    })
+  }
 
   backToLoginEvent = () => {
     this.props.updateAppState('login');
-
   }
+
   render() {
     const IsUserName = this.state.IsUserName;
-
     console.log(IsUserName)
     return (
       <div class="background">

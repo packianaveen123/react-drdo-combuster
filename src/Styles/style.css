@@ -229,18 +229,11 @@
 .ant-picker {
   width:230px;
   color:#666873;
-  font-size: 20px;
-  padding: 11px 11px 8px;
+  font-size: 20px; 
   border: 1px solid #3e434d;
   border-radius: 2px;
 }
-/* .ant-picker:focus, .ant-picker-focused {
-  border-color: #42dbdc;
-  border-right-width: 1px !important;
-  outline: 0;
-  -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
-  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
-} */
+
 .ant-picker-suffix {
   color: rgb(151, 150, 151);
   font-size: 18px;

@@ -7,12 +7,15 @@ const turboConfigUrl = `${BASE_URL}${URL.TURBO_CONFIG}`
 const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
 const testConfigUrl = `${BASE_URL}${URL.TEST_CONFIG}`
 const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
-const graphChartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
 const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
+const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
+const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
+const chartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
+const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 
 let that = this;
 
@@ -24,22 +27,17 @@ const getTurboConfigData = (callBack) => {
     console.log(err);
   })
 }
-
 const turbineConfigSubmit = (body, callBack) => {
   axios.post(turboConfigSubmitUrl, body)
     .then(res => {
-      console.log(res.data)
-      if (res.data === "success") {
-        getTurboConfigData((data) => {
-          callBack(data)
-        })
+      if (res.data) {
+        console.log(res.data)
+        callBack(res.data)
       }
-      else { }
     }).catch(err => {
       console.log(err.res)
     })
 }
-
 const getTestConfigData = (callBack) => {
   axios.get(testConfigUrl)
     .then(res => {
@@ -49,7 +47,6 @@ const getTestConfigData = (callBack) => {
       console.log(err);
     })
 }
-
 const getParamConfigData = (callBack) => {
   axios.get(paramConfigUrl)
     .then(res => {
@@ -59,20 +56,6 @@ const getParamConfigData = (callBack) => {
       console.log(err);
     })
 }
-
-const requestingChartData = (callBack) => {
-  axios.get(graphChartDataUrl)
-    .then(res => {
-      let chartData = res.data;
-      callBack(chartData)
-    }).catch(err => {
-      console.log(err);
-    })
-}
-
-
-
-
 
 const shutdownClickEvent = (callBack) => {
   axios.post(shutdownClickEventUrl)
@@ -106,34 +89,62 @@ const updateConfigData = (data, callBack) => {
 const loginValidation = (values, callBack) => {
   axios.post(loginValidationUrl, values)
     .then(res => {
-      if (res.data === "success") {
-        alert("success")
-        callBack(res.data)
-        that.props.updateAppState('main')
-        console.log(res.data)
-      }
-      else if (res.data === "failed") {
-        // this.state.IsLogin = true;
-        // this.setState({ redirect: false });
-      }
+      console.log(res.data)
+      callBack(res.data)
     })
     .catch(err => {
       console.log(err.res)
     })
 }
 
-const forgotValidation = (values) => {
+const forgotValidation = (values, callBack) => {
   axios.post(forgotValidationUrl, values)
     .then(res => {
       console.log(res.data)
-      if (res.data === "success") {
-        this.props.updateAppState('login');
-      }
-      else {
-        this.state.IsUserName = true;
-        this.setState({ redirect: false });
-      }
-      console.log(res)
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
+const registerPageValidation = (values, callBack) => {
+  axios.post(registerPageValidationUrl, values)
+    .then(res => {
+      console.log(res.data)
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+const getTableView = (callBack) => {
+  axios.post(tableViewUrl)
+    .then(res => {
+      console.log(res.data)
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
+const getChartData = (callBack) => {
+  axios.post(chartDataUrl)
+    .then(res => {
+      console.log(res.data)
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
+const getSensorData = (callBack) => {
+  axios.post(sensorDataUrl)
+    .then(res => {
+      console.log(res.data)
+      callBack(res.data)
     })
     .catch(err => {
       console.log(err.res)
@@ -150,6 +161,11 @@ export {
   updateConfigData,
   loginValidation,
   forgotValidation,
-  requestingChartData
+  registerPageValidation,
+  getTableView,
+  getChartData,
+  getSensorData
+
+
 
 }

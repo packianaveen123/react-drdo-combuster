@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateAppState } from '../../../Redux/action';
+import { registerPageValidation } from '../../../Services/requests';
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -13,33 +13,27 @@ class RegisterPage extends Component {
 
     }
   }
+
   onFinish = (values) => {
-    axios.post('http://192.168.0.167:5000/Registration.php',
-      values,
-    )
-      .then(res => {
-        console.log(res.data)
-        if (res.data == "success") {
-          this.setState({ redirect: true });
-          this.props.updateAppState('login');
+    registerPageValidation(values, (data) => {
+      if (data == "success") {
+        this.setState({ redirect: true });
+        this.props.updateAppState('login');
+      }
+      else if (data == "Sorry... username already taken") {
+        this.state.IsuserName_reg = true;
+        console.log(this.state.IsuserName_reg)
+        this.setState({ redirect: false });
+      }
+      else if (data == "email already taken") {
+        this.state.Isemail_reg = true;
+        console.log(this.state.Isemail_reg)
+        this.setState({ redirect: false });
+      }
 
-        }
-        else if (res.data == "Sorry... username already taken") {
-          this.state.IsuserName_reg = true;
-          console.log(this.state.IsuserName_reg)
-          this.setState({ redirect: false });
-        }
-        else if (res.data == "email already taken") {
-          this.state.Isemail_reg = true;
-          console.log(this.state.Isemail_reg)
-          this.setState({ redirect: false });
-        }
-      })
+    })
+  }
 
-      .catch(err => {
-        console.log(err.res)
-      })
-  };
   backToLoginEvent = () => {
     this.props.updateAppState('login');
     console.log(this.props.initiateRegisterState)
@@ -132,7 +126,6 @@ class RegisterPage extends Component {
                                   if (!value || getFieldValue('password') === value) {
                                     return Promise.resolve();
                                   }
-
                                   return Promise.reject('The two passwords that you entered do not match!');
                                 },
                               }),

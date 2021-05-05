@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import StatusBlock from '../../Components/TestPageComponent/StatusBlock';
 import { Table, Row, Col } from 'antd';
-import axios from 'axios';
 import { updateTitleElements } from '../../../Redux/action'
 import { connect } from 'react-redux';
 import { updateTableData } from '../../../Redux/action';
+import { getTableView } from '../../../Services/requests';
+
 var today = new Date(),
   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
 const columns = [
@@ -61,17 +62,17 @@ class TableView extends Component {
       alldata: []
     }
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: 'Table View',
       type: 'Dashboard',
     })
   }
-  testClick() {
-    const liveDataObj = this.props.app.chartData[0]
-    console.log('liveData: ', liveDataObj)
-    axios.get('http://192.168.0.167:5000/tableview.php').then(res => {
-      const data = res.data;
+
+  testClick = () => {
+    getTableView((data) => {
+      const liveDataObj = this.props.app.chartData[0]
       data.map(item => {
         const key = item['paramindex']
         Object.keys(liveDataObj).map(it => {
@@ -84,10 +85,9 @@ class TableView extends Component {
         tabledata: data
       })
       console.log(data)
-    }).catch(err => {
-      console.log(err);
     })
   }
+
   interval = setInterval(() => { this.testClick() }, 1000)
   render() {
     let a = this.props.turboStart

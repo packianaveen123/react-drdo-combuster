@@ -13,7 +13,7 @@ import {
   updateParamConfig,
   updateConfigTableEdit
 } from '../../../Redux/action'
-import axios from 'axios';
+
 const { Option } = Select
 const { Map } = require('immutable');
 const { Column } = Table;
@@ -56,7 +56,8 @@ class TableComponent extends Component {
     newEditData[colName] = event
     this.setState({ editData: newEditData })
   }
-  canceleditMode = () => {
+
+  cancelEditMode = () => {
     let key = this.props.childrenColumnName;
     this.setState({
       editMode: false,
@@ -167,7 +168,7 @@ class TableComponent extends Component {
                     <a onClick={() => this.updateData('save')} style={{ marginRight: 8 }}>
                       Save
                     </a>
-                    <Popconfirm title="Sure to cancel?" onConfirm={this.canceleditMode}>
+                    <Popconfirm title="Sure to cancel?" onConfirm={this.cancelEditMode}>
                       <a>Cancel</a>
                     </Popconfirm>
                   </span>

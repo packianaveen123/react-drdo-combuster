@@ -24,8 +24,10 @@ const appReducer = (state = InitialState, action) => {
 
 
     case 'UPDATE_TURBO_CONFIG':
+      console.log(newState)
       newState.turboConfig = action.payload ? action.payload : []
       return newState
+
     case 'UPDATE_PARAM_CONFIG':
       newState.paramConfig = action.payload ? action.payload : []
       return newState

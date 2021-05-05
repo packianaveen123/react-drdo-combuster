@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import axios from 'axios';
 import { loginValidation } from '../../../Services/requests';
 import { connect } from 'react-redux';
 import { updateUserParameter, updateAppState, updateLoginEvent } from '../../../Redux/action';
@@ -15,42 +14,20 @@ class LoginPage extends Component {
     }
   }
 
-  // onFinish = (values) => {
-  //   loginValidation(values, (data) => {
-  //     this.props.updateLoginEvent(true);
-  //     this.props.updateAppState('main')
-  //   })
-  // }
-
   onFinish = (values) => {
-    // loginValidation(values, (data) => {
-    //   this.props.updateUserParameter(data)
-
-    // })
-
     let that = this
-    axios.post('http://192.168.0.167:5000/login_validation.php',
-      values,
-    )
-      .then(res => {
-        console.log(res.data)
-        if (res.data == "success") {
-          // this.props.updateUserParameter(values)
-          that.props.updateAppState('main')
+    loginValidation(values, (data) => {
+      if (data == "success") {
+        that.props.updateAppState('main')
+        console.log(data)
+      }
+      else if (data == "failed") {
+        this.state.IsLogin = true;
 
-          console.log(res.data)
-
-        }
-        else if (res.data == "failed") {
-          this.state.IsLogin = true;
-          console.log(this.state.IsLogin)
-
-        }
-      })
-      .catch(err => {
-        console.log(err.res)
-      })
-  };
+        console.log(this.state.IsLogin)
+      }
+    })
+  }
 
   signupEvent = () => {
     this.props.updateAppState('signup');
@@ -112,11 +89,12 @@ class LoginPage extends Component {
                             </Form.Item>
                             {
                               this.state.IsLogin ?
-                                <Alert className="alert_error" message="Username or Password is Incorrect" type="error" /> : ''}
+                                <Alert className="alert_error" message="Username or Password is Incorrect" type="error" />
+                                : ''}
                             <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                               <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in
-                            </Button>
+                              </Button>
                             </Form.Item>
 
                             <div onClick={this.forgotPasswordEvent}>

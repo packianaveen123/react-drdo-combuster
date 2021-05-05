@@ -62,6 +62,8 @@ class ExportData extends Component {
       type: 'Report',
     })
   }
+
+
   handleChangetestID = (value) => {
     axios.post('http://192.168.0.167:5000/exportData.php', { turboIdVal: value }).then(res => {
       let chartdata = res.data;
@@ -78,6 +80,7 @@ class ExportData extends Component {
     console.log(this.state.turboIdVal)
     console.log(this.state.testno)
   }
+
   getReport = () => {
     axios.post('http://192.168.0.167:5000/getReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno }).then(res => {
       let chartdata = res.data;

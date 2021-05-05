@@ -17,25 +17,33 @@ class RunningReport extends Component {
       type: 'Report',
     })
   }
-  onFinish = (values) => {
-    axios.post('http://localhost/TVS/graph_data.php',
-      values
-    )
-    console.log(values)
-      .then(res => {
-        console.log(res.data)
 
-        if (res.data === "success") {
-          console.log(values)
-          alert("success")
-        }
-        else if (res.data === "failed") {
-          alert("incorrect ")
-        }
-      })
-      .catch(err => {
-        console.log(err.res)
-      })
+  // onFinish = (values) => {
+  //   axios.post('http://localhost/TVS/graph_data.php',
+  //     values
+  //   )
+  //   console.log(values)
+  //     .then(res => {
+  //       console.log(res.data)
+
+  //       if (res.data === "success") {
+  //         console.log(values)
+  //         alert("success")
+  //       }
+  //       else if (res.data === "failed") {
+  //         alert("incorrect ")
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err.res)
+  //     })
+  // }
+
+
+  onFinish = (values) => {
+    runningReport((data) => {
+      this.props.updateTurboConfig(data)
+    })
   }
   render() {
     return (
@@ -124,3 +132,6 @@ const runningReport = connect(
 )(RunningReport)
 
 export default runningReport;
+
+
+

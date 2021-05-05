@@ -4,12 +4,15 @@ const url = {
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
   PARAM_CONFIG: 'param_config.php',
-  GRAPH_CHART_DATA: 'graph.php',
   SHUTDOWN_CLICK: 'shutdown.php',
   RESET_CLICK: 'reset.php',
   UPDATE_CONFIG_DATA: 'testconfigedit.php',
   LOGIN_VALIDATION: 'login_validation.php',
-  FORGOT_VALIDATION: 'forget.php'
+  FORGOT_VALIDATION: 'forget.php',
+  REGISTERPAGE_VALIDATION: 'Registration.php',
+  TABLE_VIEW: 'tableview.php',
+  GRAPH_CHART_DATA: 'graph.php',
+  SENSOR_DATA: 'getdata.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
@@ -32,13 +35,21 @@ const testParamHash = {
   Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
   Resetdata: ['Reset Values']
 }
-const nozzleArea = {
-  nozzleArea_min: "0.0002",
-  nozzleArea_max: "0.0005",
-  nozzleArea_step: "0.0001",
-  nozzleArea_defalutValue: "0.0005"
+const turboConfigValue = {
+  nozzleArea_min: 0.0002,
+  nozzleArea_max: 0.0005,
+  nozzleArea_step: 0.0001,
+  nozzleArea_defalutValue: 0.00023,
+  blade_defalutValue: 6,
+  blade_min: 1,
+  blade_max: 10,
+  error_turbo_msg: 'Turbo ID alreadt exists',
+  error_blade_msg: 'Please enter number of blades',
+  added_turbo_msg: 'TurboID added successfully'
+
 }
+
 export {
   url, dashboardData, titleElements,
-  testParamHash, nozzleArea
+  testParamHash, turboConfigValue
 }
