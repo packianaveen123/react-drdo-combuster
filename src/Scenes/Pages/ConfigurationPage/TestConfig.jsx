@@ -93,6 +93,7 @@ class TestConfig extends Component {
                       'inputType': 'input'
                     }]}
                   childrenColumnName={"testparamconfig"}
+                  configIdKeyValue={"testparamconfig_id"}
                   parent={"testConfig"}
                 /> : []
             }

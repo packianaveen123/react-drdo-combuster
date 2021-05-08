@@ -109,7 +109,7 @@ class ParamConfig extends Component {
           <Layout class="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 class="h2">Color Configuration Table</h2>
+                <h2 class="h2">Color Range Configuration Table</h2>
               </Col>
             </Row>
 
@@ -133,6 +133,7 @@ class ParamConfig extends Component {
                     }
                   ]}
                   childrenColumnName={"paramconfig"}
+                  configIdKeyValue={"paramconfig_id"}
                 /> : []}
           </Layout>
         </div>

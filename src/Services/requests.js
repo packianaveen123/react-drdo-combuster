@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { url } from './constants'
+import { url } from './constants';
 
 const URL = url
 const BASE_URL = URL.BASE_URL
 const turboConfigUrl = `${BASE_URL}${URL.TURBO_CONFIG}`
 const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
-const testConfigUrl = `${BASE_URL}${URL.TEST_CONFIG}`
+const configTableUrl = `${BASE_URL}${URL.TEST_CONFIG}`
 const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
@@ -39,7 +39,7 @@ const turbineConfigSubmit = (body, callBack) => {
     })
 }
 const getTestConfigData = (callBack) => {
-  axios.get(testConfigUrl)
+  axios.get(configTableUrl)
     .then(res => {
       let testData = res.data;
       callBack(testData)
@@ -76,6 +76,7 @@ const resetClickEvent = (callBack) => {
 }
 
 const updateConfigData = (data, callBack) => {
+  console.log(data)
   axios.post(updateConfigDataUrl, data)
     .then(res => {
       let configData = res.data

@@ -12,7 +12,7 @@ import {
   updateTestConfigPage,
   updateParamConfig,
   updateConfigTableEdit
-} from '../../../Redux/action'
+} from '../../../Redux/action';
 
 const { Option } = Select
 const { Map } = require('immutable');
@@ -29,11 +29,15 @@ class TableComponent extends Component {
       editRowIndex: null,
       editData: [],
       editCancel: false,
-      turbo_status: [{ status: 'installed' }, { status: 'Completed' }, { status: 'onRepair' }]
+      col: '',
+      turbo_status: [
+        { status: 'installed' },
+        { status: 'Completed' },
+        { status: 'onRepair' }
+      ]
     }
     this.updateInputValue = this.updateInputValue.bind(this);
   }
-
 
   handleButtonClick = (index) => {
     this.setState({
@@ -43,7 +47,7 @@ class TableComponent extends Component {
   }
   startEdit = () => {
     this.setState({
-      editSession: true,
+      editSession: true
     })
   }
   updateInputValue = (event, colName) => {
@@ -74,16 +78,20 @@ class TableComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
-
   }
 
-  updateData = () => {
+  updateData = (value) => {
     const configDataValue = {
       page: this.props.childrenColumnName,
       editData: Object.assign({}, this.state.editData),
-      editRowIndex: this.state.editRowIndex
+      editRowIndex: this.state.editRowIndex,
+      turboIdVal: value.turboconfig_id,
+      paramIdVal: value.paramconfig_id,
+      testIdVal: value.testparamconfig_id
     }
+
     updateConfigData(configDataValue, (data) => {
+      console.log(data)
       if (data) {
         let key = this.props.childrenColumnName;
         this.setState({
@@ -92,15 +100,37 @@ class TableComponent extends Component {
           editData: [],
           editCancel: false
         })
-        if (key === 'testparamconfig') {
+        console.log(key)
+        if (key === "testparamconfig") {
           this.props.updateTestConfigPage(data)
         }
         else if (key === 'turboconfig') {
           this.props.updateTurboConfig(data)
         }
-        else {
-          this.props.updateParamConfig(data)
+        else if (key === 'paramconfig') {
+          // this.props.updateParamConfig(data)
+          // console.log(data)
+          let indexVal = configDataValue.editRowIndex
+          let value = data[indexVal]
+          let UL = parseInt(value.upperlimit)
+          let NL = parseInt(value.normallimit)
+          let LL = parseInt(value.lowerlimit)
+
+          // console.log(typeof (LL), typeof (NL), typeof (UL), indexVal)
+          // console.log(data[indexVal].upperlimit)
+
+          if (LL < NL && NL < UL) {
+            alert('success')
+            this.props.updateParamConfig(data)
+          }
+          else {
+            alert('check')
+            this.setState({
+              editMode: true
+            })
+          }
         }
+
       } else {
         console.log(`500: error data response`)
       }
@@ -118,8 +148,7 @@ class TableComponent extends Component {
     const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
-    console.log(this.state.editData);
-    console.log(this.state.editRowIndex);
+    console.log(editMode)
     if (editSession) {
       tableData.forEach((it, index) => {
         console.log(editSession && (index != editRowIndex))
@@ -165,7 +194,7 @@ class TableComponent extends Component {
               if (it === 'Edit') {
                 item[it] =
                   <span>
-                    <a onClick={() => this.updateData('save')} style={{ marginRight: 8 }}>
+                    <a onClick={() => this.updateData(item)} style={{ marginRight: 8 }}>
                       Save
                     </a>
                     <Popconfirm title="Sure to cancel?" onConfirm={this.cancelEditMode}>
@@ -205,17 +234,17 @@ class TableComponent extends Component {
                         </Input.Group>
                   }
                 })
-
               }
             })
         }
       })
     }
 
-
     let columns = []
     if ((tableData !== null || tableData !== undefined) && tableData.length > 0) {
       columns = Object.keys(tableData[0])
+      console.log(tableData)
+      console.log(columns)
     }
     return (
       <div>
@@ -223,7 +252,6 @@ class TableComponent extends Component {
           <Row style={{ marginLeft: '85%' }}>
             {
               this.props.childrenColumnName !== "turboconfig" ?
-
                 <Col xs={12}>
                   <Button
                     type="primary"
@@ -243,7 +271,6 @@ class TableComponent extends Component {
           </Row>
         </div>
 
-
         <Table
           dataSource={tableData}
           style={{ backgroundColor: "#131633" }}
@@ -251,8 +278,13 @@ class TableComponent extends Component {
           {
             columns && columns.length > 0 ?
               columns.map((col) => {
-                return <Column title={col} key={col} dataIndex={col}
-                />
+                if (col != this.props.configIdKeyValue) {
+                  return <Column title={col} key={col} dataIndex={col}
+                  />
+                }
+                else {
+                  console.log(this.state.col)
+                }
               }) : []
           }
         </Table>

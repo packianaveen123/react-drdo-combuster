@@ -72,15 +72,7 @@ class TurboConfig extends Component {
     })
   }
   updateBlades = (value) => {
-    // const re = /^[0-9\b]+$/;
-    // if (e.target.value === '' || re.test(e.target.value)) {
-    //   this.setState({
-    //     bladeVal: e.target.value
-    //   })
-    // }
-    // console.log(e)
     if (value === null) {
-      // alert(error_blade_msg)
       this.setState({
         bladeVal: blade_defalutValue
       })
@@ -107,20 +99,18 @@ class TurboConfig extends Component {
             const isDuplicateId = turboConfig.map(it => it.turboname).includes(this.state.turboID)
             {
               isDuplicateId ?
-
                 // <Alert
                 //   message="Warning"
-                //   description="This is a warning notice about copywriting."
+                //   description={error_turbo_msg}
                 //   type="warning"
                 //   showIcon
                 //   closable
                 // />
-
                 alert(error_turbo_msg)
                 : this.onFinish()
             }
           }}>
-            {/* <Form onFinish={c}> */}
+
             <Row style={{ paddingTop: "20px" }} >
               <Col sm={2}>
                 <label class="label" >Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
@@ -202,19 +192,6 @@ class TurboConfig extends Component {
                   name="No of Blades "
                 // rules={[{ required: true }]}
                 >
-                  {/* <div>
-                    <Input
-                      name="noofblades"
-                      style={{ width: "320px" }}
-                      value={localThis.state.bladeVal}
-                      onChange={(e) => {
-                        const re = /^[0-9\b]+$/;
-                        if (e.target.value === '' || re.test(e.target.value)) {
-                          localThis.updateBlades(e)
-                        }
-                      }}
-                    />
-                  </div> */}
                   <InputNumber
                     min={blade_min}
                     max={blade_max}
@@ -229,6 +206,20 @@ class TurboConfig extends Component {
             </Row>
 
             <Row sm={6} style={{ paddingTop: '25px', marginLeft: "85%", paddingBottom: '30px' }}>
+              {/* {
+                isDuplicateId ?
+                  <div>
+                    <Alert
+                      message="Warning"
+                      description={error_turbo_msg}
+                      type="warning"
+                      showIcon
+                      closable
+                    />
+                  </div>
+                  :
+                  []
+              } */}
               <Col xs={4}>
                 <Form.Item>
                   <div>
@@ -262,6 +253,8 @@ class TurboConfig extends Component {
                 ]}
 
                 childrenColumnName={"turboconfig"}
+                configIdKeyValue={"turboconfig_id"}
+
               /> : []}
           </Layout>
         </div>
