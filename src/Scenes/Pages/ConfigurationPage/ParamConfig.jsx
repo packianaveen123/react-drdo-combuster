@@ -117,21 +117,21 @@ class ParamConfig extends Component {
               appData.paramConfig && appData.paramConfig.length > 1 ?
                 <TableElement
                   data={appData ? appData.paramConfig : []}
-                  editable={true}
-                  editableColumn={[
-                    {
-                      'editFeild': "upperlimit",
-                      'inputType': 'input'
-                    },
-                    {
-                      'editFeild': "lowerlimit",
-                      'inputType': 'input'
-                    },
-                    {
-                      'editFeild': "normallimit",
-                      'inputType': 'input'
-                    }
-                  ]}
+                  // editable={true}
+                  // editableColumn={[
+                  //   {
+                  //     'editFeild': "upperlimit",
+                  //     'inputType': 'input'
+                  //   },
+                  //   {
+                  //     'editFeild': "lowerlimit",
+                  //     'inputType': 'input'
+                  //   },
+                  //   {
+                  //     'editFeild': "normallimit",
+                  //     'inputType': 'input'
+                  //   }
+                  // ]}
                   childrenColumnName={"paramconfig"}
                   configIdKeyValue={"paramconfig_id"}
                 /> : []}

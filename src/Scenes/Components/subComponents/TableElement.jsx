@@ -107,29 +107,9 @@ class TableComponent extends Component {
         else if (key === 'turboconfig') {
           this.props.updateTurboConfig(data)
         }
-        else if (key === 'paramconfig') {
-          // this.props.updateParamConfig(data)
-          // console.log(data)
-          let indexVal = configDataValue.editRowIndex
-          let value = data[indexVal]
-          let UL = parseInt(value.upperlimit)
-          let NL = parseInt(value.normallimit)
-          let LL = parseInt(value.lowerlimit)
-
-          // console.log(typeof (LL), typeof (NL), typeof (UL), indexVal)
-          // console.log(data[indexVal].upperlimit)
-
-          if (LL < NL && NL < UL) {
-            alert('success')
-            this.props.updateParamConfig(data)
-          }
-          else {
-            alert('check')
-            this.setState({
-              editMode: true
-            })
-          }
-        }
+        // else if (key === 'paramconfig') {
+        //    this.props.updateParamConfig(data)
+        // }
 
       } else {
         console.log(`500: error data response`)
@@ -251,7 +231,7 @@ class TableComponent extends Component {
         <div>
           <Row style={{ marginLeft: '85%' }}>
             {
-              this.props.childrenColumnName !== "turboconfig" ?
+              this.props.childrenColumnName == "testparamconfig" ?
                 <Col xs={12}>
                   <Button
                     type="primary"
@@ -260,6 +240,8 @@ class TableComponent extends Component {
                 : []
             }
             <Col xs={12}>
+            {
+              this.props.childrenColumnName !== "paramconfig" ?
               <Button
                 type="primary"
                 style={{ width: '6rem' }}
@@ -267,6 +249,8 @@ class TableComponent extends Component {
               >
                 Start Edit
                   </Button>
+                  : []
+            }
             </Col>
           </Row>
         </div>

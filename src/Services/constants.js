@@ -1,5 +1,5 @@
 const url = {
-  BASE_URL: 'http://192.168.0.167:5000/',
+  BASE_URL: 'http://localhost/TVS/',
   TURBO_CONFIG: 'turbo_config.php',
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
