@@ -23,7 +23,6 @@ class LoginPage extends Component {
       }
       else if (data == "failed") {
         this.state.IsLogin = true;
-
         console.log(this.state.IsLogin)
       }
     })
@@ -90,7 +89,8 @@ class LoginPage extends Component {
                             {
                               this.state.IsLogin ?
                                 <Alert className="alert_error" message="Username or Password is Incorrect" type="error" />
-                                : ''}
+                                : ''
+                            }
                             <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
                               <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in

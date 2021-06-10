@@ -13,6 +13,7 @@ class ParamConfig extends Component {
       paramData: ''
     }
   }
+  
   // componentDidMount() {
   //   this.props.updateTitleElements({
   //     title: 'Param Config',

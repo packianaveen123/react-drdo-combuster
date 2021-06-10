@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Col, Row, Layout, Divider, Input, Select, Alert, Button, Radio, Popover, Space, Typography } from 'antd';
+import {
+  Card, Col, Row, Layout,
+  Divider, Input, Select, Alert,
+  Button, Radio, Popover, Space,
+  Typography, message
+} from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
@@ -85,14 +90,14 @@ class GridContainer extends Component {
       this.setState({
         isDuplicateTester: isDuplicateTester
       })
-      alert('duplicate value')
+      message.warning('duplicate value')
     }
 
     if (isDuplicateWitness) {
       this.setState({
         isDuplicateWitness: isDuplicateWitness
       })
-      alert('duplicate value')
+      message.warning('duplicate value')
 
     }
 

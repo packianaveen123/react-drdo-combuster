@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
-import { Col, Row, Button, Form, Transfer } from 'antd';
+import { Col, Row, Button, Form, Transfer, message } from 'antd';
 import { updateTransferElement } from '../../../Redux/action';
 import TurboConfig from '../../Pages/ConfigurationPage/TurboConfig';
+import { dashboardDataMessage } from '../../../Services/constants';
 
+const { transfer_warning, transfer_success } = dashboardDataMessage;
 class TransferElement extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,6 @@ class TransferElement extends React.Component {
       ]
     }
   }
-
   componentDidMount() {
     this.getMock();
   }
@@ -29,8 +30,8 @@ class TransferElement extends React.Component {
     const targetKeys = [];
     const mockData = [];
     console.log(this.props.app)
+    console.log(this.state.mockData)
     let { dashboardData } = this.props.app.dashboardData
-
     for (let i = 0; i < this.state.dashboardData.length; i++) {
       const data = {
         key: this.state.dashboardData[i].key,
@@ -40,7 +41,6 @@ class TransferElement extends React.Component {
       console.log(data)
       console.log(Math.random() * 1 > 0)
       if (data.chosen) {
-
         targetKeys.push(data.key);
       }
       mockData.push(data);
@@ -51,7 +51,7 @@ class TransferElement extends React.Component {
   handleChange = (targetKeys, direction, moveKeys) => {
     console.log(targetKeys.length, direction, moveKeys);
     if (targetKeys.length > 6) {
-      alert("select only 6 data")
+      message.warning("select only 6 data")
     }
     else {
       this.setState({ targetKeys });
@@ -62,8 +62,16 @@ class TransferElement extends React.Component {
     this.getMock()
   }
   submitClick = () => {
-    this.props.updateTransferElement(TurboConfig)
+    if (this.state.targetKeys.length == 6) {
+      message.warning('transfer_warning');
+    }
+    else {
+      this.props.updateTransferElement(TurboConfig);
+      message.success('transfer_success');
+    }
+
   }
+
   renderItem = item => {
     const customLabel = (
       <span className="custom-item">

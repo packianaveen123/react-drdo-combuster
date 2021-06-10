@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
 import { turbineConfigSubmit } from '../../../Services/requests';
 import { turboConfigValue } from '../../../Services/constants';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Alert } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Alert, message } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -42,7 +42,7 @@ class TurboConfig extends Component {
       descriptions: this.state.discriptionVal,
       noofblades: this.state.bladeVal
     }
-    alert(added_turbo_msg)
+    message.success(added_turbo_msg)
     turbineConfigSubmit(body, (data) => {
       this.props.updateTurboConfig(data)
     })
@@ -82,7 +82,6 @@ class TurboConfig extends Component {
         bladeVal: value
       })
     }
-
   }
 
   render() {
@@ -106,7 +105,7 @@ class TurboConfig extends Component {
                 //   showIcon
                 //   closable
                 // />
-                alert(error_turbo_msg)
+                 message.warning(error_turbo_msg)
                 : this.onFinish()
             }
           }}>
@@ -200,7 +199,6 @@ class TurboConfig extends Component {
                     required message="Please enter at least 5 characters"
                     style={{ width: '320px' }}
                     onChange={this.updateBlades} />
-
                 </Form.Item>
               </Col>
             </Row>
@@ -209,7 +207,7 @@ class TurboConfig extends Component {
               {/* {
                 isDuplicateId ?
                   <div>
-                    <Alert
+                    < 
                       message="Warning"
                       description={error_turbo_msg}
                       type="warning"
@@ -230,6 +228,7 @@ class TurboConfig extends Component {
             </Row>
           </Form>
         </Layout>
+
         <div style={{ paddingTop: "35px" }}>
           <Layout class="bottom-container">
             <Row>

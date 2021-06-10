@@ -29,11 +29,14 @@ const titleElements = [
     type: '',
   }
 ]
+
 const testParamHash = {
   Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
   Startdata: ['Start Completed', 'ignite', 'gasopened', 'stage1', 'fuelopened', 'stage2', 'fuelopened', 'stage2', 'gasclosed', 'stage3'],
   Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
-  Resetdata: ['Reset Values']
+  Resetdata: ['Reset Values'],
+  Tester_warning: 'Already exists',
+  Witness_warning: 'Already exists'
 }
 const turboConfigValue = {
   nozzleArea_min: 0.0002,
@@ -46,10 +49,14 @@ const turboConfigValue = {
   error_turbo_msg: 'Turbo ID alreadt exists',
   error_blade_msg: 'Please enter number of blades',
   added_turbo_msg: 'TurboID added successfully'
-
+}
+const dashboardDataMessage = {
+  transfer_warning: 'select transfer data',
+  transfer_success: 'submitted successfully'
 }
 
 export {
   url, dashboardData, titleElements,
-  testParamHash, turboConfigValue
+  testParamHash, turboConfigValue, 
+  dashboardDataMessage, 
 }
