@@ -88,6 +88,19 @@
   background-color: #c6c6ca;
 }
 .ant-layout-sider {
+  flex: 0 0 204px !important;
+  max-width: 204px !important;
+  min-width: 204px !important;
+  width: 204px !important;
+}
+
+.ant-layout-sider-collapsed{
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
+}
+.ant-layout-sider {
   background:#131633;
   
 }
