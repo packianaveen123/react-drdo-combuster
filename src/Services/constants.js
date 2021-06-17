@@ -1,5 +1,5 @@
 const url = {
-  BASE_URL: 'http://localhost/TVS/',
+  BASE_URL: 'http://192.168.0.167:5000/',
   TURBO_CONFIG: 'turbo_config.php',
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
@@ -12,7 +12,8 @@ const url = {
   REGISTERPAGE_VALIDATION: 'Registration.php',
   TABLE_VIEW: 'tableview.php',
   GRAPH_CHART_DATA: 'graph.php',
-  SENSOR_DATA: 'getdata.php'
+  SENSOR_DATA: 'getdata.php',
+  TURBOID_VALUE: 'turboIdValue.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
@@ -54,9 +55,23 @@ const dashboardDataMessage = {
   transfer_warning: 'select transfer data',
   transfer_success: 'submitted successfully'
 }
-
+const endurence = {
+  RPM: "53900+/-1%",
+  Minutes: "10+/-1",
+  trubineInletTemp: "700/-50"
+}
+const performance = {
+  RPM1: "41500+/-1%",
+  RPM2: "49000+/-1%",
+  Minutes: "2",
+  trubineInletTemp: "700/-50",
+  ComprInletPr: '',
+  ComprOutletPr: '',
+  PrRatio: '2.4+/-0.1',
+  AirMassFlow: '0.97'
+}
 export {
   url, dashboardData, titleElements,
-  testParamHash, turboConfigValue, 
-  dashboardDataMessage, 
+  testParamHash, turboConfigValue,
+  dashboardDataMessage, endurence, performance
 }

@@ -4,20 +4,23 @@ import axios from 'axios';
 import { updateTitleElements } from '../../../Redux/action'
 import { connect } from 'react-redux';
 import TableElement from '../../Components/subComponents/TableElement'
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { performance } from '../../../Services/constants';
+import PdfContainer from './PdfContainer';
 import Doc from './DocService';
-
+import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import logo from '../../../Images/logo.png'
 import logo2 from '../../../Images/logo2.png'
 
+
+const { RPM1, RPM2, Minutes, trubineInletTemp, ComprInletPr, ComprOutletPr, PrRatio, AirMassFlow } = performance;
 const { Option } = Select;
-class RunningReport extends Component {
+class PerformanceReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
       reportOut1: [],
+      reportOut2: [],
       testno: [],
       testno1: [],
       turboIdVal: [],
@@ -159,18 +162,18 @@ class RunningReport extends Component {
       }
     }
 
-    doc.save('RunningReport.pdf')
+    doc.save('PerformanceReport.pdf')
   }
   getreport = () => {
-    axios.post('http://192.168.0.167:6002/runningReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno1 },)
+    axios.post('http://192.168.0.167:6002/Performance.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno1 },)
       .then(res => {
         console.log(res.data)
         this.setState({
-          reportOut1: res.data
+          reportOut1: res.data[0],
+          reportOut2: res.data[1]
         })
         console.log(this.state.reportOut1)
         console.log(this.state.reportOut2)
-        console.log(this.state.reportOut1[0].speed);
       })
       .catch(err => {
         console.log(err.res)
@@ -219,14 +222,33 @@ class RunningReport extends Component {
     console.log(this.state.testno1)
   }
   render() {
+    var rpm1 = Math.round(this.state.reportOut1.speed_time * 100) / 100
+    var rpm2 = Math.round(this.state.reportOut2.speed_time * 100) / 100
+    var Turbine_Inlet1 = Math.round(this.state.reportOut1.Turbine_Inlet * 100) / 100
+    var Turbine_Inlet2 = Math.round(this.state.reportOut2.Turbine_Inlet * 100) / 100
+    var Compr_Inlet_pr1 = Math.round(this.state.reportOut1.Compr_Inlet_pr * 100) / 100
+    var Compr_Inlet_pr2 = Math.round(this.state.reportOut2.Compr_Inlet_pr * 100) / 100
+    var Compr_Outlet_pr1 = Math.round(this.state.reportOut1.Compr_Outlet_pr * 100) / 100
+    var Compr_Outlet_pr2 = Math.round(this.state.reportOut2.Compr_Outlet_pr * 100) / 100
+    var pr_ratio1 = Math.round(this.state.reportOut1.pr_ratio * 100) / 100
+    var pr_ratio2 = Math.round(this.state.reportOut2.pr_ratio * 100) / 100
+    var Air_Mass_Flow1 = Math.round(this.state.reportOut1.Air_Mass_Flow) / 100
+    var Air_Mass_Flow2 = Math.round(this.state.reportOut1.Air_Mass_Flow) / 100
+    var Compr_Efficiency1 = Math.round(this.state.reportOut1.Compr_Efficiency) / 100
+    var Compr_Efficiency2 = Math.round(this.state.reportOut1.Compr_Efficiency) / 100
+    var Surge_margin1 = Math.round(this.state.reportOut1.Surge_margin) / 100
+    var Surge_margin2 = Math.round(this.state.reportOut1.Surge_margin) / 100
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-    const reportOut = this.state.reportOut1
+    console.log(testno)
+    console.log(this.state.testno);
+
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
           <h2 class="h2">Running Report</h2>
           <Form onFinish={this.onFinish}>
+
             <Row style={{ paddingTop: "20px" }} >
 
               <Col sm={2}>
@@ -267,7 +289,6 @@ class RunningReport extends Component {
                       style={{ width: '300px' }}
                       onChange={this.handleChangetestNO}
                     >
-
                       testno ?
                             {testno.map(it => (
                       <Option key={it.testno} value={it.testno}>
@@ -289,31 +310,28 @@ class RunningReport extends Component {
               </Col>
               <Col xs={4}>
                 <Form.Item>
-                  <Button > Clear</Button>
+                  <Button> Clear</Button>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
         </Layout>
-
         <Button
-          class
           onClick={this.getreportpdf}
-          style={{ marginLeft: '1300px', marginBottom: '20px', marginTop: '20px', width: '140px' }}
+          style={{ marginLeft: '1270px', marginBottom: '20px', marginTop: '20px', width: '140px' }}
         >Export Report</Button>
-
-        <Layout class="bottom-container" style={{ paddingTop: '50px', paddingBottom: '30px', border: 'solid white' }}>
+        <Layout class="bottom-container" style={{ paddingTop: '10px', paddingBottom: '30px', border: 'solid white' }}>
           <div id="allreport">
             <div class="mx-auto" style={{ marginBottom: '2%', marginTop: '2%' }}>
               <div class="sparkline12-hd" style={{ paddingBottom: '15px' }}>
                 <div class="main-sparkline12-hd" style={{ textAlign: "center" }}>
-                  <h1>Running Report</h1>
+                  <h1>Performance Report</h1>
                 </div>
               </div>
             </div>
 
             <div class="table-responsive">
-              <img src='https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png' />
+              <img src={logo} />
               <table id="report-constants" style={{ marginTop: "50px" }}>
 
                 <tr>
@@ -324,27 +342,27 @@ class RunningReport extends Component {
                   <td>TEST ID</td>
                   <td>{this.state.testno1}</td>
                 </tr>
-
               </table>
 
               <table class="table table-striped table-sm export-table" id="example1">
                 <thead>
                   <tr>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }} colspan="10">RUNNING IN TEST</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }} colspan="12">PERFORMANCE TEST</th>
 
                   </tr>
                   <tr>
+                    <th rowspan="2" style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></th>
 
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Speed</th>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Duration</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr.Inlet Temp</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr.Outlet Temp</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }} colspan="2">Oil</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Turbo.InletTemp</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr.Intlet Pr</th>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr.Outlet Pr</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Turbine.InletTemp</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Turbine.OutletTemp</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Kerosine Flow Rate</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr.Pr Ratio</th>
-                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Mass Flow Rate</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Pr Ratio</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Air Mass Flow</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Compr Efficiency</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Surge Margin</th>
                   </tr>
                   <tr>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>RPM</th>
@@ -356,27 +374,70 @@ class RunningReport extends Component {
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>minutes</th>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Pressure(kg/cm^2)</th>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Tempr.<br />(deg.C)</th>
+                    <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>deg.C</th>
                     <th style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>deg.C</th>
                   </tr>
 
                 </thead>
                 <tbody>
-
-
-                  {reportOut.map(it => (
-                    <tr>
-                      <td style={{ border: '1px solid #6a6a6b' }}>{it.speed}</td>
-                      <td style={{ border: '1px solid #6a6a6b' }}>{it.Duration}</td>
-                      <td style={{ border: '1px solid #6a6a6b' }}>{it.Turbine_Inlet}</td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                      <td style={{ border: '1px solid #6a6a6b' }}></td>
-                    </tr>))}
-
+                  <tr>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Required</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{RPM1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Minutes}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{trubineInletTemp}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{ComprInletPr}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{ComprOutletPr}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{PrRatio}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{AirMassFlow}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>                </tr>
+                  <tr ng-repeat="Rreport in RunningResult | filter:query  ">
+                    <td style={{ border: '1px solid #6a6a6b', textAlign: 'center' }}>
+                      Actual(Avg)
+                      </td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{rpm1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{this.state.reportOut1.Duration}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Turbine_Inlet1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Inlet_pr1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Outlet_pr1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{pr_ratio1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Air_Mass_Flow1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Efficiency1}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Surge_margin1}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>Required</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{RPM2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Minutes}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{trubineInletTemp}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{ComprInletPr}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{ComprOutletPr}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{PrRatio}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{AirMassFlow}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>                </tr>
+                  <tr ng-repeat="Rreport in RunningResult | filter:query  ">
+                    <td style={{ border: '1px solid #6a6a6b', textAlign: 'center' }}>
+                      Actual(Avg)
+                      </td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{rpm2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{this.state.reportOut2.Duration}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}></td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Turbine_Inlet2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Inlet_pr2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Outlet_pr2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{pr_ratio2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Air_Mass_Flow2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Compr_Efficiency2}</td>
+                    <td style={{ verticalAlign: 'middle', border: '1px solid #6a6a6b', textAlign: 'center' }}>{Surge_margin2}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -384,7 +445,7 @@ class RunningReport extends Component {
               <div class="col-lg-1">
               </div>
               <div class="col-lg-4">
-                <label><b><u>Tested By:  {this.state.tester}</u></b></label>
+                <label><b><u>Tested By: {this.state.tester}</u></b></label>
                 <br />
                 <table>
                   <tr ng-repeat="tb in TestedBy">
@@ -395,7 +456,7 @@ class RunningReport extends Component {
               <div class="col-lg-2">
               </div>
               <div class="col-lg-4">
-                <label><b><u>Witnessed By:  {this.state.witness}</u></b></label>
+                <label><b><u>Witnessed By: {this.state.witness}</u></b></label>
                 <br />
                 <table>
                   <tr ng-repeat="wn in WitnessName">
@@ -408,6 +469,7 @@ class RunningReport extends Component {
             </div>
           </div>
         </Layout>
+
       </div>
     )
   }
@@ -419,9 +481,9 @@ const mapDispatchToProps = {
   updateTitleElements
 }
 
-const runningReport = connect(
+const performanceReport = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RunningReport)
+)(PerformanceReport)
 
-export default runningReport;
+export default performanceReport;

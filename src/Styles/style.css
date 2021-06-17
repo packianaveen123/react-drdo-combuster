@@ -3,6 +3,19 @@
 *       Toggle
 * ==========================================================
 */
+table#example1 {
+  margin-top: 50px;
+  height: 250px;
+  width: 100%;
+  font-size: 14px;
+}
+div#allreport {
+  color: white;
+}
+div#allreport h1 {
+  font-size: 32px;
+  color: white;
+}
 .trigger {
   padding: 0 24px;
   font-size: 20px;
@@ -17,17 +30,16 @@
 }
 /* ---header--- */
 .logo {
-
 }
 .ant-layout-header {
-  background-color:#131633;
-  height: 75px; 
+  background-color: #131633;
+  height: 75px;
 }
-.testlogo{
+.testlogo {
   float: left;
 }
 
- /* --------------------------------- 
+/* --------------------------------- 
       --header/centerbody--
  -----------------------------------*/
 
@@ -41,8 +53,8 @@
 }
 /*  Navbar  */
 .logout-content {
-  color:rgb(151, 150, 151);  
-  margin-top: -60px;  
+  color: rgb(151, 150, 151);
+  margin-top: -60px;
   float: right;
   margin-right: 40px;
   font-size: 20px;
@@ -51,34 +63,33 @@
   color: #42dbdc !important;
   cursor: pointer;
 }
-.welcome-message{
-  color:rgb(151, 150, 151);  
-  margin-top: -60px;  
+.welcome-message {
+  color: rgb(151, 150, 151);
+  margin-top: -60px;
   float: right;
   margin-right: 40px;
   font-size: 20px;
 }
- /* body */
- .site-layout{
-  background:#212840;
+/* body */
+.site-layout {
+  background: #212840;
   height: 80px;
 }
-.h2{
+.h2 {
   color: rgb(151, 150, 151);
-  padding-top: '10px';
+  padding-top: "10px";
 }
-.layout-container{
+.layout-container {
   background-color: #131633;
   padding-top: 20px;
   padding-left: 20px;
 }
-.bottom-container{
+.bottom-container {
   background-color: #131633;
   padding-top: 30px;
   padding-left: 20px;
-  padding-right: 20px; 
+  padding-right: 20px;
 }
-
 
 /* ----------------------------------
            sider
@@ -88,22 +99,19 @@
   background-color: #c6c6ca;
 }
 .ant-layout-sider {
-  flex: 0 0 204px !important;
-  max-width: 204px !important;
-  min-width: 204px !important;
-  width: 204px !important;
-}
+  background: #131633;
+    flex: 0 0 220px !important;
+    max-width: 220px !important;
+    min-width: 220px !important;
+    width: 220px !important;
+  }
+  .ant-layout-sider-collapsed{
+    flex: 0 0 80px !important;
+    max-width: 80px !important;
+    min-width: 80px !important;
+    width: 80px !important;
+  }
 
-.ant-layout-sider-collapsed{
-  flex: 0 0 80px !important;
-  max-width: 80px !important;
-  min-width: 80px !important;
-  width: 80px !important;
-}
-.ant-layout-sider {
-  background:#131633;
-  
-}
 .ant-layout-sider-children {
   height: 100%;
   min-height: 1024px;
@@ -112,7 +120,9 @@
 }
 
 /* sidebar minimize */
-.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
   color: rgba(255, 255, 255, 0.65);
   background: #131633 !important;
 }
@@ -125,16 +135,16 @@
   background-color: #188fff67;
   height: 40px;
 }
- .ant-menu-item-selected {
+.ant-menu-item-selected {
   color: #fff !important;
   border-right: 0;
 }
-.ant-menu-dark .ant-menu-item:hover,  
+.ant-menu-dark .ant-menu-item:hover,
 .ant-menu-dark .ant-menu-submenu-title:hover {
   color: #42dbdc;
-  background-color:  #19244a;
+  background-color: #19244a;
   height: 40px;
-     }
+}
 
 .ant-menu-item a:hover {
   color: #42dbdc !important;
@@ -143,7 +153,7 @@
 .ant-menu-inline .ant-menu-submenu {
   padding-bottom: 7.02px;
 }
- 
+
 /*  
 .ant-menu-item-selected
  {
@@ -153,11 +163,11 @@
 /* ----------------------------------
             grid element
  -----------------------------------*/
- .ant-card-head {
+.ant-card-head {
   color: white;
 }
 .ant-card-head::after {
-  color: 'red'
+  color: "red";
 }
 .ant-card-bordered {
   padding-left: 20px;
@@ -173,37 +183,36 @@
 * ==========================================================
 */
 /* form input */
-.ant-form-item-label > label{
+.ant-form-item-label > label {
   color: white;
 }
-.label{
-  color:rgb(151, 150, 151);
+.label {
+  color: rgb(151, 150, 151);
   font-size: 17px;
 }
-.input{
+.input {
   width: 300px;
   font-size: 1rem;
-  border: 1px solid  #3e434d !important;
-  color:#fff;
+  border: 1px solid #3e434d !important;
+  color: #fff;
   background-color: transparent !important;
 }
-.ant-input{
+.ant-input {
   width: 450px;
   height: 40px;
   /* height: 35px; */
   font-size: 15px;
   background-color: transparent !important;
   border: 1px solid #3e434d;
-  color:#fff;
+  color: #fff;
 }
 .ant-input-affix-wrapper > input.ant-input {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
- .ant-form-item-has-error .ant-input:hover
-  {
+.ant-form-item-has-error .ant-input:hover {
   background-color: transparent !important;
- }
+}
 /* .ant-input:focus, .ant-input-focused {
   border-color: #42dbdc;
   border-right-width: 1px !important;
@@ -215,7 +224,8 @@
    border-color: gray; 
   border-right-width: 1px !important;
 } */
-.ant-select:focus, .ant-select-focused {
+.ant-select:focus,
+.ant-select-focused {
   border-color: #42dbdc;
   border-right-width: 1px !important;
   outline: 0;
@@ -224,54 +234,62 @@
 }
 
 /* --input number-- */
-.ant-input-number{
+.ant-input-number {
   width: 450px;
   height: 40px;
   font-size: 15px;
   background-color: transparent !important;
   border: 1px solid #3e434d;
-  color:#fff;
+  color: #fff;
 }
-.ant-input-number-input-wrap{
+.ant-input-number-input-wrap {
   padding-top: 5px;
 }
-.ant-input-number-handler-up-inner svg{
+.ant-input-number-handler-up-inner svg {
   color: black;
 }
 /* ---datepicker--- */
 .ant-picker {
-  width:230px;
-  color:#666873;
-  font-size: 20px; 
+  width: 230px;
+  color: #666873;
+  font-size: 20px;
+  padding: 11px 11px 8px;
   border: 1px solid #3e434d;
   border-radius: 2px;
 }
-
+/* .ant-picker:focus, .ant-picker-focused {
+  border-color: #42dbdc;
+  border-right-width: 1px !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+} */
 .ant-picker-suffix {
   color: rgb(151, 150, 151);
   font-size: 18px;
 }
 
 .ant-picker-input > input {
-  color:rgb(151, 150, 151);
+  color: rgb(151, 150, 151);
   font-size: 18px;
 }
 
 /* -----------------------
     Input dropown
 -------------------------- */
- .ant-input-group.ant-input-group-compact > .ant-select:last-child > .ant-select-selector 
-{  
-  background-color:transparent;
-  color:#fff;
+.ant-input-group.ant-input-group-compact
+  > .ant-select:last-child
+  > .ant-select-selector {
+  background-color: transparent;
+  color: #fff;
   /* width:450px; */
   height: 40px;
   font-size: 1rem;
-  border-color:  #3e434d;
+  border-color: #3e434d;
   padding-top: 4px;
 }
-.ant-select-arrow{
-  color:white;
+.ant-select-arrow {
+  color: white;
 }
 /* -------tooltip------- */
 .ant-tooltip-inner {
@@ -288,25 +306,26 @@
 * ===================================*/
 
 .ant-btn {
-  background-color : #42dbdc;
-  color:black;
+  background-color: #42dbdc;
+  color: black;
   font-weight: bold !important;
   border: 2px solid #1e7272;
   border-radius: 0.35rem;
-  width: 75px ;
-  height: 42px ;
+  width: 75px;
+  height: 42px;
   font-weight: 400;
   font-size: 1rem;
   text-align: center;
-  line-height: 1.5;  
-  padding: -0.55rem 0.75rem; 
+  line-height: 1.5;
+  padding: -0.55rem 0.75rem;
 }
-.ant-btn:hover, .ant-btn:focus {
+.ant-btn:hover,
+.ant-btn:focus {
   color: black;
   background-color: #d13c4f;
   border-color: #cf3145;
 }
-.btn-test{
+.btn-test {
   background-color: none !important;
 }
 
@@ -317,7 +336,6 @@
 */
 .ant-table-thead > tr > th {
   color: rgb(151, 150, 151);
-  text-transform: capitalize;
   font-weight: 400;
   font-weight: bold !important;
   text-align: left;
@@ -327,21 +345,18 @@
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
-/* thead.ant-table-thead {
-    text-transform: capitalize;
-} */
 .ant-table-tbody > tr.ant-table-row:hover > td {
   background: #39393a;
   color: #fff;
 }
 .ant-table-tbody > tr > td {
-  color:rgb(192, 196, 201);  
+  color: rgb(192, 196, 201);
   background: #131633;
-  border-bottom:none;
+  border-bottom: none;
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
 }
-.ant-table-tbody > tr:nth-child(2n+1) > td {
+.ant-table-tbody > tr:nth-child(2n + 1) > td {
   background-color: #282b2f;
   /* border-top: 1px solid #dee2e6; */
 }
@@ -352,10 +367,10 @@
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
-.anticon-edit:hover{
-  color:mediumaquamarine;
-  }
- /* --------------------------------- 
+.anticon-edit:hover {
+  color: mediumaquamarine;
+}
+/* --------------------------------- 
       --pagination--
  -----------------------------------*/
 .ant-pagination-item-active a {
@@ -368,33 +383,33 @@
   background: #131633;
   border-color: rgb(146, 143, 143);
 }
-.ant-pagination-item-link{
+.ant-pagination-item-link {
   color: #fff !important;
   background-color: #131633 !important;
-  border-color: rgb(146, 143, 143); 
+  border-color: rgb(146, 143, 143);
 }
- /* --------------------------------- 
+/* --------------------------------- 
       --testpage Line--
  -----------------------------------*/
 
- .hr {
+.hr {
   border-top: 1px solid #6a6c70;
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid rgba(0,0,0,.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: content-box;
   height: 0;
   overflow: visible;
 }
 
- /* --------------------------------- 
+/* --------------------------------- 
       --dashboard transfer--
  -----------------------------------*/
- .ant-transfer {
-   border:none;
-   padding-top: 20px;
- }
+.ant-transfer {
+  border: none;
+  padding-top: 20px;
+}
 .ant-transfer-list-header {
   height: 40px;
   padding: 8px 12px 9px;
@@ -403,7 +418,7 @@
   border-bottom: 1px solid #f0f0f0;
   border-radius: 2px 2px 0 0;
 }
-.ant-transfer-list-content-item  {
+.ant-transfer-list-content-item {
   color: White;
 }
 .ant-transfer-list-content-item-checked {
@@ -419,7 +434,7 @@
   cursor: pointer;
 }
 .ant-transfer-list-content {
-  color:#6a6c70;
+  color: #6a6c70;
   background-color: #212840;
   border: none;
 }
@@ -439,9 +454,9 @@
   margin-bottom: 30px;
 }
 /* ---dashboard btn--- */
-.ant-btn-primary[disabled], 
-.ant-btn-primary[disabled]:hover, 
-.ant-btn-primary[disabled]:focus, 
+.ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
 .ant-btn-primary[disabled]:active {
   background: #5898d4;
   border-color: #1275d1;
@@ -456,15 +471,15 @@
 *             Login & register pages
 * ==========================================================
 */
-.background{
-  background: url(../Images/bg.jpeg); 
-  background-image: 1024*74;
+.background {
+  background: url(../Images/bg.jpeg);
+  background-image: 1024 * 74;
 }
 .login-page {
   position: relative;
 }
 .login-page::before {
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   display: block;
@@ -478,7 +493,7 @@
   z-index: 1;
 }
 .login-page .form-holder {
-  width: 100%;  
+  width: 100%;
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 50px;
@@ -490,7 +505,7 @@
   padding: 40px;
   height: 100%;
 }
-.login-page .form-holder div[class*='col-'] {
+.login-page .form-holder div[class*="col-"] {
   padding: 0;
 }
 .login-page .form-holder .info {
@@ -531,7 +546,8 @@
 } */
 
 .login-page .form-holder .form a.forgot-pass,
-.login-page .form-holder .form a.signup,  .form a.login {
+.login-page .form-holder .form a.signup,
+.form a.login {
   font-size: 0.9rem;
   color: #42dbdc;
 }
@@ -554,15 +570,17 @@
   left: 0;
   color: #fff;
 }
-.anticon-user, .anticon-mail , 
-.anticon-lock, .anticon-eye-invisible{
+.anticon-user,
+.anticon-mail,
+.anticon-lock,
+.anticon-eye-invisible {
   color: #fff;
-  }
+}
 .ant-input-password-icon:hover {
   color: rgb(185, 173, 173);
 }
 /* form input */
-.form-input{
+.form-input {
   background-color: pink;
 }
 @media (max-width: 991px) {
@@ -574,22 +592,21 @@
   }
 }
 
-
- /* --------------------------------- 
+/* --------------------------------- 
            -- Footer--
  -----------------------------------*/
- .ant-layout-footer {
+.ant-layout-footer {
   padding: 8px 50px;
   font-size: 18px;
   background-color: #131633;
   height: "30px";
-  width: '100%';  
-  font-family: 'muli'; 
+  width: "100%";
+  font-family: "muli";
 }
- 
+
 /* Statistic Block */
 .statistic-block {
-  height:110px;
+  height: 110px;
   padding-top: 20px;
   padding-bottom: 25px;
   padding-left: 10px;
@@ -679,33 +696,32 @@
   color: #fff;
   padding: 15px;
   width: 400px;
- 
 }
 /* list */
-.list{
+.list {
   color: #fff;
-  
+
   background-color: #131633;
   /* border-radius: 5px; */
 }
-.list p{ 
+.list p {
   position: relative;
   transition: ease-in-out;
 }
-.list p input{
+.list p input {
   background-color: transparent;
   border: 0;
   color: #fff;
   font-size: 18px;
 }
-.list p input:focus{
+.list p input:focus {
   outline: none;
 }
-.list p span{
+.list p span {
   position: absolute;
   /* right: 10px; */
 }
-.faicons{
+.faicons {
   margin: 0 5px;
   font-size: 15px;
   cursor: pointer;

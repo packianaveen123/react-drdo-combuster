@@ -105,7 +105,7 @@ class TurboConfig extends Component {
                 //   showIcon
                 //   closable
                 // />
-                 message.warning(error_turbo_msg)
+                message.warning(error_turbo_msg)
                 : this.onFinish()
             }
           }}>

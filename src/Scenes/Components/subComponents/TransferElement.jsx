@@ -13,13 +13,13 @@ class TransferElement extends React.Component {
     this.state = {
       mockData: [],
       targetKeys: [],
-      dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
-      { "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
-      { "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
-      { "key": "4", "Name": "RPM Combustor", "chosen": true },
-      { "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
-      { "key": "6", "Name": "Gas Flow", "chosen": true }
-      ]
+      // dashboardData: [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
+      // { "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
+      // { "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
+      // { "key": "4", "Name": "RPM Combustor", "chosen": true },
+      // { "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
+      // { "key": "6", "Name": "Gas Flow", "chosen": true }
+      // ]
     }
   }
   componentDidMount() {
@@ -31,15 +31,17 @@ class TransferElement extends React.Component {
     const mockData = [];
     console.log(this.props.app)
     console.log(this.state.mockData)
+    console.log(this.props.app.dashboardData)
     let { dashboardData } = this.props.app.dashboardData
-    for (let i = 0; i < this.state.dashboardData.length; i++) {
+    for (let i = 0; i < this.props.app.dashboardData.length; i++) {
       const data = {
-        key: this.state.dashboardData[i].key,
-        title: this.state.dashboardData[i].Name,
-        chosen: this.state.dashboardData[i].chosen,
+        key: this.props.app.dashboardData[i].key,
+        title: this.props.app.dashboardData[i].Name,
+        chosen: this.props.app.dashboardData[i].chosen,
       };
       console.log(data)
-      console.log(Math.random() * 1 > 0)
+      console.log(targetKeys)
+      // console.log(Math.random() * 1 > 0)
       if (data.chosen) {
         targetKeys.push(data.key);
       }
@@ -54,8 +56,10 @@ class TransferElement extends React.Component {
       message.warning("select only 6 data")
     }
     else {
-      this.setState({ targetKeys });
-      console.log(this.state.dashboardData)
+      this.setState({
+        targetKeys,
+      });
+      // console.log(this.state.dashboardData)
     }
   };
   clearChosen = () => {

@@ -8,7 +8,7 @@ import {
 import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
-  QuestionOutlined, RedoOutlined,
+  QuestionOutlined, RedoOutlined, MinusOutlined,
   CheckOutlined, DownOutlined, CloseOutlined
 } from '@ant-design/icons';
 import {
@@ -23,10 +23,10 @@ import {
   getResetTemp, getResetRPM, stopDbInsert, startDbInsert
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
-import TestDetails from '../TestPageComponent/TestDetails';
 import {
   shutdownClickEvent, resetClickEvent,
-  requestChartData, getChartData, getSensorData
+  requestChartData, getChartData,
+  getSensorData, getHandleChangetestID
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
 
@@ -34,7 +34,6 @@ import axios from 'axios';
 import { updateChartData } from '../../../Redux/action';
 import { testParamHash } from '../../../Services/constants'
 const { Option } = Select;
-const { Search } = Input;
 const { Text } = Typography;
 
 let count = 1
@@ -49,6 +48,7 @@ class GridContainer extends Component {
       testerItems: [],
       witnessItems: [],
       turboIdval: '',
+      turboIdTestCount: [],
       currentTesterItem: null,
       currentWitnessItem: null,
       isDuplicateTester: false,
@@ -147,11 +147,30 @@ class GridContainer extends Component {
     })
     // setValue(e.target.value);
   };
+
   handleChangetestID = (value) => {
     this.setState({
       turboIdVal: value
     })
+    const body = {
+      turboIdValue: value
+    }
+
+    let that = this;
+    getHandleChangetestID(body, (data) => {
+      if (data == "") {
+        that.setState({
+          turboIdTestCount: 1
+        })
+      }
+      else {
+        that.setState({
+          turboIdTestCount: data
+        })
+      }
+    })
   }
+
   onClicktestButton = () => {
     this.setState({ TestDetails: !this.state.TestDetails })
   }
@@ -349,13 +368,13 @@ class GridContainer extends Component {
   }
 
   ResetonClick = () => {
-    axios.post('http://192.168.0.167:5000/reset.php',
-      { ResetRPM: this.props.app.resetRPM, ResetTemp: this.props.app.resetTemp })
-      .then(function (response) {
-        console.log(response)
-      })
-    this.props.initiateShowReset();
-    // console.log(this.props);
+    const dataBody = {
+      ResetRPM: this.props.app.resetRPM,
+      ResetTemp: this.props.app.resetTemp
+    }
+    resetClickEvent(dataBody, (data) => {
+      this.props.initiateShowReset(data)
+    })
   }
 
   startClick = () => {
@@ -498,7 +517,6 @@ class GridContainer extends Component {
                                 style={{ width: '300px' }}
                                 onChange={this.handleChangetestID}
                               >
-
                                 {testIdValue.map(it => (
                                   <Option key={it.turboname} value={it.turboname}>
                                     {it.turboname}
@@ -511,7 +529,17 @@ class GridContainer extends Component {
                     </Row>
                   </form>
                   <Row style={{ paddingLeft: '5rem' }}>
-                    {this.state.turboIdval}
+                    <div
+                      style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
+                    >
+                      {this.state.turboIdVal}
+
+                      {
+                        this.state.turboIdVal ? <  MinusOutlined style={{ color: '#42dbdc' }} />
+                          : []
+                      }
+                      {this.state.turboIdTestCount}
+                    </div>
                   </Row>
                 </Col>
                 <Col xs={8}>

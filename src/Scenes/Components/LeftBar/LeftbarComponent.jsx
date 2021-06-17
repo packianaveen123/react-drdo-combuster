@@ -9,7 +9,9 @@ import {
 import { GiPaperWindmill } from "react-icons/gi";
 import { DiYii } from "react-icons/di";
 import { FiSettings, FiSliders, FiActivity } from "react-icons/fi";
-import { AiOutlineTable, AiFillDatabase } from "react-icons/ai";
+import { AiOutlineTable, AiFillDatabase,AiFillSignal} from "react-icons/ai";
+import { BiTrendingUp } from "react-icons/bi";
+import { CgPerformance } from "react-icons/cg";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -52,6 +54,9 @@ class LeftbarComponent extends Component {
           </SubMenu>
           <SubMenu key="sub3" icon={<FolderOutlined />} title="Report" style={{ fontSize: '15px' }}  >
             <Menu.Item key="runningReport" icon={<FiActivity style={{ color: '#42dbdc' }} />}>Running Report </Menu.Item>
+            <Menu.Item key="performanceReport" icon={<AiFillSignal style={{ color: '#42dbdc' }} />}>Performance Report</Menu.Item>
+            <Menu.Item key="endurenceReport" icon={<BiTrendingUp style={{ color: '#42dbdc' }} />}>Endurence Report</Menu.Item>
+            <Menu.Item key="performanceafterEndurence" icon={<CgPerformance style={{ color: '#42dbdc' }} />}>Performance After Endurence</Menu.Item>            
             <Menu.Item key="exportData" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}>Export Data </Menu.Item>
           </SubMenu>
         </Menu>

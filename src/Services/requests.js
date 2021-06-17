@@ -16,6 +16,8 @@ const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
 const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const chartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
+const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
+
 
 let that = this;
 
@@ -56,7 +58,6 @@ const getParamConfigData = (callBack) => {
       console.log(err);
     })
 }
-
 const shutdownClickEvent = (callBack) => {
   axios.post(shutdownClickEventUrl)
     .then(function (response) {
@@ -67,11 +68,15 @@ const shutdownClickEvent = (callBack) => {
     })
 }
 
-const resetClickEvent = (callBack) => {
-  axios.post(resetClickEventUrl, { ResetRPM: this.state.ResetRPM, ResetTemp: this.state.ResetTemp })
-    .then(function (response) {
-      let resetValue = response
-      callBack(resetValue)
+const resetClickEvent = (dataBody, callBack) => {
+  axios.post(resetClickEventUrl, dataBody)
+    .then(res => {
+      if (res.data) {
+        console.log(res.data)
+        callBack(res.data)
+      }
+    }).catch(err => {
+      console.log(err.res)
     })
 }
 
@@ -152,6 +157,17 @@ const getSensorData = (callBack) => {
     })
 };
 
+const getHandleChangetestID = (body, callBack) => {
+  axios.post(turboIdValueUrl, body)
+    .then(res => {
+      callBack(res.data)
+      console.log(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
 export {
   getTurboConfigData,
   turbineConfigSubmit,
@@ -165,7 +181,7 @@ export {
   registerPageValidation,
   getTableView,
   getChartData,
-  getSensorData
+  getSensorData, getHandleChangetestID
 
 
 

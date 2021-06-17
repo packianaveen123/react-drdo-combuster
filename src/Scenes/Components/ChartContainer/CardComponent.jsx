@@ -4,7 +4,6 @@ import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
 import { updateChartData } from '../../../Redux/action';
 
-
 class CardComponent extends Component {
   constructor(props) {
     super(props);

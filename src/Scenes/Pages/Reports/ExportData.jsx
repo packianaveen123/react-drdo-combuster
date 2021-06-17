@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Row, Layout, Input, Button, Select, Table } from 'antd';
+import { Col, Row, Layout, Input, Button, Select, Table, Form } from 'antd';
 import { updateTitleElements } from '../../../Redux/action'
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -11,39 +11,39 @@ import html2canvas from 'html2canvas';
 const { Option } = Select;
 const columns = [
   {
-    title: 'T1T2',
-    dataIndex: 'T1T2',
-    key: 'T1T2',
+    title: 'test_id',
+    dataIndex: 'test_id',
+    key: 'test_id',
   },
   {
-    title: 'T3T4',
-    dataIndex: 'T3T4',
-    key: 'T3T4',
+    title: 'rpm',
+    dataIndex: 'rpm',
+    key: 'rpm',
   },
   {
-    title: 'rpm1rpm2',
-    dataIndex: 'rpm1rpm2',
-    key: 'rpm1rpm2',
+    title: 'T1',
+    dataIndex: 'T1',
+    key: 'T1',
   },
   {
-    title: 'P1P2',
-    dataIndex: 'P1P2',
-    key: 'P1P2',
+    title: 'T2',
+    dataIndex: 'T2',
+    key: 'T2',
   },
   {
-    title: 'P3',
-    dataIndex: 'P3',
-    key: 'P3',
+    title: 'T3',
+    dataIndex: 'T3',
+    key: 'T3',
   },
   {
-    title: 'G1G2',
-    dataIndex: 'G1G2',
-    key: 'G1G2',
+    title: 'T4',
+    dataIndex: 'T5',
+    key: 'T6',
   },
   {
-    title: 'testdatadate',
-    dataIndex: 'testdatadate',
-    key: 'testdatadate',
+    title: 'testdataDate',
+    dataIndex: 'testdataDate',
+    key: 'testdataDate',
   }
 ];
 class ExportData extends Component {
@@ -62,35 +62,83 @@ class ExportData extends Component {
       type: 'Report',
     })
   }
+  // handleChangetestID = (value) => {
+  //   axios.post('http://192.168.0.167:6001/exportData.php', { turboIdVal: value }).then(res => {
+  //     let chartdata = res.data;
+  //     console.log(res)
+  //     this.setState({
+  //       testno: chartdata
+  //     })
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  //   this.setState({
+  //     turboIdVal: value
+  //   })
+  //   console.log(this.state.turboIdVal)
+  //   console.log(this.state.testno)
+  // }
+  // getReport = () => {
+  //   axios.post('http://192.168.0.167:6001/getReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno }).then(res => {
+  //     let chartdata = res.data;
+  //     console.log('chartdata:' + chartdata)
+  //     this.setState({
+  //       reportDetails: res.data
+  //     })
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // }
+  getreport = () => {
+    axios.post('http://192.168.0.167:6002/getReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno1 },)
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          reportDetails: res.data
+        })
+      })
+      .catch(err => {
+        console.log(err.res)
+      })
+    axios.post('http://192.168.0.167:6001/getnames.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno1 },)
+      .then(res => {
+        console.log(res.data[0].tester)
+        this.setState({
+          tester: res.data[0].tester,
+          witness: res.data[0].witness
+        })
+      })
+      .catch(err => {
+        console.log(err.res)
+      })
+  }
 
-
+  // createPdf = (html) => Doc.createPdf(html);
   handleChangetestID = (value) => {
-    axios.post('http://192.168.0.167:5000/exportData.php', { turboIdVal: value }).then(res => {
+    axios.post('http://192.168.0.167:6001/exportData.php', { turboIdVal: value }).then(res => {
       let chartdata = res.data;
       console.log(res)
       this.setState({
         testno: chartdata
       })
-    }).catch(err => {
-      console.log(err);
-    })
-    this.setState({
-      turboIdVal: value
-    })
-    console.log(this.state.turboIdVal)
-    console.log(this.state.testno)
-  }
-
-  getReport = () => {
-    axios.post('http://192.168.0.167:5000/getReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno }).then(res => {
-      let chartdata = res.data;
-      console.log('chartdata:' + chartdata)
       this.setState({
-        reportDetails: res.data
+        turboIdVal: value
       })
     }).catch(err => {
       console.log(err);
     })
+
+    console.log(this.state.turboIdVal)
+    console.log(this.state.testno1)
+  }
+  handleChangetestNO = (value) => {
+
+    this.setState({
+      testno1: value
+    })
+
+    console.log(this.state.turboIdVal)
+    console.log(this.state.testno1)
   }
   exportToCSV = (csvData, fileName) => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -120,56 +168,64 @@ class ExportData extends Component {
   render() {
     const testIdValue = this.props.app.turboConfig;
     console.log(this.state.testno)
+    const testno = this.state.testno;
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
           <h2 class="h2"> Export Report</h2>
           <Row style={{ paddingTop: "20px" }} >
             <Col sm={2}>
-              <label htmlFor="name" class="label">Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label class="label" >Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
               <Col sm={10}>
-                <Input.Group compact>
-                  <Select
-                    defaultValue="Select Turbo ID"
-                    style={{ width: '300px' }}
-                    onChange={this.handleChangetestID}
-                  >
-                    {testIdValue.map(it => (
-                      <Option key={it.turboname} value={it.turboname}>
-                        {it.turboname}
-                      </Option>
-                    ))}
-                  </Select>
-                </Input.Group>
+                <Form.Item name="option">
+                  <Input.Group compact>
+                    <Input.Group compact>
+                      <Select
+                        defaultValue="Select Turbo ID"
+                        style={{ width: '300px' }}
+                        onChange={this.handleChangetestID}
+                      >
+                        {testIdValue.map(it => (
+                          <Option key={it.turboname} value={it.turboname}>
+                            {it.turboname}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Input.Group>
+                  </Input.Group>
+                </Form.Item>
               </Col>
             </Col>
+
             <Col sm={2}>
-              <label htmlFor="name" class="label" >Test No<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
+              <label class="label">Test No <i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
               <span> &nbsp; &nbsp; &nbsp;</span>
             </Col>
             <Col sm={10}>
-              <Input.Group compact>
-                {(this.state.testno) ?
+              <Form.Item name="options">
+                <Input.Group compact>
                   <Select
-                    defaultValue="Select Turbo ID"
+                    defaultValue="Select Test No"
                     style={{ width: '300px' }}
-                    onChange={this.handleChangetestID}
+                    onChange={this.handleChangetestNO}
                   >
-                    {this.state.testno.map(it => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}
-                  </Select> : []}
-              </Input.Group>
+                    testno ?
+                    {testno.map(it => (
+                    <Option key={it.testno} value={it.testno}>
+                      {it.testno}
+                    </Option>
+                  ))} : []
+                          </Select>
+                </Input.Group>
+              </Form.Item>
             </Col>
           </Row>
           <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
             <Col xs={4}>
-              <Button onClick={() => this.getReport()}> View</Button>
+              <Button onClick={() => this.getreport()}> View</Button>
               <span> &nbsp;</span>
             </Col>
             <Col xs={4}>
@@ -177,12 +233,19 @@ class ExportData extends Component {
               <span> &nbsp;</span>
             </Col>
           </Row>
-          <Button variant="warning" onClick={(e) => this.exportToPDF()}>Export in Pdf</Button>
-          <Button variant="warning" onClick={(e) => this.exportToCSV(this.state.reportDetails, 'Export Report')}>Export in Excel</Button>
-          <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-            <Table id="someRandomID" style={{ marginTop: '50px', width: '95%', float: 'left' }} pagination={false} columns={columns} dataSource={this.state.reportDetails} />
-          </Layout>
         </Layout>
+
+        <Button
+          style={{ marginLeft: '1270px', marginBottom: '20px', marginTop: '20px', width: '140px' }}
+          variant="warning"
+          onClick={(e) => this.exportToCSV(this.state.reportDetails, 'Export Report')}
+        >Export in Excel
+          </Button>
+
+        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+          <Table id="someRandomID" style={{ marginTop: '50px', width: '95%', float: 'left' }} pagination={false} columns={columns} dataSource={this.state.reportDetails} />
+        </Layout>
+
       </div>
     )
   }

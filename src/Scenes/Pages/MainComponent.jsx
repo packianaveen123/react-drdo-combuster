@@ -14,11 +14,16 @@ import RunningReport from './Reports/RunningReport';
 import TestConfig from './ConfigurationPage/TestConfig';
 import ParamConfig from './ConfigurationPage/ParamConfig';
 import ExportData from './Reports/ExportData';
+import PerformanceReport from './Reports/PerformanceReport'
+import EndurenceReport from './Reports/EndurenceReport'
+import PerformanceAfterEndurence from './Reports/PerformanceAfterEndurence'
+
 
 
 import {
   updateTurboConfig, updateTestConfigPage,
-  updateParamConfig, updateUserParameter
+  updateParamConfig, updateChartData,
+  updateUserParameter
 } from '../../Redux/action';
 
 import {
@@ -48,6 +53,9 @@ export class MainComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
+    // requestChartData((data) => {
+    //   this.props.updateChartData(data);
+    // })    
   }
 
   render() {
@@ -70,6 +78,9 @@ export class MainComponent extends Component {
             {mainPage === 'testPage' ? <TestPage /> : []}
             {mainPage === 'runningReport' ? <RunningReport /> : []}
             {mainPage === 'exportData' ? <ExportData /> : []}
+            {mainPage === 'performanceReport' ? <PerformanceReport /> : []}
+            {mainPage === 'endurenceReport' ? <EndurenceReport /> : []}
+            {mainPage === 'performanceafterEndurence' ? <PerformanceAfterEndurence /> : []}
           </Content>
         </Layout>
         <Footer><FooterElement /></Footer>
@@ -85,6 +96,7 @@ const mapDispatchToProps = {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
+  updateChartData,
   updateUserParameter
 }
 
