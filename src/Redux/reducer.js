@@ -10,13 +10,15 @@ const appReducer = (state = InitialState, action) => {
     case 'TOGGLE_LEFTBAR_VIEW':
       newState.leftBarView = !newState.leftBarView
       return newState
+    case 'UPDATE_USER_NAME':
+      newState.userName = action.payload ? action.payload : []
+      return newState
     case 'UPDATE_CHART_DATA':
       newState.chartData = action.payload ? action.payload : []
       return newState
     case 'UPDATE_TEST_CONFIG':
       newState.testConfig = action.payload ? action.payload : []
       return newState
-
 
     case 'UPDATE_TEST_CONFIG_PAGE':
       newState.testConfigPage = action.payload ? action.payload : []
@@ -69,7 +71,6 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_CONFIG_TABLEEDIT':
       newState.tableEdit = action.payload ? action.payload : []
       return newState
-
 
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true                             //shutdownInitiated

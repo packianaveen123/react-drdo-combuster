@@ -61,7 +61,9 @@ export class MainComponent extends Component {
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
-
+    var errorTubine = true
+    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
+    if (testIdValue.length > 2) { var errorTubine = false }
     return (
       <Layout>
         <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>
@@ -75,7 +77,8 @@ export class MainComponent extends Component {
             {mainPage === 'dashboardConfig' ? <DashboardConfig /> : []}
             {mainPage === 'testConfig' ? <TestConfig /> : []}
             {mainPage === 'paramConfig' ? <ParamConfig /> : []}
-            {mainPage === 'testPage' ? <TestPage /> : []}
+            {/* {mainPage === 'testPage' ? <TestPage /> : []} */}
+            {mainPage === 'testPage' && errorTubine == true ? <TestPage /> : <TurboConfig />}
             {mainPage === 'runningReport' ? <RunningReport /> : []}
             {mainPage === 'exportData' ? <ExportData /> : []}
             {mainPage === 'performanceReport' ? <PerformanceReport /> : []}

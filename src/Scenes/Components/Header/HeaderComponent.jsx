@@ -21,8 +21,10 @@ class HeaderComponent extends Component {
     console.log(this.props.initiateRegisterState)
   }
   render() {
+    const appData =this.props.app;
     const { collapsed } = this.props.app.leftBarView;
-    console.log(this.props.app.leftBarView)
+    console.log(appData.leftBarView)
+    console.log(appData.userName.user_name)
     return (
       <div className="site-layout-background">
         <div className="logo" >
@@ -37,11 +39,11 @@ class HeaderComponent extends Component {
 
         <div class="logout-element">
           <div className="logout-content" onClick={this.backToLoginEvent}>
-            <text> Logout</text>
+            <text className="logout-btn"> Logout</text>
           </div>
 
           <div className="welcome-message">
-            <text>Welcome Admin</text>
+            <text>Welcome {appData.userName.user_name}</text>
           </div>
         </div>
       </div>

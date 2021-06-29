@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
 import { turbineConfigSubmit } from '../../../Services/requests';
 import { turboConfigValue } from '../../../Services/constants';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Alert, message } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Alert, message, notification, Divider, Space } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-
+import {
+  RadiusUpleftOutlined,
+  RadiusUprightOutlined,
+  RadiusBottomleftOutlined,
+  RadiusBottomrightOutlined,
+} from '@ant-design/icons';
 const { nozzleArea_min, nozzleArea_max,
   nozzleArea_step, nozzleArea_defalutValue,
   blade_defalutValue,
@@ -23,17 +28,38 @@ class TurboConfig extends Component {
       nozzleArea: nozzleArea_defalutValue,
       discriptionVal: null,
       bladeVal: blade_defalutValue,
+      errorTubine: false
     }
     this.updateDate = this.updateDate.bind(this)
     this.updateBlades = this.updateBlades.bind(this)
   }
-
+  openNotification = (value) => {
+    notification.info({
+      message: `INSTALLED MORE THAN 2 TURBINES`,
+      description:
+        'The haredware is install with more than 2 trubines. So make sure there is only 2 trubines installed ',
+      value,
+    });
+  };
   componentDidMount() {
     this.props.updateTitleElements({
       title: 'Turbo Config',
       type: 'Config',
+
     })
+    console.log(this.props.appData.turboConfig)
+
+    const testIdValue = this.props.appData.turboConfig.filter(word => word.status == "installed");
+    if (testIdValue.length > 2) {
+      this.setState({
+
+        errorTubine: true
+      })
+
+
+    }
   }
+
   onFinish = () => {
     const body = {
       turbo_id: this.state.turboID,
@@ -87,10 +113,17 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
+
     console.log(appData)
-    console.log(turboConfig)
-    const localThis = this;
+    console.log(appData)
+
+    if (this.state.errorTubine) {
+      this.openNotification('bottomRight')
+    }
+
+
     return (
+
       <div style={{ paddingTop: "1px" }} >
         <Layout class="layout-container">
           <h2 class="h2">Turbo Configuration</h2>

@@ -106,7 +106,7 @@ class TableView extends Component {
             </Col>
             <Col >
               <Table
-                style={{ marginTop: '50px', paddingLeft: '30%', minWidth: '700px', float: 'right', }}
+                style={{ marginTop: '50px', paddingLeft: '30%', minWidth: '690px', float: 'right', }}
                 pagination={false} columns={columns1} dataSource={this.props.app.turboStart} />
             </Col>
           </Row>

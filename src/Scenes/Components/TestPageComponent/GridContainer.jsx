@@ -3,7 +3,7 @@ import {
   Card, Col, Row, Layout,
   Divider, Input, Select, Alert,
   Button, Radio, Popover, Space,
-  Typography, message
+  Typography, message, Menu
 } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
@@ -35,13 +35,15 @@ import { updateChartData } from '../../../Redux/action';
 import { testParamHash } from '../../../Services/constants'
 const { Option } = Select;
 const { Text } = Typography;
-
+const { SubMenu } = Menu;
 let count = 1
 class GridContainer extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      turboIdDefaultValue: "Select Turbo ID",
+      truboIDnum: false,
       turboMode: '1',
       testingData: null,
       value: null,
@@ -65,7 +67,8 @@ class GridContainer extends Component {
       currentDateTime: '',
       turbostartname: [],
       overalldata: [],
-      errormsg: ''
+      errormsg: '',
+      shutdownEnable: false
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -77,7 +80,9 @@ class GridContainer extends Component {
     this.deleteWitnessItem = this.deleteWitnessItem.bind(this);
   }
   handleVisibleChange = visible => {
-    this.setState({ visible });
+    if (this.state.shutdownEnable) {
+      this.setState({ visible });
+    }
   };
   addItem(e, key) {
     e.preventDefault();
@@ -150,14 +155,15 @@ class GridContainer extends Component {
 
   handleChangetestID = (value) => {
     this.setState({
-      turboIdVal: value
+      turboIdVal: value,
+      truboIDnum: true
     })
     const body = {
       turboIdValue: value
     }
 
     let that = this;
-    getHandleChangetestID(body, (data) => {
+    getHandleChangetestID({ turboIdValue: value }, (data) => {
       if (data == "") {
         that.setState({
           turboIdTestCount: 1
@@ -179,7 +185,8 @@ class GridContainer extends Component {
   }
   shutdownClick = () => {
     this.setState({
-      shutdownInitiated: true
+      shutdownInitiated: true,
+      shutdownEnable: false
     })
     shutdownClickEvent((data) => {
       this.props.initiateShutdown(data)
@@ -302,6 +309,7 @@ class GridContainer extends Component {
 
   }
   onClickhelp = () => {
+
     var self = this;
     axios.get('http://192.168.0.167:5000/valvestatus.php')
       .then(function (response) {
@@ -352,19 +360,32 @@ class GridContainer extends Component {
   }
   onChangeResettempvalue = event => {
     console.log(event.target.value)
-    this.props.getResetTemp(event.target.value);
+    const re = /^[0-9\b]+$/;
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.props.getResetTemp(event.target.value);
+    }
   }
   onChangeResetRPMvalue = event => {
     console.log(event.target.value)
-    this.props.getResetRPM(event.target.value);
+    const re = /^[0-9\b]+$/;
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.props.getResetRPM(event.target.value);
+    }
   }
   onChangetempvalue = event => {
     console.log(event.target.value)
-    this.props.getTargetTemp(event.target.value);
+    const re = /^[0-9\b]+$/;
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.props.getTargetTemp(event.target.value);
+    }
   }
   onChangeRPMvalue = event => {
+
     console.log(event.target.value)
-    this.props.getTargetRPM(event.target.value);
+    const re = /^[0-9\b]+$/;
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.props.getTargetRPM(event.target.value);
+    }
   }
 
   ResetonClick = () => {
@@ -383,6 +404,9 @@ class GridContainer extends Component {
       if (this.props.app.targetRPM !== '' && this.props.app.targetTemp !== '') {
         this.props.initiateShowTarget();
         console.log(this.props.getTargetTemp);
+        this.setState({
+          shutdownEnable: true
+        })
         let interval = setInterval(() => {
           this.requestChartData();
 
@@ -395,13 +419,13 @@ class GridContainer extends Component {
               .then(function (response) {
                 console.log(response);
               })
-            axios.get('http://192.168.0.167:8000/testdata.php')
-              .then(res => {
-                let TestDataDB = res.data;
-                console.log(TestDataDB)
-              }).catch((err) => {
-                console.log(err);
-              })
+            // axios.get('http://192.168.0.167:8000/testdata.php')
+            //   .then(res => {
+            //     let TestDataDB = res.data;
+            //     console.log(TestDataDB)
+            //   }).catch((err) => {
+            //     console.log(err);
+            //   })
           }).catch((err) => {
             console.log(err);
           })
@@ -419,8 +443,12 @@ class GridContainer extends Component {
 
   Reloadall = () => {
     if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
+
+      console.log(this.state.turboIdval)
       this.props.stopDbInsert()
       this.setState({
+        turboIdDefaultValue: "Select Turbo ID",
+        truboIDnum: false,
         turboMode: '1',
         testingData: null,
         value: null,
@@ -443,7 +471,8 @@ class GridContainer extends Component {
         currentDateTime: '',
         turbostartname: [],
         overalldata: [],
-        errormsg: ''
+        errormsg: '',
+        turboIdTestCount: null
       })
     }
   }
@@ -459,7 +488,7 @@ class GridContainer extends Component {
     const targetRPM = this.props.app.targetRPM;
     const resetTemp = this.props.app.resetTemp;
     const resetRPM = this.props.app.resetRPM;
-    const testIdValue = this.props.app.turboConfig;
+    // const testIdValue = this.props.app.turboConfig;
     const turboStart = this.props.app.turboStart;
     const { value } = this.state;
     const { Initializedata, Startdata, Shutdowndata, Resetdata } = testParamHash
@@ -467,155 +496,176 @@ class GridContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
-    console.log(this.props.app)
+    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
+    console.log(testIdValue.length)
+    console.log(this.props.app.turboConfig)
     console.log(StartdataArray)
     console.log(ShutdowndataArray)
-    console.log(ResetdataArray)
+    console.log(this.state.turboIdVal)
+
     return (
       <div style={{ paddingTop: "30px" }}>
+
         <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px", minHeight: "768px" }}>
-          <div style={{ paddingTop: "30px" }}>
-            <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-              <Row>
-                <Col xs={8} style={{ paddingLeft: "20px" }}>
-                  <form>
-                    <Row>
-                      <Col xs={5}>
-                        <label for="text" class="label" >Mode</label>
-                      </Col>
-                      <Radio.Group name="radiogroup"
-                        defaultValue={1}
-                        onChange={this.onChangeradio}
-                        style={{
-                          border: '1px solid #3e434d',
-                          width: "300px",
-                          height: "40px",
-                          paddingTop: '4px',
-                          paddingLeft: '25px'
-                        }}>
-                        <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
-                        <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
-                      </Radio.Group>
-                    </Row>
-                  </form>
-                </Col>
-              </Row>
-              <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
-                <Col span={8}>
-                  <form >
-                    <Row>
-                      <Col span={5}>
-                        <label for="text" class="label" >Turbo ID</label>
-                      </Col>
-                      <Col span={6}>
+          <div >
+            <Menu
 
-                        <Input.Group compact>
-                          {
-                            testIdValue && testIdValue.length > 0 ?
-                              <Select
-                                defaultValue="Select Turbo ID"
-                                style={{ width: '300px' }}
-                                onChange={this.handleChangetestID}
-                              >
-                                {testIdValue.map(it => (
-                                  <Option key={it.turboname} value={it.turboname}>
-                                    {it.turboname}
-                                  </Option>
-                                ))}
-                              </Select> : <Text type="warning">No active turbines</Text>
-                          }
-                        </Input.Group>
-                      </Col>
-                    </Row>
-                  </form>
-                  <Row style={{ paddingLeft: '5rem' }}>
-                    <div
-                      style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
-                    >
-                      {this.state.turboIdVal}
+              style={{ width: "100%", backgroundColor: 'transparent' }}
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              theme="dark"
+              mode="inline"
+            >
+              <SubMenu key="sub1" className="test-dropdown" title="Turbine Details" style={{ fontSize: '18px' }}>
+                <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+                  <Row>
+                    <Col xs={8} style={{ paddingLeft: "20px" }}>
+                      <form>
+                        <Row>
+                          <Col xs={5}>
+                            <label for="text" class="label" >Mode</label>
+                          </Col>
+                          <Radio.Group name="radiogroup"
+                            defaultValue={1}
+                            onChange={this.onChangeradio}
+                            style={{
+                              border: '1px solid #3e434d',
+                              width: "300px",
+                              height: "40px",
+                              paddingTop: '4px',
+                              paddingLeft: '25px'
+                            }}>
+                            <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
+                            <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
+                          </Radio.Group>
+                        </Row>
+                      </form>
+                    </Col>
+                  </Row>
+                  <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
+                    <Col span={8}>
+                      <form >
+                        <Row>
+                          <Col span={5} style={{ marginTop: '20px' }} >
+                            <label for="text" class="label" >Turbo ID</label>
+                          </Col>
+                          <Col span={6}>
 
-                      {
-                        this.state.turboIdVal ? <  MinusOutlined style={{ color: '#42dbdc' }} />
-                          : []
-                      }
-                      {this.state.turboIdTestCount}
-                    </div>
-                  </Row>
-                </Col>
-                <Col xs={8}>
-                  <form onSubmit={(e) => this.addItem(e, 'tester')}>
-                    <Row>
-                      <Col span={4}>
-                        <label for="text" class="label" >Tester</label>
-                      </Col>
-                      <Col span={15} >
-                        <Input placeholder="Tester"
-                          name="Tester"
-                          style={{ width: "300px" }}
-                          value={this.state.currentTesterItem}
-                          onChange={this.handleTesterInput}
-                        />
-                      </Col>
-                      <Col>
-                        <button
-                          style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
-                          type="submit"
-                        >+</button>
-                      </Col>
-                    </Row>
-                  </form>
-                  <Row style={{ paddingLeft: '5rem' }}>
-                    <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} />
-                  </Row>
-                </Col>
+                            <Input.Group compact>
+                              {
+                                testIdValue && testIdValue.length > 0 ?
+                                  <Select
+                                    defaultValue={this.state.turboIdDefaultValue}
+                                    style={{ width: '300px' }}
+                                    onChange={this.handleChangetestID}
+                                  >
+                                    {testIdValue.map(it => (
+                                      <Option key={it.turboname} value={it.turboname}>
+                                        {it.turboname}
+                                      </Option>
+                                    ))}
+                                  </Select> : <Text type="warning">No active turbines</Text>
+                              }
+                            </Input.Group>
+                          </Col>
+                        </Row>
+                      </form>
+                      <Row style={{ paddingLeft: '5rem' }}>
+                        {
+                          this.state.truboIDnum ?
+                            <div
+                              style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
+                            >
+                              {this.state.turboIdVal}
 
-                <Col xs={8}>
-                  <form onSubmit={(e) => this.addItem(e, 'witness')}>
-                    <Row>
-                      <Col span={4}>
-                        <label for="text" class="label" >Witness</label>
-                      </Col>
-                      <Col span={15}>
-                        <Input placeholder="Witness"
-                          name="Witness"
-                          style={{ width: "300px" }}
-                          placeholder="Enter Witness"
-                          value={this.state.currentWitnessItem}
-                          onChange={this.handleWitnessInput}
-                          onfocus="this.value=''"
-                        />
-                      </Col>
-                      <Col>
-                        <button
-                          style={{ width: "2em", height: '3em', backgroundColor: '#42dbdc' }}
-                          type="submit"
-                        >+</button>
-                      </Col>
-                    </Row>
-                  </form>
-                  <Row style={{ paddingLeft: '5rem' }}>
-                    <ListItems items={this.state.witnessItems} deleteItem={this.deleteWitnessItem} />
+                              {
+                                this.state.turboIdVal ? <  MinusOutlined style={{ color: '#42dbdc' }} />
+                                  : []
+                              }
+                              {this.state.turboIdTestCount}
+                            </div>
+                            : []}
+                      </Row>
+                    </Col>
+                    <Col xs={8}>
+                      <form onSubmit={(e) => this.addItem(e, 'tester')}>
+                        <Row>
+                          <Col span={4} style={{ marginTop: '20px' }}>
+                            <label for="text" class="label" >Tester</label>
+                          </Col>
+                          <Col span={15} >
+                            <Input placeholder="Tester"
+                              name="Tester"
+                              style={{ width: "300px" }}
+                              value={this.state.currentTesterItem}
+                              onChange={this.handleTesterInput}
+                            />
+                          </Col>
+                          <Col>
+                            <button
+                              className="add-btn"
+                              type="submit"
+                            >+</button>
+                          </Col>
+                        </Row>
+                      </form>
+                      <Row style={{ paddingLeft: '5rem' }}>
+                        <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} />
+                      </Row>
+                    </Col>
+
+                    <Col xs={8}>
+                      <form onSubmit={(e) => this.addItem(e, 'witness')}>
+                        <Row>
+                          <Col span={4} style={{ marginTop: '20px' }}>
+                            <label for="text" class="label" >Witness</label>
+                          </Col>
+                          <Col span={15}>
+                            <Input placeholder="Witness"
+                              name="Witness"
+                              style={{ width: "300px" }}
+                              placeholder="Enter Witness"
+                              value={this.state.currentWitnessItem}
+                              onChange={this.handleWitnessInput}
+                              onfocus="this.value=''"
+                            />
+                          </Col>
+                          <Col>
+                            <button
+                              className="add-btn"
+                              type="submit"
+                            >+</button>
+                          </Col>
+                        </Row>
+                      </form>
+                      <Row style={{ paddingLeft: '5rem' }}>
+                        <ListItems items={this.state.witnessItems} deleteItem={this.deleteWitnessItem} />
+                      </Row>
+                    </Col>
                   </Row>
-                </Col>
-              </Row>
-              <Row>
-                {this.state.errormsg ?
-                  <Alert message={this.state.errormsg} type="error"
-                    action={
-                      <Space>
-                        <Button size="small" type="ghost" onClick={() => this.errorDoneClick()}>
-                          Done
+                  <Row>
+                    {this.state.errormsg ?
+                      <Alert message={this.state.errormsg} type="error"
+                        action={
+                          <Space>
+                            <Button size="small" type="ghost" onClick={() => this.errorDoneClick()}>
+                              Done
                         </Button>
-                      </Space>
-                    } /> : ''}
-              </Row>
-            </Layout>
+                          </Space>
+                        } /> : ''}
+                  </Row>
+                </Layout>
+              </SubMenu>
+            </Menu>
           </div>
+
           <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingRight: "20px" }}>
             <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
+            {/* <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}> */}
             <Col span={3}>
-              <Card style={{ width: 185, cursor: 'pointer' }} onClick={() => this.initializeClick()}>
-                <DownloadOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
+              <Card style={{ width: 185, cursor: 'pointer', borderColor: "green" }} >
+                <DownloadOutlined className="icon-button" onClick={() => this.initializeClick()}
+                />
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '20px' }}>Initialize</p>
                 {
                   communicationFailed ?
@@ -647,9 +697,9 @@ class GridContainer extends Component {
             </Col>
 
             <Col span={3}>
-              <Card style={{ width: 185, cursor: 'pointer' }}>
+              <Card style={communication ? { width: 185, cursor: 'pointer', borderColor: 'green' } : { width: 185, cursor: 'pointer', borderColor: 'gray' }}>
                 <PlaySquareOutlined
-                  style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }}
+                  style={communication ? { paddingLeft: '40px', paddingTop: '1px', color: 'green', fontSize: "30px" } : { paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }}
                   onClick={() => this.startClick()}
                 />
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '35px' }}> Start</p>
@@ -693,7 +743,7 @@ class GridContainer extends Component {
                 }
                 {
                   showTarget ?
-                    <p style={{ height: '15px' }}>
+                    <p style={{ height: '15px', width: "180px" }}>
                       <Row>
 
                         {StartdataArray.map(item => {
@@ -717,7 +767,7 @@ class GridContainer extends Component {
 
             <Col span={3}>
               <Card style={{ width: 185, cursor: 'pointer' }} >
-                <SyncOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
+                <SyncOutlined className="icon-button" />
                 <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 {
                   StartdataArray.find(it => it.name === 'stage3') ?
@@ -774,9 +824,9 @@ class GridContainer extends Component {
             </Col>
 
             <Col span={4}>
-              <Card style={{ width: 185, borderColor: "red", cursor: 'pointer' }} onClick={() => this.shutdownClick()}>
+              <Card style={this.state.shutdownEnable ? { width: 185, borderColor: "red", cursor: 'pointer' } : { width: 185, borderColor: "gray", cursor: 'pointer' }} onClick={() => this.shutdownClick()}>
                 <div>
-                  <PoweroffOutlined style={{ paddingLeft: '40px', paddingTop: '1px', color: 'red', fontSize: "30px" }} />
+                  <PoweroffOutlined style={this.state.shutdownEnable ? { paddingLeft: '40px', paddingTop: '1px', color: 'red', fontSize: "30px" } : { paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
                 </div>
                 <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p>
               </Card>,
@@ -800,13 +850,14 @@ class GridContainer extends Component {
             <Col span={3}>
               <Card style={{ width: 100 }}>
                 <div style={{ cursor: 'pointer' }} onClick={() => this.Reloadall()}>
-                  <RedoOutlined style={{ paddingLeft: '5px', paddingTop: '1px', color: 'green', fontSize: "30px", cursor: 'pointer' }} onClick={() => this.Reloadall()} />
+                  <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} />
                 </div>
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: 'px' }}>Reset</p>
               </Card>,
             </Col>
 
             <Col span={2}>
+
               <Popover
                 title={<div><p style={{ fontWeight: 'bold' }}>Valve status at: {this.state.valvestatustime}</p></div>}
                 content={<div><p>svcoolingair : {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
@@ -821,14 +872,16 @@ class GridContainer extends Component {
 
                 <Card style={{ width: 100 }}>
                   <div onClick={this.onClickhelp} >
-                    <QuestionOutlined style={{ paddingLeft: '5px', paddingTop: '1px', color: 'red', fontSize: "30px" }} />
+                    <QuestionOutlined className="icon-button3" />
                   </div>
                   <p style={{ color: 'gray', fontSize: "20px", paddingLeft: 'px' }}>Help</p>
                 </Card>
               </Popover>
             </Col>
+            {/* </Row> */}
           </Row>
         </Layout>
+
       </div>
     )
   }

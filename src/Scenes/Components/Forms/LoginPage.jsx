@@ -3,7 +3,7 @@ import { Col, Row, Input, Button, Form, Alert } from 'antd';
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { loginValidation } from '../../../Services/requests';
 import { connect } from 'react-redux';
-import { updateUserParameter, updateAppState, updateLoginEvent } from '../../../Redux/action';
+import { updateUserParameter, updateAppState, updateLoginEvent, updateUserName } from '../../../Redux/action';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -15,15 +15,16 @@ class LoginPage extends Component {
   }
 
   onFinish = (values) => {
-    let that = this
+    let that = this;
     loginValidation(values, (data) => {
       if (data == "success") {
         that.props.updateAppState('main')
-        console.log(data)
+        that.props.updateUserName(values)
       }
       else if (data == "failed") {
         this.state.IsLogin = true;
         console.log(this.state.IsLogin)
+        this.setState({ redirect: false });
       }
     })
   }
@@ -36,7 +37,6 @@ class LoginPage extends Component {
   }
   render() {
     const appData = this.props.app;
-
     return (
       <div class="background">
         <div class="login-page">
@@ -125,6 +125,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   updateUserParameter,
   updateLoginEvent,
+  updateUserName,
   updateAppState
 }
 

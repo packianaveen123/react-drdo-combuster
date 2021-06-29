@@ -4,6 +4,7 @@ import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
 import { updateChartData } from '../../../Redux/action';
 
+
 class CardComponent extends Component {
   constructor(props) {
     super(props);
@@ -12,11 +13,18 @@ class CardComponent extends Component {
       cardList: []
     }
   }
-
+  interval = setInterval(() => {
+    this.prepareChartParams(this.props.app.chartData)
+    // this.setState({
+    //   cardList : demo
+    // })
+  }, 1000);
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })
   }
+
   prepareChartParams = (chartdata) => {
+
     let t1 = [];
     let t2 = [];
     let t9 = [];
@@ -24,7 +32,7 @@ class CardComponent extends Component {
     let p2 = [];
     let g1 = [];
     let date_Time = [];
-    for (let i = 0; i < chartdata.length; i++) {
+    for (let i = 0; i < 6; i++) {
       t1.push(chartdata[i].T1T2);
       t2.push(chartdata[i].T3T4);
       t9.push(chartdata[i].P1P2);
@@ -44,7 +52,7 @@ class CardComponent extends Component {
     chartArray.push(rpm);
     chartArray.push(p2);
     chartArray.push(g1);
-    console.log(chartArray)
+    // console.log(chartArray)
     const chartValue = []
     for (let i = 0; i < chartArray.length; i++) {
       let chart =
@@ -69,21 +77,24 @@ class CardComponent extends Component {
         }
       }
       chartValue.push(chart)
+      this.setState({
+        cardList: chartValue
+      })
     }
-    return chartValue
+
   }
 
   render() {
-    const chartData = this.props.app.chartData ? this.props.app.chartData : null;
-    const chart = this.prepareChartParams(chartData)
-    console.log(chart)
-    if (chart !== undefined && chart.length >= 5) {
+    // const chartData = this.props.app.chartData ? this.props.app.chartData : null;
+    // this.prepareChartParams(chartData)    
+    console.log("cardlist :" + this.state.cardList)
+    if (this.state.cardList !== undefined && this.state.cardList.length >= 5) {
       return (
         <div style={{ backgroundColor: '#212840' }}>
           <div className="site-card-wrapper">
             <Row gutter={16}>
-              {chart ?
-                chart.map(it => {
+              {this.state.cardList ?
+                this.state.cardList.map(it => {
                   return (
 
                     <Col span={8}>

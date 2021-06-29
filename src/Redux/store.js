@@ -2,6 +2,7 @@ import { dashboardData, titleElements } from '../Services/constants'
 const InitialState = {
   mainPage: 'testPage',
   appState: "login",
+  userName:'',
   userParams: null,
   leftBarView: false,
   collapsed: true,

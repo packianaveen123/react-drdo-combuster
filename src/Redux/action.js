@@ -7,6 +7,12 @@ export const toggleLeftBar = bool => ({
   type: 'TOGGLE_LEFTBAR_VIEW',
   payload: bool
 })
+// userName
+export const updateUserName = data => ({
+  type: 'UPDATE_USER_NAME',
+  payload: data
+})
+
 export const updateChartData = data => ({
   type: 'UPDATE_CHART_DATA',
   payload: data

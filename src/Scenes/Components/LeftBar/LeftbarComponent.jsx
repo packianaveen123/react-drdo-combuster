@@ -9,7 +9,7 @@ import {
 import { GiPaperWindmill } from "react-icons/gi";
 import { DiYii } from "react-icons/di";
 import { FiSettings, FiSliders, FiActivity } from "react-icons/fi";
-import { AiOutlineTable, AiFillDatabase,AiFillSignal} from "react-icons/ai";
+import { AiOutlineTable, AiFillDatabase, AiFillSignal } from "react-icons/ai";
 import { BiTrendingUp } from "react-icons/bi";
 import { CgPerformance } from "react-icons/cg";
 
@@ -31,11 +31,16 @@ class LeftbarComponent extends Component {
     this.props.navigateMainPage(e.key)
   }
   render() {
+    var errorTubine = true
+    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
+    if (testIdValue.length > 2) { var errorTubine = false }
+    console.log(this.props.app.turboConfig)
     return (
       <Sider trigger={null} collapsible collapsed={this.props.leftBarView.leftBarView}>
         <Menu
           theme="dark"
           onClick={this.handleClick}
+
           defaultSelectedKeys={['3']}
           mode="inline"
         >
@@ -56,7 +61,7 @@ class LeftbarComponent extends Component {
             <Menu.Item key="runningReport" icon={<FiActivity style={{ color: '#42dbdc' }} />}>Running Report </Menu.Item>
             <Menu.Item key="performanceReport" icon={<AiFillSignal style={{ color: '#42dbdc' }} />}>Performance Report</Menu.Item>
             <Menu.Item key="endurenceReport" icon={<BiTrendingUp style={{ color: '#42dbdc' }} />}>Endurence Report</Menu.Item>
-            <Menu.Item key="performanceafterEndurence" icon={<CgPerformance style={{ color: '#42dbdc' }} />}>Performance After Endurence</Menu.Item>            
+            <Menu.Item key="performanceafterEndurence" icon={<CgPerformance style={{ color: '#42dbdc' }} />}>Performance After Endurence</Menu.Item>
             <Menu.Item key="exportData" icon={<AiFillDatabase style={{ color: '#42dbdc' }} />}>Export Data </Menu.Item>
           </SubMenu>
         </Menu>
@@ -66,7 +71,8 @@ class LeftbarComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  leftBarView: state.app
+  leftBarView: state.app,
+  app: state.app
   // user: state.app
 })
 
