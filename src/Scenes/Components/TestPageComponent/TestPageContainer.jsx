@@ -9,7 +9,7 @@ import {
   DownloadOutlined, PlaySquareOutlined,
   SyncOutlined, PoweroffOutlined,
   QuestionOutlined, RedoOutlined, MinusOutlined,
-  CheckOutlined, DownOutlined, CloseOutlined
+  CheckOutlined, CloseOutlined
 } from '@ant-design/icons';
 import {
   initiateShutdown, initiateShowReset,
@@ -26,21 +26,21 @@ import ListItems from '../subComponents/ListItems';
 import {
   shutdownClickEvent, resetClickEvent,
   requestChartData, getChartData,
-  getSensorData, getHandleChangetestID
+  getSensorData, getHandleChangetestID,
+  requestStatusData
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
 
 import axios from 'axios';
-import { updateChartData } from '../../../Redux/action';
+import { updateChartData, navigateMainPage, updateTableStatusData } from '../../../Redux/action';
 import { testParamHash } from '../../../Services/constants'
 const { Option } = Select;
 const { Text } = Typography;
 const { SubMenu } = Menu;
 let count = 1
-class GridContainer extends Component {
+class TestPageContainer extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       turboIdDefaultValue: "Select Turbo ID",
       truboIDnum: false,
@@ -68,8 +68,9 @@ class GridContainer extends Component {
       turbostartname: [],
       overalldata: [],
       errormsg: '',
-      shutdownEnable: false
-
+      shutdownEnable: false,
+      tubineStatus: false,
+      sData: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.startClick = this.startClick.bind(this);
@@ -79,6 +80,18 @@ class GridContainer extends Component {
     this.deleteTesterItem = this.deleteTesterItem.bind(this);
     this.deleteWitnessItem = this.deleteWitnessItem.bind(this);
   }
+
+
+  componentDidMount() {
+    requestStatusData((data) => {
+      console.log(data)
+      console.log(data.length)
+      if (data.length > 2) {
+        this.props.navigateMainPage("turboConfig");
+      }
+    })
+  }
+
   handleVisibleChange = visible => {
     if (this.state.shutdownEnable) {
       this.setState({ visible });
@@ -103,7 +116,6 @@ class GridContainer extends Component {
         isDuplicateWitness: isDuplicateWitness
       })
       message.warning('duplicate value')
-
     }
 
     if (newItem !== null && !isDuplicateTester && !isDuplicateWitness) {
@@ -134,7 +146,6 @@ class GridContainer extends Component {
       testerItems: filteredItems
     })
   }
-
   deleteWitnessItem(text) {
     const filteredItems = this.state.witnessItems.filter(item => item !== text);
     this.setState({
@@ -161,7 +172,6 @@ class GridContainer extends Component {
     const body = {
       turboIdValue: value
     }
-
     let that = this;
     getHandleChangetestID({ turboIdValue: value }, (data) => {
       if (data == "") {
@@ -219,20 +229,6 @@ class GridContainer extends Component {
       }
     })
   }
-
-  // sensorData() {
-  //   axios.get('http://192.168.0.167:5000/getdata.php',).then(res => {
-  //     let chartdata = res.data;
-  //     if (this.props.app.stopDbInsert === false) {
-  //       this.props.initiateTurboStart(res.data);
-  //     }
-  //     else {
-  //       this.props.initiateTurboStart(null)
-  //     }
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // }
 
   communicationstatus() {
     axios.get('http://192.168.0.167:5000/initialize.php')
@@ -306,10 +302,9 @@ class GridContainer extends Component {
       .catch((err) => {
         console.log(err);
       })
-
   }
-  onClickhelp = () => {
 
+  onClickhelp = () => {
     var self = this;
     axios.get('http://192.168.0.167:5000/valvestatus.php')
       .then(function (response) {
@@ -351,13 +346,12 @@ class GridContainer extends Component {
             fcvmaingasfuel: "ON"
           })
         }
-
       })
       .catch((err) => {
         console.log(err);
       })
-
   }
+
   onChangeResettempvalue = event => {
     console.log(event.target.value)
     const re = /^[0-9\b]+$/;
@@ -380,7 +374,6 @@ class GridContainer extends Component {
     }
   }
   onChangeRPMvalue = event => {
-
     console.log(event.target.value)
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -399,7 +392,6 @@ class GridContainer extends Component {
   }
 
   startClick = () => {
-
     if (this.props.app.communication === true) {
       if (this.props.app.targetRPM !== '' && this.props.app.targetTemp !== '') {
         this.props.initiateShowTarget();
@@ -409,7 +401,6 @@ class GridContainer extends Component {
         })
         let interval = setInterval(() => {
           this.requestChartData();
-
         }, 1000);
         axios.post('http://192.168.0.167:5000/start.php', { targetRPM: this.props.app.targetRPM, targetTemp: this.props.app.targetTemp },)
           .then(res => {
@@ -443,7 +434,6 @@ class GridContainer extends Component {
 
   Reloadall = () => {
     if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
-
       console.log(this.state.turboIdval)
       this.props.stopDbInsert()
       this.setState({
@@ -488,7 +478,6 @@ class GridContainer extends Component {
     const targetRPM = this.props.app.targetRPM;
     const resetTemp = this.props.app.resetTemp;
     const resetRPM = this.props.app.resetRPM;
-    // const testIdValue = this.props.app.turboConfig;
     const turboStart = this.props.app.turboStart;
     const { value } = this.state;
     const { Initializedata, Startdata, Shutdowndata, Resetdata } = testParamHash
@@ -496,33 +485,34 @@ class GridContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
-    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
-    console.log(testIdValue.length)
+    var testIdValue = null;
+    if (this.props.app.statusData) {
+      var testIdValue = this.props.app.statusData.filter(word => word.status == "installed");
+    }
+
+    console.log(this.props.app.statusData.status)
     console.log(this.props.app.turboConfig)
     console.log(StartdataArray)
     console.log(ShutdowndataArray)
-    console.log(this.state.turboIdVal)
-
+    console.log(testIdValue)
     return (
       <div style={{ paddingTop: "30px" }}>
-
-        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px", minHeight: "768px" }}>
+        <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", minHeight: "768px" }}>
           <div >
             <Menu
-
-              style={{ width: "100%", backgroundColor: 'transparent' }}
+              style={{ width: "100%", backgroundColor: 'transparent', paddingRight: '20px' }}
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               theme="dark"
               mode="inline"
             >
               <SubMenu key="sub1" className="test-dropdown" title="Turbine Details" style={{ fontSize: '18px' }}>
-                <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
-                  <Row>
-                    <Col xs={8} style={{ paddingLeft: "20px" }}>
+                <Layout style={{ backgroundColor: "transparent", paddingTop: "20px", paddingLeft: "20px" }}>
+                  <Row style={{ paddingLeft: "20px" }}>
+                    <Col xs={8}>
                       <form>
                         <Row>
-                          <Col xs={5}>
+                          <Col xs={5} style={{ marginTop: '20px' }}>
                             <label for="text" class="label" >Mode</label>
                           </Col>
                           <Radio.Group name="radiogroup"
@@ -550,7 +540,6 @@ class GridContainer extends Component {
                             <label for="text" class="label" >Turbo ID</label>
                           </Col>
                           <Col span={6}>
-
                             <Input.Group compact>
                               {
                                 testIdValue && testIdValue.length > 0 ?
@@ -587,7 +576,7 @@ class GridContainer extends Component {
                             : []}
                       </Row>
                     </Col>
-                    <Col xs={8}>
+                    <Col span={8}>
                       <form onSubmit={(e) => this.addItem(e, 'tester')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
@@ -614,7 +603,7 @@ class GridContainer extends Component {
                       </Row>
                     </Col>
 
-                    <Col xs={8}>
+                    <Col span={8}>
                       <form onSubmit={(e) => this.addItem(e, 'witness')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
@@ -659,12 +648,12 @@ class GridContainer extends Component {
             </Menu>
           </div>
 
-          <Row style={{ backgroundColor: "#131633", paddingTop: "20px", paddingRight: "20px" }}>
+          <Row style={{ backgroundColor: "#131633", paddingRight: "20px" }}>
             <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
             {/* <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}> */}
             <Col span={3}>
               <Card style={{ width: 185, cursor: 'pointer', borderColor: "green" }} >
-                <DownloadOutlined className="icon-button" onClick={() => this.initializeClick()}
+                <DownloadOutlined className="icon-button1" onClick={() => this.initializeClick()}
                 />
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '20px' }}>Initialize</p>
                 {
@@ -692,16 +681,16 @@ class GridContainer extends Component {
               </Card>,
             </Col>
 
-            <Col span={2} style={{ marginTop: "40px", paddingRight: "10px", paddingLeft: "20px" }}>
+            <Col span={2} style={{ marginTop: "30px", paddingRight: "10px", paddingLeft: "20px" }}>
               <hr></hr>
             </Col>
 
             <Col span={3}>
-              <Card style={communication ? { width: 185, cursor: 'pointer', borderColor: 'green' } : { width: 185, cursor: 'pointer', borderColor: 'gray' }}>
-                <PlaySquareOutlined
-                  style={communication ? { paddingLeft: '40px', paddingTop: '1px', color: 'green', fontSize: "30px" } : { paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }}
-                  onClick={() => this.startClick()}
-                />
+              <Card style={communication ? { width: 185, cursor: 'pointer', borderColor: 'green' } : { width: 185, borderColor: 'gray' }}>
+                {
+                  communication ? <PlaySquareOutlined className="icon-button1" onClick={() => this.startClick()} /> :
+                    <PlaySquareOutlined className="iconbutton1-basic" onClick={() => this.startClick()} />
+                }
                 <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '35px' }}> Start</p>
                 {
                   communication ?
@@ -745,7 +734,6 @@ class GridContainer extends Component {
                   showTarget ?
                     <p style={{ height: '15px', width: "180px" }}>
                       <Row>
-
                         {StartdataArray.map(item => {
                           return (
                             <div>
@@ -754,7 +742,6 @@ class GridContainer extends Component {
                             </div>
                           )
                         })}
-
                       </Row>
                     </p> : []
                 }
@@ -766,8 +753,10 @@ class GridContainer extends Component {
             </Col>
 
             <Col span={3}>
-              <Card style={{ width: 185, cursor: 'pointer' }} >
-                <SyncOutlined className="icon-button" />
+              <Card
+                style={showTarget ? { width: 185, cursor: 'pointer', borderColor: 'green' } :
+                  { width: 185, borderColor: 'gray' }}>
+                <SyncOutlined className="iconbutton1-basic" />
                 <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 {
                   StartdataArray.find(it => it.name === 'stage3') ?
@@ -783,17 +772,17 @@ class GridContainer extends Component {
                           name="ResetTemp"
                           style={{ width: "75px" }}
                         />
-
                         <Input
                           value={resetRPM}
                           onChange={this.onChangeResetRPMvalue}
                           name="ResetRPM"
                           style={{ width: "75px" }}
                         />
-
-                        <Button style={{ width: "2px" }} onClick={() => this.ResetonClick()}>
+                        <button
+                          className="add-btn"
+                          onClick={() => this.ResetonClick()}>
                           +
-                        </Button>
+                        </button>
                       </Row>
                     </p>
                     : []
@@ -824,13 +813,18 @@ class GridContainer extends Component {
             </Col>
 
             <Col span={4}>
-              <Card style={this.state.shutdownEnable ? { width: 185, borderColor: "red", cursor: 'pointer' } : { width: 185, borderColor: "gray", cursor: 'pointer' }} onClick={() => this.shutdownClick()}>
+              <Card style={this.state.shutdownEnable ?
+                { width: 185, borderColor: "red", cursor: 'pointer' } :
+                { width: 185, borderColor: "gray", cursor: 'pointer' }}
+                onClick={() => this.shutdownClick()} >
                 <div>
-                  <PoweroffOutlined style={this.state.shutdownEnable ? { paddingLeft: '40px', paddingTop: '1px', color: 'red', fontSize: "30px" } : { paddingLeft: '40px', paddingTop: '1px', color: 'gray', fontSize: "30px" }} />
+                  {
+                    this.state.shutdownEnable ? <PoweroffOutlined className='icon-button3' /> :
+                      <PoweroffOutlined className='iconbutton3-basic' />
+                  }
                 </div>
                 <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p>
               </Card>,
-
               {
                 shutdownInitiated ?
                   <p style={{ height: '15px', color: 'white' }}>
@@ -848,16 +842,19 @@ class GridContainer extends Component {
             </Col>
 
             <Col span={3}>
-              <Card style={{ width: 100 }}>
+              <Card
+                style={shutdownInitiated ? { width: 100, cursor: 'pointer', borderColor: 'green' } :
+                  { width: 100, borderColor: 'gray' }}>
                 <div style={{ cursor: 'pointer' }} onClick={() => this.Reloadall()}>
-                  <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} />
+                  {shutdownInitiated ? <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
+                    <RedoOutlined className="iconbutton2-basic" onClick={() => this.Reloadall()} />
+                  }
                 </div>
-                <p style={{ color: 'gray', fontSize: "20px", paddingLeft: 'px' }}>Reset</p>
+                <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
               </Card>,
             </Col>
 
             <Col span={2}>
-
               <Popover
                 title={<div><p style={{ fontWeight: 'bold' }}>Valve status at: {this.state.valvestatustime}</p></div>}
                 content={<div><p>svcoolingair : {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
@@ -869,12 +866,16 @@ class GridContainer extends Component {
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}
               >
-
-                <Card style={{ width: 100 }}>
+                <Card
+                  style={showTarget ? { width: 100, cursor: 'pointer', borderColor: 'green' } :
+                    { width: 100, borderColor: 'gray' }}>
                   <div onClick={this.onClickhelp} >
-                    <QuestionOutlined className="icon-button3" />
+                    {
+                      showTarget ? <QuestionOutlined className="icon-button4" /> :
+                        <QuestionOutlined className="iconbutton4-basic" />
+                    }
                   </div>
-                  <p style={{ color: 'gray', fontSize: "20px", paddingLeft: 'px' }}>Help</p>
+                  <p style={{ color: 'gray', fontSize: "20px" }}>Help</p>
                 </Card>
               </Popover>
             </Col>
@@ -891,6 +892,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  navigateMainPage,
+  updateTableStatusData,
   initiateShutdown,
   initiateShowReset,
   initiateCommunicationFailed,
@@ -913,8 +916,8 @@ const mapDispatchToProps = {
   startDbInsert
 }
 
-const Grid = connect(
+const TestContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(GridContainer)
-export default Grid;
+)(TestPageContainer)
+export default TestContainer;

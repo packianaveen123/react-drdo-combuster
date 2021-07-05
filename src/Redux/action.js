@@ -74,7 +74,11 @@ export const updateTableData = data => ({
   type: 'UPDATE_TABLE_DATA',
   payload: data
 })
-
+//table statusData
+export const updateTableStatusData = data => ({
+  type: 'UPDATE_TABLE_STATUS_DATA',
+  payload: data
+})
 // loginEvent
 export const updateLoginEvent = bool => ({
   type: 'UPDATE_LOGIN_EVENT',

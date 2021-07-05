@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import GridContainer from '../Components/TestPageComponent/GridContainer';
+import TestPageContainer from '../Components/TestPageComponent/TestPageContainer';
 import StatusBlock from '../Components/TestPageComponent/StatusBlock';
 import { updateTitleElements } from '../../Redux/action';
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ class TestPage extends Component {
     return (
       <div>
         <StatusBlock />
-        <GridContainer />
+        <TestPageContainer />
       </div>
     )
   }

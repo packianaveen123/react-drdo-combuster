@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
-import { navigateMainPage } from '../../../Redux/action'
+import { navigateMainPage, updateTableStatusData } from '../../../Redux/action';
+import { requestStatusData } from '../../../Services/requests';
 import {
   DashboardOutlined, FolderOutlined,
   LineChartOutlined, ToolOutlined,
 } from '@ant-design/icons';
 import { GiPaperWindmill } from "react-icons/gi";
 import { DiYii } from "react-icons/di";
-import { FiSettings, FiSliders, FiActivity } from "react-icons/fi";
+import { FiSettings, FiActivity } from "react-icons/fi";
 import { AiOutlineTable, AiFillDatabase, AiFillSignal } from "react-icons/ai";
 import { BiTrendingUp } from "react-icons/bi";
 import { CgPerformance } from "react-icons/cg";
@@ -26,21 +27,19 @@ class LeftbarComponent extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick = e => {
+  handleClick = (e, data) => {
     console.log('click ', e);
     this.props.navigateMainPage(e.key)
+    requestStatusData((data) => {
+      this.props.updateTableStatusData(data)
+    })
   }
   render() {
-    var errorTubine = true
-    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
-    if (testIdValue.length > 2) { var errorTubine = false }
-    console.log(this.props.app.turboConfig)
     return (
       <Sider trigger={null} collapsible collapsed={this.props.leftBarView.leftBarView}>
         <Menu
           theme="dark"
           onClick={this.handleClick}
-
           defaultSelectedKeys={['3']}
           mode="inline"
         >
@@ -77,7 +76,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  navigateMainPage
+  navigateMainPage,
+  updateTableStatusData
 }
 
 const leftBar = connect(

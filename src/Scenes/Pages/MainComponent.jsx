@@ -17,20 +17,16 @@ import ExportData from './Reports/ExportData';
 import PerformanceReport from './Reports/PerformanceReport'
 import EndurenceReport from './Reports/EndurenceReport'
 import PerformanceAfterEndurence from './Reports/PerformanceAfterEndurence'
-
-
-
 import {
   updateTurboConfig, updateTestConfigPage,
   updateParamConfig, updateChartData,
-  updateUserParameter
+  updateUserParameter, updateTableStatusData
 } from '../../Redux/action';
-
 import {
   getTurboConfigData, getTestConfigData,
-  getParamConfigData
+  getParamConfigData, turbineConfigSubmit,
+  requestStatusData
 } from '../../Services/requests';
-
 
 const { Content, Header, Footer } = Layout;
 
@@ -53,17 +49,20 @@ export class MainComponent extends Component {
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
-    // requestChartData((data) => {
-    //   this.props.updateChartData(data);
-    // })    
+    turbineConfigSubmit((data) => {
+      this.props.updateTurboConfig(data)
+      console.log(data)
+    })
+    requestStatusData((data) => {
+      this.props.updateTableStatusData(data)
+      console.log(data)
+    })
   }
 
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
-    var errorTubine = true
-    const testIdValue = this.props.app.turboConfig.filter(word => word.status == "installed");
-    if (testIdValue.length > 2) { var errorTubine = false }
+    console.log(this.props.app)
     return (
       <Layout>
         <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>
@@ -77,8 +76,7 @@ export class MainComponent extends Component {
             {mainPage === 'dashboardConfig' ? <DashboardConfig /> : []}
             {mainPage === 'testConfig' ? <TestConfig /> : []}
             {mainPage === 'paramConfig' ? <ParamConfig /> : []}
-            {/* {mainPage === 'testPage' ? <TestPage /> : []} */}
-            {mainPage === 'testPage' && errorTubine == true ? <TestPage /> : <TurboConfig />}
+            {mainPage === 'testPage' ? <TestPage /> : []}
             {mainPage === 'runningReport' ? <RunningReport /> : []}
             {mainPage === 'exportData' ? <ExportData /> : []}
             {mainPage === 'performanceReport' ? <PerformanceReport /> : []}
@@ -98,6 +96,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   updateTurboConfig,
   updateTestConfigPage,
+  updateTableStatusData,
   updateParamConfig,
   updateChartData,
   updateUserParameter

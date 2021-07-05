@@ -17,14 +17,13 @@ class HeaderComponent extends Component {
     this.props.toggleLeftBar()
   }
   backToLoginEvent = () => {
-    this.props.updateAppState('login');
-    console.log(this.props.initiateRegisterState)
+    // this.props.updateAppState('login');
+    // console.log(this.props.initiateRegisterState)
+    window.location.reload(false);
   }
   render() {
-    const appData =this.props.app;
-    const { collapsed } = this.props.app.leftBarView;
-    console.log(appData.leftBarView)
-    console.log(appData.userName.user_name)
+    const appData = this.props.app;
+    const collapsed = appData.leftBarView;
     return (
       <div className="site-layout-background">
         <div className="logo" >
@@ -32,10 +31,12 @@ class HeaderComponent extends Component {
           {this.state.showCompanyName ? <LogoValue /> : null}
         </div>
 
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-          className: 'trigger',
-          onClick: this.collapse,
-        })}
+        {
+          React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: 'trigger',
+              onClick: this.collapse,
+            })}
 
         <div class="logout-element">
           <div className="logout-content" onClick={this.backToLoginEvent}>
@@ -43,7 +44,7 @@ class HeaderComponent extends Component {
           </div>
 
           <div className="welcome-message">
-            <text>Welcome {appData.userName.user_name}</text>
+            <text>Welcome {appData.userName}</text>
           </div>
         </div>
       </div>

@@ -67,7 +67,7 @@ class StatusBlock extends Component {
           </row>
         </div>
         <Row>
-          <Col span={4} style={{ paddingLeft: "0px", paddingRight: "10px" }}>
+          <Col span={4} style={{ paddingRight: "10px" }}>
             <div class="statistic-block block">
               <Row class="progress-details d-flex align-items-end justify-content-between">
                 <Col>

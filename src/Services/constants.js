@@ -13,7 +13,8 @@ const url = {
   TABLE_VIEW: 'tableview.php',
   GRAPH_CHART_DATA: 'graph.php',
   SENSOR_DATA: 'getdata.php',
-  TURBOID_VALUE: 'turboIdValue.php'
+  TURBOID_VALUE: 'turboIdValue.php',
+  TABLE_STATUSDATA: 'statusValue.php'
 }
 
 const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },

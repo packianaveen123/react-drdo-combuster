@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 import { Table, Space, Input, Popconfirm, Button, Col, Row, Layout, Select } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
-  getParamConfigData
+  getParamConfigData, requestStatusData
 } from '../../../Services/requests';
 import {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
-  updateConfigTableEdit
+  updateConfigTableEdit,
+  updateTableStatusData
 } from '../../../Redux/action';
 
 const { Option } = Select
@@ -114,6 +114,9 @@ class TableComponent extends Component {
       } else {
         console.log(`500: error data response`)
       }
+      requestStatusData((data) => {
+        this.props.updateTableStatusData(data)
+      })
       console.log(data)
     })
   }
@@ -240,23 +243,24 @@ class TableComponent extends Component {
                 : []
             }
             <Col xs={12}>
-            {
-              this.props.childrenColumnName !== "paramconfig" ?
-              <Button
-                type="primary"
-                style={{ width: '6rem' }}
-                onClick={this.startEdit}
-              >
-                Start Edit
+              {
+                this.props.childrenColumnName !== "paramconfig" ?
+                  <Button
+                    type="primary"
+                    style={{ width: '6rem' }}
+                    onClick={this.startEdit}
+                  >
+                    Start Edit
                   </Button>
                   : []
-            }
+              }
             </Col>
           </Row>
         </div>
 
         <Table
           dataSource={tableData}
+          size='middle'
           style={{ backgroundColor: "#131633" }}
         >
           {
@@ -284,7 +288,8 @@ const mapDispatchToProps = {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
-  updateConfigTableEdit
+  updateConfigTableEdit,
+  updateTableStatusData
 }
 
 const tablePage = connect(

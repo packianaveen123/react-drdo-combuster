@@ -17,9 +17,9 @@ const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const chartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
+const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
 
 
-let that = this;
 
 const getTurboConfigData = (callBack) => {
   axios.get(turboConfigUrl).then(res => {
@@ -64,6 +64,17 @@ const shutdownClickEvent = (callBack) => {
       let shutdownValue = response
       callBack(shutdownValue)
     }).catch((err) => {
+      console.log(err);
+    })
+}
+
+const requestStatusData = (callBack) => {
+  axios.get(tableStatusDataUrl)
+    .then(res => {
+      let Data = res.data;
+      console.log(Data)
+      callBack(Data)
+    }).catch(err => {
       console.log(err);
     })
 }
@@ -181,7 +192,8 @@ export {
   registerPageValidation,
   getTableView,
   getChartData,
-  getSensorData, getHandleChangetestID
+  getSensorData, getHandleChangetestID,
+  requestStatusData
 
 
 

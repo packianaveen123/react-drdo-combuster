@@ -59,6 +59,10 @@ const appReducer = (state = InitialState, action) => {
       newState.tableData = action.payload ? action.payload : []     //tableView
       return newState
 
+    case 'UPDATE_TABLE_STATUS_DATA':
+      newState.statusData = action.payload ? action.payload : []     //tablestatusData
+      return newState
+
     case 'UPDATE_LOGIN_EVENT':
       newState.IsLogin = action.payload ? action.payload : []            //loginEvent
       return newState

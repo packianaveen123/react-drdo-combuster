@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTurboConfig, updateTitleElements } from '../../../Redux/action';
-import { turbineConfigSubmit } from '../../../Services/requests';
+import { updateTurboConfig, updateTitleElements, updateTableStatusData } from '../../../Redux/action';
+import { turbineConfigSubmit, requestStatusData } from '../../../Services/requests';
 import { turboConfigValue } from '../../../Services/constants';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, Alert, message, notification, Divider, Space } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, message, notification, Divider, Space } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import {
-  RadiusUpleftOutlined,
-  RadiusUprightOutlined,
-  RadiusBottomleftOutlined,
-  RadiusBottomrightOutlined,
-} from '@ant-design/icons';
+
 const { nozzleArea_min, nozzleArea_max,
   nozzleArea_step, nozzleArea_defalutValue,
   blade_defalutValue,
   blade_min,
   blade_max, error_turbo_msg, error_blade_msg,
   added_turbo_msg } = turboConfigValue
+
 class TurboConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      turboID: null,
+      turboID: '',
       dateVal: '',
       nozzleArea: nozzleArea_defalutValue,
       discriptionVal: null,
       bladeVal: blade_defalutValue,
-      errorTubine: false
+      turbineStatus: false,
     }
     this.updateDate = this.updateDate.bind(this)
     this.updateBlades = this.updateBlades.bind(this)
   }
+
   openNotification = (value) => {
     notification.info({
       message: `INSTALLED MORE THAN 2 TURBINES`,
@@ -41,23 +38,21 @@ class TurboConfig extends Component {
       value,
     });
   };
+
   componentDidMount() {
+    console.log(this.props.appData.statusData)
+    let data = this.props.appData.statusData;
+    if (data.length > 2) {
+      this.setState({
+        turbineStatus: true
+      })
+      this.openNotification()
+    }
+
     this.props.updateTitleElements({
       title: 'Turbo Config',
       type: 'Config',
-
     })
-    console.log(this.props.appData.turboConfig)
-
-    const testIdValue = this.props.appData.turboConfig.filter(word => word.status == "installed");
-    if (testIdValue.length > 2) {
-      this.setState({
-
-        errorTubine: true
-      })
-
-
-    }
   }
 
   onFinish = () => {
@@ -71,6 +66,9 @@ class TurboConfig extends Component {
     message.success(added_turbo_msg)
     turbineConfigSubmit(body, (data) => {
       this.props.updateTurboConfig(data)
+    })
+    requestStatusData((data) => {
+      this.props.updateTableStatusData(data)
     })
   }
 
@@ -113,17 +111,13 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
+    console.log(this.props.appData)
+    console.log(this.props.appData.statusData)
 
-    console.log(appData)
-    console.log(appData)
-
-    if (this.state.errorTubine) {
+    if (this.state.turbineStatus) {
       this.openNotification('bottomRight')
     }
-
-
     return (
-
       <div style={{ paddingTop: "1px" }} >
         <Layout class="layout-container">
           <h2 class="h2">Turbo Configuration</h2>
@@ -131,13 +125,6 @@ class TurboConfig extends Component {
             const isDuplicateId = turboConfig.map(it => it.turboname).includes(this.state.turboID)
             {
               isDuplicateId ?
-                // <Alert
-                //   message="Warning"
-                //   description={error_turbo_msg}
-                //   type="warning"
-                //   showIcon
-                //   closable
-                // />
                 message.warning(error_turbo_msg)
                 : this.onFinish()
             }
@@ -157,6 +144,7 @@ class TurboConfig extends Component {
                       name="turbo_id"
                       style={{ width: "320px" }}
                       placeholder="Turbo ID"
+                      defaultValue={this.state.turboID}
                       onChange={this.onchangeTurboID} />
                   </div>
                 </Form.Item>
@@ -301,7 +289,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateTurboConfig,
-  updateTitleElements
+  updateTitleElements,
+  updateTableStatusData
+
 }
 
 const TurboContainer = connect(

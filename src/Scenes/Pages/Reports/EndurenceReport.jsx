@@ -208,6 +208,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
     console.log(this.state.turboIdVal)
     console.log(this.state.testno)
   }
+  
   handleChangetestNO = (value) => {
    
       this.setState({

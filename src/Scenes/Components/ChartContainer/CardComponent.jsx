@@ -3,8 +3,6 @@ import { Card, Col, Row } from 'antd';
 import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
 import { updateChartData } from '../../../Redux/action';
-
-
 class CardComponent extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +12,12 @@ class CardComponent extends Component {
     }
   }
   interval = setInterval(() => {
-    this.prepareChartParams(this.props.app.chartData)
+    console.log(this.props.app.chartData.length)
+    {
+      this.props.app.chartData.length != 0 ? this.prepareChartParams(this.props.app.chartData)
+        : console.log(this.props.app.chartData)
+    }
+
     // this.setState({
     //   cardList : demo
     // })
@@ -22,9 +25,7 @@ class CardComponent extends Component {
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })
   }
-
   prepareChartParams = (chartdata) => {
-
     let t1 = [];
     let t2 = [];
     let t9 = [];
@@ -81,12 +82,13 @@ class CardComponent extends Component {
         cardList: chartValue
       })
     }
-
   }
-
   render() {
-    // const chartData = this.props.app.chartData ? this.props.app.chartData : null;
-    // this.prepareChartParams(chartData)    
+    const chartData = this.props.app.chartData ? this.props.app.chartData : null;
+    // const chart = this.prepareChartParams(chartData)
+    // this.setState({
+    //   cardList : chart
+    // })
     console.log("cardlist :" + this.state.cardList)
     if (this.state.cardList !== undefined && this.state.cardList.length >= 5) {
       return (
@@ -96,7 +98,6 @@ class CardComponent extends Component {
               {this.state.cardList ?
                 this.state.cardList.map(it => {
                   return (
-
                     <Col span={8}>
                       <Row >
                         <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
@@ -110,7 +111,6 @@ class CardComponent extends Component {
                         </Card>
                       </Row>
                     </Col>
-
                   )
                 }) : []
               }
@@ -124,18 +124,14 @@ class CardComponent extends Component {
     }
   }
 }
-
 const mapStateToProps = state => ({
   app: state.app
 })
-
 const mapDispatchToProps = {
   updateChartData
 }
-
 const card = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CardComponent)
-
 export default card;
