@@ -20,12 +20,13 @@ import PerformanceAfterEndurence from './Reports/PerformanceAfterEndurence'
 import {
   updateTurboConfig, updateTestConfigPage,
   updateParamConfig, updateChartData,
-  updateUserParameter, updateTableStatusData
+  updateUserParameter, updateTableStatusData,
+  updateTestIdCount
 } from '../../Redux/action';
 import {
   getTurboConfigData, getTestConfigData,
   getParamConfigData, turbineConfigSubmit,
-  requestStatusData
+  requestStatusData, getHandleChangetestID
 } from '../../Services/requests';
 
 const { Content, Header, Footer } = Layout;
@@ -55,6 +56,10 @@ export class MainComponent extends Component {
     })
     requestStatusData((data) => {
       this.props.updateTableStatusData(data)
+      console.log(data)
+    })
+    getHandleChangetestID((data) => {
+      this.props.updateTestIdCount(data)
       console.log(data)
     })
   }
@@ -99,7 +104,8 @@ const mapDispatchToProps = {
   updateTableStatusData,
   updateParamConfig,
   updateChartData,
-  updateUserParameter
+  updateUserParameter,
+  updateTestIdCount
 }
 
 const MainContainer = connect(

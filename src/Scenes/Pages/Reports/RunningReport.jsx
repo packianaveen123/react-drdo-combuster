@@ -3,13 +3,10 @@ import { Col, Row, Layout, Input, Button, Select, Form } from 'antd';
 import axios from 'axios';
 import { updateTitleElements } from '../../../Redux/action'
 import { connect } from 'react-redux';
-import TableElement from '../../Components/subComponents/TableElement'
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import Doc from './DocService';
 
 import 'jspdf-autotable';
-import logo from '../../../Images/logo.png'
 import logo2 from '../../../Images/logo2.png'
 
 const { Option } = Select;
@@ -45,7 +42,7 @@ class RunningReport extends Component {
     /*doc.autoTable({
     html: '#example1',
     didParseCell: function (cell, data) {
-    if (cell.row.section == 'body' && cell.row.index === 0) {
+    if (cell.row.section === 'body' && cell.row.index === 0) {
       cell.cell.styles.fontStyle = 'bold';
     }
     },
@@ -93,7 +90,7 @@ class RunningReport extends Component {
       startY: 70,
       didParseCell: function (cell, data) {
 
-        if (cell.row.section == 'body' && (cell.row.index === 1 || cell.row.index === 3)) {
+        if (cell.row.section === 'body' && (cell.row.index === 1 || cell.row.index === 3)) {
           cell.cell.styles.fontStyle = 'bold';
           cell.cell.styles.textColor = 'black';
         }
@@ -128,7 +125,7 @@ class RunningReport extends Component {
       tester = localStorage.getItem("rTestedBy")
     }
     let rWitnessName = this.state.witness;
-    if (null != localStorage.getItem("rWitnessName") && localStorage.getItem("rWitnessName") != undefined) {
+    if (null !== localStorage.getItem("rWitnessName") && localStorage.getItem("rWitnessName") !== undefined) {
       rWitnessName = localStorage.getItem("rWitnessName")
     }
     doc.setFontSize(12);
@@ -223,15 +220,13 @@ class RunningReport extends Component {
     const testno = this.state.testno;
     const reportOut = this.state.reportOut1
     return (
-      <div style={{ paddingTop: "1px" }}>
+      <div>
         <Layout class="layout-container">
           <h2 class="h2">Running Report</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "20px" }} >
-
               <Col sm={2}>
                 <label class="label" >Turbo ID<i style={{ color: 'red', fontSize: '15px' }}> *</i></label>
-                <span> &nbsp; &nbsp; &nbsp;</span>
               </Col>
               <Col sm={10}>
                 <Col sm={10}>
@@ -281,7 +276,7 @@ class RunningReport extends Component {
 
             </Row>
 
-            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '10px' }}>
               <Col xs={4}>
                 <Form.Item>
                   <Button onClick={this.getreport}> view</Button>
@@ -299,10 +294,10 @@ class RunningReport extends Component {
         <Button
           class
           onClick={this.getreportpdf}
-          style={{ marginLeft: '1300px', marginBottom: '20px', marginTop: '20px', width: '140px' }}
+          style={{ marginLeft: '1270px', marginBottom: '20px', marginTop: '20px', width: '140px' }}
         >Export Report</Button>
 
-        <Layout class="bottom-container" style={{ paddingTop: '50px', paddingBottom: '30px', border: 'solid white' }}>
+        <Layout class="bottom-container" style={{ paddingTop: '10px', paddingBottom: '30px', border: 'solid white' }}>
           <div id="allreport">
             <div class="mx-auto" style={{ marginBottom: '2%', marginTop: '2%' }}>
               <div class="sparkline12-hd" style={{ paddingBottom: '15px' }}>

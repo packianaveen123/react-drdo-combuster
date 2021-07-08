@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Card, Col, Row, Layout,
-  Divider, Input, Select, Alert,
-  Button, Radio, Popover, Space,
-  Typography, message, Menu
+  Card, Col, Row, Layout, Divider, Input, Select, Alert,
+  Button, Radio, Popover, Space, Typography, message, Menu
 } from 'antd';
 import {
   DownloadOutlined, PlaySquareOutlined,
@@ -22,18 +20,23 @@ import {
   getTargetRPM, getTargetTemp,
   getResetTemp, getResetRPM, stopDbInsert, startDbInsert
 } from '../../../Redux/action';
+import {
+  updateChartData, navigateMainPage,
+  updateTableStatusData, updateTestIdValue,
+  updateTestIdCount, updateTurboMode,
+  updateTesterData,
+} from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import {
   shutdownClickEvent, resetClickEvent,
-  requestChartData, getChartData,
-  getSensorData, getHandleChangetestID,
+  getChartData, getSensorData,
+  getHandleChangetestID,
   requestStatusData
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
-
 import axios from 'axios';
-import { updateChartData, navigateMainPage, updateTableStatusData } from '../../../Redux/action';
-import { testParamHash } from '../../../Services/constants'
+import { testParamHash } from '../../../Services/constants';
+
 const { Option } = Select;
 const { Text } = Typography;
 const { SubMenu } = Menu;
@@ -43,8 +46,8 @@ class TestPageContainer extends Component {
     super(props)
     this.state = {
       turboIdDefaultValue: "Select Turbo ID",
-      truboIDnum: false,
-      turboMode: '1',
+      truboIDnum: true,
+      turboMode: '',
       testingData: null,
       value: null,
       testerItems: [],
@@ -81,11 +84,8 @@ class TestPageContainer extends Component {
     this.deleteWitnessItem = this.deleteWitnessItem.bind(this);
   }
 
-
   componentDidMount() {
     requestStatusData((data) => {
-      console.log(data)
-      console.log(data.length)
       if (data.length > 2) {
         this.props.navigateMainPage("turboConfig");
       }
@@ -152,29 +152,33 @@ class TestPageContainer extends Component {
       witnessItems: filteredItems
     })
   }
-  onChangeTurboId = (e) => {
-    // this.getTestData()
-    console.log(this.state.turboIdval)
-  }
-  onChangeradio = e => {
+
+  onChangeRadio = (e) => {
     console.log('radio checked', e.target.value);
     this.setState({
       turboMode: e.target.value
     })
-    // setValue(e.target.value);
+    let data = e.target.value
+    this.props.updateTurboMode(data)
+    console.log(this.props.app.turboMode)
   };
+
 
   handleChangetestID = (value) => {
     this.setState({
-      turboIdVal: value,
       truboIDnum: true
     })
+    this.props.updateTestIdValue(value)
+    console.log(this.props.app.testIdValue)
     const body = {
       turboIdValue: value
     }
     let that = this;
     getHandleChangetestID({ turboIdValue: value }, (data) => {
-      if (data == "") {
+      console.log(data)
+      this.props.updateTestIdCount(data)
+      console.log(this.props.app.turboIdTestCount)
+      if (data === "") {
         that.setState({
           turboIdTestCount: 1
         })
@@ -184,6 +188,7 @@ class TestPageContainer extends Component {
           turboIdTestCount: data
         })
       }
+
     })
   }
 
@@ -255,7 +260,7 @@ class TestPageContainer extends Component {
 
   initializeClick = () => {
     this.props.startDbInsert()
-    if (this.state.turboIdVal === '' || this.state.turboIdVal === undefined) {
+    if (this.props.app.testIdValue === '' || this.props.app.testIdValue === undefined) {
       this.setState({
         errormsg: "Please Select the turbine ID"
       })
@@ -266,15 +271,21 @@ class TestPageContainer extends Component {
       })
 
     }
-    if (this.state.turboMode === '' || this.state.turboMode === undefined) {
+    if (this.props.app.turboMode === '' || this.props.app.turboMode === undefined) {
       this.setState({
         errormsg: "Please Select the turbine"
       })
 
     }
-    if (this.state.turboIdVal !== undefined && this.state.turboMode !== '' && this.state.testerItems.length !== 0) {
+    if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" && this.props.app.turboMode !== '' && this.state.testerItems.length !== 0) {
       console.log(this.state.turboIdVal)
-      axios.post('http://192.168.0.167:5000/gettestid.php', { turboIdVal: this.state.turboIdVal, testerItems: this.state.testerItems, witnessItems: this.state.witnessItems, turboMode: this.state.turboMode },)
+      axios.post('http://192.168.0.167:5000/gettestid.php',
+        {
+          turboIdVal: this.props.app.testIdValue,
+          testerItems: this.state.testerItems,
+          witnessItems: this.state.witnessItems,
+          turboMode: this.props.app.turboMode
+        })
         .then(res => {
           this.communicationstatus()
           let interval = setInterval(() => {
@@ -434,17 +445,19 @@ class TestPageContainer extends Component {
 
   Reloadall = () => {
     if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
-      console.log(this.state.turboIdval)
       this.props.stopDbInsert()
+      this.props.updateTestIdCount('')
+      this.props.updateTestIdValue('')
+
       this.setState({
         turboIdDefaultValue: "Select Turbo ID",
         truboIDnum: false,
-        turboMode: '1',
+
         testingData: null,
         value: null,
         testerItems: [],
         witnessItems: [],
-        turboIdval: '',
+        // turboIdval: '',
         currentTesterItem: null,
         currentWitnessItem: null,
         isDuplicateTester: false,
@@ -467,7 +480,10 @@ class TestPageContainer extends Component {
     }
   }
   render() {
+    console.log(this.props.app)
+    console.log(this.props.app.turboMode)
     console.log(this.state.currentDateTime)
+    console.log(this.state.testerItems)
     const shutdownInitiated = this.props.app.shutdownInitiated;
     const showReset = this.props.app.showReset;
     const communicationFailed = this.props.app.communicationFailed
@@ -487,16 +503,15 @@ class TestPageContainer extends Component {
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
     var testIdValue = null;
     if (this.props.app.statusData) {
-      var testIdValue = this.props.app.statusData.filter(word => word.status == "installed");
+      var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
 
-    console.log(this.props.app.statusData.status)
     console.log(this.props.app.turboConfig)
     console.log(StartdataArray)
     console.log(ShutdowndataArray)
     console.log(testIdValue)
     return (
-      <div style={{ paddingTop: "30px" }}>
+      <div style={{ paddingTop: "25px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", minHeight: "768px" }}>
           <div >
             <Menu
@@ -516,8 +531,8 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Mode</label>
                           </Col>
                           <Radio.Group name="radiogroup"
-                            defaultValue={1}
-                            onChange={this.onChangeradio}
+                            defaultValue={this.props.app.turboMode}
+                            onChange={this.onChangeRadio}
                             style={{
                               border: '1px solid #3e434d',
                               width: "300px",
@@ -532,7 +547,7 @@ class TestPageContainer extends Component {
                       </form>
                     </Col>
                   </Row>
-                  <Row style={{ paddingTop: "28px", paddingLeft: "20px" }}>
+                  <Row style={{ paddingTop: "2%", paddingLeft: "20px" }}>
                     <Col span={8}>
                       <form >
                         <Row>
@@ -565,15 +580,15 @@ class TestPageContainer extends Component {
                             <div
                               style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
                             >
-                              {this.state.turboIdVal}
-
+                              {this.props.app.testIdValue}
                               {
-                                this.state.turboIdVal ? <  MinusOutlined style={{ color: '#42dbdc' }} />
+                                this.props.app.testIdValue ? < MinusOutlined style={{ color: '#42dbdc' }} />
                                   : []
                               }
-                              {this.state.turboIdTestCount}
+                              {this.props.app.turboIdTestCount}
                             </div>
-                            : []}
+                            : []
+                        }
                       </Row>
                     </Col>
                     <Col span={8}>
@@ -583,7 +598,8 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Tester</label>
                           </Col>
                           <Col span={15} >
-                            <Input placeholder="Tester"
+                            <Input
+                              placeholder="Tester"
                               name="Tester"
                               style={{ width: "300px" }}
                               value={this.state.currentTesterItem}
@@ -610,10 +626,10 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Witness</label>
                           </Col>
                           <Col span={15}>
-                            <Input placeholder="Witness"
+                            <Input
+                              placeholder="Witness"
                               name="Witness"
                               style={{ width: "300px" }}
-                              placeholder="Enter Witness"
                               value={this.state.currentWitnessItem}
                               onChange={this.handleWitnessInput}
                               onfocus="this.value=''"
@@ -650,12 +666,12 @@ class TestPageContainer extends Component {
 
           <Row style={{ backgroundColor: "#131633", paddingRight: "20px" }}>
             <Divider style={{ borderColor: "#42dad6", backgroundColor: "#131633", }} />
-            {/* <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}> */}
+
             <Col span={3}>
               <Card style={{ width: 185, cursor: 'pointer', borderColor: "green" }} >
                 <DownloadOutlined className="icon-button1" onClick={() => this.initializeClick()}
                 />
-                <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '20px' }}>Initialize</p>
+                <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '20px' }}>Initialize</p>
                 {
                   communicationFailed ?
                     <p>
@@ -686,12 +702,19 @@ class TestPageContainer extends Component {
             </Col>
 
             <Col span={3}>
-              <Card style={communication ? { width: 185, cursor: 'pointer', borderColor: 'green' } : { width: 185, borderColor: 'gray' }}>
+              <Card style={communication ?
+                { width: 185, cursor: 'pointer', borderColor: 'green' } :
+                { width: 185, borderColor: 'gray' }}>
                 {
-                  communication ? <PlaySquareOutlined className="icon-button1" onClick={() => this.startClick()} /> :
-                    <PlaySquareOutlined className="iconbutton1-basic" onClick={() => this.startClick()} />
+                  communication ?
+                    <PlaySquareOutlined className="icon-button1" onClick={() => this.startClick()} /> :
+                    <PlaySquareOutlined className="iconbutton1-basic" />
                 }
-                <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '35px' }}> Start</p>
+                {communication ?
+                  <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '35px' }}> Start</p> :
+                  <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '35px' }}> Start</p>
+                }
+
                 {
                   communication ?
                     <p>
@@ -754,57 +777,70 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={showTarget ? { width: 185, cursor: 'pointer', borderColor: 'green' } :
+                style={showTarget ?
+                  { width: 185, cursor: 'pointer', borderColor: 'green' } :
                   { width: 185, borderColor: 'gray' }}>
-                <SyncOutlined className="iconbutton1-basic" />
-                <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
-                {
-                  StartdataArray.find(it => it.name === 'stage3') ?
-                    <p>
-                      <Row>
-                        <p>Reset Temp</p>
-                        <p>Reset RPM</p>
-                      </Row>
-                      <Row>
-                        <Input
-                          value={resetTemp}
-                          onChange={this.onChangeResettempvalue}
-                          name="ResetTemp"
-                          style={{ width: "75px" }}
-                        />
-                        <Input
-                          value={resetRPM}
-                          onChange={this.onChangeResetRPMvalue}
-                          name="ResetRPM"
-                          style={{ width: "75px" }}
-                        />
-                        <button
-                          className="add-btn"
-                          onClick={() => this.ResetonClick()}>
-                          +
-                        </button>
-                      </Row>
-                    </p>
-                    : []
+                {showTarget ? <SyncOutlined style={{ color: 'green' }} className="iconbutton1-basic" /> :
+                  <SyncOutlined className="iconbutton1-basic" />
+
                 }
 
-                <div>
-                  {ResetdataArray.map(item => {
-                    return (
-                      <div>
-                        <CheckOutlined style={{ color: 'green' }} />
-                        {item.testcommandsTime} -{item.name}-{item.value}
-                        {(() => {
-                          if (item.name === "stage3" && count === 1) {
-                            this.props.initiateStageThree();
-                            count++;
-                            console.log(count)
-                          }
-                        })()}
-                      </div>
-                    )
-                  })}
-                </div>
+                {showTarget ?
+                  <p style={{ color: '#42dad6', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p> :
+                  <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
+                }
+
+                {communication ?
+                  <p>
+                    {
+                      StartdataArray.find(it => it.name === 'stage3') ?
+                        <p>
+                          <Row>
+                            <p>Reset Temp</p>
+                            <p>Reset RPM</p>
+                          </Row>
+                          <Row>
+                            <Input
+                              value={resetTemp}
+                              onChange={this.onChangeResettempvalue}
+                              name="ResetTemp"
+                              style={{ width: "75px" }}
+                            />
+                            <Input
+                              value={resetRPM}
+                              onChange={this.onChangeResetRPMvalue}
+                              name="ResetRPM"
+                              style={{ width: "75px" }}
+                            />
+                            <button
+                              className="add-btn"
+                              onClick={() => this.ResetonClick()}>
+                              +
+                        </button>
+                          </Row>
+                        </p>
+                        : []
+                    }
+
+                    <div>
+                      {ResetdataArray.map(item => {
+                        return (
+                          <div>
+                            <CheckOutlined style={{ color: 'green' }} />
+                            {item.testcommandsTime} -{item.name}-{item.value}
+                            {(() => {
+                              if (item.name === "stage3" && count === 1) {
+                                this.props.initiateStageThree();
+                                count++;
+                                console.log(count)
+                              }
+                            })()}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </p>
+                  : []}
               </Card>,
             </Col>
 
@@ -813,17 +849,23 @@ class TestPageContainer extends Component {
             </Col>
 
             <Col span={4}>
-              <Card style={this.state.shutdownEnable ?
+              <Card style={showTarget ?
                 { width: 185, borderColor: "red", cursor: 'pointer' } :
-                { width: 185, borderColor: "gray", cursor: 'pointer' }}
-                onClick={() => this.shutdownClick()} >
+                { width: 185, borderColor: "gray" }}
+              >
                 <div>
                   {
-                    this.state.shutdownEnable ? <PoweroffOutlined className='icon-button3' /> :
+                    showTarget ?
+                      <PoweroffOutlined className='icon-button3' onClick={() => this.shutdownClick()} /> :
                       <PoweroffOutlined className='iconbutton3-basic' />
                   }
                 </div>
-                <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p>
+                {
+                  showTarget ?
+                    <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p> :
+                    <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '15px' }}>Shutdown</p>
+                }
+
               </Card>,
               {
                 shutdownInitiated ?
@@ -843,14 +885,20 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={shutdownInitiated ? { width: 100, cursor: 'pointer', borderColor: 'green' } :
+                style={shutdownInitiated ?
+                  { width: 100, cursor: 'pointer', borderColor: 'green' } :
                   { width: 100, borderColor: 'gray' }}>
-                <div style={{ cursor: 'pointer' }} onClick={() => this.Reloadall()}>
-                  {shutdownInitiated ? <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
-                    <RedoOutlined className="iconbutton2-basic" onClick={() => this.Reloadall()} />
+                <div>
+                  {shutdownInitiated ?
+                    <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
+                    <RedoOutlined className="iconbutton2-basic" />
                   }
                 </div>
-                <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
+                {
+                  shutdownInitiated ?
+                    <p style={{ color: '#42dad6', fontSize: "20px" }}>Reset</p> :
+                    <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
+                }
               </Card>,
             </Col>
 
@@ -867,19 +915,23 @@ class TestPageContainer extends Component {
                 onVisibleChange={this.handleVisibleChange}
               >
                 <Card
-                  style={showTarget ? { width: 100, cursor: 'pointer', borderColor: 'green' } :
+                  style={showTarget ?
+                    { width: 100, cursor: 'pointer', borderColor: 'green' } :
                     { width: 100, borderColor: 'gray' }}>
-                  <div onClick={this.onClickhelp} >
+                  <div>
                     {
-                      showTarget ? <QuestionOutlined className="icon-button4" /> :
+                      showTarget ? <QuestionOutlined className="icon-button4" onClick={this.onClickhelp} /> :
                         <QuestionOutlined className="iconbutton4-basic" />
                     }
                   </div>
-                  <p style={{ color: 'gray', fontSize: "20px" }}>Help</p>
+                  {
+                    showTarget ? <p style={{ color: '#42dad6', fontSize: "20px" }}>Help</p> :
+                      <p style={{ color: 'gray', fontSize: "20px" }}>Help</p>
+                  }
                 </Card>
               </Popover>
             </Col>
-            {/* </Row> */}
+
           </Row>
         </Layout>
 
@@ -892,28 +944,19 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  navigateMainPage,
-  updateTableStatusData,
-  initiateShutdown,
-  initiateShowReset,
-  initiateCommunicationFailed,
-  initiateCommunication,
-  initiateTargetState,
-  initiateShowTarget,
-  initiateTurboStart,
-  initiateGasOpened,
-  initiateStageOne,
-  initiateFuelOpened,
-  initiateStageTwo,
-  initiateGasClosed,
-  initiateStageThree,
-  getTargetRPM,
-  getTargetTemp,
-  getResetTemp,
-  getResetRPM,
-  updateChartData,
-  stopDbInsert,
-  startDbInsert
+  navigateMainPage, updateTableStatusData,
+  initiateShutdown, initiateShowReset,
+  initiateCommunicationFailed, initiateCommunication,
+  initiateTargetState, initiateShowTarget,
+  initiateTurboStart, initiateGasOpened,
+  initiateStageOne, initiateFuelOpened,
+  initiateStageTwo, initiateGasClosed,
+  initiateStageThree, getTargetRPM,
+  getTargetTemp, getResetTemp,
+  getResetRPM, updateChartData,
+  stopDbInsert, startDbInsert,
+  updateTestIdValue, updateTestIdCount,
+  updateTurboMode, updateTesterData
 }
 
 const TestContainer = connect(

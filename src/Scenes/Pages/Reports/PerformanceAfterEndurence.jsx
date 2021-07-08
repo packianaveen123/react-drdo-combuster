@@ -243,7 +243,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
     return (
       <div style={{ paddingTop: "1px" }}>
       <Layout class="layout-container">
-        <h2 class="h2">Running Report</h2>
+        <h2 class="h2">Performance After Endurence Report</h2>
         <Form onFinish={this.onFinish}>
 
           <Row style={{ paddingTop: "20px" }} >
@@ -300,7 +300,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
             </Col>
           </Row>
 
-          <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+          <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '10px' }}>
             <Col xs={4}>
               <Form.Item>
                 <Button onClick={this.getreport}> view</Button>
@@ -323,7 +323,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
           <div class="mx-auto" style={{marginBottom: '2%', marginTop: '2%'}}>
               <div class="sparkline12-hd" style={{paddingBottom:'15px'}}>
                   <div class="main-sparkline12-hd" style={{textAlign:"center"}}>
-                      <h1>Performance after endurence Report</h1>
+                      <h1>Performance After Endurence Report</h1>
                   </div>
               </div>
           </div>        

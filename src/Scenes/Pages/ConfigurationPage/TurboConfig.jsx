@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateTurboConfig, updateTitleElements, updateTableStatusData } from '../../../Redux/action';
 import { turbineConfigSubmit, requestStatusData } from '../../../Services/requests';
 import { turboConfigValue } from '../../../Services/constants';
-import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, message, notification, Divider, Space } from 'antd';
+import { Col, Row, Layout, Input, Button, Tooltip, InputNumber, DatePicker, Form, message, notification } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -12,7 +12,7 @@ const { nozzleArea_min, nozzleArea_max,
   nozzleArea_step, nozzleArea_defalutValue,
   blade_defalutValue,
   blade_min,
-  blade_max, error_turbo_msg, error_blade_msg,
+  blade_max, error_turbo_msg,
   added_turbo_msg } = turboConfigValue
 
 class TurboConfig extends Component {
@@ -118,7 +118,7 @@ class TurboConfig extends Component {
       this.openNotification('bottomRight')
     }
     return (
-      <div style={{ paddingTop: "1px" }} >
+      <div style={{ paddingTop: "px" }} >
         <Layout class="layout-container">
           <h2 class="h2">Turbo Configuration</h2>
           <Form onFinish={() => {
@@ -189,7 +189,7 @@ class TurboConfig extends Component {
                 </div>
               </Col>
             </Row>
-            <Row style={{ paddingTop: "20px" }}>
+            <Row style={{ marginTop: "5px" }}>
               <Col sm={2}>
                 <label class="label" >Description <i style={{ color: 'red', fontSize: '15px' }}> </i></label>
               </Col>
@@ -224,24 +224,10 @@ class TurboConfig extends Component {
               </Col>
             </Row>
 
-            <Row sm={6} style={{ paddingTop: '25px', marginLeft: "85%", paddingBottom: '30px' }}>
-              {/* {
-                isDuplicateId ?
-                  <div>
-                    < 
-                      message="Warning"
-                      description={error_turbo_msg}
-                      type="warning"
-                      showIcon
-                      closable
-                    />
-                  </div>
-                  :
-                  []
-              } */}
-              <Col xs={4}>
-                <Form.Item>
-                  <div>
+            <Row sm={6} style={{ paddingTop: '25px', marginLeft: "93%" }}>
+              <Col xs={4} >
+                <Form.Item >
+                  <div >
                     <Button htmlType="submit" > Save</Button>
                   </div>
                 </Form.Item>
@@ -250,7 +236,7 @@ class TurboConfig extends Component {
           </Form>
         </Layout>
 
-        <div style={{ paddingTop: "35px" }}>
+        <div style={{ paddingTop: "25px" }}>
           <Layout class="bottom-container">
             <Row>
               <Col span={8}>

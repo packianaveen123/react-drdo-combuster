@@ -1,3 +1,10 @@
+.site-layout-background{
+  width: 100%;
+}
+
+
+
+
 /*
 * ==========================================================
 *       Toggle
@@ -51,6 +58,7 @@ div#allreport h1 {
   background-color: #212840;
   min-height: 0;
   padding: 25px;
+  /* padding: 24px 25px 0px 25px; */
 }
 /*  Navbar  */
 .logout-content {
@@ -78,7 +86,6 @@ div#allreport h1 {
 }
 .h2 {
   color: rgb(151, 150, 151);
-  padding-top: "10px";
 }
 .layout-container {
   background-color: #131633;
@@ -87,7 +94,7 @@ div#allreport h1 {
 }
 .bottom-container {
   background-color: #131633;
-  padding-top: 30px;
+  padding-top: 20px;
   padding-left: 20px;
   padding-right: 20px; 
 }
@@ -380,6 +387,7 @@ div#allreport h1 {
   border-radius: 5px;
 }
 .add-btn:hover{
+  cursor: pointer;
   color: #255784;
   background: #42dbdc;
   border: 2px solid #42dbdc;
@@ -391,7 +399,7 @@ div#allreport h1 {
 .icon-button1{
   margin-left: 40px;
   margin-top: 1px;
-  color: gray;
+  color: green;
   font-size: 30px; 
   position: relative;
 }
@@ -413,7 +421,7 @@ div#allreport h1 {
   margin-left: 3px;
   margin-top: 1px;
   color: green;
-  font-size: 30px ;
+  font-size: 30px;
 }
 .icon-button2:hover{
   color: #255784;
@@ -425,7 +433,7 @@ div#allreport h1 {
 .iconbutton2-basic{
   margin-left: 3px;
   margin-top: 1px;
-  color: green;
+  color: gray;
   font-size: 30px ;
 }
 .icon-button3{
@@ -529,6 +537,9 @@ div#allreport h1 {
   color: #fff;
   background-color: #131633;
   /* border-color:rgb(146, 143, 143); */
+}
+.ant-pagination-item a {
+  color: #fff;
 }
 .ant-pagination-item-active {
   font-weight: 500;

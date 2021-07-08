@@ -71,6 +71,21 @@ const appReducer = (state = InitialState, action) => {
       newState.IsUserName = action.payload ? action.payload : []            //IsUserName forgot
       return newState
 
+    case 'UPDATE_TESTID_VALUE':
+      newState.testIdValue = action.payload ? action.payload : []            //testidvalue
+      return newState
+
+    case 'UPDATE_TESTID_COUNT':
+      newState.turboIdTestCount = action.payload ? action.payload : []            //turboIdTestCount
+      return newState
+
+    case 'UPDATE_TESTER_DATA':
+      newState.testerData = action.payload ? action.payload : []            //testerData
+      return newState
+
+    case 'UPDATE_TURBO_MODE':
+      newState.turboMode = action.payload ? action.payload : []            //turboMode
+      return newState
 
     case 'UPDATE_CONFIG_TABLEEDIT':
       newState.tableEdit = action.payload ? action.payload : []

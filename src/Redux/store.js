@@ -6,32 +6,40 @@ const InitialState = {
   userParams: null,
   leftBarView: false,
   collapsed: true,
-  chartData: [],
+  titleElements: titleElements,
+  testerData: [],
+  turboMode: '',
+  IsLogin: false,
+  IsUserName: [],
+
+  // -- config page -- //
   testConfig: [],
   testConfigPage: [],
   turboConfig: [],
   paramConfig: [],
-  transferElement: [],
-  testingPage: [],
   dashboardData: dashboardData,
-  titleElements: titleElements,
-  statusData: '',
+  transferElement: [],
+
+  testingPage: [],
   testDetails: false,
   testerValue: false,
   testValue: '',
-  reset: false,
-
-  IsLogin: false,
-  IsUserName: [],
-
+  testIdValue: '',
+  turboIdTestCount: '',
   stopDbInsert: false,
   tableEdit: [],
 
-  showReset: false,
+
+  // -- test page -- //
+
+  statusData: '',
+  reset: false,
+  chartData: [],
   shutdownInitiated: false,
   communicationFailed: false,
   communication: false,
   targetState: false,
+  showReset: false,
   showTarget: false,
   turboStart: [],
   gasOpend: false,

@@ -11,10 +11,10 @@ class TitleElement extends Component {
   }
   render() {
     const titleValue = this.props.app.titleElements;
-    console.log(titleValue.title);
+
     return (
       <div>
-        <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px", paddingTop: '10px' }}>
+        <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
           <Row>
             <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek </text>
             <text style={{ color: '#585a5f', fontSize: "25px" }}> / {titleValue.type} /  {titleValue.title}  </text>

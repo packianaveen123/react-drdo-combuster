@@ -27,7 +27,6 @@ export const updateTestConfigPage = data => ({
   type: 'UPDATE_TEST_CONFIG_PAGE',
   payload: data
 })
-
 export const updateTurboConfig = data => ({
   type: 'UPDATE_TURBO_CONFIG',
   payload: data
@@ -89,8 +88,26 @@ export const updateForgotEvent = data => ({
   type: 'UPDATE_FORGOT_EVENT',
   payload: data
 })
-
-
+// testIdValue
+export const updateTestIdValue = data => ({
+  type: 'UPDATE_TESTID_VALUE',
+  payload: data
+})
+// turboIdTestCount
+export const updateTestIdCount = data => ({
+  type: 'UPDATE_TESTID_COUNT',
+  payload: data
+})
+// testerData
+export const updateTesterData = data => ({
+  type: 'UPDATE_TESTER_DATA',
+  payload: data
+})
+// turboMode
+export const updateTurboMode = data => ({
+  type: 'UPDATE_TURBO_MODE',
+  payload: data
+})
 export const stopDbInsert = bool => ({
   type: 'STOP_DB_INSERT',
   payload: bool

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm, Button, Col, Row, Layout, Select } from 'antd';
+import { Table, Space, Input, Popconfirm, Button, Col, Row, Layout, Select, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
@@ -17,7 +17,7 @@ import {
 const { Option } = Select
 const { Map } = require('immutable');
 const { Column } = Table;
-
+const text = <span>Click Start Edit</span>;
 class TableComponent extends Component {
   constructor(props) {
     super(props);
@@ -136,20 +136,21 @@ class TableComponent extends Component {
       tableData.forEach((it, index) => {
         console.log(editSession && (index != editRowIndex))
         it['Edit'] = <Space size="middle">
-          <EditOutlined
-            style={{
-              fontSize: '18px',
-              cursor: editRowIndex && index != editRowIndex ? "not-allowed! important" : "pointer"
-            }}
-            onClick={() => {
-              if (editSession && !editRowIndex && editRowIndex !== 0) {
-                this.handleButtonClick(index)
-              } else if (index === editRowIndex) {
-                this.handleButtonClick(index)
+          <Tooltip placement="rightBottom" title={text}>
+            <EditOutlined
+              style={{
+                fontSize: '18px',
+                cursor: editRowIndex && index != editRowIndex ? "not-allowed! important" : "pointer"
+              }}
+              onClick={() => {
+                if (editSession && !editRowIndex && editRowIndex !== 0) {
+                  this.handleButtonClick(index)
+                } else if (index === editRowIndex) {
+                  this.handleButtonClick(index)
+                }
               }
-            }
-            }
-          />
+              }
+            /> </Tooltip>
         </Space>
       })
     }
@@ -232,7 +233,7 @@ class TableComponent extends Component {
     return (
       <div>
         <div>
-          <Row style={{ marginLeft: '85%' }}>
+          <Row style={{ float: 'right' }}>
             {
               this.props.childrenColumnName == "testparamconfig" ?
                 <Col xs={12}>
@@ -261,7 +262,7 @@ class TableComponent extends Component {
         <Table
           dataSource={tableData}
           size='middle'
-          style={{ backgroundColor: "#131633" }}
+          style={{ backgroundColor: "#131633", paddingBottom: '10px', marginTop: '10px' }}
         >
           {
             columns && columns.length > 0 ?

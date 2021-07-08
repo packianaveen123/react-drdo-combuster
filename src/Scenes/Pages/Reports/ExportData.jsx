@@ -223,7 +223,7 @@ class ExportData extends Component {
               </Form.Item>
             </Col>
           </Row>
-          <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+          <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '25px' }}>
             <Col xs={4}>
               <Button onClick={() => this.getreport()}> View</Button>
               <span> &nbsp;</span>
@@ -242,7 +242,7 @@ class ExportData extends Component {
         >Export in Excel
           </Button>
 
-        <Layout style={{ backgroundColor: "#131633", paddingTop: "20px", paddingLeft: "20px" }}>
+        <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px" }}>
           <Table id="someRandomID" style={{ marginTop: '50px', width: '95%', float: 'left' }} pagination={false} columns={columns} dataSource={this.state.reportDetails} />
         </Layout>
 

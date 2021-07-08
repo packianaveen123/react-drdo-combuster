@@ -105,7 +105,7 @@ class TransferElement extends React.Component {
             render={this.renderItem}
           />
 
-          <Row style={{ paddingTop: '25px', paddingLeft: "40%", paddingBottom: '30px' }}>
+          <Row style={{ paddingTop: '25px', paddingLeft: "40%", paddingBottom: '10px' }}>
             <Col xs={3}>
               <Form.Item>
                 <Button htmlType="submit" style={{ width: "82px" }} onClick={() => this.submitClick()}> Submit</Button>
@@ -121,7 +121,6 @@ class TransferElement extends React.Component {
         </Form>
       </div>
     );
-    console.log(this.state.targetKeys)
   }
 }
 

@@ -246,7 +246,7 @@ class PerformanceReport extends Component {
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
-          <h2 class="h2">Running Report</h2>
+          <h2 class="h2">Performance  Report</h2>
           <Form onFinish={this.onFinish}>
 
             <Row style={{ paddingTop: "20px" }} >
@@ -302,7 +302,7 @@ class PerformanceReport extends Component {
 
             </Row>
 
-            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '10px' }}>
               <Col xs={4}>
                 <Form.Item>
                   <Button onClick={this.getreport}> view</Button>

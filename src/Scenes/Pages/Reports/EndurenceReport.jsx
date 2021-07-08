@@ -232,7 +232,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout class="layout-container">
-          <h2 class="h2">Running Report</h2>
+          <h2 class="h2">Endurance Report</h2>
           <Form onFinish={this.onFinish}>
 
             <Row style={{ paddingTop: "20px" }} >
@@ -290,7 +290,7 @@ doc.addImage(logo2, 'PNG', 10, 25, 75, 20);
 
             </Row>
 
-            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '30px' }}>
+            <Row style={{ paddingTop: '25px', paddingLeft: "30%", paddingBottom: '10px' }}>
               <Col xs={4}>
                 <Form.Item>
                   <Button  onClick={this.getreport}> view</Button>

@@ -180,18 +180,12 @@ const getHandleChangetestID = (body, callBack) => {
 };
 
 export {
-  getTurboConfigData,
-  turbineConfigSubmit,
-  getTestConfigData,
-  getParamConfigData,
-  shutdownClickEvent,
-  resetClickEvent,
-  updateConfigData,
-  loginValidation,
-  forgotValidation,
-  registerPageValidation,
-  getTableView,
-  getChartData,
+  getTurboConfigData, turbineConfigSubmit,
+  getTestConfigData, getParamConfigData,
+  shutdownClickEvent, resetClickEvent,
+  updateConfigData, loginValidation,
+  forgotValidation, registerPageValidation,
+  getTableView, getChartData,
   getSensorData, getHandleChangetestID,
   requestStatusData
 
