@@ -48,8 +48,8 @@ class StatusBlock extends Component {
     const receivedDate = persons.testdatadate;
     const db_date = new Date(receivedDate);
     let isActive = false;
-    if ((date - db_date) < 5000) { isActive = true }
-    // console.log(persons.testdatadate)
+    if ((date - db_date) < 10000) { isActive = true }
+
     return (
       <div class="container-fluid">
         <div className="machinestatus">

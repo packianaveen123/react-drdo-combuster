@@ -3,8 +3,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 function ListItems(props) {
   const items = props.items;
-
-
+  console.log(items)
   const listItems = items.map((item, index) => {
 
     return <div className="list" key={index}>
@@ -25,3 +24,4 @@ function ListItems(props) {
 }
 
 export default ListItems;
+

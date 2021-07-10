@@ -77,7 +77,8 @@ class TestPageContainer extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.startClick = this.startClick.bind(this);
-    this.addItem = this.addItem.bind(this);
+    this.addTesterItem = this.addTesterItem.bind(this);
+    this.addWitnessItem = this.addWitnessItem.bind(this);
     this.handleTesterInput = this.handleTesterInput.bind(this);
     this.handleWitnessInput = this.handleWitnessInput.bind(this);
     this.deleteTesterItem = this.deleteTesterItem.bind(this);
@@ -97,39 +98,49 @@ class TestPageContainer extends Component {
       this.setState({ visible });
     }
   };
-  addItem(e, key) {
-    e.preventDefault();
-    const { currentTesterItem, currentWitnessItem, testerItems, witnessItems } = this.state
-    const newItem = key === 'tester' ? currentTesterItem : currentWitnessItem
-    const isDuplicateTester = testerItems.includes(newItem);
-    const isDuplicateWitness = witnessItems.includes(newItem);
 
+  addTesterItem(e) {
+    e.preventDefault();
+    const { currentTesterItem, testerItems } = this.state
+    const newItem = currentTesterItem
+    const isDuplicateTester = testerItems.includes(newItem);
     if (isDuplicateTester) {
       this.setState({
         isDuplicateTester: isDuplicateTester
       })
       message.warning('duplicate value')
     }
+    if (newItem !== null && !isDuplicateTester) {
+      this.setState({
+        testerItems: [...testerItems, newItem],
+        currentTesterItem: null
+      })
+      console.log(this.state.testerItems)
+      this.props.updateTesterData(this.state.testerItems)
+      console.log(this.props.app.testerData)
+    }
+    console.log(this.state.testerItems)
+  }
 
+  addWitnessItem(e) {
+    e.preventDefault();
+    const { currentWitnessItem, witnessItems } = this.state
+    const newItem = currentWitnessItem
+    const isDuplicateWitness = witnessItems.includes(newItem);
     if (isDuplicateWitness) {
       this.setState({
         isDuplicateWitness: isDuplicateWitness
       })
       message.warning('duplicate value')
     }
-
-    if (newItem !== null && !isDuplicateTester && !isDuplicateWitness) {
-      key === 'tester' ?
-        this.setState({
-          testerItems: [...testerItems, newItem],
-          currentTesterItem: null
-        }) :
-        this.setState({
-          witnessItems: [...witnessItems, newItem],
-          currentWitnessItem: null
-        })
+    if (newItem !== null && !isDuplicateWitness) {
+      this.setState({
+        witnessItems: [...witnessItems, newItem],
+        currentWitnessItem: null
+      })
     }
   }
+
   handleTesterInput(e) {
     this.setState({
       currentTesterItem: e.target.value
@@ -446,13 +457,13 @@ class TestPageContainer extends Component {
   Reloadall = () => {
     if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
       this.props.stopDbInsert()
-      this.props.updateTestIdCount('')
-      this.props.updateTestIdValue('')
-
+      this.props.updateTestIdCount('');
+      this.props.updateTestIdValue('');
+      this.props.updateTurboMode('')
       this.setState({
         turboIdDefaultValue: "Select Turbo ID",
         truboIDnum: false,
-
+        turboMode: '',
         testingData: null,
         value: null,
         testerItems: [],
@@ -483,7 +494,6 @@ class TestPageContainer extends Component {
     console.log(this.props.app)
     console.log(this.props.app.turboMode)
     console.log(this.state.currentDateTime)
-    console.log(this.state.testerItems)
     const shutdownInitiated = this.props.app.shutdownInitiated;
     const showReset = this.props.app.showReset;
     const communicationFailed = this.props.app.communicationFailed
@@ -501,14 +511,15 @@ class TestPageContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
+    const testerDetails = this.state.testerItems
+
+    console.log(testerDetails)
     var testIdValue = null;
     if (this.props.app.statusData) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
 
     console.log(this.props.app.turboConfig)
-    console.log(StartdataArray)
-    console.log(ShutdowndataArray)
     console.log(testIdValue)
     return (
       <div style={{ paddingTop: "25px" }}>
@@ -592,7 +603,7 @@ class TestPageContainer extends Component {
                       </Row>
                     </Col>
                     <Col span={8}>
-                      <form onSubmit={(e) => this.addItem(e, 'tester')}>
+                      <form onSubmit={(e) => this.addTesterItem(e, 'tester')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
                             <label for="text" class="label" >Tester</label>
@@ -615,12 +626,12 @@ class TestPageContainer extends Component {
                         </Row>
                       </form>
                       <Row style={{ paddingLeft: '5rem' }}>
-                        <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} />
+                        <ListItems items={this.props.app.testerData} deleteItem={this.deleteTesterItem} />
                       </Row>
                     </Col>
 
                     <Col span={8}>
-                      <form onSubmit={(e) => this.addItem(e, 'witness')}>
+                      <form onSubmit={(e) => this.addWitnessItem(e, 'witness')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
                             <label for="text" class="label" >Witness</label>
@@ -746,7 +757,7 @@ class TestPageContainer extends Component {
                 }
                 {
                   targetState ?
-                    <Alert className="alert_error" message="Please Enter Target values" type="error" /> : ''
+                    <Alert className="alert_error" message="Please Enter Target values" closable type="error" /> : ''
                 }
                 {
                   showTarget ?

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateParamConfig, updateTitleElements } from '../../../Redux/action';
-import { Col, Row, Layout, Select } from 'antd';
+import { Col, Row, Layout } from 'antd';
 import TableElement from '../../Components/subComponents/TableElement';
 
 class ParamConfig extends Component {

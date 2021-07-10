@@ -8,6 +8,7 @@ const InitialState = {
   collapsed: true,
   titleElements: titleElements,
   testerData: [],
+  witnessData: [],
   turboMode: '',
   IsLogin: false,
   IsUserName: [],

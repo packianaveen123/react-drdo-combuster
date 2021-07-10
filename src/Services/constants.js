@@ -71,8 +71,30 @@ const performance = {
   PrRatio: '2.4+/-0.1',
   AirMassFlow: '0.97'
 }
+const ComparisonTableDetails = {
+  FixedSpeed: '5000',
+  FixedOilPr: '5.00 - 6.00',
+  FixedOilTemp: '70 - 80',
+  FixedTurbineInletGasTemp: '300 - 400',
+  FixedComprInletPr: '2 - 8',
+  FixedComprOutletPr: '3',
+  FixedPrRatio: '40',
+  FixedComperMassFlowRate: '50',
+  FixedTotalMassFlowOfAir: '10',
+}
+const Details = {
+  Speed: '3000',
+  OilPr: '5.55',
+  OilTemp: '75',
+  TurbineInletGasTemp: '350',
+  ComprInletPr: '2',
+  ComprOutletPr: '30000',
+  PrRatio: '490000',
+  ComperMassFlowRate: '55000',
+  TotalMassFlowOfAir: '9000',
+}
 export {
   url, dashboardData, titleElements,
   testParamHash, turboConfigValue,
-  dashboardDataMessage, endurence, performance
+  dashboardDataMessage, endurence, performance, ComparisonTableDetails, Details
 }

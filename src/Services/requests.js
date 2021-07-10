@@ -72,7 +72,6 @@ const requestStatusData = (callBack) => {
   axios.get(tableStatusDataUrl)
     .then(res => {
       let Data = res.data;
-      console.log(Data)
       callBack(Data)
     }).catch(err => {
       console.log(err);
@@ -83,7 +82,6 @@ const resetClickEvent = (dataBody, callBack) => {
   axios.post(resetClickEventUrl, dataBody)
     .then(res => {
       if (res.data) {
-        console.log(res.data)
         callBack(res.data)
       }
     }).catch(err => {
@@ -97,7 +95,6 @@ const updateConfigData = (data, callBack) => {
     .then(res => {
       let configData = res.data
       callBack(configData)
-      console.log(configData)
     }).catch(err => {
       console.log(err.res)
     })
@@ -106,7 +103,6 @@ const updateConfigData = (data, callBack) => {
 const loginValidation = (values, callBack) => {
   axios.post(loginValidationUrl, values)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -117,7 +113,6 @@ const loginValidation = (values, callBack) => {
 const forgotValidation = (values, callBack) => {
   axios.post(forgotValidationUrl, values)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -128,7 +123,6 @@ const forgotValidation = (values, callBack) => {
 const registerPageValidation = (values, callBack) => {
   axios.post(registerPageValidationUrl, values)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -138,7 +132,6 @@ const registerPageValidation = (values, callBack) => {
 const getTableView = (callBack) => {
   axios.post(tableViewUrl)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -149,7 +142,6 @@ const getTableView = (callBack) => {
 const getChartData = (callBack) => {
   axios.post(chartDataUrl)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -160,7 +152,6 @@ const getChartData = (callBack) => {
 const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
     .then(res => {
-      console.log(res.data)
       callBack(res.data)
     })
     .catch(err => {
@@ -172,7 +163,6 @@ const getHandleChangetestID = (body, callBack) => {
   axios.post(turboIdValueUrl, body)
     .then(res => {
       callBack(res.data)
-      console.log(res.data)
     })
     .catch(err => {
       console.log(err.res)

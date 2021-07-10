@@ -118,7 +118,7 @@ class TurboConfig extends Component {
       this.openNotification('bottomRight')
     }
     return (
-      <div style={{ paddingTop: "px" }} >
+      <div>
         <Layout class="layout-container">
           <h2 class="h2">Turbo Configuration</h2>
           <Form onFinish={() => {
