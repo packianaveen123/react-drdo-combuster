@@ -55,7 +55,11 @@ export const updateTitleElements = data => ({
   type: 'UPDATE_TITLE_ELEMENTS',
   payload: data
 })
-
+// dashboardData
+export const updateDashboardData = data => ({
+  type: 'UPDATE_DASHBOARD_DATA',
+  payload: data
+})
 // testConfigTableEdit
 // tableEdit
 export const updateConfigTableEdit = data => ({

@@ -51,6 +51,10 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_TITLE_ELEMENTS':
       newState.titleElements = action.payload ? action.payload : []
       return newState
+      
+      case 'UPDATE_DASHBOARD_DATA':
+      newState.dashboardData = action.payload ? action.payload : []
+      return newState
     case 'UPDATE_APP_STATE':
       newState.appState = action.payload ? action.payload : 'login'
       return newState

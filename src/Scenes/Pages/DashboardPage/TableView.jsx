@@ -81,6 +81,7 @@ class TableView extends Component {
           }
         })
       })
+      console.log(data)
       this.setState({
         tabledata: data
       })
@@ -91,7 +92,7 @@ class TableView extends Component {
   interval = setInterval(() => { this.testClick() }, 1000)
   render() {
     let a = this.props.turboStart
-    console.log(this.props.app.turboStart[0])
+    console.log(this.state.tabledata)
     return (
       <div>
         <StatusBlock />

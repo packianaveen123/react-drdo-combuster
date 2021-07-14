@@ -16,7 +16,7 @@ class GraphView extends Component {
     return (
       <div>
         <StatusBlock />
-        <SingleTableElement />
+        {/* <SingleTableElement /> */}
         <CardComponent />
       </div>
     )

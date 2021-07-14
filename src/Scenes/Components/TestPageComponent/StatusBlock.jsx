@@ -34,7 +34,7 @@ class StatusBlock extends Component {
     }
   }
   render() {
-    console.log(this.props.app.turboStart)
+    console.log(this.props.app.chartData[0])
     // let { chartData } = this.props.app.chartData[0]
     let nShutdown = false
     this.props.app.turboStart.map(It => {
@@ -75,7 +75,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                 </Col>
                 <Col class="number dashtext-1" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.rpm1rpm2 : ''}</span>
+                  <span>{persons ? persons.rpm : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -93,7 +93,7 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-2" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.T1T2 : ''}</span>
+                  <span>{persons ? persons.T1 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -111,7 +111,7 @@ class StatusBlock extends Component {
                   <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-3" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.T3T4 : ''}</span>
+                  <span>{persons ? persons.T2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -129,7 +129,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.P1P2 : ''}</span>
+                  <span>{persons ? persons.P1 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">
@@ -147,7 +147,7 @@ class StatusBlock extends Component {
                   <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '15px' }} />
                 </Col>
                 <Col class="number dashtext-4" style={{ paddingLeft: '30%', fontSize: '25px' }}>
-                  <span>{persons ? persons.G1G2 : ''}</span>
+                  <span>{persons ? persons.P2 : ''}</span>
                 </Col>
               </Row>
               <div class="progress progress-template">

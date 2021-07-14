@@ -1,4 +1,5 @@
 import { dashboardData, titleElements } from '../Services/constants'
+
 const InitialState = {
   mainPage: 'testPage',
   appState: "login",
@@ -18,9 +19,8 @@ const InitialState = {
   testConfigPage: [],
   turboConfig: [],
   paramConfig: [],
-  dashboardData: dashboardData,
-  transferElement: [],
-
+ 
+  transferElement: [dashboardData],
   testingPage: [],
   testDetails: false,
   testerValue: false,

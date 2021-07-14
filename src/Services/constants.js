@@ -17,12 +17,30 @@ const url = {
   TABLE_STATUSDATA: 'statusValue.php'
 }
 
-const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
-{ "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
-{ "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
-{ "key": "4", "Name": "RPM Combustor", "chosen": true },
-{ "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
-{ "key": "6", "Name": "Gas Flow", "chosen": true }
+// const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
+// { "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
+// { "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
+// { "key": "4", "Name": "RPM Combustor", "chosen": true },
+// { "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
+// { "key": "6", "Name": "Gas Flow", "chosen": true }
+// ]
+
+const dashboardData = [
+{ "key": "1", "Name": "Combustor Outlet Temperature ", "chosen": true },
+{ "key": "2", "Name": " Turbine Inlet Temperature ", "chosen": true },
+{ "key": "3", "Name": "Turbine Outlet Temperature ", "chosen": true },
+{ "key": "4", "Name": "Compressor Inlet Temperature ", "chosen": true },
+{ "key": "5", "Name": "Compressor Outlet Temperature", "chosen": true },
+{ "key": "6", "Name": "Ambient Temperature", "chosen": true },
+{ "key": "7", "Name": "Combustor Inlet Pressure", "chosen": false },
+{ "key": "8", "Name": "Fuel Line Pressure  ", "chosen": false },
+{ "key": "9", "Name": "Turbine Inlet Pressure", "chosen": false },
+{ "key": "10", "Name": "Ambient Pressure  ", "chosen": false },
+{ "key": "11", "Name": " Compressor Inlet Pressure", "chosen": false },
+{ "key": "12", "Name": "Compressor Outlet Pressure ", "chosen": false },
+{ "key": "13", "Name": "Ventury meter differential pressure", "chosen": false },
+{ "key": "14", "Name": "Fuel Flow Rate  ", "chosen": false },
+{ "key": "15", "Name": "Rpm sensor  ", "chosen": false },
 ]
 
 const titleElements = [

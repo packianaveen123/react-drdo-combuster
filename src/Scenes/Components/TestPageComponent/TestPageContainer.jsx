@@ -116,8 +116,8 @@ class TestPageContainer extends Component {
         currentTesterItem: null
       })
       console.log(this.state.testerItems)
-      this.props.updateTesterData(this.state.testerItems)
-      console.log(this.props.app.testerData)
+      // this.props.updateTesterData(this.state.testerItems)
+      // console.log(this.props.app.testerData)
     }
     console.log(this.state.testerItems)
   }
@@ -220,11 +220,11 @@ class TestPageContainer extends Component {
   }
 
   // axios requests
-  requestChartData() {
-    getChartData((data) => {
-      this.props.updateChartData(data);
-    })
-  }
+  // requestChartData() {
+  //   getChartData((data) => {
+  //     this.props.updateChartData(data);
+  //   })
+  // }
   requestChartData() {
     axios.get('http://192.168.0.167:5000/graph.php').then(res => {
       let chartdata = res.data;
@@ -421,7 +421,7 @@ class TestPageContainer extends Component {
         this.setState({
           shutdownEnable: true
         })
-        let interval = setInterval(() => {
+        setInterval(() => {
           this.requestChartData();
         }, 1000);
         axios.post('http://192.168.0.167:5000/start.php', { targetRPM: this.props.app.targetRPM, targetTemp: this.props.app.targetTemp },)
@@ -626,7 +626,7 @@ class TestPageContainer extends Component {
                         </Row>
                       </form>
                       <Row style={{ paddingLeft: '5rem' }}>
-                        <ListItems items={this.props.app.testerData} deleteItem={this.deleteTesterItem} />
+                        <ListItems items={this.state.testerItems} deleteItem={this.deleteTesterItem} />
                       </Row>
                     </Col>
 
@@ -666,7 +666,7 @@ class TestPageContainer extends Component {
                           <Space>
                             <Button size="small" type="ghost" onClick={() => this.errorDoneClick()}>
                               Done
-                        </Button>
+                            </Button>
                           </Space>
                         } /> : ''}
                   </Row>
@@ -827,7 +827,7 @@ class TestPageContainer extends Component {
                               className="add-btn"
                               onClick={() => this.ResetonClick()}>
                               +
-                        </button>
+                            </button>
                           </Row>
                         </p>
                         : []

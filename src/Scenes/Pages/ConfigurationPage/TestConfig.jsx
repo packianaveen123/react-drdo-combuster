@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { updateTestConfigPage, updateTitleElements } from '../../../Redux/action';
-import { Col, Row, Layout } from 'antd';
-import TableElement from '../../Components/subComponents/TableElement';
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  updateTestConfigPage,
+  updateTitleElements,
+} from "../../../Redux/action";
+import { Col, Row, Layout } from "antd";
+import TableElement from "../../Components/subComponents/TableElement";
 
 class TestConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testData: ""
-    }
+      testData: "",
+    };
   }
 
   componentDidMount() {
+    console.log(this.props.app);
     this.props.updateTitleElements({
-      title: 'Test Config',
-      type: 'Config',
-    })
+      title: "Test Config",
+      type: "Config",
+    });
   }
 
   render() {
+    console.log(this.props.app);
     const testdata = this.props.app;
     return (
       <div>
@@ -31,43 +35,39 @@ class TestConfig extends Component {
                 <h2 class="h2">Test Configuration</h2>
               </Col>
             </Row>
-            {
-              testdata.testConfigPage && testdata.testConfigPage.length > 0 ?
-                <TableElement
-                  data={testdata.testConfigPage ? testdata.testConfigPage : []}
-                  editable={true}
-
-                  editableColumn={[
-                    {
-                      'editFeild': "testparamvalue",
-                      'inputType': 'input'
-                    }]}
-                  childrenColumnName={"testparamconfig"}
-                  configIdKeyValue={"testparamconfig_id"}
-                  parent={"testConfig"}
-                /> : []
-            }
+            {testdata.testConfigPage && testdata.testConfigPage.length > 0 ? (
+              <TableElement
+                data={testdata.testConfigPage ? testdata.testConfigPage : []}
+                editable={true}
+                editableColumn={[
+                  {
+                    editFeild: "testparamvalue",
+                    inputType: "input",
+                  },
+                ]}
+                childrenColumnName={"testparamconfig"}
+                configIdKeyValue={"testparamconfig_id"}
+                parent={"testConfig"}
+              />
+            ) : (
+              []
+            )}
           </Layout>
         </div>
       </div>
-    )
+    );
   }
 }
-const onChange = (value) => (
-  console.log('changed', value)
-)
+const onChange = (value) => console.log("changed", value);
 
-const mapStateToProps = state => ({
-  app: state.app
-})
+const mapStateToProps = (state) => ({
+  app: state.app,
+});
 
 const mapDispatchToProps = {
   updateTestConfigPage,
-  updateTitleElements
-}
+  updateTitleElements,
+};
 
-const testContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TestConfig)
+const testContainer = connect(mapStateToProps, mapDispatchToProps)(TestConfig);
 export default testContainer;
