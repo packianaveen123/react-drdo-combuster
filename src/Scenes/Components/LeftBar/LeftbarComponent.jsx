@@ -53,7 +53,6 @@ class LeftbarComponent extends Component {
           <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration" style={{ fontSize: '15px' }}  >
             <Menu.Item key="turboConfig" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> Turbo Config </Menu.Item>
             <Menu.Item key="dashboardConfig" icon={<FiSettings style={{ color: '#42dbdc' }} />}>Dashboard Config </Menu.Item>
-            {/* <Menu.Item key="paramConfig" icon={<FiSliders style={{ color: '#42dbdc' }} />}> Param Config </Menu.Item> */}
             <Menu.Item key="testConfig" icon={<DiYii style={{ color: '#42dbdc' }} />}>  Test Config</Menu.Item>
           </SubMenu>
           <SubMenu key="sub3" icon={<FolderOutlined />} title="Report" style={{ fontSize: '15px' }}  >
@@ -72,7 +71,6 @@ class LeftbarComponent extends Component {
 const mapStateToProps = state => ({
   leftBarView: state.app,
   app: state.app
-  // user: state.app
 })
 
 const mapDispatchToProps = {

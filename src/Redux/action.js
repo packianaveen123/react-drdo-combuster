@@ -39,10 +39,7 @@ export const updateTransferElement = data => ({
   type: 'UPDATE_TRANSFER_ELEMENT',
   payload: data
 })
-export const updateColorBar = data => ({
-  type: 'UPDATE_COLOR_BAR',
-  payload: data
-})
+
 export const updateTestingPage = data => ({
   type: 'UPDATE_TESTING_PAGE',
   payload: data
@@ -58,6 +55,11 @@ export const updateTitleElements = data => ({
 // dashboardData
 export const updateDashboardData = data => ({
   type: 'UPDATE_DASHBOARD_DATA',
+  payload: data
+})
+// targetKeys
+export const updateTargetKeys = data => ({
+  type: 'UPDATE_TARGET_KEYS',
   payload: data
 })
 // testConfigTableEdit

@@ -3,9 +3,7 @@ import { Col, Row, Layout, Input, Button, Select, Form } from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
-import TableElement from "../../Components/subComponents/TableElement";
 import { performance } from "../../../Services/constants";
-import PdfContainer from "./PdfContainer";
 import Doc from "./DocService";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -45,33 +43,10 @@ class PerformanceReport extends Component {
   getreportpdf = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
-
-    // var img = new Image();
-    // img.src = 'F:/Naveen/DRDO/enertek-combuster/src/Images/bg.jpeg';
-    // doc.text(75, 10, "ENDURANCE TEST REPORT");
-    // doc.addImage(img, 'JPEG', 10, 10, 37, 16);
-    // //doc.text(10, 45, "Turbine Id: " + localStorage.getItem("rTurbineId"));
-
-    /*doc.autoTable({
-    html: '#example1',
-    didParseCell: function (cell, data) {
-    if (cell.row.section == 'body' && cell.row.index === 0) {
-      cell.cell.styles.fontStyle = 'bold';
-    }
-    },
-    startY: 70
-    })
-    */
     doc.text(75, 10, "PERFORMENCE TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
     doc.addImage(logo2, "PNG", 10, 25, 75, 20);
-    // const d = new Date(localStorage.getItem("rTestinDate"))
-    // const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
-    // const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d)
-    // const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
-    // doc.text(10, 55, "Testing Date: " + `${da}-${mo}-${ye}`);
-    //   doc.text(10, 65, "Test No: " + localStorage.getItem("rTestNo"));
     doc.autoTable({
       html: "#report-constants",
       startX: 50,
@@ -102,7 +77,7 @@ class PerformanceReport extends Component {
       startY: 70,
       didParseCell: function (cell, data) {
         if (
-          cell.row.section == "body" &&
+          cell.row.section === "body" &&
           (cell.row.index === 1 || cell.row.index === 3)
         ) {
           cell.cell.styles.fontStyle = "bold";
@@ -141,11 +116,11 @@ class PerformanceReport extends Component {
     let rWitnessName = this.state.witness;
     if (
       null != localStorage.getItem("rWitnessName") &&
-      localStorage.getItem("rWitnessName") != undefined
+      localStorage.getItem("rWitnessName") !== undefined
     ) {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
-    doc.setFontSize(12);
+    doc.setFontSize(8);
     //doc.setTextColor(255, 0, 0);
     doc.text(15, finalY + 10, "Tested By: ");
 
@@ -167,7 +142,7 @@ class PerformanceReport extends Component {
     var rWitnessNameAry = rWitnessName.split(",");
     incrementHeight = 5;
     if (rWitnessNameAry.length > 0) {
-      for (var i = 0; i < rWitnessNameAry.length; i++) {
+      for (i = 0; i < rWitnessNameAry.length; i++) {
         doc.text(150, finalY + 13 + incrementHeight, rWitnessNameAry[0]);
         incrementHeight += 5;
       }
@@ -176,38 +151,40 @@ class PerformanceReport extends Component {
     doc.save("PerformanceReport.pdf");
   };
   getreport = () => {
-    axios
-      .post("http://192.168.0.167:5000/Performance.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.setState({
-          reportOut1: res.data[0],
-          reportOut2: res.data[1],
+    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+      axios
+        .post("http://192.168.0.167:5000/Performance.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            reportOut1: res.data[0],
+            reportOut2: res.data[1],
+          });
+          console.log(this.state.reportOut1);
+          console.log(this.state.reportOut2);
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-        console.log(this.state.reportOut1);
-        console.log(this.state.reportOut2);
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
-    axios
-      .post("http://192.168.0.167:5000/getnames.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data[0].tester);
-        this.setState({
-          tester: res.data[0].tester,
-          witness: res.data[0].witness,
+      axios
+        .post("http://192.168.0.167:5000/getnames.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data[0].tester);
+          this.setState({
+            tester: res.data[0].tester,
+            witness: res.data[0].witness,
+          });
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
+    }
   };
 
   getClear = () => {
@@ -277,11 +254,11 @@ class PerformanceReport extends Component {
     console.log(this.state.testno);
 
     return (
-      <div style={{ paddingTop: "1px" }}>
+      <div>
         <Layout class="layout-container">
           <h2 class="h2">Performance Report</h2>
           <Form onFinish={this.onFinish}>
-            <Row style={{ paddingTop: "20px" }}>
+            <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
                 <label class="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
@@ -326,10 +303,10 @@ class PerformanceReport extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                        <Option key={it.testno} value={it.testno}>
-                          {it.testno}
-                        </Option>
-                      ))}{" "}
+                      <Option key={it.testno} value={it.testno}>
+                        {it.testno}
+                      </Option>
+                    ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -339,7 +316,7 @@ class PerformanceReport extends Component {
 
             <Row
               style={{
-                paddingTop: "25px",
+                paddingTop: "0px",
                 paddingLeft: "30%",
                 paddingBottom: "10px",
               }}
@@ -361,8 +338,8 @@ class PerformanceReport extends Component {
           onClick={this.getreportpdf}
           style={{
             marginLeft: "1270px",
-            marginBottom: "20px",
-            marginTop: "20px",
+            marginBottom: "10px",
+            marginTop: "10px",
             width: "140px",
           }}
         >
@@ -379,9 +356,9 @@ class PerformanceReport extends Component {
           <div id="allreport">
             <div
               class="mx-auto"
-              style={{ marginBottom: "2%", marginTop: "2%" }}
+              style={{ marginBottom: "1%", marginTop: "2%" }}
             >
-              <div class="sparkline12-hd" style={{ paddingBottom: "15px" }}>
+              <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                 <div
                   class="main-sparkline12-hd"
                   style={{ textAlign: "center" }}
@@ -392,8 +369,8 @@ class PerformanceReport extends Component {
             </div>
 
             <div class="table-responsive">
-              <img src={logo} />
-              <table id="report-constants" style={{ marginTop: "50px" }}>
+              <img alt="logo" src={logo} />
+              <table id="report-constants" style={{ marginTop: "10px" }}>
                 <tr>
                   <td>SERIAL NUMBER</td>
                   <td>{this.state.turboIdVal}</td>
@@ -466,7 +443,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Turbo.InletTemp
+                      Turbo <br /> Inlet Temp
                     </th>
                     <th
                       style={{
@@ -475,7 +452,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Intlet Pr
+                      Compressor <br /> Intlet Pr
                     </th>
                     <th
                       style={{
@@ -484,7 +461,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Outlet Pr
+                      Compresor<br /> Outlet Pr
                     </th>
                     <th
                       style={{
@@ -502,7 +479,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Air Mass Flow
+                      Air<br /> Mass Flow
                     </th>
                     <th
                       style={{
@@ -511,7 +488,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr Efficiency
+                      Compressor <br /> Efficiency
                     </th>
                     <th
                       style={{
@@ -520,7 +497,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Surge Margin
+                      Surge <br /> Margin
                     </th>
                   </tr>
                   <tr>
@@ -549,7 +526,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Pressure(kg/cm^2)
+                      Pressure <br />(kg/cm^2)
                     </th>
                     <th
                       style={{
@@ -578,7 +555,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      RPM
+                      kg/cm^2
                     </th>
                     <th
                       style={{
@@ -587,7 +564,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      minutes
+                      kg/cm^2
                     </th>
                     <th
                       style={{
@@ -596,7 +573,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Pressure(kg/cm^2)
+                      %
                     </th>
                     <th
                       style={{
@@ -605,9 +582,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Tempr.
-                      <br />
-                      (deg.C)
+                      %
                     </th>
                     <th
                       style={{
@@ -616,7 +591,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      deg.C
+                      %
                     </th>
                     <th
                       style={{
@@ -625,7 +600,7 @@ class PerformanceReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      deg.C
+                      %
                     </th>
                   </tr>
                 </thead>
@@ -1047,7 +1022,7 @@ class PerformanceReport extends Component {
                 </tbody>
               </table>
             </div>
-            <div class="row" style={{ marginTop: "60px" }}>
+            <div class="row" style={{ marginTop: "10px" }}>
               <div class="col-lg-1"></div>
               <div class="col-lg-4">
                 <label>

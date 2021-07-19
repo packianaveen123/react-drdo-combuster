@@ -1,17 +1,13 @@
 .site-layout-background{
   width: 100%;
 }
-
-
-
-
 /*
 * ==========================================================
 *       Toggle
 * ==========================================================
 */
 table#example1 {
-  margin-top: 50px;
+  margin-top: 20px;
   height: 250px;
   width: 100%;
   font-size: 14px;
@@ -36,9 +32,6 @@ div#allreport h1 {
   color: #fff;
 }
 /* ---header--- */
-.logo {
-
-}
 .ant-layout-header {
   background-color: #131633;
   height: 75px; 
@@ -57,8 +50,7 @@ div#allreport h1 {
   flex: auto;
   background-color: #212840;
   min-height: 0;
-  padding: 25px;
-  /* padding: 24px 25px 0px 25px; */
+  padding: 25px;  
 }
 /*  Navbar  */
 .logout-content {
@@ -164,12 +156,6 @@ div#allreport h1 {
   padding-bottom: 7.02px;
 }
  
-/*  
-.ant-menu-item-selected
- {
-  color: red !important;
-} */
-
 /* ----------------------------------
             grid element
  -----------------------------------*/
@@ -197,10 +183,8 @@ div#allreport h1 {
 
 /* list */
 .list{
-  color: #fff;
-  
-  background-color: #131633;
-  /* border-radius: 5px; */
+  color: #fff;  
+  background-color: #131633; 
 }
 .list p{ 
   position: relative;
@@ -217,8 +201,7 @@ div#allreport h1 {
   outline: none;
 }
 .list p span{
-  position: absolute;
-  /* right: 10px; */
+  position: absolute; 
 }
 /* delete btn */
 .faicons{
@@ -253,8 +236,7 @@ div#allreport h1 {
 }
 .ant-input {
   width: 450px;
-  height: 40px;
-  /* height: 35px; */
+  height: 40px; 
   font-size: 15px;
   background-color: transparent !important;
   border: 1px solid #3e434d;
@@ -267,17 +249,6 @@ div#allreport h1 {
  .ant-form-item-has-error .ant-input:hover {
   background-color: transparent !important;
  }
-/* .ant-input:focus, .ant-input-focused {
-  border-color: #42dbdc;
-  border-right-width: 1px !important;
-  outline: 0;
-  -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
-  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
-} */
-/* .ant-input:hover {
-   border-color: gray; 
-  border-right-width: 1px !important;
-} */
 .ant-select:focus, 
 .ant-select-focused {
   border-color: #42dbdc;
@@ -377,8 +348,8 @@ div#allreport h1 {
 .btn-test{
   background-color: none !important;
 }
-/* grid testpage + btn */
 
+/* grid testpage + btn */
 .add-btn{
   width: 2em;
   height: 3em;
@@ -495,16 +466,13 @@ div#allreport h1 {
   text-transform: capitalize;
   font-weight: 400;
   font-weight: bold !important;
-  text-align: left;
+  text-align: left; 
   background: #131633;
-  border-bottom: 1px solid rgb(82, 79, 79);
-  /* border-bottom: none; */
+  border-bottom: 1px solid rgb(82, 79, 79); 
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
-/* thead.ant-table-thead {
-    text-transform: capitalize;
-} */
+
 .ant-table-tbody > tr.ant-table-row:hover > td {
   background: #39393a;
   color: #fff;
@@ -517,8 +485,7 @@ div#allreport h1 {
   transition: background 0.3s;
 }
 .ant-table-tbody > tr:nth-child(2n + 1) > td {
-  background-color: #282b2f;
-  /* border-top: 1px solid #dee2e6; */
+  background-color: #282b2f; 
 }
 .ant-table-responsive {
   display: block;
@@ -530,6 +497,7 @@ div#allreport h1 {
 .anticon-edit:hover {
   color: mediumaquamarine;
   }
+
  /* --------------------------------- 
       --pagination--
  -----------------------------------*/
@@ -660,41 +628,6 @@ div#allreport h1 {
   padding: 30px;
   border-radius: 5px;
 }
-
-/* .login-page {
-  position: absolute;
-  width: 100%;
-  min-height: 100vh;
-  z-index: 1;
-} */
-
-/* .wrapper::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  display: block;
-  z-index: -1;
-  background-size: cover;
-  top: 0;
-  right: 0;
-} */
-/* .container {
-  position: absolute;
-  top:50%;
-  transform: translateY(-50%);
-  width: 100%;
-  padding: 0 20px;
-} */
-/* .form-holder {
-  width: 100%;  
-  min-width: 550px;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 50px;
-  padding-top: 110px;
-} */
-
-
  .form-holder .info
   {
   height: 100%;
@@ -739,6 +672,10 @@ div#allreport h1 {
   font-size: 0.9rem;
   color: #42dbdc;
 }
+.forgot-pass{
+  color: #42dbdc;
+}
+
 .copyrights {
   width: 100%;
   z-index: 9999;
@@ -784,7 +721,7 @@ max-width: 300%;
  
 /* --Statistic Block-- */
 .statistic-block {
-  height: 110px;
+  height: 125px;
   padding-top: 20px;
   padding-bottom: 25px;
   padding-left: 10px;
@@ -794,7 +731,7 @@ max-width: 300%;
 }
 .statistic-block .title {
   text-align: center;
-  padding-top: 10px;
+  padding-top: 10px; 
 }
 .number {
   margin-right: 15%;
@@ -807,29 +744,13 @@ max-width: 300%;
   margin-bottom: -5px !important;
 }
 .statistic-block .number {
-  color: inherit;
-  font-size: 25px !important;
+  color: inherit;  
 }
 .statistic-block strong,
 .statistic-block span {
   display: block;
 }
-.statistic-block strong {
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.9rem;
-  color: #8a8d93;
-  margin-bottom: 5px;
-}
-.statistic-block .icon {
-  margin-bottom: 5;
-  font-size: 1.2rem;
-  color: #8a8d93;
-}
-.statistic-block .number {
-  color: inherit;
-  font-size: 2.2rem;
-}
+
 .progress.progress-template {
   width: 100%;
   height: 2px;
@@ -850,14 +771,12 @@ max-width: 300%;
 }
 .site-card-wrapper {
   margin-top: 1.15%;
+  background-color: '#212840'
 }
-/* .ant-row {
-  padding-top: 5px;
-} */
 
 /* ----graph---- */
 .ant-card-body {
-  /* background: #131633; */
+ 
   color: #fff;
   padding: 15px;
   width: 400px;
@@ -866,10 +785,8 @@ max-width: 300%;
  /* ---alert error--- */
 .ant-alert-error {
     background-color: #fff2f0;
-    border: 1px solid #ffccc7;
-    /* width: 56% !important; */
+    border: 1px solid #ffccc7;   
 }
-
 
 /* graphpage comparison table */
 .content-table {
@@ -885,8 +802,7 @@ max-width: 300%;
 }
 
 .content-table thead tr {
-  background-color: #131633;
-  /* color: rgb(192, 196, 201); */
+  background-color: #131633; 
   text-align: left;
   font-weight: bold;
   border-bottom: 1px solid rgb(82, 79, 79);
@@ -915,7 +831,4 @@ max-width: 300%;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
-/* .content-table tbody tr.active-row {
-  font-weight: bold;
-  color: white;
-} */
+

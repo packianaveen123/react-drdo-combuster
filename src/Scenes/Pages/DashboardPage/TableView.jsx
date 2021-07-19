@@ -52,14 +52,14 @@ const columns1 = [
     key: 'testcommandsTime',
   },
 ];
-const x = 1;
-const self = this;
+
 class TableView extends Component {
   constructor(props) {
     super(props)
     this.state = {
       tabledata: [],
-      alldata: []
+      alldata: [],
+      filteredTableData: []
     }
   }
 
@@ -72,6 +72,8 @@ class TableView extends Component {
 
   testClick = () => {
     getTableView((data) => {
+      const arrStr = this.props.app.targetKeys;
+      const dashboardDataNumArr = arrStr.map((i) => Number(i));
       const liveDataObj = this.props.app.chartData[0]
       data.map(item => {
         const key = item['paramindex']
@@ -81,18 +83,21 @@ class TableView extends Component {
           }
         })
       })
-      console.log(data)
+
       this.setState({
         tabledata: data
       })
-      console.log(data)
+
+      let filteredTableData = this.state.tabledata.filter((_, index) => dashboardDataNumArr.includes(index));
+      this.setState({
+        filteredTableData: filteredTableData
+      })
+
     })
   }
 
   interval = setInterval(() => { this.testClick() }, 1000)
   render() {
-    let a = this.props.turboStart
-    console.log(this.state.tabledata)
     return (
       <div>
         <StatusBlock />
@@ -104,7 +109,7 @@ class TableView extends Component {
                 size='middle'
                 pagination={false}
                 columns={columns}
-                dataSource={this.state.tabledata} />
+                dataSource={this.state.filteredTableData} />
             </Col>
             <Col >
               <Table

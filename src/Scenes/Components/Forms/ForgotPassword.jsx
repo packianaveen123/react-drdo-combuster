@@ -4,7 +4,9 @@ import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@a
 import { connect } from 'react-redux';
 import { updateAppState, updateForgotEvent } from '../../../Redux/action';
 import { forgotValidation } from '../../../Services/requests';
-
+import { CompanyDetails, FormDetails } from '../../../Services/constants';
+const { enter_email, enter_password, confirm_password, password_notmatch, alert_email } = FormDetails;
+const { company_name, company_data } = CompanyDetails;
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,11 @@ class ForgotPassword extends Component {
       IsUserName: false
     }
   }
-
+  alertOnClose = () => {
+    this.setState({
+      IsUserName: '',
+    })
+  };
   onFinish = (values) => {
     forgotValidation(values, (data) => {
       if (data == "success") {
@@ -40,19 +46,19 @@ class ForgotPassword extends Component {
             <Row >
               {/* <!-- Logo & Information Panel--> */}
               <Col span={12}  >
-                <div class="info">
-                  <h1 style={{ color: 'white' }}>TVS Combuster</h1>
-                  <p>A product powerd by Vaigunth EnerTek (Pvt.) Ltd.</p>
+                <div class="info" style={{ paddingTop: "10rem" }}>
+                  <h1 style={{ color: 'white' }}>{company_name}</h1>
+                  <p>{company_data}</p>
                 </div>
               </Col>
               {/* <!-- Form Panel    --> */}
               <Col span={12} >
                 <div class="form d-flex align-items-center">
-                  <div class="content">
+                  <div class="content" style={{ paddingTop: "5rem" }}>
                     <Form initialValues={{ remember: true }} onFinish={this.onFinish} >
                       <Form.Item
                         name="user_name"
-                        rules={[{ required: true, message: 'Please input your Email!' }]}
+                        rules={[{ required: true, message: enter_email }]}
                       >
                         <Input
                           class="form-input"
@@ -64,7 +70,7 @@ class ForgotPassword extends Component {
 
                       <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                        rules={[{ required: true, message: enter_password }]}
                         hasFeedback
                       >
                         <Input.Password
@@ -82,15 +88,14 @@ class ForgotPassword extends Component {
                         rules={[
                           {
                             required: true,
-                            message: 'Please confirm your Password!'
+                            message: confirm_password
                           },
                           ({ getFieldValue }) => ({
                             validator(_, value) {
                               if (!value || getFieldValue('password') === value) {
                                 return Promise.resolve();
                               }
-
-                              return Promise.reject('The two passwords that you entered do not match!');
+                              return Promise.reject(password_notmatch);
                             },
                           }),
                         ]}
@@ -103,7 +108,14 @@ class ForgotPassword extends Component {
                         />
                       </Form.Item>
 
-                      {IsUserName ? <Alert className="alert_error" message="Please enter a valid Username" type="error" /> : ''}
+                      {IsUserName ?
+                        <Alert
+                          className="alert_error"
+                          message={alert_email}
+                          closable
+                          onClose={this.alertOnClose}
+                          type="error" />
+                        : ''}
                       <Form.Item
                         style=
                         {{
@@ -122,9 +134,9 @@ class ForgotPassword extends Component {
                               </Button>
                       </Form.Item>
 
-                      <div onClick={this.backToLoginEvent}>
+                      <div >
                         <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Back to Login page?
-                            <a class="forgot-pass">Login</a></text>
+                            <a onClick={this.backToLoginEvent} class="forgot-pass" >Login</a></text>
                       </div>
                     </Form>
                   </div>

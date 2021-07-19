@@ -18,7 +18,7 @@ const chartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-
+const exportDataUrl = `${BASE_URL}${URL.EXPORT_DATA}`
 
 
 const getTurboConfigData = (callBack) => {
@@ -168,7 +168,16 @@ const getHandleChangetestID = (body, callBack) => {
       console.log(err.res)
     })
 };
-
+// report pages
+const getHandleChangeReport = (body, callBack) => {
+  axios.post(exportDataUrl, body)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 export {
   getTurboConfigData, turbineConfigSubmit,
   getTestConfigData, getParamConfigData,
@@ -177,8 +186,6 @@ export {
   forgotValidation, registerPageValidation,
   getTableView, getChartData,
   getSensorData, getHandleChangetestID,
-  requestStatusData
-
-
+  requestStatusData, getHandleChangeReport
 
 }

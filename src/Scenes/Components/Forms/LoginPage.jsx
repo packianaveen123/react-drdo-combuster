@@ -7,6 +7,9 @@ import {
   updateUserParameter, updateAppState,
   updateLoginEvent, updateUserName
 } from '../../../Redux/action';
+import { CompanyDetails, FormDetails } from '../../../Services/constants';
+const { enter_email, enter_password } = FormDetails;
+const { company_name, company_data } = CompanyDetails;
 
 class LoginPage extends Component {
   constructor(props) {
@@ -16,7 +19,12 @@ class LoginPage extends Component {
       loginState: false
     }
   }
-
+  alertOnClose = () => {
+    this.setState({
+      IsLogin: '',
+      loginState: ''
+    })
+  };
   onFinish = (values) => {
     let that = this;
     loginValidation(values, (data) => {
@@ -49,8 +57,8 @@ class LoginPage extends Component {
                 {/* <!-- Logo & Information Panel--> */}
                 <Col span={12}  >
                   <div class="info" style={{ paddingTop: "10rem" }}>
-                    <h1 style={{ color: 'white' }}>TVS Combuster</h1>
-                    <p>A product powerd by Vaigunth EnerTek (Pvt.) Ltd.</p>
+                    <h1 style={{ color: 'white' }}>{company_name}</h1>
+                    <p>{company_data}</p>
                   </div>
                 </Col>
                 {/* <!-- Form Panel    --> */}
@@ -64,7 +72,7 @@ class LoginPage extends Component {
                     >
                       <Form.Item
                         name="user_name"
-                        rules={[{ required: true, message: 'Please input your Email!' }]}
+                        rules={[{ required: true, message: enter_email }]}
                       >
                         <Input
                           style={{ backgroundColor: '#131633' }}
@@ -74,7 +82,7 @@ class LoginPage extends Component {
                       </Form.Item>
                       <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                        rules={[{ required: true, message: enter_password }]}
                       >
                         <Input.Password
                           style={{ backgroundColor: '#131633' }}
@@ -86,7 +94,12 @@ class LoginPage extends Component {
                       </Form.Item>
                       {
                         this.state.IsLogin ?
-                          <Alert className="alert_error" message="Username or Password is Incorrect" type="error" />
+                          <Alert
+                            className="alert_error"
+                            closable
+                            onClose={this.alertOnClose}
+                            message="Username or Password is Incorrect"
+                            type="error" />
                           : ''
                       }
                       <Form.Item style={{ paddingTop: '35px', paddingBottom: '30px', paddingLeft: '40%' }}>
@@ -98,8 +111,10 @@ class LoginPage extends Component {
                       <div onClick={this.forgotPasswordEvent}>
                         <a class="forgot-pass">Forgot Password?</a><br></br>
                       </div>
-                      <div onClick={this.signupEvent} class="signup">
-                        <text style={{ color: 'rgb(151, 150, 151)' }}>Do not have an account? <a class="forgot-pass">Signup</a></text>
+                      <div class="signup">
+                        <text style={{ color: 'rgb(151, 150, 151)' }}>
+                          Do not have an account?
+                          <a onClick={this.signupEvent} class="forgot-pass">Signup</a></text>
                       </div>
                     </Form>
                   </div>

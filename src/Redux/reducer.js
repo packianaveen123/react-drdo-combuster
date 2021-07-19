@@ -36,24 +36,22 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_PARAM_CONFIGURATION':
       newState.paramConfiguration = action.payload ? action.payload : []
       return newState
-    case 'UPDATE_TRANSFER_ELEMENT':
-      newState.transferElement = action.payload
-      return newState
-    case 'UPDATE_COLOR_BAR':
-      newState.colorBar = action.payload
-      return newState
     case 'UPDATE_TESTING_PAGE':
       newState.testingPage = action.payload ? action.payload : []
       return newState
     case 'NAVIGATE_MAIN_PAGE':
-      newState.mainPage = action.payload ? action.payload : "dashboardConfig"
+      newState.mainPage = action.payload ? action.payload : "dashboardConfig"       //mainPage
       return newState
     case 'UPDATE_TITLE_ELEMENTS':
-      newState.titleElements = action.payload ? action.payload : []
+      newState.titleElements = action.payload ? action.payload : []         //titleElements
       return newState
-      
-      case 'UPDATE_DASHBOARD_DATA':
-      newState.dashboardData = action.payload ? action.payload : []
+
+    case 'UPDATE_DASHBOARD_DATA':
+      newState.dashboardData = action.payload ? action.payload : []       //dashboardData
+      return newState
+
+    case 'UPDATE_TARGET_KEYS':
+      newState.targetKeys = action.payload ? action.payload : []          //targetKeys
       return newState
     case 'UPDATE_APP_STATE':
       newState.appState = action.payload ? action.payload : 'login'

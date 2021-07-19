@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Row, Layout } from 'antd';
 import { connect } from 'react-redux';
 import { updateTitleElements } from '../../../Redux/action';
+
 class TitleElement extends Component {
   constructor(props) {
     super(props);

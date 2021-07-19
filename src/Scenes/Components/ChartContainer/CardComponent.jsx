@@ -3,24 +3,139 @@ import { Card, Col, Row } from 'antd';
 import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
 import { updateChartData } from '../../../Redux/action';
+import { dashboardSensor } from "../../../Services/constants";
+const { sensorLabel } = dashboardSensor;
 class CardComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      cardList: []
+      cardList: [], dummygraphData: [
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+        {
+          FFR: "0",
+          P1: "0",
+          P2: "0",
+          P3: "0",
+          P4: "0",
+          P5: "0",
+          P6: "0",
+          P7: "0",
+          T1: "0",
+          T2: "0",
+          T3: "0",
+          T4: "0",
+          T5: "0",
+          T11: "0",
+          rpm: "0",
+          testdatadate: "0",
+        },
+      ],
     }
+  }
+  componentDidMount() {
+    const stableValue = this.props.app.dashboardData.filter((it) =>
+      this.props.app.targetKeys.find((val) => val === it.key)
+    );
+    console.log(stableValue);
   }
   interval = setInterval(() => {
     console.log(this.props.app.chartData.length)
     {
-      this.props.app.chartData.length != 0 ? this.prepareChartParams(this.props.app.chartData)
-        : console.log(this.props.app.chartData)
+      this.props.app.chartData.length != 0
+        ? this.prepareChartParams(this.props.app.chartData)
+        : this.prepareChartParams(this.state.dummygraphData);
     }
 
-    // this.setState({
-    //   cardList : demo
-    // })
   }, 1000);
   toggleBorder = () => {
     this.setState({ loading: !this.state.loading })
@@ -60,10 +175,14 @@ class CardComponent extends Component {
       ffr.push(chartdata[i].FFR);
       date_Time.push(new Date(chartdata[i].date_Time).toLocaleTimeString([], { hour12: false }));
     }
-    let chartLabel = ["Temp1", "Temp2", "Temp9", "RPM", "Pressure", "Gas Flow"];
-    for (let i = 0; i < chartdata.chartLabel; i++) {
-      chartLabel = chartLabel[i];
-    }
+
+    const arrStr = this.props.app.targetKeys;
+    const dashboardDataNumArr = arrStr.map((i) => Number(i)); //covertion string to number
+    console.log(dashboardDataNumArr);
+
+    let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index)); //chartlabel
+    console.log("Label Name", filteredDataLabel);
+
     let chartArray = [];
     chartArray.push(t1);
     chartArray.push(t2);
@@ -71,7 +190,6 @@ class CardComponent extends Component {
     chartArray.push(t4);
     chartArray.push(t5);
     chartArray.push(t11);
-    chartArray.push(rpm);
     chartArray.push(p1);
     chartArray.push(p2);
     chartArray.push(p3);
@@ -80,17 +198,21 @@ class CardComponent extends Component {
     chartArray.push(p6);
     chartArray.push(p7);
     chartArray.push(ffr);
-    // console.log(chartArray)
+    chartArray.push(rpm);
+    console.log(chartArray)
+    console.log(this.props.app.targetKeys)
+
+    let filteredData = chartArray.filter((_, index) => dashboardDataNumArr.includes(index));
+    console.log("ChartArray Value", filteredData);
     const chartValue = []
-    for (let i = 0; i < chartArray.length; i++) {
+    for (let i = 0; i < filteredData.length; i++) {
       let chart =
       {
-        // title: "chart-"+(i+1),
         size: 8,
         labels: date_Time,
         dataSet: {
-          chartData: chartArray[i],
-          chartLabel: chartLabel[i],
+          chartData: filteredData[i],
+          filteredDataLabel: filteredDataLabel[i],
           chartBackgroundColor: [
             'rgba(24,144,255,0.2)'
           ],
@@ -112,37 +234,31 @@ class CardComponent extends Component {
   }
   render() {
     const chartData = this.props.app.chartData ? this.props.app.chartData : null;
-    // const chart = this.prepareChartParams(chartData)
-    // this.setState({
-    //   cardList : chart
-    // })
     console.log("cardlist :" + this.state.cardList)
     if (this.state.cardList !== undefined && this.state.cardList.length >= 5) {
       return (
-        <div style={{ backgroundColor: '#212840' }}>
-          <div className="site-card-wrapper">
-            <Row gutter={16}>
-              {this.state.cardList ?
-                this.state.cardList.map(it => {
-                  return (
-                    <Col span={8}>
-                      <Row >
-                        <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
-                          <GraphComponent
-                            data={it.dataSet.chartData ? it.dataSet.chartData : []}
-                            labels={it.dataSet.chartLabel ? it.dataSet.chartLabel : []}
-                            label={it.dataSet.chartLabel ? it.dataSet.chartLabel : "No Lebel"}
-                            backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
-                            borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
-                          />
-                        </Card>
-                      </Row>
-                    </Col>
-                  )
-                }) : []
-              }
-            </Row>
-          </div>
+        <div className="site-card-wrapper">
+          <Row gutter={16}>
+            {this.state.cardList ?
+              this.state.cardList.map(it => {
+                return (
+                  <Col span={8}>
+                    <Row style={{ paddingTop: '50px' }}>
+                      <Card style={{ backgroundColor: '#131633', height: '200px', border: 'none', borderRadius: '0px' }}>{it.title}
+                        <GraphComponent
+                          data={it.dataSet.chartData ? it.dataSet.chartData : []}
+                          labels={it.dataSet.filteredDataLabel ? it.dataSet.filteredDataLabel : []}
+                          label={it.dataSet.filteredDataLabel ? it.dataSet.filteredDataLabel : "No Lebel"}
+                          backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
+                          borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
+                        />
+                      </Card>
+                    </Row>
+                  </Col>
+                )
+              }) : []
+            }
+          </Row>
         </div>
       );
     }

@@ -11,17 +11,11 @@ import {
 } from "../../../Services/requests";
 import { turboConfigValue } from "../../../Services/constants";
 import {
-  Col,
-  Row,
-  Layout,
-  Input,
-  Button,
-  Tooltip,
-  InputNumber,
-  DatePicker,
-  Form,
-  message,
-  notification,
+  Col, Row,
+  Layout, Input,
+  Button, Tooltip,
+  InputNumber, DatePicker,
+  Form, message, notification,
 } from "antd";
 import TableElement from "../../Components/subComponents/TableElement";
 import moment from "moment";
@@ -37,6 +31,8 @@ const {
   blade_max,
   error_turbo_msg,
   added_turbo_msg,
+  message_title,
+  description_data
 } = turboConfigValue;
 const key = "updatable";
 class TurboConfig extends Component {
@@ -55,27 +51,18 @@ class TurboConfig extends Component {
   }
 
   openNotification = (value) => {
-    // setTimeout(() => {
-    //   notification.info({
-    //     message: `INSTALLED MORE THAN 2 TURBINES`,
-    //     description:
-    //       "The haredware is install with more than 2 trubines. So make sure there is only 2 trubines installed ",
-    //     value,
-    //   });
-    // }, 1000);
     setTimeout(() => {
       notification.open({
         key,
-        message: "INSTALLED MORE THAN 2 TURBINES",
+        message: message_title,
         description:
-          "The haredware is install with more than 2 trubines. Make sure there is only 2 trubines installed ",
+          description_data,
         value,
       });
     }, 1000);
   };
 
   componentDidMount() {
-    console.log(this.props.appData.statusData);
     let data = this.props.appData.statusData;
     if (data.length > 2) {
       this.setState({
@@ -114,7 +101,6 @@ class TurboConfig extends Component {
   };
 
   updateDate = (date, dateString) => {
-    console.log(typeof dateString);
     this.setState({
       dateVal: dateString,
     });
@@ -145,8 +131,6 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
-    console.log(this.props.appData);
-    console.log(this.props.appData.statusData);
 
     if (this.state.turbineStatus) {
       this.openNotification("bottomRight");
@@ -261,15 +245,14 @@ class TurboConfig extends Component {
               <Col sm={3}>
                 <Form.Item
                   name="No of Blades "
-                  // rules={[{ required: true }]}
                 >
                   <InputNumber
                     min={blade_min}
                     max={blade_max}
                     defaultValue={blade_defalutValue}
                     step={1}
+                    precision={0}
                     required
-                    message="Please enter at least 5 characters"
                     style={{ width: "320px" }}
                     onChange={this.updateBlades}
                   />

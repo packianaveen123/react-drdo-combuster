@@ -17,8 +17,6 @@ class HeaderComponent extends Component {
     this.props.toggleLeftBar()
   }
   backToLoginEvent = () => {
-    // this.props.updateAppState('login');
-    // console.log(this.props.initiateRegisterState)
     window.location.reload(false);
   }
   render() {
@@ -27,7 +25,6 @@ class HeaderComponent extends Component {
     return (
       <div className="site-layout-background">
         <div className="logo" >
-          {/* <img src="" alt="Logo" style={{ width: '50px', height: '40px', marginTop: '6px', marginLeft: '15px' }} /> */}
           {this.state.showCompanyName ? <LogoValue /> : null}
         </div>
 

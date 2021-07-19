@@ -1,4 +1,4 @@
-import { dashboardData, titleElements } from '../Services/constants'
+import { dashboardDataVal, targetKeysVal, titleElements } from '../Services/constants'
 
 const InitialState = {
   mainPage: 'testPage',
@@ -19,10 +19,11 @@ const InitialState = {
   testConfigPage: [],
   turboConfig: [],
   paramConfig: [],
- 
-  transferElement: [dashboardData],
+  dashboardData: dashboardDataVal,
+  targetKeys: targetKeysVal,
+
+  // -- test details -- //
   testingPage: [],
-  testDetails: false,
   testerValue: false,
   testValue: '',
   testIdValue: '',
@@ -32,7 +33,6 @@ const InitialState = {
 
 
   // -- test page -- //
-
   statusData: '',
   reset: false,
   chartData: [],

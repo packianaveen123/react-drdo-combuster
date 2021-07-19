@@ -11,39 +11,87 @@ import html2canvas from "html2canvas";
 const { Option } = Select;
 const columns = [
   {
-    title: "test_id",
-    dataIndex: "test_id",
-    key: "test_id",
-  },
-  {
-    title: "rpm",
+    title: "RPM",
     dataIndex: "rpm",
     key: "rpm",
+    fixed: 'left',
   },
   {
-    title: "T1",
+    title: "Combuster outlet Temperature",
     dataIndex: "T1",
     key: "T1",
+    fixed: 'left',
   },
   {
-    title: "T2",
+    title: "Turbine Inlet Temperature",
     dataIndex: "T2",
     key: "T2",
   },
   {
-    title: "T3",
+    title: "Turbine outlet Temperature",
     dataIndex: "T3",
     key: "T3",
   },
   {
-    title: "T4",
+    title: "Compressor Inlet Temperature",
+    dataIndex: "T4",
+    key: "T4",
+  },
+  {
+    title: "Compressor Outlet Temperature",
     dataIndex: "T5",
-    key: "T6",
+    key: "T5",
+  },
+  {
+    title: "Ambient Temperature",
+    dataIndex: "T11",
+    key: "T11",
+  },
+  {
+    title: "Combuster Inlet Pressure",
+    dataIndex: "P1",
+    key: "P1",
+  },
+  {
+    title: "Fuel Line Pressure",
+    dataIndex: "P2",
+    key: "P2",
+  },
+  {
+    title: "Turbine Inlet Pressure",
+    dataIndex: "P3",
+    key: "P3",
+  },
+  {
+    title: "Ambient Pressure",
+    dataIndex: "P4",
+    key: "P4",
+  },
+  {
+    title: "Compressor Inlet Pressure",
+    dataIndex: "P5",
+    key: "P5",
+  },
+  {
+    title: "Compressor Outlet Pressure",
+    dataIndex: "P6",
+    key: "P6",
+  },
+  {
+    title: "Ventury meter differencial Pressure",
+    dataIndex: "P7",
+    key: "P7",
+  },
+  {
+    title: "Fuel Flow Rate",
+    dataIndex: "FFR",
+    key: "FFR",
   },
   {
     title: "testdataDate",
     dataIndex: "testdataDate",
     key: "testdataDate",
+    fixed: 'right',
   },
 ];
 class ExportData extends Component {
@@ -90,35 +138,37 @@ class ExportData extends Component {
   //   })
   // }
   getreport = () => {
-    axios
-      .post("http://192.168.0.167:5000/getReport.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.setState({
-          reportDetails: res.data,
+    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+      axios
+        .post("http://192.168.0.167:5000/getReport.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            reportDetails: res.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
-    axios
-      .post("http://192.168.0.167:5000/getnames.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data[0].tester);
-        this.setState({
-          tester: res.data[0].tester,
-          witness: res.data[0].witness,
+      axios
+        .post("http://192.168.0.167:5000/getnames.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data[0].tester);
+          this.setState({
+            tester: res.data[0].tester,
+            witness: res.data[0].witness,
+          });
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
+    }
   };
 
   // createPdf = (html) => Doc.createPdf(html);
@@ -175,6 +225,7 @@ class ExportData extends Component {
       pdf.save("download.pdf");
     });
   };
+
   render() {
     const testIdValue = this.props.app.turboConfig;
     console.log(this.state.testno);
@@ -228,10 +279,10 @@ class ExportData extends Component {
                   >
                     testno ?
                     {testno.map((it) => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}{" "}
+                    <Option key={it.testno} value={it.testno}>
+                      {it.testno}
+                    </Option>
+                  ))}{" "}
                     : []
                   </Select>
                 </Input.Group>
@@ -240,7 +291,7 @@ class ExportData extends Component {
           </Row>
           <Row
             style={{
-              paddingTop: "25px",
+              paddingTop: "0px",
               paddingLeft: "30%",
               paddingBottom: "25px",
             }}
@@ -259,8 +310,8 @@ class ExportData extends Component {
         <Button
           style={{
             marginLeft: "1270px",
-            marginBottom: "20px",
-            marginTop: "20px",
+            marginBottom: "10px",
+            marginTop: "10px",
             width: "140px",
           }}
           variant="warning"
@@ -271,14 +322,21 @@ class ExportData extends Component {
           Export in Excel
         </Button>
 
-        <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px" }}>
+        <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", width: 'auto' }}>
+          <div id="allreport">
+            <div class="mx-auto" style={{ marginTop: "2%" }}>
+              <div class="main-sparkline12-hd" style={{ textAlign: "center" }}>
+                <h1>Export Data</h1>
+              </div>
+            </div>
+          </div>
           <Table
             id="someRandomID"
-            style={{ marginTop: "50px", width: "95%", float: "left" }}
-            pagination={false}
+            size="middle"
             columns={columns}
+            pagination={false}
             dataSource={this.state.reportDetails}
-          />
+            scroll={{ x: 2000 }} />
         </Layout>
       </div>
     );

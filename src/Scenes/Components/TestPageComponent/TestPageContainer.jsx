@@ -29,7 +29,7 @@ import {
 import ListItems from '../subComponents/ListItems';
 import {
   shutdownClickEvent, resetClickEvent,
-  getChartData, getSensorData,
+  getSensorData,
   getHandleChangetestID,
   requestStatusData
 } from '../../../Services/requests';
@@ -41,12 +41,13 @@ const { Option } = Select;
 const { Text } = Typography;
 const { SubMenu } = Menu;
 let count = 1
+const { duplicate_msg, warning_Id, warning_mode, warning_name, alert_targetval } = testParamHash;
 class TestPageContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       turboIdDefaultValue: "Select Turbo ID",
-      truboIDnum: true,
+      truboIDnum: '',
       turboMode: '',
       testingData: null,
       value: null,
@@ -73,7 +74,6 @@ class TestPageContainer extends Component {
       errormsg: '',
       shutdownEnable: false,
       tubineStatus: false,
-      sData: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.startClick = this.startClick.bind(this);
@@ -108,7 +108,7 @@ class TestPageContainer extends Component {
       this.setState({
         isDuplicateTester: isDuplicateTester
       })
-      message.warning('duplicate value')
+      message.warning(duplicate_msg)
     }
     if (newItem !== null && !isDuplicateTester) {
       this.setState({
@@ -116,8 +116,6 @@ class TestPageContainer extends Component {
         currentTesterItem: null
       })
       console.log(this.state.testerItems)
-      // this.props.updateTesterData(this.state.testerItems)
-      // console.log(this.props.app.testerData)
     }
     console.log(this.state.testerItems)
   }
@@ -131,7 +129,7 @@ class TestPageContainer extends Component {
       this.setState({
         isDuplicateWitness: isDuplicateWitness
       })
-      message.warning('duplicate value')
+      message.warning(duplicate_msg)
     }
     if (newItem !== null && !isDuplicateWitness) {
       this.setState({
@@ -185,11 +183,11 @@ class TestPageContainer extends Component {
       turboIdValue: value
     }
     let that = this;
-    getHandleChangetestID({ turboIdValue: value }, (data) => {
+    getHandleChangetestID(body, (data) => {
       console.log(data)
-      this.props.updateTestIdCount(data)
+
       console.log(this.props.app.turboIdTestCount)
-      if (data === "") {
+      if (data === "" || data.length === 0) {
         that.setState({
           turboIdTestCount: 1
         })
@@ -199,13 +197,11 @@ class TestPageContainer extends Component {
           turboIdTestCount: data
         })
       }
-
+      console.log(this.state.turboIdTestCount)
+      this.props.updateTestIdCount(this.state.turboIdTestCount)
     })
   }
 
-  onClicktestButton = () => {
-    this.setState({ TestDetails: !this.state.TestDetails })
-  }
   onClick = () => {
     this.setState({ testerValue: true })
   }
@@ -219,12 +215,6 @@ class TestPageContainer extends Component {
     })
   }
 
-  // axios requests
-  // requestChartData() {
-  //   getChartData((data) => {
-  //     this.props.updateChartData(data);
-  //   })
-  // }
   requestChartData() {
     axios.get('http://192.168.0.167:5000/graph.php').then(res => {
       let chartdata = res.data;
@@ -259,6 +249,7 @@ class TestPageContainer extends Component {
           this.props.initiateCommunicationFailed();
         }
         this.initializeTestClick()
+        console.log(this.props.app.initiateCommunication)
       })
       .catch((err) => {
         console.log(err);
@@ -271,23 +262,28 @@ class TestPageContainer extends Component {
 
   initializeClick = () => {
     this.props.startDbInsert()
+    console.log(this.props.app.turboMode, this.props.app.testIdValue, this.state.testerItems.length)
+    if (this.props.app.turboMode === '' || this.props.app.turboMode === undefined) {
+      this.setState({
+        errormsg: warning_mode
+
+      })
+      return
+    }
     if (this.props.app.testIdValue === '' || this.props.app.testIdValue === undefined) {
       this.setState({
-        errormsg: "Please Select the turbine ID"
+        errormsg: warning_Id
       })
+      return
     }
     if (this.state.testerItems.length === 0) {
       this.setState({
-        errormsg: "Please Enter tester Name"
+        errormsg: warning_name
       })
-
+      return
     }
-    if (this.props.app.turboMode === '' || this.props.app.turboMode === undefined) {
-      this.setState({
-        errormsg: "Please Select the turbine"
-      })
 
-    }
+
     if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" && this.props.app.turboMode !== '' && this.state.testerItems.length !== 0) {
       console.log(this.state.turboIdVal)
       axios.post('http://192.168.0.167:5000/gettestid.php',
@@ -308,7 +304,6 @@ class TestPageContainer extends Component {
         })
     }
   }
-
 
   initializeTestClick = () => {
     var today = new Date(),
@@ -404,13 +399,24 @@ class TestPageContainer extends Component {
   }
 
   ResetonClick = () => {
-    const dataBody = {
-      ResetRPM: this.props.app.resetRPM,
-      ResetTemp: this.props.app.resetTemp
-    }
-    resetClickEvent(dataBody, (data) => {
-      this.props.initiateShowReset(data)
-    })
+    // const dataBody = {
+    //   ResetRPM: this.props.app.resetRPM,
+    //   ResetTemp: this.props.app.resetTemp
+    // }
+    // resetClickEvent(dataBody, (data) => {
+    //   this.props.initiateShowReset(data)
+    // })
+    axios.post('http://192.168.0.167:5000/reset.php',
+      {
+        ResetRPM: this.props.app.resetRPM,
+        ResetTemp: this.props.app.resetTemp
+      })
+      .then(res => {
+        console.log("sucess")
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   startClick = () => {
@@ -432,13 +438,7 @@ class TestPageContainer extends Component {
               .then(function (response) {
                 console.log(response);
               })
-            // axios.get('http://192.168.0.167:8000/testdata.php')
-            //   .then(res => {
-            //     let TestDataDB = res.data;
-            //     console.log(TestDataDB)
-            //   }).catch((err) => {
-            //     console.log(err);
-            //   })
+
           }).catch((err) => {
             console.log(err);
           })
@@ -455,47 +455,46 @@ class TestPageContainer extends Component {
   }
 
   Reloadall = () => {
-    if (this.props.app.turboStart.find(it => it.name === 'nshutdowncompleted')) {
-      this.props.stopDbInsert()
-      this.props.updateTestIdCount('');
-      this.props.updateTestIdValue('');
-      this.props.updateTurboMode('')
-      this.setState({
-        turboIdDefaultValue: "Select Turbo ID",
-        truboIDnum: false,
-        turboMode: '',
-        testingData: null,
-        value: null,
-        testerItems: [],
-        witnessItems: [],
-        // turboIdval: '',
-        currentTesterItem: null,
-        currentWitnessItem: null,
-        isDuplicateTester: false,
-        isDuplicateWitness: false,
-        visible: false,
-        valvestatustime: '',
-        valvestatus: '',
-        svcoolingair: 'OFF',
-        svpilotflameair: 'OFF',
-        svnaturalgastopilotflame: 'OFF',
-        svdilution: 'OFF',
-        fcvcomplressorair: 'OFF',
-        fcvmaingasfuel: 'OFF',
-        currentDateTime: '',
-        turbostartname: [],
-        overalldata: [],
-        errormsg: '',
-        turboIdTestCount: null
-      })
-    }
+
+    this.props.stopDbInsert()
+    this.props.updateTestIdCount('');
+    this.props.updateTestIdValue('');
+    this.props.updateTurboMode('')
+    this.setState({
+      turboIdDefaultValue: "Select Turbo ID",
+      truboIDnum: false,
+      turboMode: '',
+      testingData: null,
+      value: null,
+      testerItems: [],
+      witnessItems: [],
+      currentTesterItem: null,
+      currentWitnessItem: null,
+      isDuplicateTester: false,
+      isDuplicateWitness: false,
+      visible: false,
+      valvestatustime: '',
+      valvestatus: '',
+      svcoolingair: 'OFF',
+      svpilotflameair: 'OFF',
+      svnaturalgastopilotflame: 'OFF',
+      svdilution: 'OFF',
+      fcvcomplressorair: 'OFF',
+      fcvmaingasfuel: 'OFF',
+      currentDateTime: '',
+      turbostartname: [],
+      overalldata: [],
+      errormsg: '',
+      turboIdTestCount: null
+    })
+
+
+
   }
   render() {
     console.log(this.props.app)
     console.log(this.props.app.turboMode)
-    console.log(this.state.currentDateTime)
     const shutdownInitiated = this.props.app.shutdownInitiated;
-    const showReset = this.props.app.showReset;
     const communicationFailed = this.props.app.communicationFailed
     const communication = this.props.app.communication
     const targetState = this.props.app.targetState
@@ -505,8 +504,7 @@ class TestPageContainer extends Component {
     const resetTemp = this.props.app.resetTemp;
     const resetRPM = this.props.app.resetRPM;
     const turboStart = this.props.app.turboStart;
-    const { value } = this.state;
-    const { Initializedata, Startdata, Shutdowndata, Resetdata } = testParamHash
+    const { Initializedata, Startdata, Shutdowndata, Resetdata } = testParamHash;
     const InitializedataArray = turboStart.filter(it => Initializedata.find(val => val === it.name))
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
@@ -519,7 +517,10 @@ class TestPageContainer extends Component {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
 
+
+
     console.log(this.props.app.turboConfig)
+    console.log(this.props.app.testIdValue)
     console.log(testIdValue)
     return (
       <div style={{ paddingTop: "25px" }}>
@@ -560,7 +561,7 @@ class TestPageContainer extends Component {
                   </Row>
                   <Row style={{ paddingTop: "2%", paddingLeft: "20px" }}>
                     <Col span={8}>
-                      <form >
+                      <form>
                         <Row>
                           <Col span={5} style={{ marginTop: '20px' }} >
                             <label for="text" class="label" >Turbo ID</label>
@@ -731,10 +732,10 @@ class TestPageContainer extends Component {
                     <p>
                       <Row>
                         <Col>
-                          <p>Target Temp</p>
+                          <p>Target Temp,</p>
                         </Col>
                         <Col>
-                          <p>Target RPM</p>
+                          <p>&nbsp;  RPM</p>
                         </Col>
                       </Row>
                       <Row>
@@ -757,11 +758,16 @@ class TestPageContainer extends Component {
                 }
                 {
                   targetState ?
-                    <Alert className="alert_error" message="Please Enter Target values" closable type="error" /> : ''
+                    <Alert
+                      className="alert_error"
+                      message={alert_targetval}
+                      closable
+                      style={{ width: '60%' }}
+                      type="error" /> : ''
                 }
                 {
                   showTarget ?
-                    <div>Target Temp : {targetTemp} Target RPM : {targetRPM}
+                    <div>Target Temp : {targetTemp}, &nbsp;  RPM : {targetRPM}
                     </div> : []
                 }
                 {
@@ -788,15 +794,15 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={showTarget ?
+                style={StartdataArray.find(it => it.name === 'stage3') ?
                   { width: 185, cursor: 'pointer', borderColor: 'green' } :
                   { width: 185, borderColor: 'gray' }}>
-                {showTarget ? <SyncOutlined style={{ color: 'green' }} className="iconbutton1-basic" /> :
+                {StartdataArray.find(it => it.name === 'stage3') ?
+                  <SyncOutlined style={{ color: 'green' }} className="iconbutton1-basic" /> :
                   <SyncOutlined className="iconbutton1-basic" />
-
                 }
 
-                {showTarget ?
+                {StartdataArray.find(it => it.name === 'stage3') ?
                   <p style={{ color: '#42dad6', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p> :
                   <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 }
@@ -807,8 +813,8 @@ class TestPageContainer extends Component {
                       StartdataArray.find(it => it.name === 'stage3') ?
                         <p>
                           <Row>
-                            <p>Reset Temp</p>
-                            <p>Reset RPM</p>
+                            <p>Reset Temp,</p>
+                            <p>&nbsp; RPM</p>
                           </Row>
                           <Row>
                             <Input
@@ -900,14 +906,14 @@ class TestPageContainer extends Component {
                   { width: 100, cursor: 'pointer', borderColor: 'green' } :
                   { width: 100, borderColor: 'gray' }}>
                 <div>
-                  {shutdownInitiated ?
+                  {(shutdownInitiated || showTarget == false) ?
                     <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
                     <RedoOutlined className="iconbutton2-basic" />
                   }
                 </div>
                 {
-                  shutdownInitiated ?
-                    <p style={{ color: '#42dad6', fontSize: "20px" }}>Reset</p> :
+                  (shutdownInitiated || showTarget == false) ?
+                    < p style={{ color: '#42dad6', fontSize: "20px" }}>Reset</p> :
                     <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
                 }
               </Card>,
@@ -942,11 +948,10 @@ class TestPageContainer extends Component {
                 </Card>
               </Popover>
             </Col>
-
           </Row>
         </Layout>
 
-      </div>
+      </div >
     )
   }
 }

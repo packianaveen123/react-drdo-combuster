@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm, Button, Col, Row, Layout, Select, Tooltip } from 'antd';
+import { Table, Space, Input, Popconfirm, Button, Col, Row, Select, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
@@ -107,9 +107,6 @@ class TableComponent extends Component {
         else if (key === 'turboconfig') {
           this.props.updateTurboConfig(data)
         }
-        // else if (key === 'paramconfig') {
-        //    this.props.updateParamConfig(data)
-        // }
 
       } else {
         console.log(`500: error data response`)
@@ -127,13 +124,15 @@ class TableComponent extends Component {
     };
   }
   render() {
-    const appData = this.props.app;
     const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
-    console.log(editMode)
-    if (editSession) {
+    console.log(tableData)
+
+    if (editSession && tableData.length != 0) {
+
       tableData.forEach((it, index) => {
+
         console.log(editSession && (index != editRowIndex))
         it['Edit'] = <Space size="middle">
           <Tooltip placement="rightBottom" title={text}>

@@ -4,6 +4,11 @@ import { UserOutlined, LockOutlined, MailOutlined, EyeInvisibleOutlined, EyeTwoT
 import { connect } from 'react-redux';
 import { updateAppState } from '../../../Redux/action';
 import { registerPageValidation } from '../../../Services/requests';
+import { CompanyDetails, FormDetails } from '../../../Services/constants';
+const { confirm_password, enter_email, enter_username, enter_password,
+  password_notmatch, alert_registered_email, email_notvalid } = FormDetails;
+const { company_name, company_data } = CompanyDetails;
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +18,12 @@ class RegisterPage extends Component {
 
     }
   }
-
+  alertOnClose = (e) => {
+    this.setState({
+      IsuserName_reg: '',
+      Isemail_reg: ''
+    })
+  };
   onFinish = (values) => {
     registerPageValidation(values, (data) => {
       if (data == "success") {
@@ -50,15 +60,15 @@ class RegisterPage extends Component {
             <Row style={{ width: '' }}>
               {/* <!-- Logo & Information Panel--> */}
               <Col span={12}  >
-                <div class="info">
-                  <h1 style={{ color: 'white' }}>TVS Combuster</h1>
-                  <p>A product powerd by Vaigunth EnerTek (Pvt.) Ltd.</p>
+                <div class="info" style={{ paddingTop: "10rem" }}>
+                  <h1 style={{ color: 'white' }}>{company_name}</h1>
+                  <p>{company_data}</p>
                 </div>
               </Col>
               {/* <!-- Form Panel    --> */}
               <Col span={12} >
                 <div class="form d-flex align-items-center">
-                  <div class="content" >
+                  <div class="content" style={{ paddingTop: "5rem" }} >
                     <Form
                       name="register"
                       initialValues={{ remember: true }}
@@ -66,7 +76,7 @@ class RegisterPage extends Component {
                     >
                       <Form.Item
                         name="user_name"
-                        rules={[{ required: true, message: 'Please input your username!', }]}
+                        rules={[{ required: true, message: enter_username }]}
                       >
                         <Input
                           style={{ backgroundColor: '#131633' }}
@@ -80,11 +90,11 @@ class RegisterPage extends Component {
                         rules={[
                           {
                             type: 'email',
-                            message: 'The input is not valid E-mail!',
+                            message: email_notvalid,
                           },
                           {
                             required: true,
-                            message: 'Please input your E-mail!',
+                            message: enter_email,
                           },
                         ]}
                       >
@@ -97,7 +107,7 @@ class RegisterPage extends Component {
 
                       <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                        rules={[{ required: true, message: enter_password }]}
                         hasFeedback
                       >
                         <Input.Password
@@ -115,14 +125,14 @@ class RegisterPage extends Component {
                         rules={[
                           {
                             required: true,
-                            message: 'Please confirm your Password!'
+                            message: confirm_password
                           },
                           ({ getFieldValue }) => ({
                             validator(_, value) {
                               if (!value || getFieldValue('password') === value) {
                                 return Promise.resolve();
                               }
-                              return Promise.reject('The two passwords that you entered do not match!');
+                              return Promise.reject(password_notmatch);
                             },
                           }),
                         ]}
@@ -136,7 +146,12 @@ class RegisterPage extends Component {
                       </Form.Item>
 
                       {IsuserName_reg ?
-                        <Alert className="alert_error" message="Sorry... Email already Registered" type="error" /> : ''}
+                        <Alert
+                          className="alert_error"
+                          closable
+                          onClose={this.alertOnClose}
+                          message={alert_registered_email}
+                          type="error" /> : ''}
                       <Form.Item
                         style={{
                           paddingTop: '35px',
@@ -150,9 +165,9 @@ class RegisterPage extends Component {
                           </Button>
                       </Form.Item>
 
-                      <div onClick={this.backToLoginEvent}>
+                      <div>
                         <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Already have an account?
-                            <a class="forgot-pass">Login</a></text>
+                            <a onClick={this.backToLoginEvent} class="forgot-pass">Login</a></text>
                       </div>
                     </Form>
                   </div>

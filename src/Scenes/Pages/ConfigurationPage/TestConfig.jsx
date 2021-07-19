@@ -16,7 +16,6 @@ class TestConfig extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.app);
     this.props.updateTitleElements({
       title: "Test Config",
       type: "Config",
@@ -24,7 +23,6 @@ class TestConfig extends Component {
   }
 
   render() {
-    console.log(this.props.app);
     const testdata = this.props.app;
     return (
       <div>
@@ -58,7 +56,7 @@ class TestConfig extends Component {
     );
   }
 }
-const onChange = (value) => console.log("changed", value);
+
 
 const mapStateToProps = (state) => ({
   app: state.app,

@@ -54,7 +54,7 @@ if (cell.row.section == 'body' && cell.row.index === 0) {
 startY: 70
 })
 */
-    doc.text(75, 10, "PERFORMENCE TEST REPORT");
+    doc.text(75, 10, "ENDURENCE TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
     doc.addImage(logo2, "PNG", 10, 25, 75, 20);
@@ -137,7 +137,7 @@ startY: 70
     ) {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
-    doc.setFontSize(12);
+    doc.setFontSize(8);
     //doc.setTextColor(255, 0, 0);
     doc.text(15, finalY + 10, "Tested By: ");
 
@@ -165,39 +165,41 @@ startY: 70
       }
     }
 
-    doc.save("ExportReport.pdf");
+    doc.save("Endurence Report.pdf");
   };
   getreport = () => {
-    axios
-      .post("http://192.168.0.167:5000/Endurence.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.setState({
-          reportOut: res.data[0],
+    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+      axios
+        .post("http://192.168.0.167:5000/Endurence.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            reportOut: res.data[0],
+          });
+          console.log(this.state.reportOut);
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-        console.log(this.state.reportOut);
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
-    axios
-      .post("http://192.168.0.167:5000/getnames.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data[0].tester);
-        this.setState({
-          tester: res.data[0].tester,
-          witness: res.data[0].witness,
+      axios
+        .post("http://192.168.0.167:5000/getnames.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data[0].tester);
+          this.setState({
+            tester: res.data[0].tester,
+            witness: res.data[0].witness,
+          });
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
+    }
   };
   handleChangetestID = (value) => {
     axios
@@ -244,7 +246,7 @@ startY: 70
         <Layout class="layout-container">
           <h2 class="h2">Endurance Report</h2>
           <Form onFinish={this.onFinish}>
-            <Row style={{ paddingTop: "20px" }}>
+            <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
                 <label class="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
@@ -289,10 +291,10 @@ startY: 70
                     >
                       testno ?
                       {testno.map((it) => (
-                        <Option key={it.testno} value={it.testno}>
-                          {it.testno}
-                        </Option>
-                      ))}{" "}
+                      <Option key={it.testno} value={it.testno}>
+                        {it.testno}
+                      </Option>
+                    ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -302,7 +304,7 @@ startY: 70
 
             <Row
               style={{
-                paddingTop: "25px",
+                paddingTop: "0px",
                 paddingLeft: "30%",
                 paddingBottom: "10px",
               }}
@@ -324,8 +326,8 @@ startY: 70
           onClick={this.getreportpdf}
           style={{
             marginLeft: "1270px",
-            marginBottom: "20px",
-            marginTop: "20px",
+            marginBottom: "10px",
+            marginTop: "10px",
             width: "140px",
           }}
         >
@@ -343,9 +345,9 @@ startY: 70
             <div id="allreport">
               <div
                 class="mx-auto"
-                style={{ marginBottom: "2%", marginTop: "2%" }}
+                style={{ marginBottom: "1%", marginTop: "2%" }}
               >
-                <div class="sparkline12-hd" style={{ paddingBottom: "15px" }}>
+                <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                   <div
                     class="main-sparkline12-hd"
                     style={{ textAlign: "center" }}
@@ -357,7 +359,7 @@ startY: 70
 
               <div class="table-responsive">
                 <img src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
-                <table id="report-constants" style={{ marginTop: "50px" }}>
+                <table id="report-constants" style={{ marginTop: "10px" }}>
                   <tr>
                     <td>SERIAL NUMBER</td>
                     <td>{this.state.turboIdVal}</td>
@@ -431,7 +433,7 @@ startY: 70
                           textAlign: "center",
                         }}
                       >
-                        Turbo.InletTemp
+                        Turbo <br /> Inlet Temp
                       </th>
                     </tr>
                     <tr>
@@ -460,7 +462,7 @@ startY: 70
                           textAlign: "center",
                         }}
                       >
-                        Pressure(kg/cm^2)
+                        Pressure <br /> (kg/cm^2)
                       </th>
                       <th
                         style={{
@@ -469,7 +471,7 @@ startY: 70
                           textAlign: "center",
                         }}
                       >
-                        Tempr.
+                        Temperature
                         <br />
                         (deg.C)
                       </th>
@@ -586,7 +588,7 @@ startY: 70
                   </tbody>
                 </table>
               </div>
-              <div class="row" style={{ marginTop: "60px" }}>
+              <div class="row" style={{ marginTop: "10px" }}>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-4">
                   <label>

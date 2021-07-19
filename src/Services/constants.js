@@ -14,34 +14,54 @@ const url = {
   GRAPH_CHART_DATA: 'graph.php',
   SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
-  TABLE_STATUSDATA: 'statusValue.php'
+  TABLE_STATUSDATA: 'statusValue.php',
+  EXPORT_DATA: 'exportData.php',
+}
+const FormDetails = {
+  enter_email: 'Please input your Email!',
+  enter_password: 'Please input your Password!',
+  enter_username: 'Please input your username!',
+  email_notvalid: 'The input is not valid E-mail!',
+  password_notmatch: 'The two passwords that you entered do not match!',
+  confirm_password: 'Please confirm your Password!',
+  alert_email: 'Please enter a valid Email',
+  alert_registered_email: 'Sorry... Email already Registered',
+}
+const CompanyDetails = {
+  company_name: 'EnerTek Combuster',
+  company_data: 'A product powerd by Vaigunth EnerTek (Pvt.) Ltd.',
+  company_link: 'http://www.v-enertek.com/'
 }
 
-// const dashboardData = [{ "key": "1", "Name": "Combustor Outlet Temperature", "chosen": true },
-// { "key": "2", "Name": "Turbo Chrager Outlet Temperature ", "chosen": true },
-// { "key": "3", "Name": "Cumbustor Inlet pressure ", "chosen": true },
-// { "key": "4", "Name": "RPM Combustor", "chosen": true },
-// { "key": "5", "Name": "Gas Inlet pressure", "chosen": true },
-// { "key": "6", "Name": "Gas Flow", "chosen": true }
-// ]
-
-const dashboardData = [
-{ "key": "1", "Name": "Combustor Outlet Temperature ", "chosen": true },
-{ "key": "2", "Name": " Turbine Inlet Temperature ", "chosen": true },
-{ "key": "3", "Name": "Turbine Outlet Temperature ", "chosen": true },
-{ "key": "4", "Name": "Compressor Inlet Temperature ", "chosen": true },
-{ "key": "5", "Name": "Compressor Outlet Temperature", "chosen": true },
-{ "key": "6", "Name": "Ambient Temperature", "chosen": true },
-{ "key": "7", "Name": "Combustor Inlet Pressure", "chosen": false },
-{ "key": "8", "Name": "Fuel Line Pressure  ", "chosen": false },
-{ "key": "9", "Name": "Turbine Inlet Pressure", "chosen": false },
-{ "key": "10", "Name": "Ambient Pressure  ", "chosen": false },
-{ "key": "11", "Name": " Compressor Inlet Pressure", "chosen": false },
-{ "key": "12", "Name": "Compressor Outlet Pressure ", "chosen": false },
-{ "key": "13", "Name": "Ventury meter differential pressure", "chosen": false },
-{ "key": "14", "Name": "Fuel Flow Rate  ", "chosen": false },
-{ "key": "15", "Name": "Rpm sensor  ", "chosen": false },
+const dashboardDataVal = [
+  { "key": "0", "Name": "Combustor Outlet Temperature", "chosen": false },
+  { "key": "1", "Name": " Turbine Inlet Temperature", "chosen": true },
+  { "key": "2", "Name": "Turbine Outlet Temperature", "chosen": true },
+  { "key": "3", "Name": "Compressor Inlet Temperature", "chosen": false },
+  { "key": "4", "Name": "Compressor Outlet Temperature", "chosen": true },
+  { "key": "5", "Name": "Ambient Temperature", "chosen": false },
+  { "key": "6", "Name": "Combustor Inlet Pressure", "chosen": false },
+  { "key": "7", "Name": "Fuel Line Pressure", "chosen": false },
+  { "key": "8", "Name": "Turbine Inlet Pressure", "chosen": true },
+  { "key": "9", "Name": "Ambient Pressure", "chosen": false },
+  { "key": "10", "Name": " Compressor Inlet Pressure", "chosen": false },
+  { "key": "11", "Name": "Compressor Outlet Pressure", "chosen": false },
+  { "key": "12", "Name": "Ventury meter differential pressure", "chosen": false },
+  { "key": "13", "Name": "Fuel Flow Rate", "chosen": true },
+  { "key": "14", "Name": "Rpm sensor", "chosen": true },
 ]
+const dashboardSensor = {
+  sensorLabel: [
+    "Combustor Outlet Temperature", "Turbine Inlet Temperature",
+    "Turbine Outlet Temperature", "Compressor Inlet Temperature",
+    "Compressor Outlet Temperature", "Ambient Temperature",
+    "Combustor Inlet Pressure", "Fuel Line Pressure",
+    "Turbine Inlet Pressure", "Ambient Pressure ",
+    "Compressor Inlet Pressure", "Compressor Outlet Pressure",
+    "Ventury meter differential pressure",
+    "Fuel Flow Rate", "Rpm sensor",]
+}
+const targetKeysVal = ["1", "2", "4", "8", "13", "14"]
 
 const titleElements = [
   {
@@ -56,7 +76,12 @@ const testParamHash = {
   Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
   Resetdata: ['Reset Values'],
   Tester_warning: 'Already exists',
-  Witness_warning: 'Already exists'
+  Witness_warning: 'Already exists',
+  duplicate_msg: 'Duplicate value',
+  warning_Id: "Please select the turbo ID",
+  warning_mode: "Please select turbo mode",
+  warning_name: "Please enter tester name",
+  alert_targetval: "Please enter target values",
 }
 const turboConfigValue = {
   nozzleArea_min: 0.0002,
@@ -68,11 +93,17 @@ const turboConfigValue = {
   blade_max: 10,
   error_turbo_msg: 'Turbo ID alreadt exists',
   error_blade_msg: 'Please enter number of blades',
-  added_turbo_msg: 'TurboID added successfully'
+  added_turbo_msg: 'TurboID added successfully',
+  message_title: "INSTALLED MORE THAN 2 TURBINES",
+  description_data:
+    "The haredware is install with more than 2 trubines. Make sure there is only 2 trubines installed. ",
 }
 const dashboardDataMessage = {
   transfer_warning: 'select transfer data',
-  transfer_success: 'submitted successfully'
+  transfer_success: 'submitted successfully',
+  message_title: "SELECTED SENSORS ",
+  description_data: " Must select 6 sensors.",
+  msg_warning: "select only 6 data",
 }
 const endurence = {
   RPM: "53900+/-1%",
@@ -111,8 +142,13 @@ const Details = {
   ComperMassFlowRate: '55000',
   TotalMassFlowOfAir: '9000',
 }
+
+
 export {
-  url, dashboardData, titleElements,
+  url, FormDetails, CompanyDetails,
+  dashboardDataVal, targetKeysVal,
+  titleElements, dashboardSensor,
   testParamHash, turboConfigValue,
-  dashboardDataMessage, endurence, performance, ComparisonTableDetails, Details
+  dashboardDataMessage, endurence, performance,
+  ComparisonTableDetails, Details,
 }

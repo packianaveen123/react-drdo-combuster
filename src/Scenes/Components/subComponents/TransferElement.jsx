@@ -1,45 +1,29 @@
 import React from "react";
+import { Col, Row, Button, Form, Transfer, message, notification, } from "antd";
 import { connect } from "react-redux";
-import "antd/dist/antd.css";
-import { Col, Row, Button, Form, Transfer, message } from "antd";
 import {
-  updateTransferElement,
-  updateDashboardData,
+  updateDashboardData, updateTargetKeys
 } from "../../../Redux/action";
-import TurboConfig from "../../Pages/ConfigurationPage/TurboConfig";
-import { dashboardDataMessage } from "../../../Services/constants";
-const { transfer_warning, transfer_success } = dashboardDataMessage;
+import { dashboardDataMessage, dashboardDataVal } from "../../../Services/constants";
+const { transfer_warning, transfer_success,
+  message_title, description_data, msg_warning } = dashboardDataMessage;
+
+const key = "updatable";
 class TransferElement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       mockData: [],
       targetKeys: [],
-      dashboardData: [
-        { key: "1", Name: "Combustor Outlet Temperature ", chosen: true },
-        { key: "2", Name: " Turbine Inlet Temperature ", chosen: true },
-        { key: "3", Name: "Turbine Outlet Temperature ", chosen: true },
-        { key: "4", Name: "Compressor Inlet Temperature ", chosen: true },
-        { key: "5", Name: "Compressor Outlet Temperature", chosen: true },
-        { key: "6", Name: "Ambient Temperature", chosen: true },
-        { key: "7", Name: "Combustor Inlet Pressure", chosen: false },
-        { key: "8", Name: "Fuel Line Pressure  ", chosen: false },
-        { key: "9", Name: "Turbine Inlet Pressure", chosen: false },
-        { key: "10", Name: "Ambient Pressure  ", chosen: false },
-        { key: "11", Name: " Compressor Inlet Pressure", chosen: false },
-        { key: "12", Name: "Compressor Outlet Pressure ", chosen: false },
-        {
-          key: "13",
-          Name: "Ventury meter differential pressure",
-          chosen: false,
-        },
-        { key: "14", Name: "Fuel Flow Rate  ", chosen: false },
-        { key: "15", Name: "Rpm sensor  ", chosen: false },
-      ],
-    };
-  }
+      dashboardData: dashboardDataVal,
+    }
+  };
+
   componentDidMount() {
     this.getMock();
+    this.setState({
+      targetKeys: this.props.app.targetKeys,
+    })
   }
 
   getMock = () => {
@@ -52,63 +36,64 @@ class TransferElement extends React.Component {
         title: this.state.dashboardData[i].Name,
         chosen: this.state.dashboardData[i].chosen,
       };
-
       if (data.chosen) {
         targetKeys.push(data.key);
       }
       mockData.push(data);
-      // console.log(data);
     }
     this.setState({ mockData, targetKeys });
-    this.props.updateTransferElement(this.state.mockData);
-    this.props.updateDashboardData(this.state.targetKeys);
     console.log(this.state.mockData);
   };
-
+  openNotification = (value) => {
+    setTimeout(() => {
+      notification.open({
+        key,
+        message: message_title,
+        description: description_data,
+        value,
+      });
+    }, 1000);
+  };
   handleChange = (targetKeys, direction, moveKeys) => {
     console.log(targetKeys, direction, moveKeys);
-    const transValue = this.props.app.dashboardData.filter((it) =>
-      moveKeys.find((val) => val === it.key)
-    );
-    // console.log(transValue);
-    // console.log(transValue[0].chosen);
-    // this.props.app.dashboardData.map((it) => {
-    //   if (transValue) {
-    //     this.props.updateDashboardData();
-    //   }
-    // });
-    // if (transValue) {
-    //   this.props.updateDashboardData(transValue[0].chosen);
-    //   console.log(this.props.app.dashboardData);
-    // }
 
+    if (targetKeys.length < 6) {
+      this.openNotification("bottomRight");
+    }
     if (targetKeys.length > 6) {
-      message.warning("select only 6 data");
-    } else {
+      message.warning(msg_warning);
+    }
+    else {
       this.setState({
         targetKeys,
       });
-      this.props.updateDashboardData(this.state.targetKeys);
+      if (targetKeys.length < 6) {
+        this.openNotification("bottomRight");
+      } else {
+        this.props.updateTargetKeys(targetKeys)
+      }
+      console.log(this.state.targetKeys);
+      console.log(this.props.app.targetKeys);
     }
   };
 
   clearChosen = () => {
     this.getMock();
   };
-
   submitClick = () => {
-    if (this.state.targetKeys.length == 6) {
-      message.warning("transfer_warning");
+    if (this.state.targetKeys.length === 6) {
+      message.warning(transfer_warning);
     } else {
       console.log(this.state.mockData);
-      message.success("transfer_success");
-      // this.props.updateDashboardData(this.state.mockData);
-      //     console.log(this.props.app.dashboardData);
+      message.success(transfer_success);
     }
   };
-
   renderItem = (item) => {
-    const customLabel = <span className="custom-item">{item.title}</span>;
+    const customLabel = (
+      <span className="custom-item">
+        {item.title}
+      </span>
+    );
 
     return {
       label: customLabel, // for displayed item
@@ -120,6 +105,18 @@ class TransferElement extends React.Component {
     console.log(this.state.mockData);
     return (
       <div>
+        <Row>
+          <Col span={12}>
+            <h2 style={{ color: "rgb(151, 150, 151)", fontSize: "25px" }}>
+              Dashboard Configuration
+              </h2>
+          </Col>
+          <Col span={12}>
+            <h2 style={{ color: "rgb(151, 150, 151)", fontSize: "25px" }}>
+              Selected Param
+              </h2>
+          </Col>
+        </Row>
         <Form>
           <Transfer
             dataSource={this.state.mockData}
@@ -131,7 +128,6 @@ class TransferElement extends React.Component {
             onChange={this.handleChange}
             render={this.renderItem}
           />
-
           <Row
             style={{
               paddingTop: "25px",
@@ -139,7 +135,7 @@ class TransferElement extends React.Component {
               paddingBottom: "10px",
             }}
           >
-            <Col xs={3}>
+            {/* <Col xs={3}>
               <Form.Item>
                 <Button
                   htmlType="submit"
@@ -147,12 +143,12 @@ class TransferElement extends React.Component {
                   onClick={() => this.submitClick()}
                 >
                   {" "}
-                  Submit
-                </Button>
+                Submit
+              </Button>
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col xs={3}>
-              <Form.Item>
+              <Form.Item style={{ paddingLeft: '70%' }}>
                 <Button onClick={() => this.clearChosen()}> Reset</Button>
               </Form.Item>
             </Col>
@@ -167,8 +163,7 @@ const mapStateToProps = (state) => ({
   app: state.app,
 });
 const mapDispatchToProps = {
-  updateTransferElement,
-  updateDashboardData,
+  updateDashboardData, updateTargetKeys
 };
 
 const transferPage = connect(

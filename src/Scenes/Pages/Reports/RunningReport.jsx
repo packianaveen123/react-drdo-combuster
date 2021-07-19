@@ -32,32 +32,10 @@ class RunningReport extends Component {
     var doc = new jsPDF();
     doc.setFontSize(12);
 
-    // var img = new Image();
-    // img.src = 'F:/Naveen/DRDO/enertek-combuster/src/Images/bg.jpeg';
-    // doc.text(75, 10, "ENDURANCE TEST REPORT");
-    // doc.addImage(img, 'JPEG', 10, 10, 37, 16);
-    // //doc.text(10, 45, "Turbine Id: " + localStorage.getItem("rTurbineId"));
-
-    /*doc.autoTable({
-    html: '#example1',
-    didParseCell: function (cell, data) {
-    if (cell.row.section === 'body' && cell.row.index === 0) {
-      cell.cell.styles.fontStyle = 'bold';
-    }
-    },
-    startY: 70
-    })
-    */
-    doc.text(75, 10, "PERFORMENCE TEST REPORT");
+    doc.text(75, 10, "RUNNING TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
     doc.addImage(logo2, "PNG", 10, 25, 75, 20);
-    // const d = new Date(localStorage.getItem("rTestinDate"))
-    // const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
-    // const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d)
-    // const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
-    // doc.text(10, 55, "Testing Date: " + `${da}-${mo}-${ye}`);
-    //   doc.text(10, 65, "Test No: " + localStorage.getItem("rTestNo"));
     doc.autoTable({
       html: "#report-constants",
       startX: 50,
@@ -131,7 +109,7 @@ class RunningReport extends Component {
     ) {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
-    doc.setFontSize(12);
+    doc.setFontSize(8);
     //doc.setTextColor(255, 0, 0);
     doc.text(15, finalY + 10, "Tested By: ");
 
@@ -153,58 +131,58 @@ class RunningReport extends Component {
     var rWitnessNameAry = rWitnessName.split(",");
     incrementHeight = 5;
     if (rWitnessNameAry.length > 0) {
-      for (var i = 0; i < rWitnessNameAry.length; i++) {
+      for (i = 0; i < rWitnessNameAry.length; i++) {
         doc.text(150, finalY + 13 + incrementHeight, rWitnessNameAry[0]);
         incrementHeight += 5;
       }
     }
-
     doc.save("RunningReport.pdf");
   };
   getreport = () => {
-    axios
-      .post("http://192.168.0.167:5000/runningReport.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.setState({
-          reportOut1: res.data,
+    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+      axios
+        .post("http://192.168.0.167:5000/runningReport.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            reportOut1: res.data,
+          });
+          console.log(this.state.reportOut1);
+          console.log(this.state.reportOut2);
+          console.log(this.state.reportOut1[0].speed);
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-        console.log(this.state.reportOut1);
-        console.log(this.state.reportOut2);
-        console.log(this.state.reportOut1[0].speed);
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
-    axios
-      .post("http://192.168.0.167:5000/getnames.php", {
-        turboIdVal: this.state.turboIdVal,
-        testno: this.state.testno1,
-      })
-      .then((res) => {
-        console.log(res.data[0].tester);
-        this.setState({
-          tester: res.data[0].tester,
-          witness: res.data[0].witness,
+      axios
+        .post("http://192.168.0.167:5000/getnames.php", {
+          turboIdVal: this.state.turboIdVal,
+          testno: this.state.testno1,
+        })
+        .then((res) => {
+          console.log(res.data[0].tester);
+          this.setState({
+            tester: res.data[0].tester,
+            witness: res.data[0].witness,
+          });
+        })
+        .catch((err) => {
+          console.log(err.res);
         });
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
+    }
   };
-
   createPdf = (html) => Doc.createPdf(html);
   handleChangetestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
-        let chartdata = res.data;
+        let data = res.data;
         console.log(res);
         this.setState({
-          testno: chartdata,
+          testno: data,
         });
         this.setState({
           turboIdVal: value,
@@ -217,14 +195,15 @@ class RunningReport extends Component {
     console.log(this.state.turboIdVal);
     console.log(this.state.testno1);
   };
+
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-
     console.log(this.state.turboIdVal);
     console.log(this.state.testno1);
   };
+
   render() {
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
@@ -234,7 +213,7 @@ class RunningReport extends Component {
         <Layout class="layout-container">
           <h2 class="h2">Running Report</h2>
           <Form onFinish={this.onFinish}>
-            <Row style={{ paddingTop: "20px" }}>
+            <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
                 <label class="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
@@ -278,10 +257,10 @@ class RunningReport extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                        <Option key={it.testno} value={it.testno}>
-                          {it.testno}
-                        </Option>
-                      ))}{" "}
+                      <Option key={it.testno} value={it.testno}>
+                        {it.testno}
+                      </Option>
+                    ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -291,7 +270,7 @@ class RunningReport extends Component {
 
             <Row
               style={{
-                paddingTop: "25px",
+                paddingTop: "0px",
                 paddingLeft: "30%",
                 paddingBottom: "10px",
               }}
@@ -315,8 +294,8 @@ class RunningReport extends Component {
           onClick={this.getreportpdf}
           style={{
             marginLeft: "1270px",
-            marginBottom: "20px",
-            marginTop: "20px",
+            marginBottom: "10px",
+            marginTop: "10px",
             width: "140px",
           }}
         >
@@ -327,16 +306,16 @@ class RunningReport extends Component {
           class="bottom-container"
           style={{
             paddingTop: "10px",
-            paddingBottom: "30px",
+            paddingBottom: "10px",
             border: "solid white",
           }}
         >
           <div id="allreport">
             <div
               class="mx-auto"
-              style={{ marginBottom: "2%", marginTop: "2%" }}
+              style={{ marginBottom: "1%", marginTop: "2%" }}
             >
-              <div class="sparkline12-hd" style={{ paddingBottom: "15px" }}>
+              <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                 <div
                   class="main-sparkline12-hd"
                   style={{ textAlign: "center" }}
@@ -347,8 +326,8 @@ class RunningReport extends Component {
             </div>
 
             <div class="table-responsive">
-              <img src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
-              <table id="report-constants" style={{ marginTop: "50px" }}>
+              <img alt="logo" src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
+              <table id="report-constants" style={{ marginTop: "10px" }}>
                 <tr>
                   <td>SERIAL NUMBER</td>
                   <td>{this.state.turboIdVal}</td>
@@ -402,7 +381,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Inlet Temp
+                      Compressor <br />Inlet Temp
                     </th>
                     <th
                       style={{
@@ -411,7 +390,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Outlet Temp
+                      Compressor<br />Outlet Temp
                     </th>
                     <th
                       style={{
@@ -420,7 +399,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Outlet Pr
+                      Compressor<br />Outlet Pr
                     </th>
                     <th
                       style={{
@@ -429,7 +408,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Turbine.InletTemp
+                      Turbine <br />Inlet Temp
                     </th>
                     <th
                       style={{
@@ -438,7 +417,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Turbine.OutletTemp
+                      Turbine<br /> Outlet Temp
                     </th>
                     <th
                       style={{
@@ -447,7 +426,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Kerosine Flow Rate
+                      Kerosine<br />Flow Rate
                     </th>
                     <th
                       style={{
@@ -456,7 +435,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Compr.Pr Ratio
+                      Compressor <br /> Pr Ratio
                     </th>
                     <th
                       style={{
@@ -465,7 +444,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Mass Flow Rate
+                      Mass <br /> Flow Rate
                     </th>
                   </tr>
                   <tr>
@@ -494,7 +473,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      Pressure(kg/cm^2)
+                      Pressure<br />(kg/cm^2)
                     </th>
                     <th
                       style={{
@@ -514,45 +493,7 @@ class RunningReport extends Component {
                         textAlign: "center",
                       }}
                     >
-                      deg.C
-                    </th>
-                    <th
-                      style={{
-                        verticalAlign: "middle",
-                        border: "1px solid #6a6a6b",
-                        textAlign: "center",
-                      }}
-                    >
-                      RPM
-                    </th>
-                    <th
-                      style={{
-                        verticalAlign: "middle",
-                        border: "1px solid #6a6a6b",
-                        textAlign: "center",
-                      }}
-                    >
-                      minutes
-                    </th>
-                    <th
-                      style={{
-                        verticalAlign: "middle",
-                        border: "1px solid #6a6a6b",
-                        textAlign: "center",
-                      }}
-                    >
-                      Pressure(kg/cm^2)
-                    </th>
-                    <th
-                      style={{
-                        verticalAlign: "middle",
-                        border: "1px solid #6a6a6b",
-                        textAlign: "center",
-                      }}
-                    >
-                      Tempr.
-                      <br />
-                      (deg.C)
+                      kg/cm^2
                     </th>
                     <th
                       style={{
@@ -562,6 +503,42 @@ class RunningReport extends Component {
                       }}
                     >
                       deg.C
+                    </th>
+                    <th
+                      style={{
+                        verticalAlign: "middle",
+                        border: "1px solid #6a6a6b",
+                        textAlign: "center",
+                      }}
+                    >
+                      deg.C
+                    </th>
+                    <th
+                      style={{
+                        verticalAlign: "middle",
+                        border: "1px solid #6a6a6b",
+                        textAlign: "center",
+                      }}
+                    >
+                      kg/cm^2
+                    </th>
+                    <th
+                      style={{
+                        verticalAlign: "middle",
+                        border: "1px solid #6a6a6b",
+                        textAlign: "center",
+                      }}
+                    >
+                      %
+                    </th>
+                    <th
+                      style={{
+                        verticalAlign: "middle",
+                        border: "1px solid #6a6a6b",
+                        textAlign: "center",
+                      }}
+                    >
+                      %
                     </th>
                   </tr>
                 </thead>
@@ -577,19 +554,32 @@ class RunningReport extends Component {
                       <td style={{ border: "1px solid #6a6a6b" }}>
                         {it.Turbine_Inlet}
                       </td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {it.Turbine_Outlet}
+                      </td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {it.Compr_Outlet_Pr}
+                      </td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {it.Turbine_InletTemp}
+                      </td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {it.Turbine_OutletTemp}
+                      </td>
                       <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
-                      <td style={{ border: "1px solid #6a6a6b" }}></td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {it.Turbine_Outlet}
+                      </td>
+                      <td style={{ border: "1px solid #6a6a6b" }}>
+                        {" "}
+                        {it.Mass_Flow_Rate}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <div class="row" style={{ marginTop: "60px" }}>
+            <div class="row" style={{ marginTop: "10px" }}>
               <div class="col-lg-1"></div>
               <div class="col-lg-4">
                 <label>
