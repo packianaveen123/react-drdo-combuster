@@ -517,8 +517,6 @@ class TestPageContainer extends Component {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
 
-
-
     console.log(this.props.app.turboConfig)
     console.log(this.props.app.testIdValue)
     console.log(testIdValue)
