@@ -62,6 +62,11 @@ export const updateTargetKeys = data => ({
   type: 'UPDATE_TARGET_KEYS',
   payload: data
 })
+//tableViewData
+export const updateTableViewData = data => ({
+  type: 'UPDATE_TABLEVIEW_DATA',
+  payload: data
+})
 // testConfigTableEdit
 // tableEdit
 export const updateConfigTableEdit = data => ({
@@ -73,11 +78,6 @@ export const updateConfigTableEdit = data => ({
 export const updateAppState = path => ({
   type: 'UPDATE_APP_STATE',
   payload: path
-})
-// table
-export const updateTableData = data => ({
-  type: 'UPDATE_TABLE_DATA',
-  payload: data
 })
 //table statusData
 export const updateTableStatusData = data => ({

@@ -6,7 +6,7 @@ import {
 } from "../../../Redux/action";
 import { Col, Row, Layout } from "antd";
 import TableElement from "../../Components/subComponents/TableElement";
-
+import Demo from "../../Components/subComponents/Demo"
 class TestConfig extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +50,9 @@ class TestConfig extends Component {
             ) : (
               []
             )}
+            <div>
+              {/* <Demo /> */}
+            </div>
           </Layout>
         </div>
       </div>

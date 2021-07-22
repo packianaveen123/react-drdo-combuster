@@ -53,12 +53,12 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_TARGET_KEYS':
       newState.targetKeys = action.payload ? action.payload : []          //targetKeys
       return newState
+
+    case 'UPDATE_TABLEVIEW_DATA':
+      newState.tableViewData = action.payload ? action.payload : []          //tableViewData
+      return newState
     case 'UPDATE_APP_STATE':
       newState.appState = action.payload ? action.payload : 'login'
-      return newState
-
-    case 'UPDATE_TABLE_DATA':
-      newState.tableData = action.payload ? action.payload : []     //tableView
       return newState
 
     case 'UPDATE_TABLE_STATUS_DATA':

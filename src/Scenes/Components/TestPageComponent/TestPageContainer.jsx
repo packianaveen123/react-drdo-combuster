@@ -35,13 +35,15 @@ import {
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { testParamHash } from '../../../Services/constants';
+import { testParamHash, turboConfigValue, helpPopup } from '../../../Services/constants';
 
-const { Option } = Select;
+var { Option } = Select;
 const { Text } = Typography;
 const { SubMenu } = Menu;
 let count = 1
 const { duplicate_msg, warning_Id, warning_mode, warning_name, alert_targetval } = testParamHash;
+const { installed_turbine } = turboConfigValue;
+const { value, cooling_air, natural_gas, dilution, complressor_air } = helpPopup;
 class TestPageContainer extends Component {
   constructor(props) {
     super(props)
@@ -87,7 +89,7 @@ class TestPageContainer extends Component {
 
   componentDidMount() {
     requestStatusData((data) => {
-      if (data.length > 2) {
+      if (typeof data !== 'string' && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");
       }
     })
@@ -399,13 +401,6 @@ class TestPageContainer extends Component {
   }
 
   ResetonClick = () => {
-    // const dataBody = {
-    //   ResetRPM: this.props.app.resetRPM,
-    //   ResetTemp: this.props.app.resetTemp
-    // }
-    // resetClickEvent(dataBody, (data) => {
-    //   this.props.initiateShowReset(data)
-    // })
     axios.post('http://192.168.0.167:5000/reset.php',
       {
         ResetRPM: this.props.app.resetRPM,
@@ -455,13 +450,15 @@ class TestPageContainer extends Component {
   }
 
   Reloadall = () => {
-
+    // this.props.updateTableStatusData(undefined)
     this.props.stopDbInsert()
     this.props.updateTestIdCount('');
     this.props.updateTestIdValue('');
     this.props.updateTurboMode('')
+
     this.setState({
       turboIdDefaultValue: "Select Turbo ID",
+      turboIdValue: "Select Turbo ID",
       truboIDnum: false,
       turboMode: '',
       testingData: null,
@@ -488,12 +485,9 @@ class TestPageContainer extends Component {
       turboIdTestCount: null
     })
 
-
-
   }
   render() {
     console.log(this.props.app)
-    console.log(this.props.app.turboMode)
     const shutdownInitiated = this.props.app.shutdownInitiated;
     const communicationFailed = this.props.app.communicationFailed
     const communication = this.props.app.communication
@@ -510,14 +504,12 @@ class TestPageContainer extends Component {
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
     const testerDetails = this.state.testerItems
-
-    console.log(testerDetails)
+    console.log(this.props.app.testIdValue)
     var testIdValue = null;
-    if (this.props.app.statusData) {
+    if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
 
-    console.log(this.props.app.turboConfig)
     console.log(this.props.app.testIdValue)
     console.log(testIdValue)
     return (
@@ -540,19 +532,35 @@ class TestPageContainer extends Component {
                           <Col xs={5} style={{ marginTop: '20px' }}>
                             <label for="text" class="label" >Mode</label>
                           </Col>
-                          <Radio.Group name="radiogroup"
-                            defaultValue={this.props.app.turboMode}
-                            onChange={this.onChangeRadio}
-                            style={{
-                              border: '1px solid #3e434d',
-                              width: "300px",
-                              height: "40px",
-                              paddingTop: '4px',
-                              paddingLeft: '25px'
-                            }}>
-                            <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
-                            <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
-                          </Radio.Group>
+                          {
+                            communication ?
+                              <Radio.Group name="radiogroup"
+                                disabled
+                                style={{
+                                  border: '1px solid #3e434d',
+                                  width: "300px",
+                                  height: "40px",
+                                  paddingTop: '4px',
+                                  paddingLeft: '25px'
+                                }}>
+                                <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
+                                <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
+                              </Radio.Group>
+                              :
+                              <Radio.Group name="radiogroup"
+                                defaultValue={this.props.app.turboMode}
+                                onChange={this.onChangeRadio}
+                                style={{
+                                  border: '1px solid #3e434d',
+                                  width: "300px",
+                                  height: "40px",
+                                  paddingTop: '4px',
+                                  paddingLeft: '25px'
+                                }}>
+                                <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
+                                <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
+                              </Radio.Group>
+                          }
                         </Row>
                       </form>
                     </Col>
@@ -565,41 +573,55 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Turbo ID</label>
                           </Col>
                           <Col span={6}>
-                            <Input.Group compact>
-                              {
-                                testIdValue && testIdValue.length > 0 ?
+                            {
+                              communication ?
+                                <Input.Group compact>
                                   <Select
+                                    disabled
                                     defaultValue={this.state.turboIdDefaultValue}
                                     style={{ width: '300px' }}
-                                    onChange={this.handleChangetestID}
                                   >
-                                    {testIdValue.map(it => (
-                                      <Option key={it.turboname} value={it.turboname}>
-                                        {it.turboname}
-                                      </Option>
-                                    ))}
-                                  </Select> : <Text type="warning">No active turbines</Text>
-                              }
-                            </Input.Group>
+                                  </Select>
+                                </Input.Group>
+                                :
+                                <Input.Group compact>
+                                  {
+                                    testIdValue && testIdValue.length > 0 ?
+                                      <Select
+                                        defaultValue={this.state.turboIdDefaultValue}
+                                        style={{ width: '300px' }}
+                                        onChange={this.handleChangetestID}
+                                        value={this.state.turboIdValue}
+                                      >
+                                        {this.props.app.statusData.map(it => (
+                                          <Option key={it.turboname} value={it.turboname}>
+                                            {it.turboname}
+                                          </Option>
+                                        ))}
+                                      </Select> : <Text type="warning">No active turbines</Text>
+                                  }
+                                </Input.Group>
+                            }
                           </Col>
                         </Row>
                       </form>
-                      <Row style={{ paddingLeft: '5rem' }}>
-                        {
-                          this.state.truboIDnum ?
-                            <div
-                              style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
-                            >
-                              {this.props.app.testIdValue}
-                              {
-                                this.props.app.testIdValue ? < MinusOutlined style={{ color: '#42dbdc' }} />
-                                  : []
-                              }
-                              {this.props.app.turboIdTestCount}
-                            </div>
-                            : []
-                        }
-                      </Row>
+                      {this.props.app.statusData ?
+                        <Row style={{ paddingLeft: '5rem' }}>
+                          {
+                            this.state.truboIDnum ?
+                              <div
+                                style={{ color: 'white', marginLeft: '15px', marginTop: '10px' }}
+                              >
+                                {this.props.app.testIdValue}
+                                {
+                                  this.props.app.testIdValue ? < MinusOutlined style={{ color: '#42dbdc' }} />
+                                    : []
+                                }
+                                {this.props.app.turboIdTestCount}
+                              </div>
+                              : []
+                          }
+                        </Row> : []}
                     </Col>
                     <Col span={8}>
                       <form onSubmit={(e) => this.addTesterItem(e, 'tester')}>
@@ -608,13 +630,24 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Tester</label>
                           </Col>
                           <Col span={15} >
-                            <Input
-                              placeholder="Tester"
-                              name="Tester"
-                              style={{ width: "300px" }}
-                              value={this.state.currentTesterItem}
-                              onChange={this.handleTesterInput}
-                            />
+                            {
+                              communication ?
+                                <Input
+                                  disabled
+                                  placeholder="Tester"
+                                  name="Tester"
+                                  style={{ width: "300px" }}
+                                />
+                                :
+                                <Input
+                                  placeholder="Tester"
+                                  name="Tester"
+                                  style={{ width: "300px" }}
+                                  value={this.state.currentTesterItem}
+                                  onChange={this.handleTesterInput}
+                                />
+                            }
+
                           </Col>
                           <Col>
                             <button
@@ -636,14 +669,24 @@ class TestPageContainer extends Component {
                             <label for="text" class="label" >Witness</label>
                           </Col>
                           <Col span={15}>
-                            <Input
-                              placeholder="Witness"
-                              name="Witness"
-                              style={{ width: "300px" }}
-                              value={this.state.currentWitnessItem}
-                              onChange={this.handleWitnessInput}
-                              onfocus="this.value=''"
-                            />
+                            {
+                              communication ?
+                                <Input
+                                  disabled
+                                  placeholder="Witness"
+                                  name="Witness"
+                                  style={{ width: "300px" }}
+                                />
+                                :
+                                <Input
+                                  placeholder="Witness"
+                                  name="Witness"
+                                  style={{ width: "300px" }}
+                                  value={this.state.currentWitnessItem}
+                                  onChange={this.handleWitnessInput}
+                                  onfocus="this.value=''"
+                                />
+                            }
                           </Col>
                           <Col>
                             <button
@@ -792,15 +835,15 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={StartdataArray.find(it => it.name === 'stage3') ?
+                style={StartdataArray.find(it => it.name === 'Stage3') ?
                   { width: 185, cursor: 'pointer', borderColor: 'green' } :
                   { width: 185, borderColor: 'gray' }}>
-                {StartdataArray.find(it => it.name === 'stage3') ?
+                {StartdataArray.find(it => it.name === 'Stage3') ?
                   <SyncOutlined style={{ color: 'green' }} className="iconbutton1-basic" /> :
                   <SyncOutlined className="iconbutton1-basic" />
                 }
 
-                {StartdataArray.find(it => it.name === 'stage3') ?
+                {StartdataArray.find(it => it.name === 'Stage3') ?
                   <p style={{ color: '#42dad6', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p> :
                   <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 }
@@ -808,11 +851,11 @@ class TestPageContainer extends Component {
                 {communication ?
                   <p>
                     {
-                      StartdataArray.find(it => it.name === 'stage3') ?
+                      StartdataArray.find(it => it.name === 'Stage3') ?
                         <p>
                           <Row>
-                            <p>Reset Temp,</p>
-                            <p>&nbsp; RPM</p>
+                            <p>Reset Temp-</p>
+                            <p> RPM</p>
                           </Row>
                           <Row>
                             <Input
@@ -900,7 +943,7 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={shutdownInitiated ?
+                style={(shutdownInitiated || showTarget == false) ?
                   { width: 100, cursor: 'pointer', borderColor: 'green' } :
                   { width: 100, borderColor: 'gray' }}>
                 <div>
@@ -919,12 +962,12 @@ class TestPageContainer extends Component {
 
             <Col span={2}>
               <Popover
-                title={<div><p style={{ fontWeight: 'bold' }}>Valve status at: {this.state.valvestatustime}</p></div>}
-                content={<div><p>svcoolingair : {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
-                  <p>svnaturalgastopilotflame : {this.state.svnaturalgastopilotflame}</p>
-                  <p>svdilution : {this.state.svdilution}</p>
-                  <p>fcvcomplressorair : {this.state.fcvcomplressorair}</p>
-                  <p>svcoolingair : {this.state.fcvmaingasfuel}</p></div>}
+                title={<div><p style={{ fontWeight: 'bold' }}>{value} {this.state.valvestatustime}</p></div>}
+                content={<div><p>{cooling_air} {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
+                  <p>{natural_gas} {this.state.svnaturalgastopilotflame}</p>
+                  <p>{dilution} {this.state.svdilution}</p>
+                  <p>{complressor_air} {this.state.fcvcomplressorair}</p>
+                  <p>{cooling_air} {this.state.fcvmaingasfuel}</p></div>}
                 trigger="click"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}

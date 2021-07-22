@@ -18,14 +18,15 @@ const url = {
   EXPORT_DATA: 'exportData.php',
 }
 const FormDetails = {
-  enter_email: 'Please input your Email!',
-  enter_password: 'Please input your Password!',
+  enter_email: 'Please input your e-mail!',
+  enter_password: 'Please input your password!',
   enter_username: 'Please input your username!',
   email_notvalid: 'The input is not valid E-mail!',
   password_notmatch: 'The two passwords that you entered do not match!',
-  confirm_password: 'Please confirm your Password!',
-  alert_email: 'Please enter a valid Email',
-  alert_registered_email: 'Sorry... Email already Registered',
+  confirm_password: 'Please confirm your password!',
+  alert_email: 'Please enter a valid e-mail',
+  alert_registered_email: 'Sorry... e-mail already registered',
+  alert_msg_login: 'Username or Password is incorrect'
 }
 const CompanyDetails = {
   company_name: 'EnerTek Combuster',
@@ -72,8 +73,8 @@ const titleElements = [
 
 const testParamHash = {
   Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
-  Startdata: ['Start Completed', 'ignite', 'gasopened', 'stage1', 'fuelopened', 'stage2', 'fuelopened', 'stage2', 'gasclosed', 'stage3'],
-  Shutdowndata: ['shutdownInitiated', 'nshutdowncompleted'],
+  Startdata: ['Start Completed', 'Ignite', 'Gas Opened', 'Stage1', 'Ruel Opened', 'Stage2', 'Fuel Opened', 'Stage2', 'Gas Closed', 'Stage3'],
+  Shutdowndata: ['Shutdown Initiated', 'N.Shutdown Completed'],
   Resetdata: ['Reset Values'],
   Tester_warning: 'Already exists',
   Witness_warning: 'Already exists',
@@ -83,7 +84,15 @@ const testParamHash = {
   warning_name: "Please enter tester name",
   alert_targetval: "Please enter target values",
 }
+const helpPopup = {
+  value: 'Valve status at :',
+  cooling_air: 'svcoolingair :',
+  natural_gas: 'svnaturalgastopilotflame : ',
+  dilution: 'svdilution : ',
+  complressor_air: 'fcvcomplressorair : ',
+}
 const turboConfigValue = {
+  installed_turbine: 1,
   nozzleArea_min: 0.0002,
   nozzleArea_max: 0.0005,
   nozzleArea_step: 0.0001,
@@ -94,16 +103,16 @@ const turboConfigValue = {
   error_turbo_msg: 'Turbo ID alreadt exists',
   error_blade_msg: 'Please enter number of blades',
   added_turbo_msg: 'TurboID added successfully',
-  message_title: "INSTALLED MORE THAN 2 TURBINES",
+  message_title: "INSTALLED MORE THAN 1 TURBINES",
   description_data:
-    "The haredware is install with more than 2 trubines. Make sure there is only 2 trubines installed. ",
+    "The system is installed with more than 1 turbines. Make sure there is only 1 turbine is installed. ",
 }
 const dashboardDataMessage = {
-  transfer_warning: 'select transfer data',
-  transfer_success: 'submitted successfully',
+  transfer_warning: 'Select transfer data',
+  transfer_success: 'Submitted successfully',
   message_title: "SELECTED SENSORS ",
   description_data: " Must select 6 sensors.",
-  msg_warning: "select only 6 data",
+  msg_warning: "Select only 6 data",
 }
 const endurence = {
   RPM: "53900+/-1%",
@@ -150,5 +159,5 @@ export {
   titleElements, dashboardSensor,
   testParamHash, turboConfigValue,
   dashboardDataMessage, endurence, performance,
-  ComparisonTableDetails, Details,
+  ComparisonTableDetails, Details, helpPopup
 }

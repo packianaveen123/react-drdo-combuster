@@ -8,7 +8,7 @@ import {
   updateLoginEvent, updateUserName
 } from '../../../Redux/action';
 import { CompanyDetails, FormDetails } from '../../../Services/constants';
-const { enter_email, enter_password } = FormDetails;
+const { enter_email, enter_password, alert_msg_login } = FormDetails;
 const { company_name, company_data } = CompanyDetails;
 
 class LoginPage extends Component {
@@ -98,7 +98,7 @@ class LoginPage extends Component {
                             className="alert_error"
                             closable
                             onClose={this.alertOnClose}
-                            message="Username or Password is Incorrect"
+                            message={alert_msg_login}
                             type="error" />
                           : ''
                       }

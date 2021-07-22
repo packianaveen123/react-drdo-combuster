@@ -21,6 +21,7 @@ const InitialState = {
   paramConfig: [],
   dashboardData: dashboardDataVal,
   targetKeys: targetKeysVal,
+  tableViewData: [],
 
   // -- test details -- //
   testingPage: [],

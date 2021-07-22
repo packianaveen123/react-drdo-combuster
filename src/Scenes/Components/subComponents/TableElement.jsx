@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm, Button, Col, Row, Select, Tooltip } from 'antd';
+import { Table, Space, Input, Popconfirm, Button, Col, Row, Select, Tooltip, message } from 'antd';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
@@ -33,7 +33,7 @@ class TableComponent extends Component {
       turbo_status: [
         { status: 'installed' },
         { status: 'Completed' },
-        { status: 'onRepair' }
+        { status: 'OnHold' }
       ]
     }
     this.updateInputValue = this.updateInputValue.bind(this);
@@ -118,28 +118,29 @@ class TableComponent extends Component {
     })
   }
 
+
+
   static getDerivedStateFromProps(props, state) {
     return {
-      data: props.data || []
+      data: props.data || [],
     };
   }
   render() {
+    console.log(this.state.data)
     const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
     console.log(tableData)
 
-    if (editSession && tableData.length != 0) {
-
+    if (editSession && tableData.length !== 0 && tableData !== "no_data") {
       tableData.forEach((it, index) => {
-
-        console.log(editSession && (index != editRowIndex))
+        console.log(editSession && (index !== editRowIndex))
         it['Edit'] = <Space size="middle">
           <Tooltip placement="rightBottom" title={text}>
             <EditOutlined
               style={{
                 fontSize: '18px',
-                cursor: editRowIndex && index != editRowIndex ? "not-allowed! important" : "pointer"
+                cursor: editRowIndex && index != editRowIndex ? "not-allowed !important" : "pointer"
               }}
               onClick={() => {
                 if (editSession && !editRowIndex && editRowIndex !== 0) {
@@ -153,11 +154,13 @@ class TableComponent extends Component {
         </Space>
       })
     }
+    // }
+
     if (editCancel && !editMode) {
       tableData.forEach((item, index) => {
         if (index === editRowIndex) {
           Object.keys(item).map(it => {
-            if (it != 'Edit') {
+            if (it !== 'Edit') {
               editableColumn.map(colName => {
                 if (it === colName) {
                   item[it] = item[it].props.defaultValue

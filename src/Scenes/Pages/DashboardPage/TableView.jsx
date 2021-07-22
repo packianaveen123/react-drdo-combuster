@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import StatusBlock from '../../Components/TestPageComponent/StatusBlock';
 import { Table, Row, Col } from 'antd';
-import { updateTitleElements } from '../../../Redux/action'
+import { updateTitleElements, updateTableViewData } from '../../../Redux/action'
 import { connect } from 'react-redux';
-import { updateTableData } from '../../../Redux/action';
 import { getTableView } from '../../../Services/requests';
-
+import moment from "moment";
 var today = new Date(),
   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
 const columns = [
@@ -25,9 +24,9 @@ const columns = [
     key: 'normallimit',
   },
   {
-    title: 'unit_id',
-    dataIndex: 'unit_id',
-    key: 'unit_id',
+    title: 'unitName',
+    dataIndex: 'unitname',
+    key: 'unitname',
   },
   {
     title: 'upperlimit',
@@ -49,8 +48,20 @@ const columns1 = [
   {
     title: 'testcommandsTime',
     dataIndex: 'testcommandsTime',
+    hide: true,
     key: 'testcommandsTime',
   },
+  // {
+  //   title: 'testcommands_id',
+  //   dataIndex: 'testcommands_id',
+  //   key: 'testcommands_id',
+  //   hide: true,
+  //   defaultSortOrder: 'descend',
+  //   sorter: {
+  //     compare: (a, b) => a.testcommands_id - b.testcommands_id,
+  //     multiple: 2,
+  //   }
+  // },
 ];
 
 class TableView extends Component {
@@ -92,12 +103,14 @@ class TableView extends Component {
       this.setState({
         filteredTableData: filteredTableData
       })
-
+      this.props.updateTableViewData(filteredTableData)
     })
   }
 
+
   interval = setInterval(() => { this.testClick() }, 1000)
   render() {
+
     return (
       <div>
         <StatusBlock />
@@ -128,8 +141,8 @@ const mapStateToProps = state => ({
   app: state.app
 })
 const mapDispatchToProps = {
-  updateTableData,
-  updateTitleElements
+  updateTitleElements,
+  updateTableViewData
 }
 const Tabledata = connect(
   mapStateToProps,

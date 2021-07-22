@@ -14,7 +14,7 @@ class TestPage extends Component {
 
   render() {
     return (
-      <div>
+      <div >
         <StatusBlock />
         <TestPageContainer />
       </div>

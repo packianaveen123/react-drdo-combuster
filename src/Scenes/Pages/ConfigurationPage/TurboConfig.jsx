@@ -22,6 +22,7 @@ import moment from "moment";
 import "moment/locale/zh-cn";
 
 const {
+  installed_turbine,
   nozzleArea_min,
   nozzleArea_max,
   nozzleArea_step,
@@ -64,7 +65,7 @@ class TurboConfig extends Component {
 
   componentDidMount() {
     let data = this.props.appData.statusData;
-    if (data.length > 2) {
+    if (typeof data !== 'string' && data.length > installed_turbine) {
       this.setState({
         turbineStatus: true,
       });
@@ -131,7 +132,7 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
-
+    const communication = appData.communication
     if (this.state.turbineStatus) {
       this.openNotification("bottomRight");
     }

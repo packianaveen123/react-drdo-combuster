@@ -35,6 +35,7 @@ class LeftbarComponent extends Component {
     })
   }
   render() {
+    const communication = this.props.app.communication
     return (
       <Sider trigger={null} collapsible collapsed={this.props.leftBarView.leftBarView}>
         <Menu
@@ -51,7 +52,13 @@ class LeftbarComponent extends Component {
             <text style={{ marginBottom: '10px' }}>  Test </text>
           </Menu.Item>
           <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration" style={{ fontSize: '15px' }}  >
-            <Menu.Item key="turboConfig" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> Turbo Config </Menu.Item>
+            {
+              communication ?
+                <Menu.Item key="turboConfig" disabled icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> Turbo Config </Menu.Item>
+                :
+                <Menu.Item key="turboConfig" icon={<GiPaperWindmill style={{ color: '#42dbdc' }} />}> Turbo Config </Menu.Item>
+            }
+
             <Menu.Item key="dashboardConfig" icon={<FiSettings style={{ color: '#42dbdc' }} />}>Dashboard Config </Menu.Item>
             <Menu.Item key="testConfig" icon={<DiYii style={{ color: '#42dbdc' }} />}>  Test Config</Menu.Item>
           </SubMenu>

@@ -94,7 +94,9 @@ const updateConfigData = (data, callBack) => {
   axios.post(updateConfigDataUrl, data)
     .then(res => {
       let configData = res.data
+      console.log(res.data)
       callBack(configData)
+
     }).catch(err => {
       console.log(err.res)
     })
@@ -153,6 +155,7 @@ const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
     .then(res => {
       callBack(res.data)
+      console.log(res.data)
     })
     .catch(err => {
       console.log(err.res)

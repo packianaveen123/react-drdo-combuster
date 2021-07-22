@@ -48,16 +48,15 @@ class StatusBlock extends Component {
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
     console.log(dashboardDataNumArr);
 
-
-
     this.props.app.turboStart.map(It => {
-      if (It.name === 'nshutdowncompleted') {
+      if (It.name === 'N.Shutdown Completed') {
         nShutdown = true
       }
     })
 
     let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index));
     console.log("Label Name", filteredDataLabel);
+
 
     {
       this.props.app.chartData[0] ?
