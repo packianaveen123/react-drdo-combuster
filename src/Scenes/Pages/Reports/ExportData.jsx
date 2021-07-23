@@ -110,35 +110,9 @@ class ExportData extends Component {
       type: "Report",
     });
   }
-  // handleChangetestID = (value) => {
-  //   axios.post('http://192.168.0.167:6001/exportData.php', { turboIdVal: value }).then(res => {
-  //     let chartdata = res.data;
-  //     console.log(res)
-  //     this.setState({
-  //       testno: chartdata
-  //     })
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  //   this.setState({
-  //     turboIdVal: value
-  //   })
-  //   console.log(this.state.turboIdVal)
-  //   console.log(this.state.testno)
-  // }
-  // getReport = () => {
-  //   axios.post('http://192.168.0.167:6001/getReport.php', { turboIdVal: this.state.turboIdVal, testno: this.state.testno }).then(res => {
-  //     let chartdata = res.data;
-  //     console.log('chartdata:' + chartdata)
-  //     this.setState({
-  //       reportDetails: res.data
-  //     })
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // }
+
   getreport = () => {
-    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/getReport.php", {
           turboIdVal: this.state.turboIdVal,
@@ -292,7 +266,7 @@ class ExportData extends Component {
           <Row
             style={{
               paddingTop: "0px",
-              paddingLeft: "30%",
+              paddingLeft: "38%",
               paddingBottom: "25px",
             }}
           >
@@ -300,10 +274,10 @@ class ExportData extends Component {
               <Button onClick={() => this.getreport()}> View</Button>
               <span> &nbsp;</span>
             </Col>
-            <Col xs={4}>
+            {/* <Col xs={4}>
               <Button> Clear</Button>
               <span> &nbsp;</span>
-            </Col>
+            </Col> */}
           </Row>
         </Layout>
 

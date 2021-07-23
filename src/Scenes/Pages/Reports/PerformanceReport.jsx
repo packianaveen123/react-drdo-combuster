@@ -151,7 +151,7 @@ class PerformanceReport extends Component {
     doc.save("PerformanceReport.pdf");
   };
   getreport = () => {
-    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
           turboIdVal: this.state.turboIdVal,
@@ -317,7 +317,7 @@ class PerformanceReport extends Component {
             <Row
               style={{
                 paddingTop: "0px",
-                paddingLeft: "30%",
+                paddingLeft: "38%",
                 paddingBottom: "10px",
               }}
             >
@@ -326,11 +326,11 @@ class PerformanceReport extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              <Col xs={4}>
+              {/* <Col xs={4}>
                 <Form.Item>
                   <Button onlick={this.getClear}> Clear</Button>
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
         </Layout>

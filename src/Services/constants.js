@@ -14,7 +14,6 @@ const url = {
   SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
-  COMMUNICATION_STATUS: 'initialize.php',
 }
 const FormDetails = {
   enter_email: 'Please input your e-mail!',

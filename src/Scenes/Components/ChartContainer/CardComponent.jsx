@@ -140,9 +140,8 @@ class CardComponent extends Component {
   }
 
   interval = setInterval(() => {
-
     {
-      this.props.app.chartData.length != 0
+      this.props.app.chartData.length !== 0
         ? this.prepareChartParams(this.props.app.chartData)
         : this.prepareChartParams(this.state.dummygraphData);
     }
@@ -218,26 +217,6 @@ class CardComponent extends Component {
     console.log("ChartArray Value", this.props.app.chartData);
 
     let textColor;
-    // for (let i = 0; i < filteredDataText.length; i++) {
-    //   let upperLimitVal = parseInt(this.props.app.tableViewData[i].upperlimit);
-    //   let normalLimitVal = parseInt(this.props.app.tableViewData[i].normallimit);
-    //   let lowerLimitVal = parseInt(this.props.app.tableViewData[i].lowerlimit);
-    //   if (parseInt(filteredDataText[i]) > upperLimitVal) {
-    //     textColor = "red"
-    //   }
-    //   if (parseInt(filteredDataText[i]) > normalLimitVal && parseInt(filteredDataText[i]) < upperLimitVal) {
-    //     textColor = "green"
-    //     console.log('green')
-    //   }
-    //   if (parseInt(filteredDataText[i]) < normalLimitVal && parseInt(filteredDataText[i]) > lowerLimitVal) {
-    //     textColor = "yellow"
-    //     console.log('yellow')
-    //   }
-    //   console.log(this.props.app.tableViewData[i].upperlimit)
-    //   console.log(this.props.app.tableViewData[i].normallimit)
-    //   console.log(this.props.app.tableViewData[i].lowerlimit)
-    // }
-
     const chartValue = []
     for (let i = 0; i < filteredData.length; i++) {
       let chart =
@@ -273,7 +252,6 @@ class CardComponent extends Component {
   }
 
   render() {
-    const chartData = this.props.app.chartData ? this.props.app.chartData : null;
     console.log(this.props.app.chartData)
     if (this.state.cardList !== undefined && this.state.cardList.length >= 5) {
       return (

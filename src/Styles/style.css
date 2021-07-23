@@ -283,17 +283,14 @@ div#allreport h1 {
   border: 1px solid #3e434d;
   border-radius: 2px;
 }
-
 .ant-picker-suffix {
   color: rgb(151, 150, 151);
   font-size: 18px;
 }
-
 .ant-picker-input > input {
   color:rgb(151, 150, 151);
   font-size: 18px;
 }
-
 /* -----------------------
     Input dropown
 -------------------------- */
@@ -338,6 +335,8 @@ div#allreport h1 {
   text-align: center;
   line-height: 1.5;  
   padding: -0.55rem 0.75rem; 
+  text-align: center;
+  display: inline-block;
 }
 .ant-btn:hover, 
 .ant-btn:focus {

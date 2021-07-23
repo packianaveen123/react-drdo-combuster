@@ -139,7 +139,7 @@ class RunningReport extends Component {
     doc.save("RunningReport.pdf");
   };
   getreport = () => {
-    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/runningReport.php", {
           turboIdVal: this.state.turboIdVal,
@@ -271,7 +271,7 @@ class RunningReport extends Component {
             <Row
               style={{
                 paddingTop: "0px",
-                paddingLeft: "30%",
+                paddingLeft: "38%",
                 paddingBottom: "10px",
               }}
             >
@@ -280,11 +280,11 @@ class RunningReport extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              <Col xs={4}>
+              {/* <Col xs={4}>
                 <Form.Item>
                   <Button> Clear</Button>
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
         </Layout>

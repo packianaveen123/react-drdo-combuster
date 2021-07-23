@@ -11,7 +11,6 @@ class ChartComponent extends Component {
       title: this.props.title,
       backgroundColor: this.props.backgroundColor,
       borderColor: this.props.borderColor,
-      // textColor: this.props.textColor,
       textColor: 'blue',
       upperLimit: this.props.upperLimit,
       normalLimit: this.props.lowerLimit,
@@ -48,7 +47,7 @@ class ChartComponent extends Component {
 
 
   render() {
-    const { data, label, backgroundColor, borderColor, title, textColor, upperLimit, lowerLimit } = this.state
+    const { data, label, backgroundColor, borderColor, title, upperLimit, lowerLimit } = this.state
     let max = parseInt(upperLimit, 10);
     let min = parseInt(lowerLimit, 10);
     let titleColor;

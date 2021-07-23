@@ -214,3 +214,7 @@ export const getResetRPM = data => ({
   type: 'RESET_RPM',
   payload: data
 })
+export const updateDropDown = data => ({
+  type: 'UPDATE_DROPDOWN',
+  payload: data
+})

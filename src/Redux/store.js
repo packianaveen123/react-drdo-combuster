@@ -31,7 +31,7 @@ const InitialState = {
   turboIdTestCount: '',
   stopDbInsert: false,
   tableEdit: [],
-
+  testDropdown: 'sub1',
 
   // -- test page -- //
   statusData: '',

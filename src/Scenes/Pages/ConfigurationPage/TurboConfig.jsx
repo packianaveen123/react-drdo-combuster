@@ -132,7 +132,6 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
-    const communication = appData.communication
     if (this.state.turbineStatus) {
       this.openNotification("bottomRight");
     }

@@ -55,17 +55,28 @@ const columns = [
 
 const columns1 = [
   {
-    title: 'name',
-    dataIndex: 'name',
-    key: 'name',
+    title: "name",
+    dataIndex: "name",
+    key: "name",
+    render(text, record) {
+      console.log(record.value);
+      const getColor = () => {
+        if (text === "Reset Values") return "Reset Values  " + record.value;
+        return text;
+      };
+      return {
+        // props: {
+        //   style: { background: parseInt(text) > 50 ? "red" : "green" },
+        // },
+        children: getColor(),
+      };
+    },
   },
   {
-    title: 'testcommandsTime',
-    dataIndex: 'testcommandsTime',
-    key: 'testcommandsTime',
-
+    title: "testcommandsTime",
+    dataIndex: "testcommandsTime",
+    key: "testcommandsTime",
   },
-
 ];
 
 class TableView extends Component {

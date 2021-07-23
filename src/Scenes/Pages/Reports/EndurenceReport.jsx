@@ -3,12 +3,10 @@ import { Col, Row, Layout, Input, Button, Select, Form } from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
-import TableElement from "../../Components/subComponents/TableElement";
 import { endurence } from "../../../Services/constants";
 import Doc from "./DocService";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import logo from "../../../Images/logo.png";
 import logo2 from "../../../Images/logo2.png";
 
 const { Option } = Select;
@@ -37,33 +35,10 @@ class EndurenceReport extends Component {
   getreportpdf = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
-
-    // var img = new Image();
-    // img.src = 'F:/Naveen/DRDO/enertek-combuster/src/Images/bg.jpeg';
-    // doc.text(75, 10, "ENDURANCE TEST REPORT");
-    // doc.addImage(img, 'JPEG', 10, 10, 37, 16);
-    // //doc.text(10, 45, "Turbine Id: " + localStorage.getItem("rTurbineId"));
-
-    /*doc.autoTable({
-html: '#example1',
-didParseCell: function (cell, data) {
-if (cell.row.section == 'body' && cell.row.index === 0) {
-  cell.cell.styles.fontStyle = 'bold';
-}
-},
-startY: 70
-})
-*/
     doc.text(75, 10, "ENDURENCE TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
     doc.addImage(logo2, "PNG", 10, 25, 75, 20);
-    // const d = new Date(localStorage.getItem("rTestinDate"))
-    // const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
-    // const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d)
-    // const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
-    // doc.text(10, 55, "Testing Date: " + `${da}-${mo}-${ye}`);
-    //   doc.text(10, 65, "Test No: " + localStorage.getItem("rTestNo"));
     doc.autoTable({
       html: "#report-constants",
       startX: 50,
@@ -94,7 +69,7 @@ startY: 70
       startY: 70,
       didParseCell: function (cell, data) {
         if (
-          cell.row.section == "body" &&
+          cell.row.section === "body" &&
           (cell.row.index === 1 || cell.row.index === 3)
         ) {
           cell.cell.styles.fontStyle = "bold";
@@ -127,13 +102,13 @@ startY: 70
     let finalY = doc.lastAutoTable.finalY;
 
     let tester = this.state.tester;
-    if (null != localStorage.getItem("rTestedBy")) {
+    if (null !== localStorage.getItem("rTestedBy")) {
       tester = localStorage.getItem("rTestedBy");
     }
     let rWitnessName = this.state.witness;
     if (
       null != localStorage.getItem("rWitnessName") &&
-      localStorage.getItem("rWitnessName") != undefined
+      localStorage.getItem("rWitnessName") !== undefined
     ) {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
@@ -148,7 +123,7 @@ startY: 70
     var testerAry = tester.split(",");
     var incrementHeight = 5;
     if (testerAry.length > 0) {
-      for (var i = 0; i < testerAry.length; i++) {
+      for (i = 0; i < testerAry.length; i++) {
         doc.text(15, finalY + 13 + incrementHeight, testerAry[i]);
         incrementHeight += 5;
       }
@@ -168,7 +143,7 @@ startY: 70
     doc.save("Endurence Report.pdf");
   };
   getreport = () => {
-    if (this.state.turboIdVal != '' && this.state.testno1 != '') {
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Endurence.php", {
           turboIdVal: this.state.turboIdVal,
@@ -305,7 +280,7 @@ startY: 70
             <Row
               style={{
                 paddingTop: "0px",
-                paddingLeft: "30%",
+                paddingLeft: "38%",
                 paddingBottom: "10px",
               }}
             >
@@ -314,11 +289,11 @@ startY: 70
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              <Col xs={4}>
+              {/* <Col xs={4}>
                 <Form.Item>
                   <Button>Clear</Button>
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
           </Form>
         </Layout>
@@ -358,7 +333,7 @@ startY: 70
               </div>
 
               <div class="table-responsive">
-                <img src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
+                <img alt="logo" src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
                 <table id="report-constants" style={{ marginTop: "10px" }}>
                   <tr>
                     <td>SERIAL NUMBER</td>

@@ -17,7 +17,6 @@ const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-const communicationInitiateUrl = `${BASE_URL}${URL.COMMUNICATION_STATUS}`
 
 // Form requests
 const loginValidation = (values, callBack) => {
@@ -158,15 +157,7 @@ const getHandleChangetestID = (body, callBack) => {
       console.log(err.res)
     })
 };
-// communicationInitiate= () => {
-//   axios.get(communicationInitiateUrl)
-//     .then(res => {
-//       callBack(res.data)
-//     })
-//     .catch(err => {
-//       console.log(err.res)
-//     })
-//     }
+
 export {
   getTurboConfigData, turbineConfigSubmit,
   getTestConfigData, getParamConfigData,
@@ -174,6 +165,7 @@ export {
   updateConfigData, loginValidation,
   forgotValidation, registerPageValidation,
   getTableView, getSensorData,
-  getHandleChangetestID, requestStatusData
+  getHandleChangetestID, requestStatusData,
+
 
 }

@@ -24,7 +24,7 @@ import {
   updateChartData, navigateMainPage,
   updateTableStatusData, updateTestIdValue,
   updateTestIdCount, updateTurboMode,
-  updateTesterData,
+  updateTesterData, updateDropDown
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import {
@@ -259,12 +259,12 @@ class TestPageContainer extends Component {
   }
 
   initializeClick = () => {
-    this.props.startDbInsert()
+    this.props.startDbInsert();
+    this.props.updateDropDown(null);
     console.log(this.props.app.turboMode, this.props.app.testIdValue, this.state.testerItems.length)
     if (this.props.app.turboMode === '' || this.props.app.turboMode === undefined) {
       this.setState({
         errormsg: warning_mode
-
       })
       return
     }
@@ -281,8 +281,9 @@ class TestPageContainer extends Component {
       return
     }
 
-
-    if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" && this.props.app.turboMode !== '' && this.state.testerItems.length !== 0) {
+    if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" &&
+      this.props.app.turboMode !== '' && this.state.testerItems.length !== 0
+      && this.props.app.communication === false) {
       console.log(this.state.turboIdVal)
       axios.post('http://192.168.0.167:5000/gettestid.php',
         {
@@ -515,7 +516,7 @@ class TestPageContainer extends Component {
             <Menu
               style={{ width: "100%", backgroundColor: 'transparent', paddingRight: '20px' }}
               defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              defaultOpenKeys={[this.props.app.testDropdown]}
               theme="dark"
               mode="inline"
             >
@@ -755,7 +756,7 @@ class TestPageContainer extends Component {
                 { width: 185, cursor: 'pointer', borderColor: 'green' } :
                 { width: 185, borderColor: 'gray' }}>
                 {
-                  communication ?
+                  communication && showTarget !== true ?
                     <PlaySquareOutlined className="icon-button1" onClick={() => this.startClick()} /> :
                     <PlaySquareOutlined className="iconbutton1-basic" />
                 }
@@ -1009,7 +1010,8 @@ const mapDispatchToProps = {
   getResetRPM, updateChartData,
   stopDbInsert, startDbInsert,
   updateTestIdValue, updateTestIdCount,
-  updateTurboMode, updateTesterData
+  updateTurboMode, updateTesterData,
+  updateDropDown
 }
 
 const TestContainer = connect(

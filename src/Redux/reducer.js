@@ -157,13 +157,14 @@ const appReducer = (state = InitialState, action) => {
       newState.targetRPM = ''
       newState.targetTemp = ''
       newState.shutdownInitiated = false
-
       return newState
 
     case 'START_DB_INSERT':
       newState.stopDbInsert = false                                   //fuelOpened
       return newState
-
+    case 'UPDATE_DROPDOWN':
+      newState.testDropdown = action.payload                             //testDropdown
+      return newState
 
     default:
       return newState
