@@ -11,11 +11,10 @@ const url = {
   FORGOT_VALIDATION: 'forget.php',
   REGISTERPAGE_VALIDATION: 'Registration.php',
   TABLE_VIEW: 'tableview.php',
-  GRAPH_CHART_DATA: 'graph.php',
   SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
-  EXPORT_DATA: 'exportData.php',
+  COMMUNICATION_STATUS: 'initialize.php',
 }
 const FormDetails = {
   enter_email: 'Please input your e-mail!',

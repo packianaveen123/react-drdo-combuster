@@ -203,10 +203,6 @@ class TestPageContainer extends Component {
       this.props.updateTestIdCount(this.state.turboIdTestCount)
     })
   }
-
-  onClick = () => {
-    this.setState({ testerValue: true })
-  }
   shutdownClick = () => {
     this.setState({
       shutdownInitiated: true,

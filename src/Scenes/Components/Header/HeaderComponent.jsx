@@ -27,7 +27,6 @@ class HeaderComponent extends Component {
         <div className="logo" >
           {this.state.showCompanyName ? <LogoValue /> : null}
         </div>
-
         {
           React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {

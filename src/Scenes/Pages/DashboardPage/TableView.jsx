@@ -4,7 +4,7 @@ import { Table, Row, Col } from 'antd';
 import { updateTitleElements, updateTableViewData } from '../../../Redux/action'
 import { connect } from 'react-redux';
 import { getTableView } from '../../../Services/requests';
-import moment from "moment";
+
 var today = new Date(),
   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
 const columns = [
@@ -37,8 +37,22 @@ const columns = [
     title: 'Live Value',
     dataIndex: 'liveData',
     key: '',
+    render(liveData, upperlimit, lowerlimit) {
+      const getColor = () => {
+        if (parseInt(liveData) > parseInt(upperlimit.upperlimit)) return 'red';
+        if (parseInt(liveData) < parseInt(upperlimit.lowerlimit)) return 'yellow';
+        return 'green';
+      };
+      return {
+        props: {
+          style: { color: getColor() }
+        },
+        children: <div>{liveData}</div>
+      };
+    }
   }
 ];
+
 const columns1 = [
   {
     title: 'name',
@@ -48,20 +62,10 @@ const columns1 = [
   {
     title: 'testcommandsTime',
     dataIndex: 'testcommandsTime',
-    hide: true,
     key: 'testcommandsTime',
+
   },
-  // {
-  //   title: 'testcommands_id',
-  //   dataIndex: 'testcommands_id',
-  //   key: 'testcommands_id',
-  //   hide: true,
-  //   defaultSortOrder: 'descend',
-  //   sorter: {
-  //     compare: (a, b) => a.testcommands_id - b.testcommands_id,
-  //     multiple: 2,
-  //   }
-  // },
+
 ];
 
 class TableView extends Component {
@@ -83,6 +87,7 @@ class TableView extends Component {
 
   testClick = () => {
     getTableView((data) => {
+      console.log(this.props.app.turboStart)
       const arrStr = this.props.app.targetKeys;
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
       const liveDataObj = this.props.app.chartData[0]
@@ -128,7 +133,7 @@ class TableView extends Component {
               <Table
                 size='middle'
                 style={{ marginTop: '50px', paddingLeft: '30%', minWidth: '690px', float: 'right', }}
-                pagination={false} columns={columns1} dataSource={this.props.app.turboStart} />
+                pagination={false} columns={columns1} dataSource={this.props.app.turboStart.reverse()} />
             </Col>
           </Row>
 

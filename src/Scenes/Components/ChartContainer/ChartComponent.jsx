@@ -53,13 +53,13 @@ class ChartComponent extends Component {
     let min = parseInt(lowerLimit, 10);
     let titleColor;
     data.map(It => {
-      if (It > upperLimit) {
+      if (It > max) {
         titleColor = 'red'
       }
-      else if (It < upperLimit && It > lowerLimit) {
+      else if (It < max && It > min) {
         titleColor = 'green'
       }
-      else if (It < lowerLimit) {
+      else if (It < min) {
         titleColor = 'yellow'
       }
     })
@@ -109,6 +109,7 @@ class ChartComponent extends Component {
                 ticks: {
                   max: max,
                   min: min,
+                  stepSize: max / 10,
                   fontColor: 'rgba(255, 255, 255, 0.5)',
                 }
               }]

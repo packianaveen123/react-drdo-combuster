@@ -14,13 +14,40 @@ const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
 const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
 const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
-const chartDataUrl = `${BASE_URL}${URL.GRAPH_CHART_DATA}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-const exportDataUrl = `${BASE_URL}${URL.EXPORT_DATA}`
+const communicationInitiateUrl = `${BASE_URL}${URL.COMMUNICATION_STATUS}`
 
-
+// Form requests
+const loginValidation = (values, callBack) => {
+  axios.post(loginValidationUrl, values)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+}
+const forgotValidation = (values, callBack) => {
+  axios.post(forgotValidationUrl, values)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+const registerPageValidation = (values, callBack) => {
+  axios.post(registerPageValidationUrl, values)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+// Table & config table request
 const getTurboConfigData = (callBack) => {
   axios.get(turboConfigUrl).then(res => {
     let turboData = res.data
@@ -29,17 +56,27 @@ const getTurboConfigData = (callBack) => {
     console.log(err);
   })
 }
-const turbineConfigSubmit = (body, callBack) => {
-  axios.post(turboConfigSubmitUrl, body)
+const updateConfigData = (data, callBack) => {
+  console.log(data)
+  axios.post(updateConfigDataUrl, data)
     .then(res => {
-      if (res.data) {
-        console.log(res.data)
-        callBack(res.data)
-      }
+      let configData = res.data
+      console.log(res.data)
+      callBack(configData)
+
     }).catch(err => {
       console.log(err.res)
     })
 }
+const getTableView = (callBack) => {
+  axios.post(tableViewUrl)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
 const getTestConfigData = (callBack) => {
   axios.get(configTableUrl)
     .then(res => {
@@ -58,6 +95,20 @@ const getParamConfigData = (callBack) => {
       console.log(err);
     })
 }
+// TurboConfig page request
+const turbineConfigSubmit = (body, callBack) => {
+  axios.post(turboConfigSubmitUrl, body)
+    .then(res => {
+      if (res.data) {
+        console.log(res.data)
+        callBack(res.data)
+      }
+    }).catch(err => {
+      console.log(err.res)
+    })
+}
+
+// Test page request
 const shutdownClickEvent = (callBack) => {
   axios.post(shutdownClickEventUrl)
     .then(function (response) {
@@ -67,7 +118,6 @@ const shutdownClickEvent = (callBack) => {
       console.log(err);
     })
 }
-
 const requestStatusData = (callBack) => {
   axios.get(tableStatusDataUrl)
     .then(res => {
@@ -88,69 +138,6 @@ const resetClickEvent = (dataBody, callBack) => {
       console.log(err.res)
     })
 }
-
-const updateConfigData = (data, callBack) => {
-  console.log(data)
-  axios.post(updateConfigDataUrl, data)
-    .then(res => {
-      let configData = res.data
-      console.log(res.data)
-      callBack(configData)
-
-    }).catch(err => {
-      console.log(err.res)
-    })
-}
-
-const loginValidation = (values, callBack) => {
-  axios.post(loginValidationUrl, values)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-}
-
-const forgotValidation = (values, callBack) => {
-  axios.post(forgotValidationUrl, values)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-
-const registerPageValidation = (values, callBack) => {
-  axios.post(registerPageValidationUrl, values)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-const getTableView = (callBack) => {
-  axios.post(tableViewUrl)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-
-const getChartData = (callBack) => {
-  axios.post(chartDataUrl)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-
 const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
     .then(res => {
@@ -171,24 +158,22 @@ const getHandleChangetestID = (body, callBack) => {
       console.log(err.res)
     })
 };
-// report pages
-const getHandleChangeReport = (body, callBack) => {
-  axios.post(exportDataUrl, body)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+// communicationInitiate= () => {
+//   axios.get(communicationInitiateUrl)
+//     .then(res => {
+//       callBack(res.data)
+//     })
+//     .catch(err => {
+//       console.log(err.res)
+//     })
+//     }
 export {
   getTurboConfigData, turbineConfigSubmit,
   getTestConfigData, getParamConfigData,
   shutdownClickEvent, resetClickEvent,
   updateConfigData, loginValidation,
   forgotValidation, registerPageValidation,
-  getTableView, getChartData,
-  getSensorData, getHandleChangetestID,
-  requestStatusData, getHandleChangeReport
+  getTableView, getSensorData,
+  getHandleChangetestID, requestStatusData
 
 }

@@ -57,7 +57,6 @@ class StatusBlock extends Component {
     let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index));
     console.log("Label Name", filteredDataLabel);
 
-
     {
       this.props.app.chartData[0] ?
         filteredData = Object.values(this.props.app.chartData[0]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredData = []
