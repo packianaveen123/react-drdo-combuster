@@ -24,11 +24,10 @@ class LeftbarComponent extends Component {
       showMainViewSideBarText: true,
       showReportsSideBarText: true
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.siderHandleClick = this.siderHandleClick.bind(this)
   }
 
-  handleClick = (e, data) => {
-    console.log('click ', e);
+  siderHandleClick = (e, data) => {
     this.props.navigateMainPage(e.key)
     requestStatusData((data) => {
       this.props.updateTableStatusData(data)
@@ -40,7 +39,7 @@ class LeftbarComponent extends Component {
       <Sider trigger={null} collapsible collapsed={this.props.leftBarView.leftBarView}>
         <Menu
           theme="dark"
-          onClick={this.handleClick}
+          onClick={this.siderHandleClick}
           defaultSelectedKeys={['3']}
           mode="inline"
         >

@@ -3,15 +3,14 @@ import { Col, Row, Layout, Input, Button, Select, Form } from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
-import { endurence } from "../../../Services/constants";
-import Doc from "./DocService";
+import { endurence, CompanyDetails } from "../../../Services/constants";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
 
 const { Option } = Select;
 const { RPM, Minutes, trubineInletTemp } = endurence;
-
+const { drdo_logo } = CompanyDetails
 class EndurenceReport extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +112,6 @@ class EndurenceReport extends Component {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
     doc.setFontSize(8);
-    //doc.setTextColor(255, 0, 0);
     doc.text(15, finalY + 10, "Tested By: ");
 
     const textWidth = doc.getTextWidth("Tested By: ");
@@ -123,7 +121,7 @@ class EndurenceReport extends Component {
     var testerAry = tester.split(",");
     var incrementHeight = 5;
     if (testerAry.length > 0) {
-      for (i = 0; i < testerAry.length; i++) {
+      for (var i = 0; i < testerAry.length; i++) {
         doc.text(15, finalY + 13 + incrementHeight, testerAry[i]);
         incrementHeight += 5;
       }
@@ -134,7 +132,7 @@ class EndurenceReport extends Component {
     var rWitnessNameAry = rWitnessName.split(",");
     incrementHeight = 5;
     if (rWitnessNameAry.length > 0) {
-      for (var i = 0; i < rWitnessNameAry.length; i++) {
+      for (i = 0; i < rWitnessNameAry.length; i++) {
         doc.text(150, finalY + 13 + incrementHeight, rWitnessNameAry[0]);
         incrementHeight += 5;
       }
@@ -150,11 +148,9 @@ class EndurenceReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data);
           this.setState({
             reportOut: res.data[0],
           });
-          console.log(this.state.reportOut);
         })
         .catch((err) => {
           console.log(err.res);
@@ -165,7 +161,6 @@ class EndurenceReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data[0].tester);
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
@@ -181,7 +176,6 @@ class EndurenceReport extends Component {
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let chartdata = res.data;
-        console.log(res);
         this.setState({
           testno: chartdata,
         });
@@ -192,32 +186,22 @@ class EndurenceReport extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno);
   };
 
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
   render() {
-    console.log(this.state.reportOut.Duration);
     var rpm = Math.round(this.state.reportOut.speed_time * 100) / 100;
-    var Duration = Math.round(this.state.reportOut.Duration * 100) / 100;
     var Turbine_Inlet =
       Math.round(this.state.reportOut.Turbine_Inlet * 100) / 100;
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-    console.log(testno);
-    console.log(this.state.testno);
 
     return (
-      <div style={{ paddingTop: "1px" }}>
+      <div>
         <Layout class="layout-container">
           <h2 class="h2">Endurance Report</h2>
           <Form onFinish={this.onFinish}>
@@ -289,11 +273,6 @@ class EndurenceReport extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              {/* <Col xs={4}>
-                <Form.Item>
-                  <Button>Clear</Button>
-                </Form.Item>
-              </Col> */}
             </Row>
           </Form>
         </Layout>
@@ -333,7 +312,7 @@ class EndurenceReport extends Component {
               </div>
 
               <div class="table-responsive">
-                <img alt="logo" src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
+                <img alt="logo" src={drdo_logo} />
                 <table id="report-constants" style={{ marginTop: "10px" }}>
                   <tr>
                     <td>SERIAL NUMBER</td>

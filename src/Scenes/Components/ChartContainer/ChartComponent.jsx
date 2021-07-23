@@ -17,34 +17,6 @@ class ChartComponent extends Component {
       lowerLimit: this.props.lowerLimit
     }
   }
-  chartColor = () => {
-    for (let i = 0; i < this.state.data.length; i++) {
-      let upperLimitVal = parseInt(this.state.upperLimit);
-      let normalLimitVal = parseInt(this.state.normalLimit);
-      let lowerLimitVal = parseInt(this.state.lowerLimit);
-      if (parseInt(this.state.data[i]) > upperLimitVal) {
-        this.setState({
-          textColor: "red"
-        })
-        console.log(parseInt(this.state.data[i]))
-        console.log(upperLimitVal)
-      }
-      if (parseInt(this.state.data[i]) > normalLimitVal && parseInt(this.state.data[i]) < upperLimitVal) {
-        this.setState({
-          textColor: "green"
-        })
-      }
-      if (parseInt(this.state.data[i]) < normalLimitVal && parseInt(this.state.data[i]) > lowerLimitVal) {
-        this.setState({
-          textColor: "yellow"
-        })
-      }
-      console.log(this.props.app.tableViewData[i].upperlimit)
-      console.log(this.props.app.tableViewData[i].normallimit)
-      console.log(this.props.app.tableViewData[i].lowerlimit)
-    }
-  }
-
 
   render() {
     const { data, label, backgroundColor, borderColor, title, upperLimit, lowerLimit } = this.state

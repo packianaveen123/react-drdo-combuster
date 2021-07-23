@@ -12,7 +12,6 @@ class TitleElement extends Component {
   }
   render() {
     const titleValue = this.props.app.titleElements;
-
     return (
       <div>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>

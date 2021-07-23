@@ -56,11 +56,9 @@ const getTurboConfigData = (callBack) => {
   })
 }
 const updateConfigData = (data, callBack) => {
-  console.log(data)
   axios.post(updateConfigDataUrl, data)
     .then(res => {
       let configData = res.data
-      console.log(res.data)
       callBack(configData)
 
     }).catch(err => {
@@ -99,7 +97,6 @@ const turbineConfigSubmit = (body, callBack) => {
   axios.post(turboConfigSubmitUrl, body)
     .then(res => {
       if (res.data) {
-        console.log(res.data)
         callBack(res.data)
       }
     }).catch(err => {
@@ -141,7 +138,6 @@ const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
     .then(res => {
       callBack(res.data)
-      console.log(res.data)
     })
     .catch(err => {
       console.log(err.res)

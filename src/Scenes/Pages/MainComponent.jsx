@@ -33,17 +33,12 @@ import {
 const { Content, Header, Footer } = Layout;
 
 export class MainComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.stste = {
-    }
-  }
 
   componentDidMount() {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
       this.props.updateTurboConfig(data)
-      console.log(data)
+
     })
     getTestConfigData((data) => {
       this.props.updateTestConfigPage(data)
@@ -53,26 +48,21 @@ export class MainComponent extends Component {
     })
     turbineConfigSubmit((data) => {
       this.props.updateTurboConfig(data)
-      console.log(data)
     })
     requestStatusData((data) => {
       this.props.updateTableStatusData(data)
-      console.log(data)
     })
     getHandleChangetestID((data) => {
       this.props.updateTestIdCount(data)
-      console.log(data)
     })
     getTableView((data) => {
       this.props.updateTableViewData(data)
-      console.log(data)
     })
   }
 
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
-    console.log(this.props.app);
     return (
       <Layout>
         <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>

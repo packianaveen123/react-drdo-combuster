@@ -159,13 +159,11 @@ class PerformanceAfterEndurence extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data);
+
           this.setState({
             reportOut1: res.data[0],
             reportOut2: res.data[1],
           });
-          console.log(this.state.reportOut1);
-          console.log(this.state.reportOut2);
         })
         .catch((err) => {
           console.log(err.res);
@@ -176,7 +174,6 @@ class PerformanceAfterEndurence extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data[0].tester);
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
@@ -194,7 +191,6 @@ class PerformanceAfterEndurence extends Component {
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let chartdata = res.data;
-        console.log(res);
         this.setState({
           testno: chartdata,
         });
@@ -205,17 +201,11 @@ class PerformanceAfterEndurence extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno);
   };
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno);
   };
   clearReport = () => {
     this.setState({
@@ -250,10 +240,9 @@ class PerformanceAfterEndurence extends Component {
     var Surge_margin2 = Math.round(this.state.reportOut1.Surge_margin) / 100;
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-    console.log(testno);
-    console.log(this.state.testno);
+
     return (
-      <div style={{ paddingTop: "1px" }}>
+      <div>
         <Layout class="layout-container">
           <h2 class="h2">Performance After Endurence Report</h2>
           <Form onFinish={this.onFinish}>
@@ -325,11 +314,6 @@ class PerformanceAfterEndurence extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              {/* <Col xs={4}>
-                <Form.Item>
-                  <Button onClick={this.clearReport}> Clear</Button>
-                </Form.Item>
-              </Col> */}
             </Row>
           </Form>
         </Layout>

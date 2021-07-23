@@ -29,7 +29,8 @@ const FormDetails = {
 const CompanyDetails = {
   company_name: 'EnerTek Combuster',
   company_data: 'A product powerd by Vaigunth EnerTek (Pvt.) Ltd.',
-  company_link: 'http://www.v-enertek.com/'
+  company_link: 'http://www.v-enertek.com/',
+  drdo_logo: 'https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png',
 }
 
 const dashboardDataVal = [

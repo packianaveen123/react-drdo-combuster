@@ -38,7 +38,6 @@ class ForgotPassword extends Component {
 
   render() {
     const IsUserName = this.state.IsUserName;
-    console.log(IsUserName)
     return (
       <div class="background">
         <div class="wrapper">

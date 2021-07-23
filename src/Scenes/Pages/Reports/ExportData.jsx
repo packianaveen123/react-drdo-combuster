@@ -119,7 +119,6 @@ class ExportData extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data);
           this.setState({
             reportDetails: res.data,
           });
@@ -133,7 +132,6 @@ class ExportData extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data[0].tester);
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
@@ -144,14 +142,11 @@ class ExportData extends Component {
         });
     }
   };
-
-  // createPdf = (html) => Doc.createPdf(html);
   handleChangetestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let chartdata = res.data;
-        console.log(res);
         this.setState({
           testno: chartdata,
         });
@@ -162,17 +157,11 @@ class ExportData extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
   exportToCSV = (csvData, fileName) => {
     const fileType =
@@ -188,13 +177,10 @@ class ExportData extends Component {
     const input = document.getElementById("someRandomID");
     html2canvas(input).then((canvas) => {
       var imgWidth = 200;
-      var pageHeight = 290;
       var imgHeight = (canvas.height * imgWidth) / canvas.width;
-      var heightLeft = imgHeight;
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       var position = 0;
-      var heightLeft = imgHeight;
       pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
       pdf.save("download.pdf");
     });
@@ -202,11 +188,10 @@ class ExportData extends Component {
 
   render() {
     const testIdValue = this.props.app.turboConfig;
-    console.log(this.state.testno);
     const testno = this.state.testno;
     return (
       <div style={{ paddingTop: "1px" }}>
-        <Layout class="layout-container">
+        <Layout class="layout-container" >
           <h2 class="h2"> Export Report</h2>
           <Row style={{ paddingTop: "20px" }}>
             <Col sm={2}>
@@ -274,10 +259,6 @@ class ExportData extends Component {
               <Button onClick={() => this.getreport()}> View</Button>
               <span> &nbsp;</span>
             </Col>
-            {/* <Col xs={4}>
-              <Button> Clear</Button>
-              <span> &nbsp;</span>
-            </Col> */}
           </Row>
         </Layout>
 
@@ -296,7 +277,9 @@ class ExportData extends Component {
           Export in Excel
         </Button>
 
-        <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", width: 'auto' }}>
+        <Layout style={{
+          backgroundColor: "#131633", paddingLeft: "20px", width: 'auto', paddingTop: "10px", border: "solid white"
+        }}>
           <div id="allreport">
             <div class="mx-auto" style={{ marginTop: "2%" }}>
               <div class="main-sparkline12-hd" style={{ textAlign: "center" }}>

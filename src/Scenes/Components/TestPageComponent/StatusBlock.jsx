@@ -46,7 +46,6 @@ class StatusBlock extends Component {
 
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
-    console.log(dashboardDataNumArr);
 
     this.props.app.turboStart.map(It => {
       if (It.name === 'N.Shutdown Completed') {
@@ -55,18 +54,17 @@ class StatusBlock extends Component {
     })
 
     let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index));
-    console.log("Label Name", filteredDataLabel);
 
     {
       this.props.app.chartData[0] ?
         filteredData = Object.values(this.props.app.chartData[0]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredData = []
     }
-    console.log(filteredData)
+
     {
       this.props.app.chartData[1] ?
         filteredData1 = Object.values(this.props.app.chartData[1]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredData = []
     }
-    console.log(filteredData1)
+
     { this.props.app.chartData[0] ? persons = filteredData : persons = [0, 0, 0, 0, 0, 0] }
     { this.props.app.chartData[1] ? persons1 = filteredData1 : persons1 = [0, 0, 0, 0, 0, 0] }
 
@@ -76,9 +74,7 @@ class StatusBlock extends Component {
     const date = new Date();
     const db_date = new Date(receivedDate);
     let isActive = false;
-    // if ((date - db_date) < 10000) { isActive = true }
-    console.log(this.props.app.communication)
-    if (this.props.app.communication == true) {
+    if (this.props.app.communication === true) {
       isActive = true
     }
     return (

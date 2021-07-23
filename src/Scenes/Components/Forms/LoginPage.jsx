@@ -34,7 +34,6 @@ class LoginPage extends Component {
       }
       else if (data == "failed") {
         this.state.IsLogin = true;
-        console.log(this.state.IsLogin)
         this.setState({ redirect: false });
       }
     })

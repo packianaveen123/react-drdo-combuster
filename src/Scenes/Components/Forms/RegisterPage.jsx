@@ -32,12 +32,10 @@ class RegisterPage extends Component {
       }
       else if (data == "Sorry... username already taken") {
         this.state.IsuserName_reg = true;
-        console.log(this.state.IsuserName_reg)
         this.setState({ redirect: false });
       }
       else if (data == "email already taken") {
         this.state.Isemail_reg = true;
-        console.log(this.state.Isemail_reg)
         this.setState({ redirect: false });
       }
 
@@ -46,7 +44,6 @@ class RegisterPage extends Component {
 
   backToLoginEvent = () => {
     this.props.updateAppState('login');
-    console.log(this.props.initiateRegisterState)
   }
 
   render() {

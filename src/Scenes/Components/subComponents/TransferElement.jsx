@@ -29,7 +29,6 @@ class TransferElement extends React.Component {
   getMock = () => {
     const targetKeys = [];
     const mockData = [];
-    console.log(this.state.dashboardData);
     for (let i = 0; i < this.state.dashboardData.length; i++) {
       const data = {
         key: this.state.dashboardData[i].key,
@@ -42,7 +41,6 @@ class TransferElement extends React.Component {
       mockData.push(data);
     }
     this.setState({ mockData, targetKeys });
-    console.log(this.state.mockData);
   };
   openNotification = (value) => {
     setTimeout(() => {
@@ -55,8 +53,6 @@ class TransferElement extends React.Component {
     }, 1000);
   };
   handleChange = (targetKeys, direction, moveKeys) => {
-    console.log(targetKeys, direction, moveKeys);
-
     if (targetKeys.length < 6) {
       this.openNotification("bottomRight");
     }
@@ -72,22 +68,13 @@ class TransferElement extends React.Component {
       } else {
         this.props.updateTargetKeys(targetKeys)
       }
-      console.log(this.state.targetKeys);
-      console.log(this.props.app.targetKeys);
     }
   };
 
   clearChosen = () => {
     this.getMock();
   };
-  submitClick = () => {
-    if (this.state.targetKeys.length === 6) {
-      message.warning(transfer_warning);
-    } else {
-      console.log(this.state.mockData);
-      message.success(transfer_success);
-    }
-  };
+
   renderItem = (item) => {
     const customLabel = (
       <span className="custom-item">
@@ -102,7 +89,6 @@ class TransferElement extends React.Component {
   };
 
   render() {
-    console.log(this.state.mockData);
     return (
       <div>
         <Row>
@@ -135,18 +121,6 @@ class TransferElement extends React.Component {
               paddingBottom: "10px",
             }}
           >
-            {/* <Col xs={3}>
-              <Form.Item>
-                <Button
-                  htmlType="submit"
-                  style={{ width: "82px" }}
-                  onClick={() => this.submitClick()}
-                >
-                  {" "}
-                Submit
-              </Button>
-              </Form.Item>
-            </Col> */}
             <Col xs={3}>
               <Form.Item style={{ paddingLeft: '70%' }}>
                 <Button onClick={() => this.clearChosen()}> Reset</Button>

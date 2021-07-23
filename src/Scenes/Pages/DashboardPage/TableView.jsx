@@ -5,8 +5,7 @@ import { updateTitleElements, updateTableViewData } from '../../../Redux/action'
 import { connect } from 'react-redux';
 import { getTableView } from '../../../Services/requests';
 
-var today = new Date(),
-  time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+
 const columns = [
   {
     title: 'Param',
@@ -59,15 +58,11 @@ const columns1 = [
     dataIndex: "name",
     key: "name",
     render(text, record) {
-      console.log(record.value);
       const getColor = () => {
         if (text === "Reset Values") return "Reset Values  " + record.value;
         return text;
       };
       return {
-        // props: {
-        //   style: { background: parseInt(text) > 50 ? "red" : "green" },
-        // },
         children: getColor(),
       };
     },
@@ -98,7 +93,6 @@ class TableView extends Component {
 
   testClick = () => {
     getTableView((data) => {
-      console.log(this.props.app.turboStart)
       const arrStr = this.props.app.targetKeys;
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
       const liveDataObj = this.props.app.chartData[0]
@@ -147,7 +141,6 @@ class TableView extends Component {
                 pagination={false} columns={columns1} dataSource={this.props.app.turboStart.reverse()} />
             </Col>
           </Row>
-
         </div>
       </div>
     )

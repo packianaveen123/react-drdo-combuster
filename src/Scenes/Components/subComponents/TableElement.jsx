@@ -91,7 +91,6 @@ class TableComponent extends Component {
     }
 
     updateConfigData(configDataValue, (data) => {
-      console.log(data)
       if (data) {
         let key = this.props.childrenColumnName;
         this.setState({
@@ -100,7 +99,6 @@ class TableComponent extends Component {
           editData: [],
           editCancel: false
         })
-        console.log(key)
         if (key === "testparamconfig") {
           this.props.updateTestConfigPage(data)
         }
@@ -114,7 +112,6 @@ class TableComponent extends Component {
       requestStatusData((data) => {
         this.props.updateTableStatusData(data)
       })
-      console.log(data)
     })
   }
 
@@ -126,11 +123,9 @@ class TableComponent extends Component {
     };
   }
   render() {
-    console.log(this.state.data)
     const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
     const editRowIndex = this.state.editRowIndex;
-    console.log(tableData)
 
     if (editSession && tableData.length !== 0 && tableData !== "no_data") {
       tableData.forEach((it, index) => {
@@ -229,15 +224,13 @@ class TableComponent extends Component {
     let columns = []
     if ((tableData !== null || tableData !== undefined) && tableData.length > 0) {
       columns = Object.keys(tableData[0])
-      console.log(tableData)
-      console.log(columns)
     }
     return (
       <div>
         <div>
           <Row style={{ float: 'right' }}>
             {
-              this.props.childrenColumnName == "testparamconfig" ?
+              this.props.childrenColumnName === "testparamconfig" ?
                 <Col xs={12}>
                   <Button
                     type="primary"
@@ -269,7 +262,7 @@ class TableComponent extends Component {
           {
             columns && columns.length > 0 ?
               columns.map((col) => {
-                if (col != this.props.configIdKeyValue) {
+                if (col !== this.props.configIdKeyValue) {
                   return <Column title={col} key={col} dataIndex={col}
                   />
                 }

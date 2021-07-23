@@ -5,10 +5,10 @@ import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
 import jsPDF from "jspdf";
 import Doc from "./DocService";
-
+import { CompanyDetails } from "../../../Services/constants";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
-
+const { drdo_logo } = CompanyDetails
 const { Option } = Select;
 class RunningReport extends Component {
   constructor(props) {
@@ -146,13 +146,9 @@ class RunningReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data);
           this.setState({
             reportOut1: res.data,
           });
-          console.log(this.state.reportOut1);
-          console.log(this.state.reportOut2);
-          console.log(this.state.reportOut1[0].speed);
         })
         .catch((err) => {
           console.log(err.res);
@@ -163,7 +159,6 @@ class RunningReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data[0].tester);
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
@@ -180,7 +175,6 @@ class RunningReport extends Component {
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let data = res.data;
-        console.log(res);
         this.setState({
           testno: data,
         });
@@ -191,17 +185,12 @@ class RunningReport extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
 
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
 
   render() {
@@ -280,11 +269,6 @@ class RunningReport extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              {/* <Col xs={4}>
-                <Form.Item>
-                  <Button> Clear</Button>
-                </Form.Item>
-              </Col> */}
             </Row>
           </Form>
         </Layout>
@@ -326,7 +310,7 @@ class RunningReport extends Component {
             </div>
 
             <div class="table-responsive">
-              <img alt="logo" src="https://www.drdo.gov.in/sites/default/files/drdo_logo_0.png" />
+              <img alt="logo" src={drdo_logo} />
               <table id="report-constants" style={{ marginTop: "10px" }}>
                 <tr>
                   <td>SERIAL NUMBER</td>

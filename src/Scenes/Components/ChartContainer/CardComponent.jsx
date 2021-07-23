@@ -10,7 +10,6 @@ class CardComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       chartValue: [],
       textColor: '',
       cardList: [], dummygraphData: [
@@ -129,13 +128,12 @@ class CardComponent extends Component {
     const stableValue = this.props.app.dashboardData.filter((it) =>
       this.props.app.targetKeys.find((val) => val === it.key)
     );
-    console.log(stableValue);
     getTableView((data) => {
       const arrStr = this.props.app.targetKeys;
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
       let filteredTableData = data.filter((_, index) => dashboardDataNumArr.includes(index));
       this.props.updateTableViewData(filteredTableData)
-      console.log(data)
+
     })
   }
 
@@ -145,11 +143,8 @@ class CardComponent extends Component {
         ? this.prepareChartParams(this.props.app.chartData)
         : this.prepareChartParams(this.state.dummygraphData);
     }
-
   }, 1000);
-  toggleBorder = () => {
-    this.setState({ loading: !this.state.loading })
-  }
+
   prepareChartParams = (chartdata) => {
     let t1 = [];
     let t2 = [];
@@ -214,7 +209,6 @@ class CardComponent extends Component {
       this.props.app.chartData[0] ?
         filteredDataText = Object.values(this.props.app.chartData[0]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredDataText = []
     }
-    console.log("ChartArray Value", this.props.app.chartData);
 
     let textColor;
     const chartValue = []
@@ -252,7 +246,6 @@ class CardComponent extends Component {
   }
 
   render() {
-    console.log(this.props.app.chartData)
     if (this.state.cardList !== undefined && this.state.cardList.length >= 5) {
       return (
         <div className="site-card-wrapper">

@@ -28,7 +28,7 @@ import {
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import {
-  shutdownClickEvent, resetClickEvent,
+  shutdownClickEvent,
   getSensorData,
   getHandleChangetestID,
   requestStatusData
@@ -117,9 +117,7 @@ class TestPageContainer extends Component {
         testerItems: [...testerItems, newItem],
         currentTesterItem: null
       })
-      console.log(this.state.testerItems)
     }
-    console.log(this.state.testerItems)
   }
 
   addWitnessItem(e) {
@@ -165,30 +163,23 @@ class TestPageContainer extends Component {
   }
 
   onChangeRadio = (e) => {
-    console.log('radio checked', e.target.value);
     this.setState({
       turboMode: e.target.value
     })
     let data = e.target.value
     this.props.updateTurboMode(data)
-    console.log(this.props.app.turboMode)
   };
-
 
   handleChangetestID = (value) => {
     this.setState({
       truboIDnum: true
     })
     this.props.updateTestIdValue(value)
-    console.log(this.props.app.testIdValue)
     const body = {
       turboIdValue: value
     }
     let that = this;
     getHandleChangetestID(body, (data) => {
-      console.log(data)
-
-      console.log(this.props.app.turboIdTestCount)
       if (data === "" || data.length === 0) {
         that.setState({
           turboIdTestCount: 1
@@ -199,7 +190,6 @@ class TestPageContainer extends Component {
           turboIdTestCount: data
         })
       }
-      console.log(this.state.turboIdTestCount)
       this.props.updateTestIdCount(this.state.turboIdTestCount)
     })
   }
@@ -217,7 +207,6 @@ class TestPageContainer extends Component {
     axios.get('http://192.168.0.167:5000/graph.php').then(res => {
       let chartdata = res.data;
       this.props.updateChartData(chartdata);
-      console.log(chartdata)
     }).catch(err => {
       console.log(err);
     })
@@ -238,16 +227,13 @@ class TestPageContainer extends Component {
     axios.get('http://192.168.0.167:5000/initialize.php')
       .then(res => {
         let CommunicationData = res.data;
-        console.log(CommunicationData);
         if (CommunicationData.status === "1") {
-          console.log(this.props)
           this.props.initiateCommunication();
         }
         if (CommunicationData.status === "") {
           this.props.initiateCommunicationFailed();
         }
         this.initializeTestClick()
-        console.log(this.props.app.initiateCommunication)
       })
       .catch((err) => {
         console.log(err);
@@ -261,7 +247,6 @@ class TestPageContainer extends Component {
   initializeClick = () => {
     this.props.startDbInsert();
     this.props.updateDropDown(null);
-    console.log(this.props.app.turboMode, this.props.app.testIdValue, this.state.testerItems.length)
     if (this.props.app.turboMode === '' || this.props.app.turboMode === undefined) {
       this.setState({
         errormsg: warning_mode
@@ -313,7 +298,6 @@ class TestPageContainer extends Component {
     })
     axios.get('http://192.168.0.167:8000/testdata.php')
       .then(function (response) {
-        console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -324,7 +308,6 @@ class TestPageContainer extends Component {
     var self = this;
     axios.get('http://192.168.0.167:5000/valvestatus.php')
       .then(function (response) {
-        console.log(response.data.valvestatus, response.data.testcommandsTime);
         let valvedate = response.data.valvestatus
         self.setState({
           valvestatustime: response.data.testcommandsTime
@@ -369,28 +352,24 @@ class TestPageContainer extends Component {
   }
 
   onChangeResettempvalue = event => {
-    console.log(event.target.value)
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getResetTemp(event.target.value);
     }
   }
   onChangeResetRPMvalue = event => {
-    console.log(event.target.value)
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getResetRPM(event.target.value);
     }
   }
   onChangetempvalue = event => {
-    console.log(event.target.value)
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getTargetTemp(event.target.value);
     }
   }
   onChangeRPMvalue = event => {
-    console.log(event.target.value)
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getTargetRPM(event.target.value);
@@ -415,7 +394,6 @@ class TestPageContainer extends Component {
     if (this.props.app.communication === true) {
       if (this.props.app.targetRPM !== '' && this.props.app.targetTemp !== '') {
         this.props.initiateShowTarget();
-        console.log(this.props.getTargetTemp);
         this.setState({
           shutdownEnable: true
         })
@@ -425,12 +403,10 @@ class TestPageContainer extends Component {
         axios.post('http://192.168.0.167:5000/start.php', { targetRPM: this.props.app.targetRPM, targetTemp: this.props.app.targetTemp },)
           .then(res => {
             let startData = res.data;
-            console.log(this.props.app.turboStart)
             axios.post('http://192.168.0.167:7000/testdatainsert.php')
               .then(function (response) {
-                console.log(response);
-              })
 
+              })
           }).catch((err) => {
             console.log(err);
           })
@@ -447,7 +423,6 @@ class TestPageContainer extends Component {
   }
 
   Reloadall = () => {
-    // this.props.updateTableStatusData(undefined)
     this.props.stopDbInsert()
     this.props.updateTestIdCount('');
     this.props.updateTestIdValue('');
@@ -484,7 +459,6 @@ class TestPageContainer extends Component {
 
   }
   render() {
-    console.log(this.props.app)
     const shutdownInitiated = this.props.app.shutdownInitiated;
     const communicationFailed = this.props.app.communicationFailed
     const communication = this.props.app.communication
@@ -501,14 +475,11 @@ class TestPageContainer extends Component {
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
     const testerDetails = this.state.testerItems
-    console.log(this.props.app.testIdValue)
+
     var testIdValue = null;
     if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
-
-    console.log(this.props.app.testIdValue)
-    console.log(testIdValue)
     return (
       <div style={{ paddingTop: "25px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", minHeight: "768px" }}>
@@ -887,7 +858,6 @@ class TestPageContainer extends Component {
                               if (item.name === "stage3" && count === 1) {
                                 this.props.initiateStageThree();
                                 count++;
-                                console.log(count)
                               }
                             })()}
                           </div>
@@ -940,17 +910,17 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={(shutdownInitiated || showTarget == false) ?
+                style={(shutdownInitiated || showTarget === false) ?
                   { width: 100, cursor: 'pointer', borderColor: 'green' } :
                   { width: 100, borderColor: 'gray' }}>
                 <div>
-                  {(shutdownInitiated || showTarget == false) ?
+                  {(shutdownInitiated || showTarget === false) ?
                     <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
                     <RedoOutlined className="iconbutton2-basic" />
                   }
                 </div>
                 {
-                  (shutdownInitiated || showTarget == false) ?
+                  (shutdownInitiated || showTarget === false) ?
                     < p style={{ color: '#42dad6', fontSize: "20px" }}>Reset</p> :
                     <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
                 }

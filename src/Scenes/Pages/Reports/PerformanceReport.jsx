@@ -121,7 +121,6 @@ class PerformanceReport extends Component {
       rWitnessName = localStorage.getItem("rWitnessName");
     }
     doc.setFontSize(8);
-    //doc.setTextColor(255, 0, 0);
     doc.text(15, finalY + 10, "Tested By: ");
 
     const textWidth = doc.getTextWidth("Tested By: ");
@@ -158,13 +157,11 @@ class PerformanceReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data);
+
           this.setState({
             reportOut1: res.data[0],
             reportOut2: res.data[1],
           });
-          console.log(this.state.reportOut1);
-          console.log(this.state.reportOut2);
         })
         .catch((err) => {
           console.log(err.res);
@@ -175,7 +172,6 @@ class PerformanceReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(res.data[0].tester);
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
@@ -187,20 +183,12 @@ class PerformanceReport extends Component {
     }
   };
 
-  getClear = () => {
-    this.setState({
-      turboIdVal: [],
-      testno1: [],
-    });
-  };
-
   createPdf = (html) => Doc.createPdf(html);
   handleChangetestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let chartdata = res.data;
-        console.log(res);
         this.setState({
           testno: chartdata,
         });
@@ -211,17 +199,11 @@ class PerformanceReport extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
-
-    console.log(this.state.turboIdVal);
-    console.log(this.state.testno1);
   };
   render() {
     var rpm1 = Math.round(this.state.reportOut1.speed_time * 100) / 100;
@@ -250,8 +232,6 @@ class PerformanceReport extends Component {
     var Surge_margin2 = Math.round(this.state.reportOut1.Surge_margin) / 100;
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-    console.log(testno);
-    console.log(this.state.testno);
 
     return (
       <div>
@@ -326,11 +306,6 @@ class PerformanceReport extends Component {
                   <Button onClick={this.getreport}> view</Button>
                 </Form.Item>
               </Col>
-              {/* <Col xs={4}>
-                <Form.Item>
-                  <Button onlick={this.getClear}> Clear</Button>
-                </Form.Item>
-              </Col> */}
             </Row>
           </Form>
         </Layout>
