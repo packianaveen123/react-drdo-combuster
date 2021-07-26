@@ -3,6 +3,10 @@ import { url } from './constants';
 
 const URL = url
 const BASE_URL = URL.BASE_URL
+const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
+const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
+const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
+
 const turboConfigUrl = `${BASE_URL}${URL.TURBO_CONFIG}`
 const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
 const configTableUrl = `${BASE_URL}${URL.TEST_CONFIG}`
@@ -10,13 +14,12 @@ const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
-const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
-const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
-const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
 const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
+const graphDataUrl = `${BASE_URL}${URL.GRAPH_DATA}`
+
 
 // Form requests
 const loginValidation = (values, callBack) => {
@@ -125,7 +128,16 @@ const requestStatusData = (callBack) => {
       console.log(err);
     })
 }
+const gettingChartData = (callBack) => {
+  axios.get(graphDataUrl)
+    .then(res => {
+      let chartdata = res.data;
+      callBack(chartdata)
 
+    }).catch(err => {
+      console.log(err);
+    })
+}
 const resetClickEvent = (dataBody, callBack) => {
   axios.post(resetClickEventUrl, dataBody)
     .then(res => {
@@ -164,7 +176,6 @@ export {
   updateConfigData, loginValidation,
   forgotValidation, registerPageValidation,
   getTableView, getSensorData,
-  getHandleChangetestID, requestStatusData
-
-
+  getHandleChangetestID, requestStatusData,
+  gettingChartData,
 }

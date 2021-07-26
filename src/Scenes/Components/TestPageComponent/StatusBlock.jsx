@@ -44,7 +44,8 @@ class StatusBlock extends Component {
     let filteredData1;
     let receivedDate;
 
-    const arrStr = this.props.app.targetKeys;      //covertion string to number
+    //covertion string to number
+    const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
 
     this.props.app.turboStart.map(they => {
@@ -53,6 +54,7 @@ class StatusBlock extends Component {
       }
     })
 
+    //filltering the status block label
     let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index));
     {
       this.props.app.chartData[0] ?

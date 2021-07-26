@@ -15,7 +15,6 @@ const InitialState = {
   IsUserName: [],
 
   // -- config page -- //
-
   testConfigPage: [],
   turboConfig: [],
   paramConfig: [],

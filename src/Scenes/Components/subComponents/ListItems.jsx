@@ -1,6 +1,7 @@
 import React from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 
+//getting values from testComponent tester Items and witness Items
 function ListItems(props) {
   const items = props.items;
   const listItems = items.map((item, index) => {

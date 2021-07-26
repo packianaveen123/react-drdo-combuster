@@ -52,7 +52,8 @@ class TurboConfig extends Component {
     this.updateBlades = this.updateBlades.bind(this);
   }
 
-  openNotification = (value) => {                                     //notification for more than 1 turbine active
+  //notification for more than 1 turbine active
+  openNotification = (value) => {
     setTimeout(() => {
       notification.open({
         key,
@@ -70,6 +71,7 @@ class TurboConfig extends Component {
       this.setState({
         turbineStatus: true,
       });
+
       this.openNotification();
     }
 
@@ -79,6 +81,7 @@ class TurboConfig extends Component {
     });
   }
 
+  //submit installed id in turboconfig 
   onFinishSubmit = () => {
     const body = {
       turbo_id: this.state.turboID,
@@ -95,7 +98,7 @@ class TurboConfig extends Component {
       this.props.updateTableStatusData(data);
     });
   };
-
+  //onChange events
   onchangeTurboID = (e) => {
     this.setState({
       turboID: e.target.value,
@@ -113,11 +116,13 @@ class TurboConfig extends Component {
       nozzleArea: value,
     });
   };
+
   updateDiscription = (e) => {
     this.setState({
       discriptionVal: e.target.value,
     });
   };
+
   updateBlades = (value) => {
     if (value === null) {
       this.setState({

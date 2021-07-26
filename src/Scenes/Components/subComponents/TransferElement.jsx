@@ -5,8 +5,7 @@ import {
   updateDashboardData, updateTargetKeys
 } from "../../../Redux/action";
 import { dashboardDataMessage, dashboardDataVal } from "../../../Services/constants";
-const { transfer_warning, transfer_success,
-  message_title, description_data, msg_warning } = dashboardDataMessage;
+const { message_title, description_data, msg_warning } = dashboardDataMessage;
 
 const key = "updatable";
 class TransferElement extends React.Component {
@@ -42,7 +41,9 @@ class TransferElement extends React.Component {
     }
     this.setState({ mockData, targetKeys });
   };
-  openNotification = (value) => {                                        //Notification for more than 1 turbine
+
+  //Notification for more than 1 turbine
+  openNotification = (value) => {
     setTimeout(() => {
       notification.open({
         key,
@@ -52,7 +53,9 @@ class TransferElement extends React.Component {
       });
     }, 1000);
   };
-  handleChange = (targetKeys, direction, moveKeys) => {                            //Transfering data 
+
+  //Transfering data 
+  handleChange = (targetKeys, direction, moveKeys) => {
     if (targetKeys.length < 6) {
       this.openNotification("bottomRight");
     }

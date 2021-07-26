@@ -11,7 +11,7 @@ import { CompanyDetails, FormDetails } from '../../../Services/constants';
 import Cookies from 'universal-cookie';
 const { enter_email, enter_password, alert_msg_login } = FormDetails;
 const { company_name, company_data } = CompanyDetails;
-const writeFileP = require("write-file-p");
+
 class LoginPage extends Component {
   constructor(props) {
     super(props)
@@ -33,11 +33,8 @@ class LoginPage extends Component {
     cookies.set('password', values.password, { path: 'http://localhost:3000/' });
     console.log(cookies.get('user_name')); // Pacman
     let that = this;
-    loginValidation(values, (data) => {
 
-      // writeFileP.sync(`/Data/test.json`, {
-      //   hello: "world"
-      // });
+    loginValidation(values, (data) => {
       if (data[0] == "success") {
         that.props.updateAppState('main')
         that.props.updateUserName(data[1])

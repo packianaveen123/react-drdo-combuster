@@ -1,21 +1,22 @@
 const url = {
   BASE_URL: 'http://192.168.0.167:5000/',
+  LOGIN_VALIDATION: 'login_validation.php',
+  FORGOT_VALIDATION: 'forget.php',
+  REGISTERPAGE_VALIDATION: 'Registration.php',
   TURBO_CONFIG: 'turbo_config.php',
   TURBO_CONFIG_SUBMIT: 'turbo_config_validation.php',
   TEST_CONFIG: 'test_config.php',
   PARAM_CONFIG: 'param_config.php',
+  UPDATE_CONFIG_DATA: 'testconfigedit.php',
+  TABLE_VIEW: 'tableview.php',
   SHUTDOWN_CLICK: 'shutdown.php',
   RESET_CLICK: 'reset.php',
-  UPDATE_CONFIG_DATA: 'testconfigedit.php',
-  LOGIN_VALIDATION: 'login_validation.php',
-  FORGOT_VALIDATION: 'forget.php',
-  REGISTERPAGE_VALIDATION: 'Registration.php',
-  TABLE_VIEW: 'tableview.php',
   SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
-
+  GRAPH_DATA: 'graph.php',
 }
+
 const FormDetails = {
   enter_email: 'Please input your e-mail!',
   enter_password: 'Please input your password!',

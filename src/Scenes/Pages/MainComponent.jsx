@@ -19,14 +19,15 @@ import EndurenceReport from './Reports/EndurenceReport'
 import PerformanceAfterEndurence from './Reports/PerformanceAfterEndurence'
 import {
   updateTurboConfig, updateTestConfigPage,
-  updateParamConfig, updateUserParameter, updateTableStatusData,
-  updateTestIdCount, updateTableViewData
+  updateParamConfig, updateUserParameter,
+  updateTableStatusData, updateTestIdCount,
+  updateTableViewData
 } from '../../Redux/action';
 import {
   getTurboConfigData, getTestConfigData,
   getParamConfigData, turbineConfigSubmit,
   requestStatusData, getHandleChangetestID,
-  getTableView
+  getTableView, gettingChartData
 } from '../../Services/requests';
 
 const { Content, Header, Footer } = Layout;
@@ -58,7 +59,7 @@ export class MainComponent extends Component {
     getHandleChangetestID((data) => {
       this.props.updateTestIdCount(data)
     })
-    // fetch table data on application load
+    // fetch tableData on application load
     getTableView((data) => {
       this.props.updateTableViewData(data)
     })
@@ -67,6 +68,7 @@ export class MainComponent extends Component {
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
+
     return (
       <Layout>
         <Header style={{ paddingLeft: '10px', paddingRight: '0' }}><HeaderComponent /></Header>
@@ -98,12 +100,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  updateTurboConfig,
-  updateTestConfigPage,
-  updateTableStatusData,
-  updateParamConfig,
-  updateUserParameter,
-  updateTestIdCount, updateTableViewData
+  updateTurboConfig, updateTestConfigPage,
+  updateTableStatusData, updateParamConfig,
+  updateUserParameter, updateTestIdCount,
+  updateTableViewData
 }
 
 const MainContainer = connect(

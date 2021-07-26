@@ -31,6 +31,7 @@ class EndurenceReport extends Component {
       type: "Report",
     });
   }
+
   getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
@@ -141,7 +142,7 @@ class EndurenceReport extends Component {
     doc.save("Endurence Report.pdf");
   };
 
-  getReportPDF = () => {
+  getReportTable = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Endurence.php", {
@@ -273,7 +274,7 @@ class EndurenceReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getReportPDF}> view</Button>
+                  <Button onClick={this.getReportTable}> view</Button>
                 </Form.Item>
               </Col>
             </Row>

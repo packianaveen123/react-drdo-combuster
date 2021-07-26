@@ -28,10 +28,9 @@ import {
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import {
-  shutdownClickEvent,
-  getSensorData,
-  getHandleChangetestID,
-  requestStatusData
+  shutdownClickEvent, getSensorData,
+  getHandleChangetestID, requestStatusData,
+  gettingChartData
 } from '../../../Services/requests';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -146,22 +145,29 @@ class TestPageContainer extends Component {
     }
   }
 
+  //Tester onchange
   handleTesterInput(e) {
     this.setState({
       currentTesterItem: e.target.value
     })
   }
+
+  //witness onchange 
   handleWitnessInput(e) {
     this.setState({
       currentWitnessItem: e.target.value
     })
   }
+
+  //deletion for tester
   deleteTesterItem(text) {
     const filteredItems = this.state.testerItems.filter(item => item !== text);
     this.setState({
       testerItems: filteredItems
     })
   }
+
+  //deletion for witness
   deleteWitnessItem(text) {
     const filteredItems = this.state.witnessItems.filter(item => item !== text);
     this.setState({
@@ -169,6 +175,7 @@ class TestPageContainer extends Component {
     })
   }
 
+  //onchange for radio
   onChangeRadio = (e) => {
     this.setState({
       turboMode: e.target.value
@@ -187,6 +194,7 @@ class TestPageContainer extends Component {
       turboIdValue: value
     }
     let that = this;
+
     //getting data from axios in request page
     getHandleChangetestID(body, (data) => {
       if (data === "" || data.length === 0) {
@@ -204,6 +212,7 @@ class TestPageContainer extends Component {
     })
   }
 
+  //onclick for shutdown
   shutdownClick = () => {
     this.setState({
       shutdownInitiated: true,
@@ -215,18 +224,17 @@ class TestPageContainer extends Component {
     })
   }
 
+  //graph data
   requestChartData() {
-    axios.get('http://192.168.0.167:5000/graph.php').then(res => {
-      let chartdata = res.data;
+    gettingChartData((data) => {                            //this function from request page
+      let chartData = data;
       //updating to the store called chartdata
-      this.props.updateChartData(chartdata);
-    }).catch(err => {
-      console.log(err);
+      this.props.updateChartData(chartData);
     })
   }
 
   sensorData() {
-    getSensorData((data) => {
+    getSensorData((data) => {                               //function from request page
       if (this.props.app.startDbInserting === false) {
         this.props.initiateTurboStart(data);
       }
@@ -257,6 +265,7 @@ class TestPageContainer extends Component {
     this.setState({ testValue: e.target.value })
   }
 
+  //initialize event onclick
   initializeClick = () => {
     this.props.startDbInsert();
     this.props.updateDropDown(null);
@@ -302,6 +311,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //start click
   initializeTestClick = () => {
     var today = new Date(),
       time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
@@ -316,6 +326,7 @@ class TestPageContainer extends Component {
       })
   }
 
+  //help event onClick
   onClickhelp = () => {
     var self = this;
     axios.get('http://192.168.0.167:5000/valvestatus.php')
@@ -383,6 +394,7 @@ class TestPageContainer extends Component {
         console.log(err);
       })
   }
+
   //input onChange values
   onChangeResettempvalue = event => {
     const re = /^[0-9\b]+$/;
@@ -390,18 +402,21 @@ class TestPageContainer extends Component {
       this.props.getResetTemp(event.target.value);
     }
   }
+
   onChangeResetRPMvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getResetRPM(event.target.value);
     }
   }
+
   onChangetempvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
       this.props.getTargetTemp(event.target.value);
     }
   }
+
   onChangeRPMvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -409,6 +424,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //reset event onClick
   resetOnClick = () => {
     axios.post('http://192.168.0.167:5000/reset.php',
       {
@@ -421,6 +437,7 @@ class TestPageContainer extends Component {
       })
   }
 
+  //start event onClick
   startClick = () => {
     if (this.props.app.communication === true) {
       if (this.props.app.targetRPM !== '' && this.props.app.targetTemp !== '') {
