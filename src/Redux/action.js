@@ -2,7 +2,7 @@ export const updateUserParameter = userParams => ({
   type: 'UPDATE_USER_PARAMETER',
   payload: userParams
 })
-
+// leftBarView
 export const toggleLeftBar = bool => ({
   type: 'TOGGLE_LEFTBAR_VIEW',
   payload: bool
@@ -12,44 +12,44 @@ export const updateUserName = data => ({
   type: 'UPDATE_USER_NAME',
   payload: data
 })
-
+//appState
+export const updateAppState = path => ({
+  type: 'UPDATE_APP_STATE',
+  payload: path
+})
+//mainPage
+export const navigateMainPage = data => ({
+  type: 'NAVIGATE_MAIN_PAGE',
+  payload: data
+})
+//titleElements
+export const updateTitleElements = data => ({
+  type: 'UPDATE_TITLE_ELEMENTS',
+  payload: data
+})
+// chartData
 export const updateChartData = data => ({
   type: 'UPDATE_CHART_DATA',
   payload: data
 })
-export const updateTestConfig = data => ({
-  type: 'UPDATE_TEST_CONFIG',
-  payload: data
-})
-
+/* ---config page --- */
 // testConfigPage
 export const updateTestConfigPage = data => ({
   type: 'UPDATE_TEST_CONFIG_PAGE',
   payload: data
 })
+//turboConfig
 export const updateTurboConfig = data => ({
   type: 'UPDATE_TURBO_CONFIG',
   payload: data
 })
+//paramConfig
 export const updateParamConfig = data => ({
   type: 'UPDATE_PARAM_CONFIG',
   payload: data
 })
 export const updateTransferElement = data => ({
   type: 'UPDATE_TRANSFER_ELEMENT',
-  payload: data
-})
-
-export const updateTestingPage = data => ({
-  type: 'UPDATE_TESTING_PAGE',
-  payload: data
-})
-export const navigateMainPage = data => ({
-  type: 'NAVIGATE_MAIN_PAGE',
-  payload: data
-})
-export const updateTitleElements = data => ({
-  type: 'UPDATE_TITLE_ELEMENTS',
   payload: data
 })
 // dashboardData
@@ -62,36 +62,34 @@ export const updateTargetKeys = data => ({
   type: 'UPDATE_TARGET_KEYS',
   payload: data
 })
+
+/* ---Table component --- */
 //tableViewData
 export const updateTableViewData = data => ({
   type: 'UPDATE_TABLEVIEW_DATA',
   payload: data
-})
-// testConfigTableEdit
-// tableEdit
-export const updateConfigTableEdit = data => ({
-  type: 'UPDATE_CONFIG_TABLEEDIT',
-  payload: data
-})
-
-//loginState
-export const updateAppState = path => ({
-  type: 'UPDATE_APP_STATE',
-  payload: path
 })
 //table statusData
 export const updateTableStatusData = data => ({
   type: 'UPDATE_TABLE_STATUS_DATA',
   payload: data
 })
+
+/* ---Form component --- */
 // loginEvent
 export const updateLoginEvent = bool => ({
   type: 'UPDATE_LOGIN_EVENT',
   payload: bool
 })
-
 export const updateForgotEvent = data => ({
   type: 'UPDATE_FORGOT_EVENT',
+  payload: data
+})
+
+/* ---Test page/test details --- */
+//testingPage
+export const updateTestingPage = data => ({
+  type: 'UPDATE_TESTING_PAGE',
   payload: data
 })
 // testIdValue
@@ -114,16 +112,12 @@ export const updateTurboMode = data => ({
   type: 'UPDATE_TURBO_MODE',
   payload: data
 })
-export const stopDbInsert = bool => ({
-  type: 'STOP_DB_INSERT',
-  payload: bool
-})
-export const startDbInsert = bool => ({
-  type: 'START_DB_INSERT',
-  payload: bool
+export const updateDropDown = data => ({
+  type: 'UPDATE_DROPDOWN',
+  payload: data
 })
 
-
+/* ---Test page/test initialize --- */
 // shutdownInitiated
 export const initiateShutdown = bool => ({
   type: 'SHUTDOWN_INITIATED',
@@ -214,7 +208,14 @@ export const getResetRPM = data => ({
   type: 'RESET_RPM',
   payload: data
 })
-export const updateDropDown = data => ({
-  type: 'UPDATE_DROPDOWN',
-  payload: data
+
+//  stopDbInsert
+export const stopDbInsert = bool => ({
+  type: 'STOP_DB_INSERT',
+  payload: bool
+})
+
+export const startDbInsert = bool => ({
+  type: 'START_DB_INSERT',
+  payload: bool
 })

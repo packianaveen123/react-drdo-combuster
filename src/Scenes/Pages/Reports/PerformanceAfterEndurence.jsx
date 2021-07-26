@@ -35,15 +35,15 @@ class PerformanceAfterEndurence extends Component {
   }
   componentDidMount() {
     this.props.updateTitleElements({
-      title: "Running Report",
+      title: "Performance After Endurence Report",
       type: "Report",
     });
   }
-  getreportpdf = () => {
+
+  //exporting ReportPDF
+  getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
-
-
     doc.text(75, 10, "PERFORMENCE AFTER ENDURENCE TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
@@ -151,7 +151,9 @@ class PerformanceAfterEndurence extends Component {
 
     doc.save("PerformanceafterendurenceReport.pdf");
   };
-  getreport = () => {
+
+  //viewing  report in the table
+  getReport = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
@@ -186,7 +188,9 @@ class PerformanceAfterEndurence extends Component {
   };
 
   createPdf = (html) => Doc.createPdf(html);
-  handleChangetestID = (value) => {
+
+  //delect the test id
+  handleChangeTestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -202,7 +206,9 @@ class PerformanceAfterEndurence extends Component {
         console.log(err);
       });
   };
-  handleChangetestNO = (value) => {
+
+  //select the test number
+  handleChangeTestNO = (value) => {
     this.setState({
       testno1: value,
     });
@@ -243,12 +249,12 @@ class PerformanceAfterEndurence extends Component {
 
     return (
       <div>
-        <Layout class="layout-container">
-          <h2 class="h2">Performance After Endurence Report</h2>
+        <Layout className="layout-container">
+          <h2 className="h2">Performance After Endurence Report</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -261,7 +267,7 @@ class PerformanceAfterEndurence extends Component {
                         <Select
                           defaultValue="Select Turbo ID"
                           style={{ width: "300px" }}
-                          onChange={this.handleChangetestID}
+                          onChange={this.handleChangeTestID}
                         >
                           {testIdValue.map((it) => (
                             <Option key={it.turboname} value={it.turboname}>
@@ -276,7 +282,7 @@ class PerformanceAfterEndurence extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Test No<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -287,7 +293,7 @@ class PerformanceAfterEndurence extends Component {
                     <Select
                       defaultValue="Select Test No"
                       style={{ width: "300px" }}
-                      onChange={this.handleChangetestNO}
+                      onChange={this.handleChangeTestNO}
                     >
                       testno ?
                       {testno.map((it) => (
@@ -311,14 +317,14 @@ class PerformanceAfterEndurence extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getreport}> view</Button>
+                  <Button onClick={this.getReport}> view</Button>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
         </Layout>
         <Button
-          onClick={this.getreportpdf}
+          onClick={this.getReportPDF}
           style={{
             marginLeft: "1270px",
             marginBottom: "10px",
@@ -329,7 +335,7 @@ class PerformanceAfterEndurence extends Component {
           Export Report
         </Button>
         <Layout
-          class="bottom-container"
+          className="bottom-container"
           style={{
             paddingTop: "0px",
             paddingBottom: "10px",
@@ -338,12 +344,12 @@ class PerformanceAfterEndurence extends Component {
         >
           <div id="allreport">
             <div
-              class="mx-auto"
+              className="mx-auto"
               style={{ marginBottom: "1%", marginTop: "2%" }}
             >
-              <div class="sparkline12-hd" style={{ paddingBottom: "15px" }}>
+              <div className="sparkline12-hd" style={{ paddingBottom: "15px" }}>
                 <div
-                  class="main-sparkline12-hd"
+                  className="main-sparkline12-hd"
                   style={{ textAlign: "center" }}
                 >
                   <h1>Performance After Endurence Report</h1>
@@ -351,7 +357,7 @@ class PerformanceAfterEndurence extends Component {
               </div>
             </div>
 
-            <div class="table-responsive">
+            <div className="table-responsive">
               <img alt="logo" src={logo} />
               <table id="report-constants" style={{ marginTop: "5px" }}>
                 <tr>
@@ -365,7 +371,7 @@ class PerformanceAfterEndurence extends Component {
               </table>
 
               <table
-                class="table table-striped table-sm export-table"
+                className="table table-striped table-sm export-table"
                 id="example1"
               >
                 <thead>
@@ -376,7 +382,7 @@ class PerformanceAfterEndurence extends Component {
                         border: "1px solid #6a6a6b",
                         textAlign: "center",
                       }}
-                      colspan="12"
+                      colSpan="12"
                     >
                       PERFORMANCE AFTER ENDURENCE TEST
                     </th>
@@ -415,7 +421,7 @@ class PerformanceAfterEndurence extends Component {
                         border: "1px solid #6a6a6b",
                         textAlign: "center",
                       }}
-                      colspan="2"
+                      colSpan="2"
                     >
                       Oil
                     </th>
@@ -1005,9 +1011,9 @@ class PerformanceAfterEndurence extends Component {
                 </tbody>
               </table>
             </div>
-            <div class="row" style={{ marginTop: "10px" }}>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-4">
+            <div className="row" style={{ marginTop: "10px" }}>
+              <div className="col-lg-1"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Tested By: {this.state.tester}</u>
@@ -1020,8 +1026,8 @@ class PerformanceAfterEndurence extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-2"></div>
-              <div class="col-lg-4">
+              <div className="col-lg-2"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Witnessed By: {this.state.witness}</u>
@@ -1034,7 +1040,7 @@ class PerformanceAfterEndurence extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-1"></div>
+              <div className="col-lg-1"></div>
             </div>
           </div>
         </Layout>

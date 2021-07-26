@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Space } from 'antd';
 import { connect } from 'react-redux';
 import { navigateMainPage, updateTableStatusData } from '../../../Redux/action';
 import { requestStatusData } from '../../../Services/requests';
@@ -48,7 +48,7 @@ class LeftbarComponent extends Component {
             <Menu.Item key="tableView" icon={<AiOutlineTable style={{ color: '#42dbdc' }} />}>  Table View </Menu.Item>
           </SubMenu>
           <Menu.Item key="testPage" icon={<DashboardOutlined />} >
-            <text style={{ marginBottom: '10px' }}>  Test </text>
+            <Space style={{ marginBottom: '10px' }}>  Test </Space>
           </Menu.Item>
           <SubMenu key="sub2" icon={<ToolOutlined />} title="Configuration" style={{ fontSize: '15px' }}  >
             {

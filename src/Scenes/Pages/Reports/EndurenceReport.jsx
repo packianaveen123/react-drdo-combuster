@@ -27,11 +27,11 @@ class EndurenceReport extends Component {
   }
   componentDidMount() {
     this.props.updateTitleElements({
-      title: "Running Report",
+      title: "Endurance Report",
       type: "Report",
     });
   }
-  getreportpdf = () => {
+  getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
     doc.text(75, 10, "ENDURENCE TEST REPORT");
@@ -140,7 +140,8 @@ class EndurenceReport extends Component {
 
     doc.save("Endurence Report.pdf");
   };
-  getreport = () => {
+
+  getReportPDF = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Endurence.php", {
@@ -171,7 +172,8 @@ class EndurenceReport extends Component {
         });
     }
   };
-  handleChangetestID = (value) => {
+
+  handleChangeTestID = (value) => {                                     //select the TestID
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -188,11 +190,12 @@ class EndurenceReport extends Component {
       });
   };
 
-  handleChangetestNO = (value) => {
+  handleChangeTestNO = (value) => {                                   //select the Test Number
     this.setState({
       testno1: value,
     });
   };
+
   render() {
     var rpm = Math.round(this.state.reportOut.speed_time * 100) / 100;
     var Turbine_Inlet =
@@ -202,12 +205,12 @@ class EndurenceReport extends Component {
 
     return (
       <div>
-        <Layout class="layout-container">
-          <h2 class="h2">Endurance Report</h2>
+        <Layout className="layout-container">
+          <h2 className="h2">Endurance Report</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -220,7 +223,7 @@ class EndurenceReport extends Component {
                         <Select
                           defaultValue="Select Turbo ID"
                           style={{ width: "300px" }}
-                          onChange={this.handleChangetestID}
+                          onChange={this.handleChangeTestID}
                         >
                           {testIdValue.map((it) => (
                             <Option key={it.turboname} value={it.turboname}>
@@ -235,7 +238,7 @@ class EndurenceReport extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Test No<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -246,7 +249,7 @@ class EndurenceReport extends Component {
                     <Select
                       defaultValue="Select Test No"
                       style={{ width: "300px" }}
-                      onChange={this.handleChangetestNO}
+                      onChange={this.handleChangeTestNO}
                     >
                       testno ?
                       {testno.map((it) => (
@@ -270,14 +273,14 @@ class EndurenceReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getreport}> view</Button>
+                  <Button onClick={this.getReportPDF}> view</Button>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
         </Layout>
         <Button
-          onClick={this.getreportpdf}
+          onClick={this.getReportPDF}
           style={{
             marginLeft: "1270px",
             marginBottom: "10px",
@@ -289,7 +292,7 @@ class EndurenceReport extends Component {
         </Button>
         {this.state.reportOut ? (
           <Layout
-            class="bottom-container"
+            className="bottom-container"
             style={{
               paddingTop: "10px",
               paddingBottom: "30px",
@@ -298,12 +301,12 @@ class EndurenceReport extends Component {
           >
             <div id="allreport">
               <div
-                class="mx-auto"
+                className="mx-auto"
                 style={{ marginBottom: "1%", marginTop: "2%" }}
               >
-                <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+                <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                   <div
-                    class="main-sparkline12-hd"
+                    className="main-sparkline12-hd"
                     style={{ textAlign: "center" }}
                   >
                     <h1>Endurance Report</h1>
@@ -311,7 +314,7 @@ class EndurenceReport extends Component {
                 </div>
               </div>
 
-              <div class="table-responsive">
+              <div className="table-responsive">
                 <img alt="logo" src={drdo_logo} />
                 <table id="report-constants" style={{ marginTop: "10px" }}>
                   <tr>
@@ -325,7 +328,7 @@ class EndurenceReport extends Component {
                 </table>
 
                 <table
-                  class="table table-striped table-sm export-table"
+                  className="table table-striped table-sm export-table"
                   id="example1"
                 >
                   <thead>
@@ -336,7 +339,7 @@ class EndurenceReport extends Component {
                           border: "1px solid #6a6a6b",
                           textAlign: "center",
                         }}
-                        colspan="6"
+                        colSpan="6"
                       >
                         ENDURANCE TEST
                       </th>
@@ -375,7 +378,7 @@ class EndurenceReport extends Component {
                           border: "1px solid #6a6a6b",
                           textAlign: "center",
                         }}
-                        colspan="2"
+                        colSpan="2"
                       >
                         Oil
                       </th>
@@ -542,9 +545,9 @@ class EndurenceReport extends Component {
                   </tbody>
                 </table>
               </div>
-              <div class="row" style={{ marginTop: "10px" }}>
-                <div class="col-lg-1"></div>
-                <div class="col-lg-4">
+              <div className="row" style={{ marginTop: "10px" }}>
+                <div className="col-lg-1"></div>
+                <div className="col-lg-4">
                   <label>
                     <b>
                       <u>Tested By: {this.state.tester}</u>
@@ -557,8 +560,8 @@ class EndurenceReport extends Component {
                     </tr>
                   </table>
                 </div>
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
+                <div className="col-lg-2"></div>
+                <div className="col-lg-4">
                   <label>
                     <b>
                       <u>Witnessed By: {this.state.witness}</u>
@@ -571,7 +574,7 @@ class EndurenceReport extends Component {
                     </tr>
                   </table>
                 </div>
-                <div class="col-lg-1"></div>
+                <div className="col-lg-1"></div>
               </div>
             </div>
           </Layout>

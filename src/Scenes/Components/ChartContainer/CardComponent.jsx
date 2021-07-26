@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Card, Col, Row } from 'antd';
 import GraphComponent from './ChartComponent';
 import { connect } from 'react-redux';
-import { updateChartData, updateTableViewData } from '../../../Redux/action';
+import { updateTableViewData } from '../../../Redux/action';
 import { dashboardSensor } from "../../../Services/constants";
 import { getTableView } from "../../../Services/requests";
 const { sensorLabel } = dashboardSensor;
+
 class CardComponent extends Component {
   constructor(props) {
     super(props);
@@ -125,15 +126,11 @@ class CardComponent extends Component {
     }
   }
   componentDidMount() {
-    const stableValue = this.props.app.dashboardData.filter((it) =>
-      this.props.app.targetKeys.find((val) => val === it.key)
-    );
-    getTableView((data) => {
-      const arrStr = this.props.app.targetKeys;
+    getTableView((data) => {                                         //getting this function(data) from request page
+      const arrStr = this.props.app.targetKeys;                     //covertion string to number
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
       let filteredTableData = data.filter((_, index) => dashboardDataNumArr.includes(index));
       this.props.updateTableViewData(filteredTableData)
-
     })
   }
 
@@ -287,7 +284,7 @@ const mapStateToProps = state => ({
   app: state.app
 })
 const mapDispatchToProps = {
-  updateChartData, updateTableViewData
+  updateTableViewData
 }
 const card = connect(
   mapStateToProps,

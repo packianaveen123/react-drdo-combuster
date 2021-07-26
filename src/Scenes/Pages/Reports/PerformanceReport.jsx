@@ -36,11 +36,13 @@ class PerformanceReport extends Component {
   }
   componentDidMount() {
     this.props.updateTitleElements({
-      title: "Running Report",
+      title: "Performance Report",
       type: "Report",
     });
   }
-  getreportpdf = () => {
+
+  //export the pdf
+  getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
     doc.text(75, 10, "PERFORMENCE TEST REPORT");
@@ -149,7 +151,9 @@ class PerformanceReport extends Component {
 
     doc.save("PerformanceReport.pdf");
   };
-  getreport = () => {
+
+  //view the report in table
+  getReport = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
@@ -184,7 +188,9 @@ class PerformanceReport extends Component {
   };
 
   createPdf = (html) => Doc.createPdf(html);
-  handleChangetestID = (value) => {
+
+  //select the test ID
+  handleChangeTestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -200,11 +206,14 @@ class PerformanceReport extends Component {
         console.log(err);
       });
   };
-  handleChangetestNO = (value) => {
+
+  //select the test number
+  handleChangeTestNO = (value) => {
     this.setState({
       testno1: value,
     });
   };
+
   render() {
     var rpm1 = Math.round(this.state.reportOut1.speed_time * 100) / 100;
     var rpm2 = Math.round(this.state.reportOut2.speed_time * 100) / 100;
@@ -235,12 +244,12 @@ class PerformanceReport extends Component {
 
     return (
       <div>
-        <Layout class="layout-container">
-          <h2 class="h2">Performance Report</h2>
+        <Layout className="layout-container">
+          <h2 className="h2">Performance Report</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -253,7 +262,7 @@ class PerformanceReport extends Component {
                         <Select
                           defaultValue="Select Turbo ID"
                           style={{ width: "300px" }}
-                          onChange={this.handleChangetestID}
+                          onChange={this.handleChangeTestID}
                         >
                           {testIdValue.map((it) => (
                             <Option key={it.turboname} value={it.turboname}>
@@ -268,7 +277,7 @@ class PerformanceReport extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Test No<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -279,7 +288,7 @@ class PerformanceReport extends Component {
                     <Select
                       defaultValue="Select Test No"
                       style={{ width: "300px" }}
-                      onChange={this.handleChangetestNO}
+                      onChange={this.handleChangeTestNO}
                     >
                       testno ?
                       {testno.map((it) => (
@@ -303,14 +312,14 @@ class PerformanceReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getreport}> view</Button>
+                  <Button onClick={this.getReport}> view</Button>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
         </Layout>
         <Button
-          onClick={this.getreportpdf}
+          onClick={this.getReportPDF}
           style={{
             marginLeft: "1270px",
             marginBottom: "10px",
@@ -321,7 +330,7 @@ class PerformanceReport extends Component {
           Export Report
         </Button>
         <Layout
-          class="bottom-container"
+          className="bottom-container"
           style={{
             paddingTop: "10px",
             paddingBottom: "30px",
@@ -330,12 +339,12 @@ class PerformanceReport extends Component {
         >
           <div id="allreport">
             <div
-              class="mx-auto"
+              className="mx-auto"
               style={{ marginBottom: "1%", marginTop: "2%" }}
             >
-              <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+              <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                 <div
-                  class="main-sparkline12-hd"
+                  className="main-sparkline12-hd"
                   style={{ textAlign: "center" }}
                 >
                   <h1>Performance Report</h1>
@@ -343,7 +352,7 @@ class PerformanceReport extends Component {
               </div>
             </div>
 
-            <div class="table-responsive">
+            <div className="table-responsive">
               <img alt="logo" src={logo} />
               <table id="report-constants" style={{ marginTop: "10px" }}>
                 <tr>
@@ -357,7 +366,7 @@ class PerformanceReport extends Component {
               </table>
 
               <table
-                class="table table-striped table-sm export-table"
+                className="table table-striped table-sm export-table"
                 id="example1"
               >
                 <thead>
@@ -368,7 +377,7 @@ class PerformanceReport extends Component {
                         border: "1px solid #6a6a6b",
                         textAlign: "center",
                       }}
-                      colspan="12"
+                      colSpan="12"
                     >
                       PERFORMANCE TEST
                     </th>
@@ -407,7 +416,7 @@ class PerformanceReport extends Component {
                         border: "1px solid #6a6a6b",
                         textAlign: "center",
                       }}
-                      colspan="2"
+                      colSpan="2"
                     >
                       Oil
                     </th>
@@ -997,9 +1006,9 @@ class PerformanceReport extends Component {
                 </tbody>
               </table>
             </div>
-            <div class="row" style={{ marginTop: "10px" }}>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-4">
+            <div className="row" style={{ marginTop: "10px" }}>
+              <div className="col-lg-1"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Tested By: {this.state.tester}</u>
@@ -1012,8 +1021,8 @@ class PerformanceReport extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-2"></div>
-              <div class="col-lg-4">
+              <div className="col-lg-2"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Witnessed By: {this.state.witness}</u>
@@ -1026,7 +1035,7 @@ class PerformanceReport extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-1"></div>
+              <div className="col-lg-1"></div>
             </div>
           </div>
         </Layout>

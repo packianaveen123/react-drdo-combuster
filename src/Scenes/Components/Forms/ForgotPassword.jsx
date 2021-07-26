@@ -20,9 +20,10 @@ class ForgotPassword extends Component {
       IsUserName: '',
     })
   };
-  onFinish = (values) => {
+  submitOnFinish = (values) => {
     forgotValidation(values, (data) => {
-      if (data == "success") {
+      let inputData = data.toString();
+      if (inputData == "success") {
         this.props.updateAppState('login');
       }
       else {
@@ -39,28 +40,28 @@ class ForgotPassword extends Component {
   render() {
     const IsUserName = this.state.IsUserName;
     return (
-      <div class="background">
-        <div class="wrapper">
-          <div class="form-holder">
+      <div className="background">
+        <div className="wrapper">
+          <div className="form-holder">
             <Row >
               {/* <!-- Logo & Information Panel--> */}
               <Col span={12}  >
-                <div class="info" style={{ paddingTop: "10rem" }}>
+                <div className="info" style={{ paddingTop: "10rem" }}>
                   <h1 style={{ color: 'white' }}>{company_name}</h1>
                   <p>{company_data}</p>
                 </div>
               </Col>
               {/* <!-- Form Panel    --> */}
               <Col span={12} >
-                <div class="form d-flex align-items-center">
-                  <div class="content" style={{ paddingTop: "5rem" }}>
-                    <Form initialValues={{ remember: true }} onFinish={this.onFinish} >
+                <div className="form d-flex align-items-center">
+                  <div className="content" style={{ paddingTop: "5rem" }}>
+                    <Form initialValues={{ remember: true }} onFinish={this.submitOnFinish} >
                       <Form.Item
                         name="user_name"
                         rules={[{ required: true, message: enter_email }]}
                       >
                         <Input
-                          class="form-input"
+                          className="form-input"
                           style={{ backgroundColor: '#131633' }}
                           prefix={<UserOutlined className="site-form-item-icon" />}
                           placeholder="Email_ID"
@@ -134,8 +135,8 @@ class ForgotPassword extends Component {
                       </Form.Item>
 
                       <div >
-                        <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Back to Login page?
-                            <a onClick={this.backToLoginEvent} class="forgot-pass" >Login</a></text>
+                        <p style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Back to Login page?
+                            <a onClick={this.backToLoginEvent} className="forgot-pass" >Login</a></p>
                       </div>
                     </Form>
                   </div>

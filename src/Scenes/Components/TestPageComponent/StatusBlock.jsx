@@ -44,17 +44,16 @@ class StatusBlock extends Component {
     let filteredData1;
     let receivedDate;
 
-    const arrStr = this.props.app.targetKeys;
+    const arrStr = this.props.app.targetKeys;      //covertion string to number
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
 
-    this.props.app.turboStart.map(It => {
-      if (It.name === 'N.Shutdown Completed') {
+    this.props.app.turboStart.map(they => {
+      if (they.name === 'N.Shutdown Completed') {
         nShutdown = true
       }
     })
 
     let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index));
-
     {
       this.props.app.chartData[0] ?
         filteredData = Object.values(this.props.app.chartData[0]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredData = []
@@ -82,13 +81,13 @@ class StatusBlock extends Component {
         <div>
           <Row>
             {nShutdown ?
-              <text style={styles.offline}>N-Shutdown</text>
+              <p style={styles.offline}>N-Shutdown</p>
               :
               <Row>
                 {isActive ?
-                  <text style={styles.online}>LIVE</text>
+                  <p style={styles.online}>LIVE</p>
                   :
-                  <text style={styles.offline}>OFFLINE</text>
+                  <p style={styles.offline}>OFFLINE</p>
                 }
               </Row>
             }
@@ -98,21 +97,26 @@ class StatusBlock extends Component {
           {
             persons.map((It, y) =>
               <Col span={4} style={{ paddingRight: "10px" }}>
-                <div class="statistic-block block" >
-                  <Row class="progress-details d-flex align-items-end justify-content-between">
+                <div className="statistic-block block" >
+                  <Row className="progress-details d-flex align-items-end justify-content-between">
+                    {/* up and down arrow column */}
                     <Col>
                       {(persons1[y] < It) ?
                         <img src="./images/up-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />
                         : <img src="./images/down-arrow-1.gif" alt="Arrow" style={{ width: '20px', height: '30px', marginTop: '8px', marginLeft: '30px' }} />}
                     </Col>
-                    <Col class="number dashtext-1" style={{ paddingLeft: '30%', fontSize: '25px' }}>
+                    {/* value displaying column */}
+                    <Col className="number dashtext-1" style={{ paddingLeft: '20%', fontSize: '23px' }}>
                       <span>{It}</span>
                     </Col>
                   </Row>
-                  <div class="progress progress-template">
-                    <div role="progressbar" style={{ width: '100%', ariavaluenow: '30', ariavaluemin: '0', ariavaluemax: '100' }} class="progress-bar progress-bar-template dashbg-1"></div>
+
+                  <div className="progress progress-template">
+                    <div role="progressbar" style={{ width: '100%', ariavaluenow: '30', ariavaluemin: '0', ariavaluemax: '100' }}
+                      className="progress-bar progress-bar-template dashbg-1"></div>
                   </div>
-                  <div class="title">
+                  {/*  Title column */}
+                  <div className="title">
                     <div style={{ fontSize: '10px' }}><strong>{filteredDataLabel[y]}</strong></div>
                   </div>
                 </div>

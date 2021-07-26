@@ -6,6 +6,7 @@ import RegisterPage from './Scenes/Components/Forms/RegisterPage';
 import ForgotPassword from './Scenes/Components/Forms/ForgotPassword';
 import 'antd/dist/antd.css';
 import '../src/Styles/style.css';
+import Cookies from 'universal-cookie';
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,10 @@ class App extends Component {
   }
 
   render() {
+    const cookies = new Cookies();
+
+    cookies.set('appState', 'main', { path: '/' });
+
     const appState = this.props.appState;
     return (
       <div className="site-layout-background">

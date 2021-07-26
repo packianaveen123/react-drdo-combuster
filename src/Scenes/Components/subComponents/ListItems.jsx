@@ -4,7 +4,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 function ListItems(props) {
   const items = props.items;
   const listItems = items.map((item, index) => {
-
     return <div className="list" key={index}>
       <p>
         <input type="text" id={item} value={item} />

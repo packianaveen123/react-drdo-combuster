@@ -17,10 +17,10 @@ class ParamConfig extends Component {
     return (
       <div style={{ paddingTop: "1px" }}>
         <div style={{ paddingTop: "25px" }}>
-          <Layout class="bottom-container">
+          <Layout className="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 class="h2">Color Range Configuration Table</h2>
+                <h2 className="h2">Color Range Configuration Table</h2>
               </Col>
             </Row>
             {

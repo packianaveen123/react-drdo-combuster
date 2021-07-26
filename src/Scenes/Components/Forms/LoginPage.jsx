@@ -8,9 +8,10 @@ import {
   updateLoginEvent, updateUserName
 } from '../../../Redux/action';
 import { CompanyDetails, FormDetails } from '../../../Services/constants';
+import Cookies from 'universal-cookie';
 const { enter_email, enter_password, alert_msg_login } = FormDetails;
 const { company_name, company_data } = CompanyDetails;
-
+const writeFileP = require("write-file-p");
 class LoginPage extends Component {
   constructor(props) {
     super(props)
@@ -25,9 +26,18 @@ class LoginPage extends Component {
       loginState: ''
     })
   };
-  onFinish = (values) => {
+  loginOnFinish = (values) => {
+    const cookies = new Cookies();
+
+    cookies.set('user_name', values.user_name, { path: 'http://localhost:3000/' });
+    cookies.set('password', values.password, { path: 'http://localhost:3000/' });
+    console.log(cookies.get('user_name')); // Pacman
     let that = this;
     loginValidation(values, (data) => {
+
+      // writeFileP.sync(`/Data/test.json`, {
+      //   hello: "world"
+      // });
       if (data[0] == "success") {
         that.props.updateAppState('main')
         that.props.updateUserName(data[1])
@@ -48,26 +58,26 @@ class LoginPage extends Component {
   render() {
     const appData = this.props.app;
     return (
-      <div class="background">
-        <div class="container">
-          <div class="wrapper">
-            <div class="form-holder" >
+      <div className="background">
+        <div className="container">
+          <div className="wrapper">
+            <div className="form-holder" >
               <Row>
                 {/* <!-- Logo & Information Panel--> */}
                 <Col span={12}  >
-                  <div class="info" style={{ paddingTop: "10rem" }}>
+                  <div className="info" style={{ paddingTop: "10rem" }}>
                     <h1 style={{ color: 'white' }}>{company_name}</h1>
                     <p>{company_data}</p>
                   </div>
                 </Col>
                 {/* <!-- Form Panel    --> */}
                 <Col span={12} >
-                  <div class="content" style={{ paddingTop: "10rem" }}>
+                  <div className="content" style={{ paddingTop: "10rem" }}>
                     <Form
                       name="normal_login"
                       className="login-form"
                       initialValues={{ remember: true }}
-                      onFinish={this.onFinish}
+                      onFinish={this.loginOnFinish}
                     >
                       <Form.Item
                         name="user_name"
@@ -108,12 +118,12 @@ class LoginPage extends Component {
                       </Form.Item>
 
                       <div onClick={this.forgotPasswordEvent}>
-                        <a class="forgot-pass">Forgot Password?</a><br></br>
+                        <a className="forgot-pass">Forgot Password?</a><br></br>
                       </div>
-                      <div class="signup">
-                        <text style={{ color: 'rgb(151, 150, 151)' }}>
+                      <div className="signup">
+                        <p style={{ color: 'rgb(151, 150, 151)' }}>
                           Do not have an account?
-                          <a onClick={this.signupEvent} class="forgot-pass">Signup</a></text>
+                          <a onClick={this.signupEvent} className="forgot-pass">Signup</a></p>
                       </div>
                     </Form>
                   </div>

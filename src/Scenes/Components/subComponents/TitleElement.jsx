@@ -16,8 +16,8 @@ class TitleElement extends Component {
       <div>
         <Layout style={{ backgroundColor: "#212840", paddingBottom: "20px" }}>
           <Row>
-            <text style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek </text>
-            <text style={{ color: '#585a5f', fontSize: "25px" }}> / {titleValue.type} /  {titleValue.title}  </text>
+            <p style={{ color: '#42dad6', fontSize: "25px" }}>EnerTek </p>
+            <p style={{ color: '#585a5f', fontSize: "25px" }}> / {titleValue.type} /  {titleValue.title}  </p>
           </Row>
         </Layout>
       </div>

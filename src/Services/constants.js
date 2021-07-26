@@ -14,6 +14,7 @@ const url = {
   SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
+
 }
 const FormDetails = {
   enter_email: 'Please input your e-mail!',
@@ -24,7 +25,11 @@ const FormDetails = {
   confirm_password: 'Please confirm your password!',
   alert_email: 'Please enter a valid e-mail',
   alert_registered_email: 'Sorry... e-mail already registered',
-  alert_msg_login: 'Username or Password is incorrect'
+  alert_msg_login: 'Username or Password is incorrect',
+  success_msg: 'success',
+  alert_username_taken: 'Sorry... username already taken',
+  alert_email_taken: 'email already taken'
+
 }
 const CompanyDetails = {
   company_name: 'EnerTek Combuster',
@@ -85,11 +90,18 @@ const testParamHash = {
 }
 const helpPopup = {
   value: 'Valve status at :',
-  cooling_air: 'svcoolingair :',
-  natural_gas: 'svnaturalgastopilotflame : ',
-  dilution: 'svdilution : ',
-  complressor_air: 'fcvcomplressorair : ',
+  PilotFlameAirc: 'PilotFlameAirc :',
+  FuelInjectorAirc: 'FuelInjectorAirc :',
+  PilotFlameGasc: 'PilotFlameGasc : ',
+  FCVAirc: 'FCVAirc : ',
+  FCVKeroseneFuelc: 'FCVKeroseneFuelc : ',
+  ByPassValueIc: 'ByPassValueIc : ',
+  ByPassValueIIc: 'ByPassValueIIc : ',
+  IgnitorSwitchc: 'IgnitorSwitchc : ',
+  KerosenePumpc: 'KerosenePumpc : ',
+  LubeOilPumpc: 'LubeOilPumpc : ',
 }
+
 const turboConfigValue = {
   installed_turbine: 1,
   nozzleArea_min: 0.0002,

@@ -93,7 +93,7 @@ class TableView extends Component {
 
   testClick = () => {
     getTableView((data) => {
-      const arrStr = this.props.app.targetKeys;
+      const arrStr = this.props.app.targetKeys;                             //covertion string to number
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
       const liveDataObj = this.props.app.chartData[0]
       data.map(item => {
@@ -109,6 +109,7 @@ class TableView extends Component {
         tabledata: data
       })
 
+      //filtering the limit values
       let filteredTableData = this.state.tabledata.filter((_, index) => dashboardDataNumArr.includes(index));
       this.setState({
         filteredTableData: filteredTableData

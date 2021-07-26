@@ -10,6 +10,7 @@ import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
 const { drdo_logo } = CompanyDetails
 const { Option } = Select;
+
 class RunningReport extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +29,10 @@ class RunningReport extends Component {
       type: "Report",
     });
   }
-  getreportpdf = () => {
+
+  getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
-
     doc.text(75, 10, "RUNNING TEST REPORT");
     var image = new Image();
     image.src = "../../../Images/up-arrow-1.gif";
@@ -138,7 +139,9 @@ class RunningReport extends Component {
     }
     doc.save("RunningReport.pdf");
   };
-  getreport = () => {
+
+  //view the report in table
+  getReport = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/runningReport.php", {
@@ -169,8 +172,11 @@ class RunningReport extends Component {
         });
     }
   };
+
   createPdf = (html) => Doc.createPdf(html);
-  handleChangetestID = (value) => {
+
+  //select the TestID
+  handleChangeTestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -186,8 +192,8 @@ class RunningReport extends Component {
         console.log(err);
       });
   };
-
-  handleChangetestNO = (value) => {
+  //select the TstNO
+  handleChangeTestNO = (value) => {
     this.setState({
       testno1: value,
     });
@@ -199,12 +205,12 @@ class RunningReport extends Component {
     const reportOut = this.state.reportOut1;
     return (
       <div>
-        <Layout class="layout-container">
-          <h2 class="h2">Running Report</h2>
+        <Layout className="layout-container">
+          <h2 className="h2">Running Report</h2>
           <Form onFinish={this.onFinish}>
             <Row style={{ paddingTop: "10px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
               </Col>
@@ -216,7 +222,7 @@ class RunningReport extends Component {
                         <Select
                           defaultValue="Select Turbo ID"
                           style={{ width: "300px" }}
-                          onChange={this.handleChangetestID}
+                          onChange={this.handleChangeTestID}
                         >
                           {testIdValue.map((it) => (
                             <Option key={it.turboname} value={it.turboname}>
@@ -231,7 +237,7 @@ class RunningReport extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Test No<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
                 <span> &nbsp; &nbsp; &nbsp;</span>
@@ -242,7 +248,7 @@ class RunningReport extends Component {
                     <Select
                       defaultValue="Select Test No"
                       style={{ width: "300px" }}
-                      onChange={this.handleChangetestNO}
+                      onChange={this.handleChangeTestNO}
                     >
                       testno ?
                       {testno.map((it) => (
@@ -266,7 +272,7 @@ class RunningReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getreport}> view</Button>
+                  <Button onClick={this.getReport}> view</Button>
                 </Form.Item>
               </Col>
             </Row>
@@ -274,8 +280,7 @@ class RunningReport extends Component {
         </Layout>
 
         <Button
-          class
-          onClick={this.getreportpdf}
+          onClick={this.getReportPDF}
           style={{
             marginLeft: "1270px",
             marginBottom: "10px",
@@ -287,7 +292,7 @@ class RunningReport extends Component {
         </Button>
 
         <Layout
-          class="bottom-container"
+          className="bottom-container"
           style={{
             paddingTop: "10px",
             paddingBottom: "10px",
@@ -296,12 +301,12 @@ class RunningReport extends Component {
         >
           <div id="allreport">
             <div
-              class="mx-auto"
+              className="mx-auto"
               style={{ marginBottom: "1%", marginTop: "2%" }}
             >
-              <div class="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+              <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
                 <div
-                  class="main-sparkline12-hd"
+                  className="main-sparkline12-hd"
                   style={{ textAlign: "center" }}
                 >
                   <h1>Running Report</h1>
@@ -309,7 +314,7 @@ class RunningReport extends Component {
               </div>
             </div>
 
-            <div class="table-responsive">
+            <div className="table-responsive">
               <img alt="logo" src={drdo_logo} />
               <table id="report-constants" style={{ marginTop: "10px" }}>
                 <tr>
@@ -323,7 +328,7 @@ class RunningReport extends Component {
               </table>
 
               <table
-                class="table table-striped table-sm export-table"
+                className="table table-striped table-sm export-table"
                 id="example1"
               >
                 <thead>
@@ -334,7 +339,7 @@ class RunningReport extends Component {
                         border: "1px solid #6a6a6b",
                         textAlign: "center",
                       }}
-                      colspan="10"
+                      colSpan="10"
                     >
                       RUNNING IN TEST
                     </th>
@@ -563,9 +568,9 @@ class RunningReport extends Component {
                 </tbody>
               </table>
             </div>
-            <div class="row" style={{ marginTop: "10px" }}>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-4">
+            <div className="row" style={{ marginTop: "10px" }}>
+              <div className="col-lg-1"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Tested By: {this.state.tester}</u>
@@ -578,8 +583,8 @@ class RunningReport extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-2"></div>
-              <div class="col-lg-4">
+              <div className="col-lg-2"></div>
+              <div className="col-lg-4">
                 <label>
                   <b>
                     <u>Witnessed By: {this.state.witness}</u>
@@ -592,7 +597,7 @@ class RunningReport extends Component {
                   </tr>
                 </table>
               </div>
-              <div class="col-lg-1"></div>
+              <div className="col-lg-1"></div>
             </div>
           </div>
         </Layout>

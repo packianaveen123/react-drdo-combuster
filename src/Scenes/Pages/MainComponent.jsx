@@ -19,8 +19,7 @@ import EndurenceReport from './Reports/EndurenceReport'
 import PerformanceAfterEndurence from './Reports/PerformanceAfterEndurence'
 import {
   updateTurboConfig, updateTestConfigPage,
-  updateParamConfig, updateChartData,
-  updateUserParameter, updateTableStatusData,
+  updateParamConfig, updateUserParameter, updateTableStatusData,
   updateTestIdCount, updateTableViewData
 } from '../../Redux/action';
 import {
@@ -38,23 +37,28 @@ export class MainComponent extends Component {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
       this.props.updateTurboConfig(data)
-
     })
+    // fetch test config data on application load
     getTestConfigData((data) => {
       this.props.updateTestConfigPage(data)
     })
+    // fetch param config data on application load
     getParamConfigData((data) => {
       this.props.updateParamConfig(data)
     })
+    // fetch turboconfig submit form data on application load
     turbineConfigSubmit((data) => {
       this.props.updateTurboConfig(data)
     })
+    // fetch turbo config data on application load
     requestStatusData((data) => {
       this.props.updateTableStatusData(data)
     })
+    // fetch turbine ID Name  on application load
     getHandleChangetestID((data) => {
       this.props.updateTestIdCount(data)
     })
+    // fetch table data on application load
     getTableView((data) => {
       this.props.updateTableViewData(data)
     })
@@ -98,7 +102,6 @@ const mapDispatchToProps = {
   updateTestConfigPage,
   updateTableStatusData,
   updateParamConfig,
-  updateChartData,
   updateUserParameter,
   updateTestIdCount, updateTableViewData
 }

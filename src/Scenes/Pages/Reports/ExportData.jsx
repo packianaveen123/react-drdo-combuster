@@ -20,7 +20,6 @@ const columns = [
     title: "Combuster outlet Temperature",
     dataIndex: "T1",
     key: "T1",
-    fixed: 'left',
   },
   {
     title: "Turbine Inlet Temperature",
@@ -111,7 +110,7 @@ class ExportData extends Component {
     });
   }
 
-  getreport = () => {
+  getReport = () => {
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
       axios
         .post("http://192.168.0.167:5000/getReport.php", {
@@ -142,7 +141,9 @@ class ExportData extends Component {
         });
     }
   };
-  handleChangetestID = (value) => {
+
+  //select the TestID
+  handleChangeTestID = (value) => {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -158,11 +159,14 @@ class ExportData extends Component {
         console.log(err);
       });
   };
+
+  //select the Test Number
   handleChangetestNO = (value) => {
     this.setState({
       testno1: value,
     });
   };
+  //exporting csv
   exportToCSV = (csvData, fileName) => {
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -173,6 +177,8 @@ class ExportData extends Component {
     const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
   };
+
+  //export pdf
   exportToPDF = () => {
     const input = document.getElementById("someRandomID");
     html2canvas(input).then((canvas) => {
@@ -191,11 +197,11 @@ class ExportData extends Component {
     const testno = this.state.testno;
     return (
       <div style={{ paddingTop: "1px" }}>
-        <Layout class="layout-container" >
-          <h2 class="h2"> Export Report</h2>
+        <Layout className="layout-container" >
+          <h2 className="h2"> Export Report</h2>
           <Row style={{ paddingTop: "20px" }}>
             <Col sm={2}>
-              <label class="label">
+              <label className="label">
                 Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
               </label>
               <span> &nbsp; &nbsp; &nbsp;</span>
@@ -208,7 +214,7 @@ class ExportData extends Component {
                       <Select
                         defaultValue="Select Turbo ID"
                         style={{ width: "300px" }}
-                        onChange={this.handleChangetestID}
+                        onChange={this.handleChangeTestID}
                       >
                         {testIdValue.map((it) => (
                           <Option key={it.turboname} value={it.turboname}>
@@ -223,7 +229,7 @@ class ExportData extends Component {
             </Col>
 
             <Col sm={2}>
-              <label class="label">
+              <label className="label">
                 Test No <i style={{ color: "red", fontSize: "15px" }}> *</i>
               </label>
               <span> &nbsp; &nbsp; &nbsp;</span>
@@ -256,7 +262,7 @@ class ExportData extends Component {
             }}
           >
             <Col xs={4}>
-              <Button onClick={() => this.getreport()}> View</Button>
+              <Button onClick={() => this.getReport()}> View</Button>
               <span> &nbsp;</span>
             </Col>
           </Row>
@@ -281,8 +287,8 @@ class ExportData extends Component {
           backgroundColor: "#131633", paddingLeft: "20px", width: 'auto', paddingTop: "10px", border: "solid white"
         }}>
           <div id="allreport">
-            <div class="mx-auto" style={{ marginTop: "2%" }}>
-              <div class="main-sparkline12-hd" style={{ textAlign: "center" }}>
+            <div className="mx-auto" style={{ marginTop: "2%" }}>
+              <div className="main-sparkline12-hd" style={{ textAlign: "center" }}>
                 <h1>Export Data</h1>
               </div>
             </div>

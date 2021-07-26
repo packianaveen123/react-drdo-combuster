@@ -4,6 +4,7 @@ import { toggleLeftBar, updateAppState } from '../../../Redux/action'
 import {
   MenuUnfoldOutlined, MenuFoldOutlined,
 } from '@ant-design/icons';
+import { Space } from 'antd';
 
 class HeaderComponent extends Component {
   constructor(props) {
@@ -34,13 +35,13 @@ class HeaderComponent extends Component {
               onClick: this.collapse,
             })}
 
-        <div class="logout-element">
+        <div className="logout-element">
           <div className="logout-content" onClick={this.backToLoginEvent}>
-            <text className="logout-btn"> Logout</text>
+            <a className="logout-btn"> Logout</a >
           </div>
 
           <div className="welcome-message">
-            <text>Welcome {appData.userName}</text>
+            <div>Welcome {appData.userName}</div>
           </div>
         </div>
       </div>
@@ -49,8 +50,8 @@ class HeaderComponent extends Component {
 }
 const LogoValue = () => (
   <div className="testlogo" >
-    <text style={{ color: '#42dad6', fontSize: "20px" }}>ENERTEK</text>
-    <text style={{ color: '#8a8d93', fontSize: "20px" }}>COMBUSTER</text>
+    <Space style={{ color: '#42dad6', fontSize: "20px" }}>ENERTEK</Space>
+    <Space style={{ color: '#8a8d93', fontSize: "20px" }}>COMBUSTER</Space>
   </div>
 )
 

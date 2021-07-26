@@ -42,7 +42,7 @@ class TransferElement extends React.Component {
     }
     this.setState({ mockData, targetKeys });
   };
-  openNotification = (value) => {
+  openNotification = (value) => {                                        //Notification for more than 1 turbine
     setTimeout(() => {
       notification.open({
         key,
@@ -52,7 +52,7 @@ class TransferElement extends React.Component {
       });
     }, 1000);
   };
-  handleChange = (targetKeys, direction, moveKeys) => {
+  handleChange = (targetKeys, direction, moveKeys) => {                            //Transfering data 
     if (targetKeys.length < 6) {
       this.openNotification("bottomRight");
     }
@@ -83,8 +83,8 @@ class TransferElement extends React.Component {
     );
 
     return {
-      label: customLabel, // for displayed item
-      value: item.title, // for title and filter matching
+      label: customLabel,                                                      // for displayed item
+      value: item.title,                                                      // for title and filter matching
     };
   };
 

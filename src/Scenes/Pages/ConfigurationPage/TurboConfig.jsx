@@ -36,6 +36,7 @@ const {
   description_data
 } = turboConfigValue;
 const key = "updatable";
+
 class TurboConfig extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +52,7 @@ class TurboConfig extends Component {
     this.updateBlades = this.updateBlades.bind(this);
   }
 
-  openNotification = (value) => {
+  openNotification = (value) => {                                     //notification for more than 1 turbine active
     setTimeout(() => {
       notification.open({
         key,
@@ -78,7 +79,7 @@ class TurboConfig extends Component {
     });
   }
 
-  onFinish = () => {
+  onFinishSubmit = () => {
     const body = {
       turbo_id: this.state.turboID,
       date: this.state.dateVal,
@@ -137,8 +138,8 @@ class TurboConfig extends Component {
     }
     return (
       <div>
-        <Layout class="layout-container">
-          <h2 class="h2">Turbo Configuration</h2>
+        <Layout className="layout-container">
+          <h2 className="h2">Turbo Configuration</h2>
           <Form
             onFinish={() => {
               const isDuplicateId = turboConfig
@@ -147,13 +148,13 @@ class TurboConfig extends Component {
               {
                 isDuplicateId
                   ? message.warning(error_turbo_msg)
-                  : this.onFinish();
+                  : this.onFinishSubmit();
               }
             }}
           >
             <Row style={{ paddingTop: "20px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
               </Col>
@@ -171,7 +172,7 @@ class TurboConfig extends Component {
                 </Form.Item>
               </Col>
               <Col sm={3}>
-                <label htmlFor="name" class="label">
+                <label htmlFor="name" className="label">
                   Installed Date
                   <i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
@@ -189,7 +190,7 @@ class TurboConfig extends Component {
                 </Form.Item>
               </Col>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Nozzle Area
                   <i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
@@ -219,7 +220,7 @@ class TurboConfig extends Component {
             </Row>
             <Row style={{ marginTop: "5px" }}>
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   Description{" "}
                   <i style={{ color: "red", fontSize: "15px" }}> </i>
                 </label>
@@ -237,7 +238,7 @@ class TurboConfig extends Component {
               </Col>
 
               <Col sm={2}>
-                <label class="label">
+                <label className="label">
                   No of Blades
                   <i style={{ color: "red", fontSize: "15px" }}> *</i>
                 </label>
@@ -273,10 +274,10 @@ class TurboConfig extends Component {
         </Layout>
 
         <div style={{ paddingTop: "25px" }}>
-          <Layout class="bottom-container">
+          <Layout className="bottom-container">
             <Row>
               <Col span={8}>
-                <h2 class="h2">Turbo Configuration</h2>
+                <h2 className="h2">Turbo Configuration</h2>
               </Col>
             </Row>
             {turboConfig ? (

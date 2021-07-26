@@ -10,7 +10,6 @@ import {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
-  updateConfigTableEdit,
   updateTableStatusData
 } from '../../../Redux/action';
 
@@ -39,29 +38,31 @@ class TableComponent extends Component {
     this.updateInputValue = this.updateInputValue.bind(this);
   }
 
-  handleButtonClick = (index) => {
+  handleEditButtonClick = (index) => {                                  //Onclick for edit button
     this.setState({
       editMode: true,
       editRowIndex: index
     })
   }
-  startEdit = () => {
+  startEdit = () => {                                                   //Onclick for startedit button
     this.setState({
       editSession: true
     })
   }
-  updateInputValue = (event, colName) => {
+
+  updateInputValue = (event, colName) => {                              //Onchange for table input
     const { editData: newEditData } = this.state
     newEditData[colName] = event.target.value
     this.setState({ editData: newEditData })
   }
-  updateSelectValue = (event, colName) => {
+
+  updateSelectValue = (event, colName) => {                            //Onchange for table select input
     const { editData: newEditData } = this.state
     newEditData[colName] = event
     this.setState({ editData: newEditData })
   }
 
-  cancelEditMode = () => {
+  cancelEditMode = () => {                                             //Onclick for edit cancel
     let key = this.props.childrenColumnName;
     this.setState({
       editMode: false,
@@ -80,7 +81,7 @@ class TableComponent extends Component {
     })
   }
 
-  updateData = (value) => {
+  updateData = (value) => {                                                  //Onclick for save data
     const configDataValue = {
       page: this.props.childrenColumnName,
       editData: Object.assign({}, this.state.editData),
@@ -90,7 +91,7 @@ class TableComponent extends Component {
       testIdVal: value.testparamconfig_id
     }
 
-    updateConfigData(configDataValue, (data) => {
+    updateConfigData(configDataValue, (data) => {                             //updating edit table data to store
       if (data) {
         let key = this.props.childrenColumnName;
         this.setState({
@@ -115,8 +116,6 @@ class TableComponent extends Component {
     })
   }
 
-
-
   static getDerivedStateFromProps(props, state) {
     return {
       data: props.data || [],
@@ -139,9 +138,9 @@ class TableComponent extends Component {
               }}
               onClick={() => {
                 if (editSession && !editRowIndex && editRowIndex !== 0) {
-                  this.handleButtonClick(index)
+                  this.handleEditButtonClick(index)
                 } else if (index === editRowIndex) {
-                  this.handleButtonClick(index)
+                  this.handleEditButtonClick(index)
                 }
               }
               }
@@ -284,7 +283,7 @@ const mapDispatchToProps = {
   updateTurboConfig,
   updateTestConfigPage,
   updateParamConfig,
-  updateConfigTableEdit,
+
   updateTableStatusData
 }
 

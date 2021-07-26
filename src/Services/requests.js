@@ -65,6 +65,7 @@ const updateConfigData = (data, callBack) => {
       console.log(err.res)
     })
 }
+
 const getTableView = (callBack) => {
   axios.post(tableViewUrl)
     .then(res => {
@@ -74,6 +75,7 @@ const getTableView = (callBack) => {
       console.log(err.res)
     })
 };
+
 const getTestConfigData = (callBack) => {
   axios.get(configTableUrl)
     .then(res => {
@@ -134,6 +136,7 @@ const resetClickEvent = (dataBody, callBack) => {
       console.log(err.res)
     })
 }
+
 const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
     .then(res => {
@@ -161,7 +164,7 @@ export {
   updateConfigData, loginValidation,
   forgotValidation, registerPageValidation,
   getTableView, getSensorData,
-  getHandleChangetestID, requestStatusData,
+  getHandleChangetestID, requestStatusData
 
 
 }

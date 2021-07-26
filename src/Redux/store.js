@@ -10,12 +10,12 @@ const InitialState = {
   titleElements: titleElements,
   testerData: [],
   witnessData: [],
-  turboMode: '',
+  turboMode: '1',
   IsLogin: false,
   IsUserName: [],
 
   // -- config page -- //
-  testConfig: [],
+
   testConfigPage: [],
   turboConfig: [],
   paramConfig: [],
@@ -29,8 +29,6 @@ const InitialState = {
   testValue: '',
   testIdValue: '',
   turboIdTestCount: '',
-  stopDbInsert: false,
-  tableEdit: [],
   testDropdown: 'sub1',
 
   // -- test page -- //
@@ -55,5 +53,6 @@ const InitialState = {
   targetTemp: '',
   resetTemp: '',
   resetRPM: '',
+  startDbInserting: false,
 }
 export default InitialState

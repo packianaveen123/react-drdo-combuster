@@ -41,9 +41,9 @@ div#allreport h1 {
   float: left;
 }
 
- /* --------------------------------- 
+ /* ===================================
       --header/centerbody--
- -----------------------------------*/
+ ===================================*/
 
 /* --header-- */
 .ant-layout-content {
@@ -92,9 +92,9 @@ div#allreport h1 {
   padding-right: 20px; 
 }
 
-/* ----------------------------------
-           sider
- -----------------------------------*/
+/*=======================================
+              sider
+ ========================================*/
 /* --sidebar-- */
 .ant-menu-dark.ant-menu-inline {
   background-color: #c6c6ca;
@@ -157,9 +157,9 @@ div#allreport h1 {
   padding-bottom: 7.02px;
 }
  
-/* ----------------------------------
+/* ===================================
             grid element
- -----------------------------------*/
+ =================================== */
  .ant-card-head {
   color: white;
 }
@@ -291,9 +291,9 @@ div#allreport h1 {
   color:rgb(151, 150, 151);
   font-size: 18px;
 }
-/* -----------------------
+/* ===================================
     Input dropown
--------------------------- */
+=================================== */
  .ant-input-group.ant-input-group-compact
   > .ant-select:last-child 
   > .ant-select-selector { 
@@ -349,7 +349,9 @@ div#allreport h1 {
   background-color: none !important;
 }
 
-/* grid testpage + btn */
+/* ===================================
+         testpage card + btn
+=================================== */
 .add-btn{
   width: 2em;
   height: 3em;
@@ -455,6 +457,7 @@ div#allreport h1 {
 .logout-btn{
   text-transform: uppercase;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: gray;
 }
 .logout-btn:hover{
   color: black;
@@ -510,9 +513,9 @@ div#allreport h1 {
   color: mediumaquamarine;
   }
 
- /* --------------------------------- 
+ /* ===================================
       --pagination--
- -----------------------------------*/
+ ===================================*/
 .ant-pagination-item-active a {
   color: #fff;
   background-color: #131633;
@@ -531,9 +534,9 @@ div#allreport h1 {
   background-color: #131633 !important;
   border-color: rgb(146, 143, 143); 
 }
- /* --------------------------------- 
+ /* ===================================
       --testpage Line--
- -----------------------------------*/
+===================================*/
  .hr {
   border-top: 1px solid #6a6c70;
   margin-top: 1rem;
@@ -544,10 +547,12 @@ div#allreport h1 {
   height: 0;
   overflow: visible;
 }
-
- /* --------------------------------- 
+.ant-row.test-mode {
+  display: none;
+}
+ /* =================================== 
       --dashboard transfer--
- -----------------------------------*/
+ ===================================*/
  .ant-transfer {
    border: none;
    padding-top: 20px;
@@ -719,9 +724,9 @@ width: 32%;
 min-width: 50%; 
 max-width: 300%;
 }
- /* --------------------------------- 
+ /* ===================================
            -- Footer--
- -----------------------------------*/
+ ===================================*/
  .ant-layout-footer {
   padding: 8px 50px;
   font-size: 18px;

@@ -6,7 +6,8 @@ import { updateAppState } from '../../../Redux/action';
 import { registerPageValidation } from '../../../Services/requests';
 import { CompanyDetails, FormDetails } from '../../../Services/constants';
 const { confirm_password, enter_email, enter_username, enter_password,
-  password_notmatch, alert_registered_email, email_notvalid } = FormDetails;
+  password_notmatch, alert_registered_email, email_notvalid,
+  success_msg, alert_username_taken, alert_email_taken } = FormDetails;
 const { company_name, company_data } = CompanyDetails;
 
 class RegisterPage extends Component {
@@ -24,17 +25,18 @@ class RegisterPage extends Component {
       Isemail_reg: ''
     })
   };
-  onFinish = (values) => {
+  submitRegister = (values) => {
     registerPageValidation(values, (data) => {
-      if (data == "success") {
+      let inputData = data.toString();
+      if (inputData === success_msg) {
         this.setState({ redirect: true });
         this.props.updateAppState('login');
       }
-      else if (data == "Sorry... username already taken") {
+      else if (inputData === alert_username_taken) {
         this.state.IsuserName_reg = true;
         this.setState({ redirect: false });
       }
-      else if (data == "email already taken") {
+      else if (inputData === alert_email_taken) {
         this.state.Isemail_reg = true;
         this.setState({ redirect: false });
       }
@@ -51,25 +53,25 @@ class RegisterPage extends Component {
     const Isemail_reg = this.state.Isemail_reg;
 
     return (
-      <div class="background">
-        <div class="wrapper">
-          <div class="form-holder ">
+      <div className="background">
+        <div className="wrapper">
+          <div className="form-holder ">
             <Row style={{ width: '' }}>
               {/* <!-- Logo & Information Panel--> */}
               <Col span={12}  >
-                <div class="info" style={{ paddingTop: "10rem" }}>
+                <div className="info" style={{ paddingTop: "10rem" }}>
                   <h1 style={{ color: 'white' }}>{company_name}</h1>
                   <p>{company_data}</p>
                 </div>
               </Col>
               {/* <!-- Form Panel    --> */}
               <Col span={12} >
-                <div class="form d-flex align-items-center">
-                  <div class="content" style={{ paddingTop: "5rem" }} >
+                <div className="form d-flex align-items-center">
+                  <div className="content" style={{ paddingTop: "5rem" }} >
                     <Form
                       name="register"
                       initialValues={{ remember: true }}
-                      onFinish={this.onFinish}
+                      onFinish={this.submitRegister}
                     >
                       <Form.Item
                         name="user_name"
@@ -163,8 +165,8 @@ class RegisterPage extends Component {
                       </Form.Item>
 
                       <div>
-                        <text style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Already have an account?
-                            <a onClick={this.backToLoginEvent} class="forgot-pass">Login</a></text>
+                        <p style={{ color: 'rgb(151, 150, 151)', fontSize: '18px' }}>Already have an account?
+                            <a onClick={this.backToLoginEvent} className="forgot-pass">Login</a></p>
                       </div>
                     </Form>
                   </div>

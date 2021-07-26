@@ -22,7 +22,7 @@ import {
 } from '../../../Redux/action';
 import {
   updateChartData, navigateMainPage,
-  updateTableStatusData, updateTestIdValue,
+  updateTestIdValue,
   updateTestIdCount, updateTurboMode,
   updateTesterData, updateDropDown
 } from '../../../Redux/action';
@@ -43,7 +43,8 @@ const { SubMenu } = Menu;
 let count = 1
 const { duplicate_msg, warning_Id, warning_mode, warning_name, alert_targetval } = testParamHash;
 const { installed_turbine } = turboConfigValue;
-const { value, cooling_air, natural_gas, dilution, complressor_air } = helpPopup;
+const { value, PilotFlameAirc, FuelInjectorAirc, PilotFlameGasc, FCVAirc, FCVKeroseneFuelc, ByPassValueIc, ByPassValueIIc,
+  IgnitorSwitchc, KerosenePumpc, LubeOilPumpc } = helpPopup;
 class TestPageContainer extends Component {
   constructor(props) {
     super(props)
@@ -64,12 +65,16 @@ class TestPageContainer extends Component {
       visible: false,
       valvestatustime: '',
       valvestatus: '',
-      svcoolingair: 'OFF',
-      svpilotflameair: 'OFF',
-      svnaturalgastopilotflame: 'OFF',
-      svdilution: 'OFF',
-      fcvcomplressorair: 'OFF',
-      fcvmaingasfuel: 'OFF',
+      PilotFlameAirc: 'OFF',
+      FuelInjectorAirc: 'OFF',
+      PilotFlameGasc: 'OFF',
+      FCVAirc: 'OFF',
+      FCVKeroseneFuelc: 'OFF',
+      ByPassValueIc: 'OFF',
+      ByPassValueIIc: 'OFF',
+      IgnitorSwitchc: 'OFF',
+      KerosenePumpc: 'OFF',
+      LubeOilPumpc: 'OFF',
       currentDateTime: '',
       turbostartname: [],
       overalldata: [],
@@ -101,6 +106,7 @@ class TestPageContainer extends Component {
     }
   };
 
+  //add Tester details
   addTesterItem(e) {
     e.preventDefault();
     const { currentTesterItem, testerItems } = this.state
@@ -120,6 +126,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //add Witness details
   addWitnessItem(e) {
     e.preventDefault();
     const { currentWitnessItem, witnessItems } = this.state
@@ -170,6 +177,7 @@ class TestPageContainer extends Component {
     this.props.updateTurboMode(data)
   };
 
+  //select the TestId
   handleChangetestID = (value) => {
     this.setState({
       truboIDnum: true
@@ -179,6 +187,7 @@ class TestPageContainer extends Component {
       turboIdValue: value
     }
     let that = this;
+    //getting data from axios in request page
     getHandleChangetestID(body, (data) => {
       if (data === "" || data.length === 0) {
         that.setState({
@@ -190,15 +199,18 @@ class TestPageContainer extends Component {
           turboIdTestCount: data
         })
       }
+      //updating to the store called turboIdTestCount
       this.props.updateTestIdCount(this.state.turboIdTestCount)
     })
   }
+
   shutdownClick = () => {
     this.setState({
       shutdownInitiated: true,
       shutdownEnable: false
     })
     shutdownClickEvent((data) => {
+      //updating to the store called shutdownInitiated
       this.props.initiateShutdown(data)
     })
   }
@@ -206,6 +218,7 @@ class TestPageContainer extends Component {
   requestChartData() {
     axios.get('http://192.168.0.167:5000/graph.php').then(res => {
       let chartdata = res.data;
+      //updating to the store called chartdata
       this.props.updateChartData(chartdata);
     }).catch(err => {
       console.log(err);
@@ -214,7 +227,7 @@ class TestPageContainer extends Component {
 
   sensorData() {
     getSensorData((data) => {
-      if (this.props.app.stopDbInsert === false) {
+      if (this.props.app.startDbInserting === false) {
         this.props.initiateTurboStart(data);
       }
       else {
@@ -269,7 +282,7 @@ class TestPageContainer extends Component {
     if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" &&
       this.props.app.turboMode !== '' && this.state.testerItems.length !== 0
       && this.props.app.communication === false) {
-      console.log(this.state.turboIdVal)
+
       axios.post('http://192.168.0.167:5000/gettestid.php',
         {
           turboIdVal: this.props.app.testIdValue,
@@ -292,7 +305,6 @@ class TestPageContainer extends Component {
   initializeTestClick = () => {
     var today = new Date(),
       time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-
     this.setState({
       currentDateTime: time
     })
@@ -308,41 +320,62 @@ class TestPageContainer extends Component {
     var self = this;
     axios.get('http://192.168.0.167:5000/valvestatus.php')
       .then(function (response) {
-        let valvedate = response.data.valvestatus
+        let valveData = response.data.valvestatus.split(",")
+        console.log(valveData)
         self.setState({
           valvestatustime: response.data.testcommandsTime
         })
         self.setState({
           valvestatus: response.data.valvestatus
         })
-        if (response.data.valvestatus[0] === 1) {
+        if (valveData[0] === '1') {
           self.setState({
-            svcoolingair: "ON"
+            PilotFlameAirc: "ON"
           })
         }
-        if (response.data.valvestatus[1] === 1) {
+        if (valveData[1] === '1') {
           self.setState({
-            svpilotflameair: "ON"
+            FuelInjectorAirc: "ON"
           })
         }
-        if (response.data.valvestatus[2] === 1) {
+        if (valveData[2] === '1') {
           self.setState({
-            svnaturalgastopilotflame: "ON"
+            PilotFlameGasc: "ON"
           })
         }
-        if (response.data.valvestatus[3] === 1) {
+        if (valveData[3] === '1') {
           self.setState({
-            svdilution: "ON"
+            FCVAirc: "ON"
           })
         }
-        if (response.data.valvestatus[4] === 1) {
+        if (valveData[4] === '1') {
           self.setState({
-            fcvcomplressorair: "ON"
+            FCVKeroseneFuelc: "ON"
           })
         }
-        if (response.data.valvestatus[5] === 1) {
+        if (valveData[5] === '1') {
           self.setState({
-            fcvmaingasfuel: "ON"
+            ByPassValueIc: "ON"
+          })
+        }
+        if (valveData[6] === '1') {
+          self.setState({
+            ByPassValueIIc: "ON"
+          })
+        }
+        if (valveData[7] === '1') {
+          self.setState({
+            IgnitorSwitchc: "ON"
+          })
+        }
+        if (valveData[8] === '1') {
+          self.setState({
+            KerosenePumpc: "ON"
+          })
+        }
+        if (valveData[9] === '1') {
+          self.setState({
+            LubeOilPumpc: "ON"
           })
         }
       })
@@ -350,7 +383,7 @@ class TestPageContainer extends Component {
         console.log(err);
       })
   }
-
+  //input onChange values
   onChangeResettempvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -376,15 +409,13 @@ class TestPageContainer extends Component {
     }
   }
 
-  ResetonClick = () => {
+  resetOnClick = () => {
     axios.post('http://192.168.0.167:5000/reset.php',
       {
         ResetRPM: this.props.app.resetRPM,
         ResetTemp: this.props.app.resetTemp
       })
-      .then(res => {
-        console.log("sucess")
-      })
+      .then(res => { })
       .catch((err) => {
         console.log(err);
       })
@@ -422,11 +453,12 @@ class TestPageContainer extends Component {
     })
   }
 
-  Reloadall = () => {
+  reloadAllEvents = () => {
     this.props.stopDbInsert()
     this.props.updateTestIdCount('');
     this.props.updateTestIdValue('');
     this.props.updateTurboMode('')
+    // this.props.initiateCommunicationFailed('');
 
     this.setState({
       turboIdDefaultValue: "Select Turbo ID",
@@ -460,10 +492,10 @@ class TestPageContainer extends Component {
   }
   render() {
     const shutdownInitiated = this.props.app.shutdownInitiated;
-    const communicationFailed = this.props.app.communicationFailed
-    const communication = this.props.app.communication
-    const targetState = this.props.app.targetState
-    const showTarget = this.props.app.showTarget
+    const communicationFailed = this.props.app.communicationFailed;
+    const communication = this.props.app.communication;
+    const targetState = this.props.app.targetState;
+    const showTarget = this.props.app.showTarget;
     const targetTemp = this.props.app.targetTemp;
     const targetRPM = this.props.app.targetRPM;
     const resetTemp = this.props.app.resetTemp;
@@ -474,7 +506,6 @@ class TestPageContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
-    const testerDetails = this.state.testerItems
 
     var testIdValue = null;
     if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
@@ -493,14 +524,14 @@ class TestPageContainer extends Component {
             >
               <SubMenu key="sub1" className="test-dropdown" title="Turbine Details" style={{ fontSize: '18px' }}>
                 <Layout style={{ backgroundColor: "transparent", paddingTop: "20px", paddingLeft: "20px" }}>
-                  <Row style={{ paddingLeft: "20px" }}>
+                  <Row style={{ paddingLeft: "20px" }} className="test-mode">
                     <Col xs={8}>
                       <form>
                         <Row>
                           <Col xs={5} style={{ marginTop: '20px' }}>
-                            <label for="text" class="label" >Mode</label>
+                            <label htmlFor="text" className="label" >Mode</label>
                           </Col>
-                          {
+                          {/* {
                             communication ?
                               <Radio.Group name="radiogroup"
                                 disabled
@@ -528,7 +559,21 @@ class TestPageContainer extends Component {
                                 <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
                                 <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
                               </Radio.Group>
-                          }
+                          } */}
+
+                          {/* for drdo */}
+                          <Radio.Group name="radiogroup"
+                            defaultValue={1}
+                            onChange={this.onChangeRadio}
+                            style={{
+                              border: '1px solid #3e434d',
+                              width: "300px",
+                              height: "40px",
+                              paddingTop: '4px',
+                              paddingLeft: '25px'
+                            }}>
+                            <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
+                          </Radio.Group>
                         </Row>
                       </form>
                     </Col>
@@ -538,7 +583,7 @@ class TestPageContainer extends Component {
                       <form>
                         <Row>
                           <Col span={5} style={{ marginTop: '20px' }} >
-                            <label for="text" class="label" >Turbo ID</label>
+                            <label htmlFor="text" className="label" >Turbo ID</label>
                           </Col>
                           <Col span={6}>
                             {
@@ -566,7 +611,7 @@ class TestPageContainer extends Component {
                                             {it.turboname}
                                           </Option>
                                         ))}
-                                      </Select> : <Text type="warning">No active turbines</Text>
+                                      </Select> : <p type="warning">No active turbines</p>
                                   }
                                 </Input.Group>
                             }
@@ -595,7 +640,7 @@ class TestPageContainer extends Component {
                       <form onSubmit={(e) => this.addTesterItem(e, 'tester')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
-                            <label for="text" class="label" >Tester</label>
+                            <label htmlFor="text" className="label" >Tester</label>
                           </Col>
                           <Col span={15} >
                             {
@@ -634,7 +679,7 @@ class TestPageContainer extends Component {
                       <form onSubmit={(e) => this.addWitnessItem(e, 'witness')}>
                         <Row>
                           <Col span={4} style={{ marginTop: '20px' }}>
-                            <label for="text" class="label" >Witness</label>
+                            <label htmlFor="text" className="label" >Witness</label>
                           </Col>
                           <Col span={15}>
                             {
@@ -652,7 +697,7 @@ class TestPageContainer extends Component {
                                   style={{ width: "300px" }}
                                   value={this.state.currentWitnessItem}
                                   onChange={this.handleWitnessInput}
-                                  onfocus="this.value=''"
+                                  onFocus="this.value=''"
                                 />
                             }
                           </Col>
@@ -840,7 +885,7 @@ class TestPageContainer extends Component {
                             />
                             <button
                               className="add-btn"
-                              onClick={() => this.ResetonClick()}>
+                              onClick={() => this.resetOnClick()}>
                               +
                             </button>
                           </Row>
@@ -915,7 +960,7 @@ class TestPageContainer extends Component {
                   { width: 100, borderColor: 'gray' }}>
                 <div>
                   {(shutdownInitiated || showTarget === false) ?
-                    <RedoOutlined className="icon-button2" onClick={() => this.Reloadall()} /> :
+                    <RedoOutlined className="icon-button2" onClick={() => this.reloadAllEvents()} /> :
                     <RedoOutlined className="iconbutton2-basic" />
                   }
                 </div>
@@ -930,11 +975,21 @@ class TestPageContainer extends Component {
             <Col span={2}>
               <Popover
                 title={<div><p style={{ fontWeight: 'bold' }}>{value} {this.state.valvestatustime}</p></div>}
-                content={<div><p>{cooling_air} {this.state.svcoolingair} </p> <p>svpilotflameair : {this.state.svpilotflameair}</p>
-                  <p>{natural_gas} {this.state.svnaturalgastopilotflame}</p>
-                  <p>{dilution} {this.state.svdilution}</p>
-                  <p>{complressor_air} {this.state.fcvcomplressorair}</p>
-                  <p>{cooling_air} {this.state.fcvmaingasfuel}</p></div>}
+                content={
+                  <div>
+                    <p>{PilotFlameAirc} {this.state.PilotFlameAirc} </p>
+                    <p>{FuelInjectorAirc} {this.state.FuelInjectorAirc}</p>
+                    <p>{PilotFlameGasc} {this.state.PilotFlameGasc}</p>
+                    <p>{FCVAirc} {this.state.FCVAirc}</p>
+                    <p>{FCVKeroseneFuelc} {this.state.FCVKeroseneFuelc}</p>
+                    <p>{ByPassValueIc} {this.state.ByPassValueIc}</p>
+                    <p>{ByPassValueIIc} {this.state.ByPassValueIIc}</p>
+                    <p>{IgnitorSwitchc} {this.state.IgnitorSwitchc}</p>
+                    <p>{KerosenePumpc} {this.state.KerosenePumpc}</p>
+                    <p>{LubeOilPumpc} {this.state.LubeOilPumpc}</p>
+                  </div>
+                }
+
                 trigger="click"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}
@@ -968,7 +1023,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  navigateMainPage, updateTableStatusData,
+  navigateMainPage,
   initiateShutdown, initiateShowReset,
   initiateCommunicationFailed, initiateCommunication,
   initiateTargetState, initiateShowTarget,
