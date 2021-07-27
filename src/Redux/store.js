@@ -8,8 +8,6 @@ const InitialState = {
   leftBarView: false,
   collapsed: true,
   titleElements: titleElements,
-  testerData: [],
-  witnessData: [],
   turboMode: '1',
   IsLogin: false,
   IsUserName: [],
@@ -24,8 +22,6 @@ const InitialState = {
 
   // -- test details -- //
   testingPage: [],
-  testerValue: false,
-  testValue: '',
   testIdValue: '',
   turboIdTestCount: '',
   testDropdown: 'sub1',

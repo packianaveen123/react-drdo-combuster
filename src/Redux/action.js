@@ -102,11 +102,7 @@ export const updateTestIdCount = data => ({
   type: 'UPDATE_TESTID_COUNT',
   payload: data
 })
-// testerData
-export const updateTesterData = data => ({
-  type: 'UPDATE_TESTER_DATA',
-  payload: data
-})
+
 // turboMode
 export const updateTurboMode = data => ({
   type: 'UPDATE_TURBO_MODE',

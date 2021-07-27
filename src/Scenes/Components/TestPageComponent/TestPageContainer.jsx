@@ -24,7 +24,7 @@ import {
   updateChartData, navigateMainPage,
   updateTestIdValue,
   updateTestIdCount, updateTurboMode,
-  updateTesterData, updateDropDown
+  updateDropDown
 } from '../../../Redux/action';
 import ListItems from '../subComponents/ListItems';
 import {
@@ -95,12 +95,13 @@ class TestPageContainer extends Component {
     requestStatusData((data) => {
       if (typeof data !== 'string' && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");
+
       }
     })
   }
 
   handleVisibleChange = visible => {
-    if (this.state.shutdownEnable) {
+    if (this.props.app.shutdownInitiated === false && this.props.app.showTarget === true) {
       this.setState({ visible });
     }
   };
@@ -475,7 +476,6 @@ class TestPageContainer extends Component {
     this.props.updateTestIdCount('');
     this.props.updateTestIdValue('');
     this.props.updateTurboMode('')
-    // this.props.initiateCommunicationFailed('');
 
     this.setState({
       turboIdDefaultValue: "Select Turbo ID",
@@ -528,6 +528,7 @@ class TestPageContainer extends Component {
     if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
     }
+
     return (
       <div style={{ paddingTop: "25px" }}>
         <Layout style={{ backgroundColor: "#131633", paddingLeft: "20px", minHeight: "768px" }}>
@@ -628,7 +629,8 @@ class TestPageContainer extends Component {
                                             {it.turboname}
                                           </Option>
                                         ))}
-                                      </Select> : <p type="warning">No active turbines</p>
+                                      </Select>
+                                      : <Space type="warning" style={{ color: 'yellow' }}>No active turbines</Space>
                                   }
                                 </Input.Group>
                             }
@@ -785,7 +787,7 @@ class TestPageContainer extends Component {
             </Col>
 
             <Col span={3}>
-              <Card style={communication ?
+              <Card style={communication && showTarget !== true ?
                 { width: 185, cursor: 'pointer', borderColor: 'green' } :
                 { width: 185, borderColor: 'gray' }}>
                 {
@@ -793,7 +795,7 @@ class TestPageContainer extends Component {
                     <PlaySquareOutlined className="icon-button1" onClick={() => this.startClick()} /> :
                     <PlaySquareOutlined className="iconbutton1-basic" />
                 }
-                {communication ?
+                {communication && showTarget !== true ?
                   <p style={{ color: '#42dad6', fontSize: "20px", paddingLeft: '35px' }}> Start</p> :
                   <p style={{ color: 'gray', fontSize: "20px", paddingLeft: '35px' }}> Start</p>
                 }
@@ -806,7 +808,7 @@ class TestPageContainer extends Component {
                           <p>Target Temp,</p>
                         </Col>
                         <Col>
-                          <p>&nbsp;  RPM</p>
+                          <p>RPM</p>
                         </Col>
                       </Row>
                       <Row>
@@ -972,17 +974,17 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={(shutdownInitiated || showTarget === false) ?
+                style={(shutdownInitiated || showTarget === false && communication === false) ?
                   { width: 100, cursor: 'pointer', borderColor: 'green' } :
                   { width: 100, borderColor: 'gray' }}>
                 <div>
-                  {(shutdownInitiated || showTarget === false) ?
+                  {(shutdownInitiated || showTarget === false && communication === false) ?
                     <RedoOutlined className="icon-button2" onClick={() => this.reloadAllEvents()} /> :
                     <RedoOutlined className="iconbutton2-basic" />
                   }
                 </div>
                 {
-                  (shutdownInitiated || showTarget === false) ?
+                  (shutdownInitiated || showTarget === false && communication === false) ?
                     < p style={{ color: '#42dad6', fontSize: "20px" }}>Reset</p> :
                     <p style={{ color: 'gray', fontSize: "20px" }}>Reset</p>
                 }
@@ -1052,7 +1054,7 @@ const mapDispatchToProps = {
   getResetRPM, updateChartData,
   stopDbInsert, startDbInsert,
   updateTestIdValue, updateTestIdCount,
-  updateTurboMode, updateTesterData,
+  updateTurboMode,
   updateDropDown
 }
 

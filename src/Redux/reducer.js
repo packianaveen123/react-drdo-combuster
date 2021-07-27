@@ -83,14 +83,12 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_TESTID_VALUE':
       newState.testIdValue = action.payload ? action.payload : []
       return newState
+
     //turboIdTestCount
     case 'UPDATE_TESTID_COUNT':
       newState.turboIdTestCount = action.payload ? action.payload : []
       return newState
-    //testerData
-    case 'UPDATE_TESTER_DATA':
-      newState.testerData = action.payload ? action.payload : []
-      return newState
+
     //turboMode
     case 'UPDATE_TURBO_MODE':
       newState.turboMode = action.payload ? action.payload : []
