@@ -91,16 +91,16 @@ const testParamHash = {
 }
 const helpPopup = {
   value: 'Valve status at :',
-  PilotFlameAirc: 'PilotFlameAirc :',
-  FuelInjectorAirc: 'FuelInjectorAirc :',
-  PilotFlameGasc: 'PilotFlameGasc : ',
-  FCVAirc: 'FCVAirc : ',
-  FCVKeroseneFuelc: 'FCVKeroseneFuelc : ',
-  ByPassValueIc: 'ByPassValueIc : ',
-  ByPassValueIIc: 'ByPassValueIIc : ',
-  IgnitorSwitchc: 'IgnitorSwitchc : ',
-  KerosenePumpc: 'KerosenePumpc : ',
-  LubeOilPumpc: 'LubeOilPumpc : ',
+  PilotFlameAir: 'PilotFlameAir :',
+  FuelInjectorAir: 'FuelInjectorAir :',
+  PilotFlameGas: 'PilotFlameGas : ',
+  FCVAir: 'FCVAir : ',
+  FCVKeroseneFuel: 'FCVKeroseneFuel : ',
+  ByPassValueI: 'ByPassValueI : ',
+  ByPassValueII: 'ByPassValueII : ',
+  IgnitorSwitch: 'IgnitorSwitch : ',
+  KerosenePump: 'KerosenePump : ',
+  LubeOilPump: 'LubeOilPump : ',
 }
 
 const turboConfigValue = {

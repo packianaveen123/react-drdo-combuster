@@ -42,8 +42,8 @@ const { SubMenu } = Menu;
 let count = 1
 const { duplicate_msg, warning_Id, warning_mode, warning_name, alert_targetval } = testParamHash;
 const { installed_turbine } = turboConfigValue;
-const { value, PilotFlameAirc, FuelInjectorAirc, PilotFlameGasc, FCVAirc, FCVKeroseneFuelc, ByPassValueIc, ByPassValueIIc,
-  IgnitorSwitchc, KerosenePumpc, LubeOilPumpc } = helpPopup;
+const { value, PilotFlameAir, FuelInjectorAir, PilotFlameGas, FCVAir, FCVKeroseneFuel, ByPassValueI, ByPassValueII,
+  IgnitorSwitch, KerosenePump, LubeOilPump } = helpPopup;
 class TestPageContainer extends Component {
   constructor(props) {
     super(props)
@@ -64,16 +64,16 @@ class TestPageContainer extends Component {
       visible: false,
       valvestatustime: '',
       valvestatus: '',
-      PilotFlameAirc: 'OFF',
-      FuelInjectorAirc: 'OFF',
-      PilotFlameGasc: 'OFF',
-      FCVAirc: 'OFF',
-      FCVKeroseneFuelc: 'OFF',
-      ByPassValueIc: 'OFF',
-      ByPassValueIIc: 'OFF',
-      IgnitorSwitchc: 'OFF',
-      KerosenePumpc: 'OFF',
-      LubeOilPumpc: 'OFF',
+      PilotFlameAir: 'OFF',
+      FuelInjectorAir: 'OFF',
+      PilotFlameGas: 'OFF',
+      FCVAir: 'OFF',
+      FCVKeroseneFuel: 'OFF',
+      ByPassValueI: 'OFF',
+      ByPassValueII: 'OFF',
+      IgnitorSwitch: 'OFF',
+      KerosenePump: 'OFF',
+      LubeOilPump: 'OFF',
       currentDateTime: '',
       turbostartname: [],
       overalldata: [],
@@ -342,52 +342,52 @@ class TestPageContainer extends Component {
         })
         if (valveData[0] === '1') {
           self.setState({
-            PilotFlameAirc: "ON"
+            PilotFlameAir: "ON"
           })
         }
         if (valveData[1] === '1') {
           self.setState({
-            FuelInjectorAirc: "ON"
+            FuelInjectorAir: "ON"
           })
         }
         if (valveData[2] === '1') {
           self.setState({
-            PilotFlameGasc: "ON"
+            PilotFlameGas: "ON"
           })
         }
         if (valveData[3] === '1') {
           self.setState({
-            FCVAirc: "ON"
+            FCVAir: "ON"
           })
         }
         if (valveData[4] === '1') {
           self.setState({
-            FCVKeroseneFuelc: "ON"
+            FCVKeroseneFuel: "ON"
           })
         }
         if (valveData[5] === '1') {
           self.setState({
-            ByPassValueIc: "ON"
+            ByPassValueI: "ON"
           })
         }
         if (valveData[6] === '1') {
           self.setState({
-            ByPassValueIIc: "ON"
+            ByPassValueII: "ON"
           })
         }
         if (valveData[7] === '1') {
           self.setState({
-            IgnitorSwitchc: "ON"
+            IgnitorSwitch: "ON"
           })
         }
         if (valveData[8] === '1') {
           self.setState({
-            KerosenePumpc: "ON"
+            KerosenePump: "ON"
           })
         }
         if (valveData[9] === '1') {
           self.setState({
-            LubeOilPumpc: "ON"
+            LubeOilPump: "ON"
           })
         }
       })
@@ -996,19 +996,18 @@ class TestPageContainer extends Component {
                 title={<div><p style={{ fontWeight: 'bold' }}>{value} {this.state.valvestatustime}</p></div>}
                 content={
                   <div>
-                    <p>{PilotFlameAirc} {this.state.PilotFlameAirc} </p>
-                    <p>{FuelInjectorAirc} {this.state.FuelInjectorAirc}</p>
-                    <p>{PilotFlameGasc} {this.state.PilotFlameGasc}</p>
-                    <p>{FCVAirc} {this.state.FCVAirc}</p>
-                    <p>{FCVKeroseneFuelc} {this.state.FCVKeroseneFuelc}</p>
-                    <p>{ByPassValueIc} {this.state.ByPassValueIc}</p>
-                    <p>{ByPassValueIIc} {this.state.ByPassValueIIc}</p>
-                    <p>{IgnitorSwitchc} {this.state.IgnitorSwitchc}</p>
-                    <p>{KerosenePumpc} {this.state.KerosenePumpc}</p>
-                    <p>{LubeOilPumpc} {this.state.LubeOilPumpc}</p>
+                    <p>{PilotFlameAir} {this.state.PilotFlameAir} </p>
+                    <p>{FuelInjectorAir} {this.state.FuelInjectorAir}</p>
+                    <p>{PilotFlameGas} {this.state.PilotFlameGas}</p>
+                    <p>{FCVAir} {this.state.FCVAir}</p>
+                    <p>{FCVKeroseneFuel} {this.state.FCVKeroseneFuel}</p>
+                    <p>{ByPassValueI} {this.state.ByPassValueI}</p>
+                    <p>{ByPassValueII} {this.state.ByPassValueII}</p>
+                    <p>{IgnitorSwitch} {this.state.IgnitorSwitch}</p>
+                    <p>{KerosenePump} {this.state.KerosenePump}</p>
+                    <p>{LubeOilPump} {this.state.LubeOilPump}</p>
                   </div>
                 }
-
                 trigger="click"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}
