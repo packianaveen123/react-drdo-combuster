@@ -272,7 +272,7 @@ class RunningReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getReport}> view</Button>
+                  <Button onClick={this.getReport}> View</Button>
                 </Form.Item>
               </Col>
             </Row>

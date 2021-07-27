@@ -199,7 +199,7 @@ class ExportData extends Component {
       <div style={{ paddingTop: "1px" }}>
         <Layout className="layout-container" >
           <h2 className="h2"> Export Report</h2>
-          <Row style={{ paddingTop: "20px" }}>
+          <Row style={{ paddingTop: "10px" }}>
             <Col sm={2}>
               <label className="label">
                 Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
@@ -283,9 +283,14 @@ class ExportData extends Component {
           Export in Excel
         </Button>
 
-        <Layout style={{
-          backgroundColor: "#131633", paddingLeft: "20px", width: 'auto', paddingTop: "10px", border: "solid white"
-        }}>
+        <Layout
+          style={{
+            backgroundColor: "#131633",
+            paddingLeft: "20px",
+            width: 'auto',
+            paddingTop: "10px",
+            border: "solid white"
+          }}>
           <div id="allreport">
             <div className="mx-auto" style={{ marginTop: "2%" }}>
               <div className="main-sparkline12-hd" style={{ textAlign: "center" }}>

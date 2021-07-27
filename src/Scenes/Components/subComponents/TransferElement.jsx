@@ -40,6 +40,7 @@ class TransferElement extends React.Component {
       mockData.push(data);
     }
     this.setState({ mockData, targetKeys });
+    this.props.updateTargetKeys(targetKeys)
   };
 
   //Notification for more than 1 turbine
