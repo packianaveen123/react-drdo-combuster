@@ -142,7 +142,8 @@ class RunningReport extends Component {
 
   //view the report in table
   getReport = () => {
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
+    console.log('hai')
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
       axios
         .post("http://192.168.0.167:5000/runningReport.php", {
           turboIdVal: this.state.turboIdVal,

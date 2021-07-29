@@ -231,7 +231,7 @@ div#allreport h1 {
 .input {
   width: 100px;
   font-size: 1rem;
-  border: 1px solid #3e434d !important;
+  border: 1px solid gray !important;
   color: #fff;
   background-color: transparent !important;
 }
@@ -240,7 +240,7 @@ div#allreport h1 {
   height: 40px; 
   font-size: 15px;
   background-color: transparent !important;
-  border: 1px solid #3e434d;
+  border: 1px solid gray;
   color: #fff;
 }
 .ant-input-affix-wrapper > input.ant-input {
@@ -258,14 +258,16 @@ div#allreport h1 {
   -webkit-box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
   box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
 }
-
+.ant-table-cell > .ant-input{
+  border: 1px solid gray;
+}
 /* --input number-- */
 .ant-input-number {
   width: 450px;
   height: 40px;
   font-size: 15px;
   background-color: transparent !important;
-  border: 1px solid #3e434d;
+  border: 1px solid gray;
   color: #fff;
 }
 .ant-input-number-input-wrap {
@@ -280,7 +282,7 @@ div#allreport h1 {
   color: #666873;
   font-size: 20px; 
    padding: 11px 11px 8px;
-  border: 1px solid #3e434d;
+  border: 1px solid gray;
   border-radius: 2px;
 }
 .ant-picker-suffix {
@@ -302,7 +304,7 @@ div#allreport h1 {
   /* width:450px; */
   height: 40px;
   font-size: 1rem;
-  border-color: #3e434d;
+  border-color: gray;
   padding-top: 4px;
 }
 .ant-select-arrow {
@@ -557,9 +559,10 @@ div#allreport h1 {
   margin-bottom: 8px !important;
   color: white;
 }
-.ant-popover-title {
+.ant-popover-title, .ant-popover-message-title {
   color: white;
 }
+
 .ant-popover-inner{
   border: 60px;
   background: #212840;

@@ -26,6 +26,7 @@ class LoginPage extends Component {
       loginState: ''
     })
   };
+
   loginOnFinish = (values) => {
     let that = this;
     loginValidation(values, (data) => {

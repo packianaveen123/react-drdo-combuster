@@ -508,8 +508,13 @@ class TestPageContainer extends Component {
       errormsg: '',
       turboIdTestCount: null
     })
-
   }
+
+  alertOnClose = () => {
+    this.props.initiateTargetState();
+    console.log(this.props.app.targetState)
+  };
+
   render() {
     const shutdownInitiated = this.props.app.shutdownInitiated;
     const communicationFailed = this.props.app.communicationFailed;
@@ -823,6 +828,7 @@ class TestPageContainer extends Component {
                       className="alert_error"
                       message={alert_targetval}
                       closable
+                      onClose={this.alertOnClose}
                       style={{ width: '60%' }}
                       type="error" /> : ''
                 }
@@ -997,6 +1003,7 @@ class TestPageContainer extends Component {
                   </div>
                 }
                 trigger="click"
+                placement="bottomRight"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}
               >

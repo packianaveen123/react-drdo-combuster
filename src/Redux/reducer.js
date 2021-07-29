@@ -121,7 +121,7 @@ const appReducer = (state = InitialState, action) => {
       return newState
     //targetState
     case 'TARGET_STATE_INITIATED':
-      newState.targetState = true
+      newState.targetState = !newState.targetState
       return newState
     //showTarget
     case 'SHOW_TARGET_INITIATED':
