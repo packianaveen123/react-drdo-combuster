@@ -62,6 +62,11 @@ export const updateTargetKeys = data => ({
   type: 'UPDATE_TARGET_KEYS',
   payload: data
 })
+//notifyStatus
+export const updateNotifyAction = data => ({
+  type: 'UPDATE_NOTIFY_ACTION',
+  payload: data
+})
 
 /* ---Table component --- */
 //tableViewData

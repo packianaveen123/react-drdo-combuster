@@ -52,6 +52,10 @@ const appReducer = (state = InitialState, action) => {
     case 'UPDATE_TARGET_KEYS':
       newState.targetKeys = action.payload ? action.payload : []
       return newState
+    //notifyStatus
+    case 'UPDATE_NOTIFY_ACTION':
+      newState.notifyStatus = action.payload ? action.payload : []
+      return newState
 
     /* ---Table component --- */
     //tableViewData

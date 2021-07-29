@@ -18,7 +18,8 @@ import {
   initiateFuelOpened, initiateStageTwo,
   initiateGasClosed, initiateStageThree,
   getTargetRPM, getTargetTemp,
-  getResetTemp, getResetRPM, stopDbInsert, startDbInsert
+  getResetTemp, getResetRPM,
+  stopDbInsert, startDbInsert, updateNotifyAction
 } from '../../../Redux/action';
 import {
   updateChartData, navigateMainPage,
@@ -95,7 +96,10 @@ class TestPageContainer extends Component {
     requestStatusData((data) => {
       if (typeof data !== 'string' && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");
-
+        this.props.updateNotifyAction('true');
+      }
+      else if (typeof data !== 'string' && data.length <= installed_turbine) {
+        this.props.updateNotifyAction('false');
       }
     })
   }
@@ -276,7 +280,7 @@ class TestPageContainer extends Component {
       })
       return
     }
-    if (this.props.app.testIdValue === '' || this.props.app.testIdValue === undefined) {
+    if (this.props.app.testIdValue === '' || this.props.app.testIdValue === undefined || this.props.app.testIdValue.length === 0) {
       this.setState({
         errormsg: warning_Id
       })
@@ -291,7 +295,7 @@ class TestPageContainer extends Component {
 
     if (this.props.app.testIdValue !== undefined && this.props.app.testIdValue !== "" &&
       this.props.app.turboMode !== '' && this.state.testerItems.length !== 0
-      && this.props.app.communication === false) {
+      && this.props.app.communication === false && this.props.app.testIdValue.length !== 0) {
 
       axios.post('http://192.168.0.167:5000/gettestid.php',
         {
@@ -333,7 +337,6 @@ class TestPageContainer extends Component {
     axios.get('http://192.168.0.167:5000/valvestatus.php')
       .then(function (response) {
         let valveData = response.data.valvestatus.split(",")
-        console.log(valveData)
         self.setState({
           valvestatustime: response.data.testcommandsTime
         })
@@ -523,7 +526,7 @@ class TestPageContainer extends Component {
     const StartdataArray = turboStart.filter(it => Startdata.find(val => val === it.name))
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
-
+    console.log(this.props.app)
     var testIdValue = null;
     if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
@@ -544,12 +547,12 @@ class TestPageContainer extends Component {
                 <Layout style={{ backgroundColor: "transparent", paddingTop: "20px", paddingLeft: "20px" }}>
                   <Row style={{ paddingLeft: "20px" }} className="test-mode">
                     <Col xs={8}>
-                      <form>
+                      {/* <form>
                         <Row>
                           <Col xs={5} style={{ marginTop: '20px' }}>
                             <label htmlFor="text" className="label" >Mode</label>
                           </Col>
-                          {/* {
+                          {
                             communication ?
                               <Radio.Group name="radiogroup"
                                 disabled
@@ -577,23 +580,9 @@ class TestPageContainer extends Component {
                                 <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
                                 <Radio value={2} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 2</Radio>
                               </Radio.Group>
-                          } */}
-
-                          {/* for drdo */}
-                          <Radio.Group name="radiogroup"
-                            defaultValue={1}
-                            onChange={this.onChangeRadio}
-                            style={{
-                              border: '1px solid #3e434d',
-                              width: "300px",
-                              height: "40px",
-                              paddingTop: '4px',
-                              paddingLeft: '25px'
-                            }}>
-                            <Radio value={1} style={{ color: 'rgb(151, 150, 151)', fontSize: "18px" }}>Turbo 1</Radio>
-                          </Radio.Group>
+                          }
                         </Row>
-                      </form>
+                      </form> */}
                     </Col>
                   </Row>
                   <Row style={{ paddingTop: "2%", paddingLeft: "20px" }}>
@@ -630,7 +619,7 @@ class TestPageContainer extends Component {
                                           </Option>
                                         ))}
                                       </Select>
-                                      : <Space type="warning" style={{ color: 'yellow' }}>No active turbines</Space>
+                                      : <Space type="warning" style={{ color: 'red' }}>No active turbines</Space>
                                   }
                                 </Input.Group>
                             }
@@ -716,7 +705,6 @@ class TestPageContainer extends Component {
                                   style={{ width: "300px" }}
                                   value={this.state.currentWitnessItem}
                                   onChange={this.handleWitnessInput}
-                                  onFocus="this.value=''"
                                 />
                             }
                           </Col>
@@ -808,7 +796,7 @@ class TestPageContainer extends Component {
                           <p>Target Temp,</p>
                         </Col>
                         <Col>
-                          <p>RPM</p>
+                          <p> &nbsp; RPM</p>
                         </Col>
                       </Row>
                       <Row>
@@ -886,8 +874,8 @@ class TestPageContainer extends Component {
                       StartdataArray.find(it => it.name === 'Stage3') ?
                         <p>
                           <Row>
-                            <p>Reset Temp-</p>
-                            <p> RPM</p>
+                            <p>Reset Temp,</p>
+                            <p> &nbsp; RPM</p>
                           </Row>
                           <Row>
                             <Input
@@ -917,7 +905,7 @@ class TestPageContainer extends Component {
                         return (
                           <div>
                             <CheckOutlined style={{ color: 'green' }} />
-                            {item.testcommandsTime} -{item.name}-{item.value}
+                            {item.testcommandsTime} - {item.name} - {item.value}
                             {(() => {
                               if (item.name === "stage3" && count === 1) {
                                 this.props.initiateStageThree();
@@ -1053,8 +1041,7 @@ const mapDispatchToProps = {
   getResetRPM, updateChartData,
   stopDbInsert, startDbInsert,
   updateTestIdValue, updateTestIdCount,
-  updateTurboMode,
-  updateDropDown
+  updateTurboMode, updateDropDown, updateNotifyAction
 }
 
 const TestContainer = connect(

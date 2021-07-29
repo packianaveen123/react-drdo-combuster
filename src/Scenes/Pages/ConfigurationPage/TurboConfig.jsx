@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  updateTurboConfig,
-  updateTitleElements,
-  updateTableStatusData,
+  updateTurboConfig, updateTitleElements,
+  updateTableStatusData, updateNotifyAction
 } from "../../../Redux/action";
 import {
   turbineConfigSubmit,
@@ -46,7 +45,6 @@ class TurboConfig extends Component {
       nozzleArea: nozzleArea_defalutValue,
       discriptionVal: null,
       bladeVal: blade_defalutValue,
-      turbineStatus: false,
     };
     this.updateDate = this.updateDate.bind(this);
     this.updateBlades = this.updateBlades.bind(this);
@@ -61,6 +59,7 @@ class TurboConfig extends Component {
         description:
           description_data,
         value,
+        duration: 0,
       });
     }, 1000);
   };
@@ -68,11 +67,11 @@ class TurboConfig extends Component {
   componentDidMount() {
     let data = this.props.appData.statusData;
     if (typeof data !== 'string' && data.length > installed_turbine) {
-      this.setState({
-        turbineStatus: true,
-      });
-
+      this.props.updateNotifyAction('true');
       this.openNotification();
+    }
+    else if (typeof data !== 'string' && data.length <= installed_turbine) {
+      this.props.updateNotifyAction('false');
     }
 
     this.props.updateTitleElements({
@@ -96,8 +95,15 @@ class TurboConfig extends Component {
     });
     requestStatusData((data) => {
       this.props.updateTableStatusData(data);
+      if (typeof data !== 'string' && data.length >= installed_turbine) {
+        this.props.updateNotifyAction('true');
+      }
+      else if (typeof data !== 'string' && data.length <= installed_turbine) {
+        this.props.updateNotifyAction('false');
+      }
     });
   };
+
   //onChange events
   onchangeTurboID = (e) => {
     this.setState({
@@ -138,9 +144,10 @@ class TurboConfig extends Component {
   render() {
     const { appData } = this.props;
     const { turboConfig } = appData;
-    if (this.state.turbineStatus) {
+    if (this.props.appData.notifyStatus === 'true') {
       this.openNotification("bottomRight");
     }
+
     return (
       <div>
         <Layout className="layout-container">
@@ -317,9 +324,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  updateTurboConfig,
-  updateTitleElements,
-  updateTableStatusData,
+  updateTurboConfig, updateTitleElements,
+  updateTableStatusData, updateNotifyAction
 };
 
 const TurboContainer = connect(

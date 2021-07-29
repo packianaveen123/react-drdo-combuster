@@ -817,7 +817,19 @@ max-width: 300%;
   color:rgb(192, 196, 201);;
   background-color: #131633;
 }
-
+.ant-popover-inner-content p {
+  margin-bottom: 8px !important;
+  color: white;
+}
+.ant-popover-title {
+  color: white;
+}
+.ant-popover-inner{
+  border: 60px;
+  background: #212840;
+  color: white;
+  border-color: white;
+}
 .content-table thead tr {
   background-color: #131633; 
   text-align: left;

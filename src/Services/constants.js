@@ -90,7 +90,7 @@ const testParamHash = {
   alert_targetval: "Please enter target values",
 }
 const helpPopup = {
-  value: 'Valve status at :',
+  value: 'VALVE STATUS AT :',
   PilotFlameAir: 'PilotFlameAir :',
   FuelInjectorAir: 'FuelInjectorAir :',
   PilotFlameGas: 'PilotFlameGas : ',

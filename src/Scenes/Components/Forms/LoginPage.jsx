@@ -27,13 +27,7 @@ class LoginPage extends Component {
     })
   };
   loginOnFinish = (values) => {
-    const cookies = new Cookies();
-
-    cookies.set('user_name', values.user_name, { path: 'http://localhost:3000/' });
-    cookies.set('password', values.password, { path: 'http://localhost:3000/' });
-    console.log(cookies.get('user_name')); // Pacman
     let that = this;
-
     loginValidation(values, (data) => {
       if (data[0] == "success") {
         that.props.updateAppState('main')

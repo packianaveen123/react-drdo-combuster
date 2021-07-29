@@ -19,6 +19,7 @@ const InitialState = {
   dashboardData: dashboardDataVal,
   targetKeys: targetKeysVal,
   tableViewData: [],
+  notifyStatus: 'false',
 
   // -- test details -- //
   testingPage: [],

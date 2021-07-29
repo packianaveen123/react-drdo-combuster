@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { EditOutlined } from '@ant-design/icons';
-import { Table, Space, Input, Popconfirm, Button, Col, Row, Select, Tooltip, message } from 'antd';
+import { Table, Space, Input, Popconfirm, Button, Col, Row, Select, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import {
   updateConfigData, getTurboConfigData, getTestConfigData,
   getParamConfigData, requestStatusData
 } from '../../../Services/requests';
+import { turboConfigValue } from '../../../Services/constants';
 import {
-  updateTurboConfig,
-  updateTestConfigPage,
-  updateParamConfig,
-  updateTableStatusData
+  updateTurboConfig, updateTestConfigPage,
+  updateParamConfig, updateTableStatusData, updateNotifyAction
 } from '../../../Redux/action';
 
+const { installed_turbine } = turboConfigValue;
 const { Option } = Select
 const { Map } = require('immutable');
 const { Column } = Table;
 const text = <span>Click Start Edit</span>;
+
 class TableComponent extends Component {
   constructor(props) {
     super(props);
@@ -112,6 +113,12 @@ class TableComponent extends Component {
       }
       requestStatusData((data) => {
         this.props.updateTableStatusData(data)
+        if (typeof data !== 'string' && data.length > installed_turbine) {
+          this.props.updateNotifyAction('true');
+        }
+        else if (typeof data !== 'string' && data.length <= installed_turbine) {
+          this.props.updateNotifyAction('false');
+        }
       })
     })
   }
@@ -121,6 +128,7 @@ class TableComponent extends Component {
       data: props.data || [],
     };
   }
+
   render() {
     const { data: tableData, editMode, editCancel, editSession } = this.state;
     const { editableColumn } = this.props;
@@ -280,11 +288,8 @@ const mapStateToProps = state => ({
   app: state.app
 })
 const mapDispatchToProps = {
-  updateTurboConfig,
-  updateTestConfigPage,
-  updateParamConfig,
-
-  updateTableStatusData
+  updateTurboConfig, updateTestConfigPage,
+  updateParamConfig, updateTableStatusData, updateNotifyAction
 }
 
 const tablePage = connect(

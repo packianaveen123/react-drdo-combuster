@@ -27,7 +27,7 @@ import {
   getTurboConfigData, getTestConfigData,
   getParamConfigData, turbineConfigSubmit,
   requestStatusData, getHandleChangetestID,
-  getTableView, gettingChartData
+  getTableView
 } from '../../Services/requests';
 
 const { Content, Header, Footer } = Layout;
