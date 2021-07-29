@@ -23,6 +23,7 @@ class ChartComponent extends Component {
     let max = parseInt(upperLimit, 10);
     let min = parseInt(lowerLimit, 10);
     let titleColor;
+
     data.map(It => {                                                    //To display the color variation
       if (It > max) {
         titleColor = 'red'
@@ -30,8 +31,11 @@ class ChartComponent extends Component {
       else if (It < max && It > min) {
         titleColor = 'green'
       }
-      else if (It < min) {
+      else if (It < min && It !== 0) {
         titleColor = 'yellow'
+      }
+      else if (It === 0) {
+        titleColor = 'skyblue'
       }
     })
 

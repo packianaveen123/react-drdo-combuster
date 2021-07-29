@@ -32,6 +32,7 @@ export const updateChartData = data => ({
   type: 'UPDATE_CHART_DATA',
   payload: data
 })
+
 /* ---config page --- */
 // testConfigPage
 export const updateTestConfigPage = data => ({

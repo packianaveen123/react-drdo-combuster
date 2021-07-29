@@ -33,6 +33,7 @@ const FormDetails = {
 
 }
 const CompanyDetails = {
+  year: '2021',
   company_name: 'EnerTek Combuster',
   company_data: 'A product powerd by Vaigunth EnerTek (Pvt.) Ltd.',
   company_link: 'http://www.v-enertek.com/',
@@ -65,7 +66,9 @@ const dashboardSensor = {
     "Turbine Inlet Pressure", "Ambient Pressure ",
     "Compressor Inlet Pressure", "Compressor Outlet Pressure",
     "Ventury meter differential pressure",
-    "Fuel Flow Rate", "Rpm sensor",]
+    "Fuel Flow Rate", "Rpm sensor",],
+  dummyData: 0,
+  chartMax: 5,
 }
 const targetKeysVal = ["1", "2", "4", "8", "13", "14"]
 
