@@ -50,6 +50,7 @@ class TestPageContainer extends Component {
     super(props)
     this.state = {
       turboIdDefaultValue: "Select Turbo ID",
+      turboIdValue: "Select Turbo ID",
       truboIDnum: '',
       turboMode: '',
       testingData: null,
@@ -93,6 +94,7 @@ class TestPageContainer extends Component {
   }
 
   componentDidMount() {
+    this.props.updateTestIdValue('')
     requestStatusData((data) => {
       if (typeof data !== 'string' && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");

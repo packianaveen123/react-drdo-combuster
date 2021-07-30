@@ -10,6 +10,7 @@ class TitleElement extends Component {
       titleValue: ''
     }
   }
+
   render() {
     const titleValue = this.props.app.titleElements;
     return (

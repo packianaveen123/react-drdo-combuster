@@ -16,15 +16,16 @@ class RegisterPage extends Component {
     this.state = {
       IsuserName_reg: false,
       Isemail_reg: false
-
     }
   }
+
   alertOnClose = (e) => {
     this.setState({
       IsuserName_reg: '',
       Isemail_reg: ''
     })
   };
+
   submitRegister = (values) => {
     registerPageValidation(values, (data) => {
       let inputData = data.toString();
@@ -51,7 +52,6 @@ class RegisterPage extends Component {
   render() {
     const IsuserName_reg = this.state.IsuserName_reg;
     const Isemail_reg = this.state.Isemail_reg;
-
     return (
       <div className="background">
         <div className="wrapper">

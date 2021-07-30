@@ -194,10 +194,16 @@ class PerformanceReport extends Component {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
-        let chartdata = res.data;
-        this.setState({
-          testno: chartdata,
-        });
+        let data = res.data;
+        if (typeof data === "string") {
+          this.setState({
+            testno: [],
+          });
+        } else if (data.length > 0 && typeof data !== "string") {
+          this.setState({
+            testno: data,
+          });
+        }
         this.setState({
           turboIdVal: value,
         });

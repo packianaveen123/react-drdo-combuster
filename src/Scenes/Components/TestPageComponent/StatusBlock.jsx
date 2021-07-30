@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import { dashboardSensor } from "../../../Services/constants";
-const { sensorLabel } = dashboardSensor;
+const { sensorLabel, n_shutdown, live, offline } = dashboardSensor;
 
 const styles = {
   online: {
@@ -72,24 +72,26 @@ class StatusBlock extends Component {
     {
       this.props.app.chartData[0] ? receivedDate = this.props.app.chartData[0].testdatadate : receivedDate = null
     }
+
     const date = new Date();
     const db_date = new Date(receivedDate);
     let isActive = false;
+
     if (this.props.app.communication === true) {
       isActive = true
     }
     return (
       <div >
-        <div>
+        <div style={{ paddingLeft: '1000px' }}>
           <Row>
             {nShutdown ?
-              <p style={styles.offline}>N-Shutdown</p>
+              <p style={styles.offline}>{n_shutdown}</p>
               :
               <Row>
                 {isActive ?
-                  <p style={styles.online}>LIVE</p>
+                  <p style={styles.online}>{live}</p>
                   :
-                  <p style={styles.offline}>OFFLINE</p>
+                  <p style={styles.offline}>{offline}</p>
                 }
               </Row>
             }

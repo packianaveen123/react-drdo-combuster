@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Table, Form } from "antd";
+import { Col, Row, Layout, Input, Button, Select, Table, Form, Spin, message } from "antd";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -101,6 +101,7 @@ class ExportData extends Component {
       testno: [],
       reportDetails: [],
       emptyTestno: false,
+      loading: false,
     };
   }
   componentDidMount() {
@@ -111,20 +112,34 @@ class ExportData extends Component {
   }
 
   getReport = () => {
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
+    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+      message.warning("Select the turbo ID");
+    }
+    else if (this.state.testno1 === '' || this.state.testno1 === undefined) {
+      message.warning("Select the test No");
+    }
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.testno1 !== undefined &&
+      this.state.turboIdVal.length !== 0) {
       axios
         .post("http://192.168.0.167:5000/getReport.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          this.setState({
-            reportDetails: res.data,
-          });
+          console.log(typeof (res.data))
+          if (res.data.length > 5 && typeof (res.data) !== "string") {
+            this.setState({
+              reportOut1: res.data,
+            });
+          }
+          else {
+            message.warning("Check the test No");
+          }
         })
         .catch((err) => {
           console.log(err.res);
         });
+      this.setState({ loading: true });
       axios
         .post("http://192.168.0.167:5000/getnames.php", {
           turboIdVal: this.state.turboIdVal,
@@ -134,6 +149,7 @@ class ExportData extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
+            loading: false
           });
         })
         .catch((err) => {
@@ -147,10 +163,16 @@ class ExportData extends Component {
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
-        let chartdata = res.data;
-        this.setState({
-          testno: chartdata,
-        });
+        let data = res.data;
+        if (typeof data === "string") {
+          this.setState({
+            testno: [],
+          });
+        } else if (data.length > 0 && typeof data !== "string") {
+          this.setState({
+            testno: data,
+          });
+        }
         this.setState({
           turboIdVal: value,
         });
@@ -195,6 +217,7 @@ class ExportData extends Component {
   render() {
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
+    console.log(testIdValue)
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout className="layout-container" >
@@ -283,29 +306,31 @@ class ExportData extends Component {
           Export in Excel
         </Button>
 
-        <Layout
-          style={{
-            backgroundColor: "#131633",
-            paddingLeft: "20px",
-            width: 'auto',
-            paddingTop: "10px",
-            border: "solid white"
-          }}>
-          <div id="allreport">
-            <div className="mx-auto" style={{ marginTop: "2%" }}>
-              <div className="main-sparkline12-hd" style={{ textAlign: "center" }}>
-                <h1>Export Data</h1>
+        <Spin tip="Loading..." size="large" spinning={this.state.loading}>
+          <Layout
+            style={{
+              backgroundColor: "#131633",
+              paddingLeft: "20px",
+              width: 'auto',
+              paddingTop: "10px",
+              border: "solid white"
+            }}>
+            <div id="allreport">
+              <div className="mx-auto" style={{ marginTop: "2%" }}>
+                <div className="main-sparkline12-hd" style={{ textAlign: "center" }}>
+                  <h1>Export Data</h1>
+                </div>
               </div>
             </div>
-          </div>
-          <Table
-            id="someRandomID"
-            size="middle"
-            columns={columns}
-            pagination={false}
-            dataSource={this.state.reportDetails}
-            scroll={{ x: 2000 }} />
-        </Layout>
+            <Table
+              id="someRandomID"
+              size="middle"
+              columns={columns}
+              pagination={false}
+              dataSource={this.state.reportDetails}
+              scroll={{ x: 2000 }} />
+          </Layout>
+        </Spin>
       </div>
     );
   }

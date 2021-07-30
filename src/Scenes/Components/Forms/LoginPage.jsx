@@ -20,6 +20,7 @@ class LoginPage extends Component {
       loginState: false
     }
   }
+
   alertOnClose = () => {
     this.setState({
       IsLogin: '',
@@ -44,9 +45,11 @@ class LoginPage extends Component {
   signupEvent = () => {
     this.props.updateAppState('signup');
   }
+
   forgotPasswordEvent = () => {
     this.props.updateAppState('forgotPassword');
   }
+
   render() {
     const appData = this.props.app;
     return (

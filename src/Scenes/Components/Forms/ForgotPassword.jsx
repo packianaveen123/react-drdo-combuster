@@ -7,6 +7,7 @@ import { forgotValidation } from '../../../Services/requests';
 import { CompanyDetails, FormDetails } from '../../../Services/constants';
 const { enter_email, enter_password, confirm_password, password_notmatch, alert_email } = FormDetails;
 const { company_name, company_data } = CompanyDetails;
+
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -15,11 +16,13 @@ class ForgotPassword extends Component {
       IsUserName: false
     }
   }
+
   alertOnClose = () => {
     this.setState({
       IsUserName: '',
     })
   };
+
   submitOnFinish = (values) => {
     forgotValidation(values, (data) => {
       let inputData = data.toString();

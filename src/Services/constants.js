@@ -69,6 +69,10 @@ const dashboardSensor = {
     "Fuel Flow Rate", "Rpm sensor",],
   dummyData: 0,
   chartMax: 5,
+  n_shutdown: 'N-Shutdown',
+  live: 'LIVE',
+  offline: 'OFFLINE'
+
 }
 const targetKeysVal = ["1", "2", "4", "8", "13", "14"]
 
