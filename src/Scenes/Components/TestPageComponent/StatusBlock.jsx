@@ -82,7 +82,7 @@ class StatusBlock extends Component {
     }
     return (
       <div >
-        <div style={{ paddingLeft: '1000px' }}>
+        <div>
           <Row>
             {nShutdown ?
               <p style={styles.offline}>{n_shutdown}</p>

@@ -40,7 +40,7 @@ class TransferElement extends React.Component {
       mockData.push(data);
     }
     this.setState({ mockData, targetKeys });
-    this.props.updateTargetKeys(targetKeys)
+
   };
 
   //Notification for more than 1 turbine
@@ -76,7 +76,21 @@ class TransferElement extends React.Component {
   };
 
   clearChosen = () => {
-    this.getMock();
+    const targetKeys = [];
+    const mockData = [];
+    for (let i = 0; i < this.state.dashboardData.length; i++) {
+      const data = {
+        key: this.state.dashboardData[i].key,
+        title: this.state.dashboardData[i].Name,
+        chosen: this.state.dashboardData[i].chosen,
+      };
+      if (data.chosen) {
+        targetKeys.push(data.key);
+      }
+      mockData.push(data);
+    }
+    this.setState({ mockData, targetKeys });
+    this.props.updateTargetKeys(targetKeysVal)
   };
 
   renderItem = (item) => {

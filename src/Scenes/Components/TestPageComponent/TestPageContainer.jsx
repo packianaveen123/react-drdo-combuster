@@ -50,8 +50,8 @@ class TestPageContainer extends Component {
     super(props)
     this.state = {
       turboIdDefaultValue: "Select Turbo ID",
-      turboIdValue: "Select Turbo ID",
-      truboIDnum: '',
+      // turboIdValue: "Select Turbo ID",
+      truboIDnum: true,
       turboMode: '',
       testingData: null,
       value: null,
@@ -83,7 +83,7 @@ class TestPageContainer extends Component {
       shutdownEnable: false,
       tubineStatus: false,
     }
-    this.handleChange = this.handleChange.bind(this);
+
     this.startClick = this.startClick.bind(this);
     this.addTesterItem = this.addTesterItem.bind(this);
     this.addWitnessItem = this.addWitnessItem.bind(this);
@@ -94,7 +94,7 @@ class TestPageContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.updateTestIdValue('')
+    // this.props.updateTestIdValue('')
     requestStatusData((data) => {
       if (typeof data !== 'string' && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");
@@ -106,6 +106,7 @@ class TestPageContainer extends Component {
     })
   }
 
+  //helpPopover action
   handleVisibleChange = visible => {
     if (this.props.app.shutdownInitiated === false && this.props.app.showTarget === true) {
       this.setState({ visible });
@@ -251,6 +252,7 @@ class TestPageContainer extends Component {
     })
   }
 
+  //getting communication value in request page
   communicationstatus() {
     axios.get('http://192.168.0.167:5000/initialize.php')
       .then(res => {
@@ -266,10 +268,6 @@ class TestPageContainer extends Component {
       .catch((err) => {
         console.log(err);
       })
-  }
-
-  handleChange = (e) => {
-    this.setState({ testValue: e.target.value })
   }
 
   //initialize event onclick
@@ -409,6 +407,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //resetRPM onclick
   onChangeResetRPMvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -416,6 +415,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //targetTemp onclick
   onChangetempvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -423,6 +423,7 @@ class TestPageContainer extends Component {
     }
   }
 
+  //targetRPM onclick
   onChangeRPMvalue = event => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === '' || re.test(event.target.value)) {
@@ -470,12 +471,15 @@ class TestPageContainer extends Component {
       }
     }
   }
+
+  //error msg onclick
   errorDoneClick = () => {
     this.setState({
       errormsg: ''
     })
   }
 
+  //reSet action
   reloadAllEvents = () => {
     this.props.stopDbInsert()
     this.props.updateTestIdCount('');
@@ -512,6 +516,7 @@ class TestPageContainer extends Component {
     })
   }
 
+  //alertOnclose
   alertOnClose = () => {
     this.props.initiateTargetState();
     console.log(this.props.app.targetState)
@@ -534,6 +539,8 @@ class TestPageContainer extends Component {
     const ShutdowndataArray = turboStart.filter(it => Shutdowndata.find(val => val === it.name))
     const ResetdataArray = turboStart.filter(it => Resetdata.find(val => val === it.name))
     console.log(this.props.app)
+    console.log(this.state.truboIDnum)
+
     var testIdValue = null;
     if (this.props.app.statusData !== "no_data" && this.props.app.statusData.length !== 0) {
       var testIdValue = this.props.app.statusData.filter(word => word.status === "installed");
@@ -642,7 +649,7 @@ class TestPageContainer extends Component {
                               >
                                 {this.props.app.testIdValue}
                                 {
-                                  this.props.app.testIdValue ? < MinusOutlined style={{ color: '#42dbdc' }} />
+                                  this.props.app.testIdValue.length !== 0 ? < MinusOutlined style={{ color: '#42dbdc' }} />
                                     : []
                                 }
                                 {this.props.app.turboIdTestCount}

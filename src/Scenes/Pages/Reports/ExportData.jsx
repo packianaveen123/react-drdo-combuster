@@ -126,10 +126,11 @@ class ExportData extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof (res.data))
-          if (res.data.length > 5 && typeof (res.data) !== "string") {
+          let data = res.data
+          console.log(typeof (data))
+          if (data.length > 5 && typeof (data) !== "string") {
             this.setState({
-              reportOut1: res.data,
+              reportDetails: data,
             });
           }
           else {
@@ -217,7 +218,7 @@ class ExportData extends Component {
   render() {
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-    console.log(testIdValue)
+
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout className="layout-container" >
