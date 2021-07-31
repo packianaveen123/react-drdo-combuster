@@ -170,7 +170,11 @@ const Details = {
   ComperMassFlowRate: '55000',
   TotalMassFlowOfAir: '9000',
 }
-
+const reportAlert = {
+  turboID_alert: "Select the turbo ID",
+  testNo_alert: "Select the test No",
+  testno_check: "Check the test No"
+}
 
 export {
   url, FormDetails, CompanyDetails,
@@ -178,5 +182,5 @@ export {
   titleElements, dashboardSensor,
   testParamHash, turboConfigValue,
   dashboardDataMessage, endurence, performance,
-  ComparisonTableDetails, Details, helpPopup
+  ComparisonTableDetails, Details, helpPopup, reportAlert
 }

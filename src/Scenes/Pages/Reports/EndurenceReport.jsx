@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Form } from "antd";
+import { Col, Row, Layout, Input, Button, Select, Form, message, Spin } from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
-import { endurence, CompanyDetails } from "../../../Services/constants";
+import { endurence, CompanyDetails, reportAlert } from "../../../Services/constants";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
 
 const { Option } = Select;
 const { RPM, Minutes, trubineInletTemp } = endurence;
+const { turboID_alert, testNo_alert, testno_check } = reportAlert
 const { drdo_logo } = CompanyDetails
 class EndurenceReport extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class EndurenceReport extends Component {
       turboIdVal: [],
       tester: "",
       witness: "",
+      loading: false,
     };
   }
   componentDidMount() {
@@ -143,20 +145,32 @@ class EndurenceReport extends Component {
   };
 
   getReportTable = () => {
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '') {
+    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+      message.warning(turboID_alert);
+    }
+    else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
+      message.warning(testNo_alert);
+    }
+    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
       axios
         .post("http://192.168.0.167:5000/Endurence.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          this.setState({
-            reportOut: res.data[0],
-          });
+          if (typeof (res.data) !== "string") {
+            this.setState({
+              reportOut: res.data[0],
+            });
+          }
+          else {
+            message.warning(testno_check);
+          }
         })
         .catch((err) => {
           console.log(err.res);
         });
+      this.setState({ loading: true });
       axios
         .post("http://192.168.0.167:5000/getnames.php", {
           turboIdVal: this.state.turboIdVal,
@@ -166,6 +180,7 @@ class EndurenceReport extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
+            loading: false
           });
         })
         .catch((err) => {
@@ -297,294 +312,297 @@ class EndurenceReport extends Component {
         >
           Export Report
         </Button>
+
         {this.state.reportOut ? (
-          <Layout
-            className="bottom-container"
-            style={{
-              paddingTop: "10px",
-              paddingBottom: "30px",
-              border: "solid white",
-            }}
-          >
-            <div id="allreport">
-              <div
-                className="mx-auto"
-                style={{ marginBottom: "1%", marginTop: "2%" }}
-              >
-                <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
-                  <div
-                    className="main-sparkline12-hd"
-                    style={{ textAlign: "center" }}
-                  >
-                    <h1>Endurance Report</h1>
+          <Spin tip="Loading..." size="large" spinning={this.state.loading}>
+            <Layout
+              className="bottom-container"
+              style={{
+                paddingTop: "10px",
+                paddingBottom: "30px",
+                border: "solid white",
+              }}
+            >
+              <div id="allreport">
+                <div
+                  className="mx-auto"
+                  style={{ marginBottom: "1%", marginTop: "2%" }}
+                >
+                  <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+                    <div
+                      className="main-sparkline12-hd"
+                      style={{ textAlign: "center" }}
+                    >
+                      <h1>Endurance Report</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="table-responsive">
-                <img alt="logo" src={drdo_logo} />
-                <table id="report-constants" style={{ marginTop: "10px" }}>
-                  <tr>
-                    <td>SERIAL NUMBER</td>
-                    <td>{this.state.turboIdVal}</td>
-                  </tr>
-                  <tr>
-                    <td>TEST ID</td>
-                    <td>{this.state.testno1}</td>
-                  </tr>
-                </table>
-
-                <table
-                  className="table table-striped table-sm export-table"
-                  id="example1"
-                >
-                  <thead>
+                <div className="table-responsive">
+                  <img alt="logo" src={drdo_logo} />
+                  <table id="report-constants" style={{ marginTop: "10px" }}>
                     <tr>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                        colSpan="6"
-                      >
-                        ENDURANCE TEST
-                      </th>
+                      <td>SERIAL NUMBER</td>
+                      <td>{this.state.turboIdVal}</td>
                     </tr>
                     <tr>
-                      <th
-                        rowspan="2"
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      ></th>
-
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Speed
-                      </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Duration
-                      </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                        colSpan="2"
-                      >
-                        Oil
-                      </th>
-
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Turbo <br /> Inlet Temp
-                      </th>
+                      <td>TEST ID</td>
+                      <td>{this.state.testno1}</td>
                     </tr>
-                    <tr>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        RPM
+                  </table>
+
+                  <table
+                    className="table table-striped table-sm export-table"
+                    id="example1"
+                  >
+                    <thead>
+                      <tr>
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                          colSpan="6"
+                        >
+                          ENDURANCE TEST
                       </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        minutes
+                      </tr>
+                      <tr>
+                        <th
+                          rowspan="2"
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        ></th>
+
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Speed
                       </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Pressure <br /> (kg/cm^2)
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Duration
                       </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Temperature
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                          colSpan="2"
+                        >
+                          Oil
+                      </th>
+
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Turbo <br /> Inlet Temp
+                      </th>
+                      </tr>
+                      <tr>
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          RPM
+                      </th>
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          minutes
+                      </th>
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Pressure <br /> (kg/cm^2)
+                      </th>
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Temperature
                         <br />
                         (deg.C)
                       </th>
-                      <th
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        deg.C
+                        <th
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          deg.C
                       </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Required
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Required
                       </td>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {RPM}
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {RPM}
+                        </td>
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {Minutes}
+                        </td>
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            verticalAlign: "middle",
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {trubineInletTemp}
+                        </td>
+                      </tr>
+                      <tr ng-repeat="Rreport in RunningResult | filter:query  ">
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          Actual(Avg)
                       </td>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {Minutes}
-                      </td>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      ></td>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      ></td>
-                      <td
-                        style={{
-                          verticalAlign: "middle",
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {trubineInletTemp}
-                      </td>
-                    </tr>
-                    <tr ng-repeat="Rreport in RunningResult | filter:query  ">
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        Actual(Avg)
-                      </td>
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {rpm}
-                      </td>
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {this.state.reportOut.Duration}
-                      </td>
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      ></td>
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      ></td>
-                      <td
-                        style={{
-                          border: "1px solid #6a6a6b",
-                          textAlign: "center",
-                        }}
-                      >
-                        {Turbine_Inlet}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="row" style={{ marginTop: "10px" }}>
-                <div className="col-lg-1"></div>
-                <div className="col-lg-4">
-                  <label>
-                    <b>
-                      <u>Tested By: {this.state.tester}</u>
-                    </b>
-                  </label>
-                  <br />
-                  <table>
-                    <tr ng-repeat="tb in TestedBy">
-                      <td></td>
-                    </tr>
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {rpm}
+                        </td>
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {this.state.reportOut.Duration}
+                        </td>
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            border: "1px solid #6a6a6b",
+                            textAlign: "center",
+                          }}
+                        >
+                          {Turbine_Inlet}
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
-                <div className="col-lg-2"></div>
-                <div className="col-lg-4">
-                  <label>
-                    <b>
-                      <u>Witnessed By: {this.state.witness}</u>
-                    </b>
-                  </label>
-                  <br />
-                  <table>
-                    <tr ng-repeat="wn in WitnessName">
-                      <td></td>
-                    </tr>
-                  </table>
+                <div className="row" style={{ marginTop: "10px" }}>
+                  <div className="col-lg-1"></div>
+                  <div className="col-lg-4">
+                    <label>
+                      <b>
+                        <u>Tested By: {this.state.tester}</u>
+                      </b>
+                    </label>
+                    <br />
+                    <table>
+                      <tr ng-repeat="tb in TestedBy">
+                        <td></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div className="col-lg-2"></div>
+                  <div className="col-lg-4">
+                    <label>
+                      <b>
+                        <u>Witnessed By: {this.state.witness}</u>
+                      </b>
+                    </label>
+                    <br />
+                    <table>
+                      <tr ng-repeat="wn in WitnessName">
+                        <td></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div className="col-lg-1"></div>
                 </div>
-                <div className="col-lg-1"></div>
               </div>
-            </div>
-          </Layout>
+            </Layout>
+          </Spin>
         ) : (
           []
         )}

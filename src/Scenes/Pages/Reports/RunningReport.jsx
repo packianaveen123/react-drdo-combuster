@@ -5,10 +5,11 @@ import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
 import jsPDF from "jspdf";
 import Doc from "./DocService";
-import { CompanyDetails } from "../../../Services/constants";
+import { CompanyDetails, reportAlert } from "../../../Services/constants";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
 const { drdo_logo } = CompanyDetails
+const { turboID_alert, testNo_alert, testno_check } = reportAlert
 const { Option } = Select;
 
 class RunningReport extends Component {
@@ -145,10 +146,10 @@ class RunningReport extends Component {
   //view the report in table
   getReport = () => {
     if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
-      message.warning("Select the turbo ID");
+      message.warning(turboID_alert);
     }
     else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
-      message.warning("Select the test No");
+      message.warning(testNo_alert);
     }
     if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
       axios
@@ -157,14 +158,14 @@ class RunningReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof (res.data))
+          console.log(typeof res.data)
           if (res.data.length > 5 && typeof (res.data) !== "string") {
             this.setState({
               reportOut1: res.data,
             });
           }
           else {
-            message.warning("Check the test No");
+            message.warning(testno_check);
           }
         })
         .catch((err) => {
