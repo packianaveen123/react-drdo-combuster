@@ -870,15 +870,15 @@ class TestPageContainer extends Component {
 
             <Col span={3}>
               <Card
-                style={StartdataArray.find(it => it.name === 'Stage3') ?
+                style={StartdataArray.find(it => it.name === 'Stage3') && communication ?
                   { width: 185, cursor: 'pointer', borderColor: 'green' } :
                   { width: 185, borderColor: 'gray' }}>
-                {StartdataArray.find(it => it.name === 'Stage3') ?
+                {StartdataArray.find(it => it.name === 'Stage3') && communication ?
                   <SyncOutlined style={{ color: 'green' }} className="iconbutton1-basic" /> :
                   <SyncOutlined className="iconbutton1-basic" />
                 }
 
-                {StartdataArray.find(it => it.name === 'Stage3') ?
+                {StartdataArray.find(it => it.name === 'Stage3') && communication ?
                   <p style={{ color: '#42dad6', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p> :
                   <p style={{ color: 'gray', fontSize: "19px", paddingLeft: '10px' }}>Reset Temp</p>
                 }
