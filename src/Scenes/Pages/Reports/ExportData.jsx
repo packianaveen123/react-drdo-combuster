@@ -141,7 +141,6 @@ class ExportData extends Component {
         })
         .then((res) => {
           let data = res.data;
-          console.log(typeof data);
           if (data.length > 5 && typeof data !== "string") {
             this.setState({
               reportDetails: data,

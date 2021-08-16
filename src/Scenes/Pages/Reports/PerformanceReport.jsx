@@ -184,8 +184,6 @@ class PerformanceReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof res.data);
-          console.log(res.data);
           if (typeof res.data !== "string") {
             this.setState({
               reportOut1: res.data[0],

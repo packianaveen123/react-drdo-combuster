@@ -262,7 +262,6 @@ class CardComponent extends Component {
   };
 
   render() {
-    console.log(this.props.app.tableViewData);
     if (
       this.state.cardList !== undefined &&
       this.state.cardList.length >= chartMax

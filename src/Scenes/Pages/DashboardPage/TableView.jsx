@@ -92,6 +92,7 @@ class TableView extends Component {
       title: "Table View",
       type: "Dashboard",
     });
+
     //getting data from DB once
     getTableView((data) => {
       const arrStr = this.props.app.targetKeys; //covertion string to number
@@ -104,6 +105,7 @@ class TableView extends Component {
       let filteredTableData = this.state.tabledata.filter((_, index) =>
         dashboardDataNumArr.includes(index)
       );
+
       this.setState({
         filteredTableData: filteredTableData,
       });
@@ -111,6 +113,7 @@ class TableView extends Component {
     });
   }
 
+  //rendering table within the time limit
   testClick = () => {
     const liveDataObj = this.props.app.chartData[0];
     this.state.tabledata.map((item) => {

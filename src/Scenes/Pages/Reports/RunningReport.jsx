@@ -172,7 +172,6 @@ class RunningReport extends Component {
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof res.data);
           if (res.data.length > 5 && typeof res.data !== "string") {
             this.setState({
               reportOut1: res.data,

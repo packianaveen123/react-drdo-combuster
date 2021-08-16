@@ -95,10 +95,14 @@ class TurboConfig extends Component {
       descriptions: this.state.discriptionVal,
       noofblades: this.state.bladeVal,
     };
+
     message.success(added_turbo_msg);
+
     turbineConfigSubmit(body, (data) => {
       this.props.updateTurboConfig(data);
     });
+
+    //getting installed turbine name form db
     requestStatusData((data) => {
       this.props.updateTableStatusData(data);
       if (typeof data !== "string" && data.length >= installed_turbine) {

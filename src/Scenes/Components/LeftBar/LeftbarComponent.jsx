@@ -32,6 +32,8 @@ class LeftbarComponent extends Component {
   //onclick function for toggle collapse
   siderHandleClick = (e, data) => {
     this.props.navigateMainPage(e.key);
+
+    //getting installed turbine name form db
     requestStatusData((data) => {
       this.props.updateTableStatusData(data);
     });
@@ -121,19 +123,15 @@ class LeftbarComponent extends Component {
             style={{ fontSize: "15px" }}
           >
             <Menu.Item
-              key="runningReport"
-              icon={<FiActivity style={{ color: "#42dbdc" }} />}
-            >
-              Running Report{" "}
-            </Menu.Item>
-            <Menu.Item
               key="exportData"
               icon={<AiFillDatabase style={{ color: "#42dbdc" }} />}
             >
               Export Data{" "}
             </Menu.Item>
 
-            {/* <Menu.Item key="performanceReport" icon={<AiFillSignal style={{ color: '#42dbdc' }} />}>Performance Report</Menu.Item>
+            {/* 
+            <Menu.Item key="runningReport" icon={<FiActivity style={{ color: "#42dbdc" }} />}> Running Report{" "}</Menu.Item>
+            <Menu.Item key="performanceReport" icon={<AiFillSignal style={{ color: '#42dbdc' }} />}>Performance Report</Menu.Item>
             <Menu.Item key="endurenceReport" icon={<BiTrendingUp style={{ color: '#42dbdc' }} />}>Endurence Report</Menu.Item>
             <Menu.Item key="performanceafterEndurence" icon={<CgPerformance style={{ color: '#42dbdc' }} />}>Performance After Endurence</Menu.Item> */}
           </SubMenu>

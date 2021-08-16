@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { updateAppState, updateForgotEvent } from "../../../Redux/action";
 import { forgotValidation } from "../../../Services/requests";
 import { CompanyDetails, FormDetails } from "../../../Services/constants";
+
 const {
   enter_email,
   enter_password,
@@ -28,12 +29,14 @@ class ForgotPassword extends Component {
     };
   }
 
+  //error aler box close fn
   alertOnClose = () => {
     this.setState({
       IsUserName: "",
     });
   };
 
+  //Form submit fn
   submitOnFinish = (values) => {
     forgotValidation(values, (data) => {
       let inputData = data.toString();
@@ -46,6 +49,7 @@ class ForgotPassword extends Component {
     });
   };
 
+  //return login page event
   backToLoginEvent = () => {
     this.props.updateAppState("login");
   };

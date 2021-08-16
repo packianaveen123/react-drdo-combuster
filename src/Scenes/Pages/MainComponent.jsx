@@ -62,7 +62,7 @@ export class MainComponent extends Component {
       this.props.updateTurboConfig(data);
     });
 
-    // fetch turbo config data on application load
+    // fetch turboconfig installed data on application load
     requestStatusData((data) => {
       this.props.updateTableStatusData(data);
     });
@@ -85,7 +85,6 @@ export class MainComponent extends Component {
         dashboardDataNumArr.includes(index)
       );
       this.props.updateTableViewData(filteredTableData);
-      console.log(this.props.app.tableViewData);
     });
   }
 

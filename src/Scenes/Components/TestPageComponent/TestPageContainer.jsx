@@ -85,7 +85,9 @@ const {
   warning_name,
   alert_targetval,
 } = testParamHash;
+
 const { installed_turbine } = turboConfigValue;
+
 const {
   value,
   PilotFlameAir,
@@ -99,6 +101,7 @@ const {
   KerosenePump,
   LubeOilPump,
 } = helpPopup;
+
 class TestPageContainer extends Component {
   constructor(props) {
     super(props);
@@ -149,6 +152,8 @@ class TestPageContainer extends Component {
 
   componentDidMount() {
     // this.props.updateTestIdValue('')
+
+    //getting installed turbine name form db
     requestStatusData((data) => {
       if (typeof data !== "string" && data.length > installed_turbine) {
         this.props.navigateMainPage("turboConfig");
@@ -302,8 +307,8 @@ class TestPageContainer extends Component {
   }
 
   sensorData() {
+    //getting initialization status from db
     getSensorData((data) => {
-      //function from request page
       if (this.props.app.startDbInserting === false) {
         this.props.initiateTurboStart(data);
       } else {
@@ -388,7 +393,7 @@ class TestPageContainer extends Component {
     }
   };
 
-  //start click
+  //start click event
   initializeTestClick = () => {
     var today = new Date(),
       time =
@@ -528,14 +533,18 @@ class TestPageContainer extends Component {
         });
         setInterval(() => {
           this.requestChartData();
-        }, this.props.app.delayValue); //delay for graph
+        }, this.props.app.delayValue); //delay for receiving sensor data from plc
         axios
           .post("http://192.168.0.167:5000/start.php", {
+            //set target rpm & temp value to sent plc
             targetRPM: this.props.app.targetRPM,
             targetTemp: this.props.app.targetTemp,
           })
           .then((res) => {
+            //read the response from plc for trget temp & rpm
             let startData = res.data;
+
+            //read status from plc after start click => stage1,stage2 etc...
             axios
               .post("http://192.168.0.167:7000/testdatainsert.php")
               .then(function (response) {});
@@ -596,7 +605,6 @@ class TestPageContainer extends Component {
   //alertOnclose
   alertOnClose = () => {
     this.props.initiateTargetState();
-    console.log(this.props.app.targetState);
   };
 
   render() {
@@ -632,9 +640,6 @@ class TestPageContainer extends Component {
     const InitializedCompletedStatus = InitializedataArray.filter(
       (word) => word.name === "Initialize Completed"
     );
-
-    console.log(this.props.app);
-    console.log(InitializedCompletedStatus);
 
     var testIdValue = null;
     if (

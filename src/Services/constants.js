@@ -85,6 +85,7 @@ const titleElements = [
 ]
 
 const testParamHash = { 
+  Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
   Startdata: ['Start Completed', 'Ignite', 'Gas Opened', 'Stage1', 'Ruel Opened', 'Stage2', 'Fuel Opened', 'Stage2', 'Gas Closed', 'Stage3'],
   Shutdowndata: ['Shutdown Initiated', 'N.Shutdown Completed'],
   Resetdata: ['Reset Values'],
