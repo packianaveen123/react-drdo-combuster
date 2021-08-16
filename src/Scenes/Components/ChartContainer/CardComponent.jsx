@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Card, Col, Row } from 'antd';
-import GraphComponent from './ChartComponent';
-import { connect } from 'react-redux';
-import { updateTableViewData } from '../../../Redux/action';
+import React, { Component } from "react";
+import { Card, Col, Row } from "antd";
+import GraphComponent from "./ChartComponent";
+import { connect } from "react-redux";
+import { updateTableViewData } from "../../../Redux/action";
 import { dashboardSensor } from "../../../Services/constants";
 import { getTableView } from "../../../Services/requests";
+
 const { sensorLabel, dummyData, chartMax } = dashboardSensor;
 
 class CardComponent extends Component {
@@ -12,11 +13,11 @@ class CardComponent extends Component {
     super(props);
     this.state = {
       chartValue: [],
-      textColor: '',
+      textColor: "",
       cardList: [],
       dummygraphData: [
         {
-          FFR: dummyData,                                     //dummyData = 0 in constant page
+          FFR: dummyData, //dummyData = 0 in constant page
           P1: dummyData,
           P2: dummyData,
           P3: dummyData,
@@ -124,17 +125,24 @@ class CardComponent extends Component {
           testdatadate: dummyData,
         },
       ],
-    }
-  }
-  componentDidMount() {
-    getTableView((data) => {                                         //getting this function(data) from request page
-      const arrStr = this.props.app.targetKeys;                     //covertion string to number
-      const dashboardDataNumArr = arrStr.map((i) => Number(i));
-      let filteredTableData = data.filter((_, index) => dashboardDataNumArr.includes(index));
-      this.props.updateTableViewData(filteredTableData)
-    })
+    };
   }
 
+  //Rendering the 6 graph component
+  // componentDidMount() {
+  //   getTableView((data) => {
+  //     //getting this function(data) from request page
+  //     const arrStr = this.props.app.targetKeys; //covertion string to number
+  //     const dashboardDataNumArr = arrStr.map((i) => Number(i));
+  //     let filteredTableData = data.filter((_, index) =>
+  //       dashboardDataNumArr.includes(index)
+  //     );
+  //     this.props.updateTableViewData(filteredTableData);
+  //     console.log(this.props.app.tableViewData);
+  //   });
+  // }
+
+  //Initially to render graph with 0 value
   interval = setInterval(() => {
     {
       this.props.app.chartData.length !== 0
@@ -176,13 +184,19 @@ class CardComponent extends Component {
       p6.push(chartdata[i].P6);
       p7.push(chartdata[i].P7);
       ffr.push(chartdata[i].FFR);
-      date_Time.push(new Date(chartdata[i].date_Time).toLocaleTimeString([], { hour12: false }));
+      date_Time.push(
+        new Date(chartdata[i].date_Time).toLocaleTimeString([], {
+          hour12: false,
+        })
+      );
     }
 
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i)); //covertion string to number
 
-    let filteredDataLabel = sensorLabel.filter((_, index) => dashboardDataNumArr.includes(index)); //chartlabel
+    let filteredDataLabel = sensorLabel.filter((_, index) =>
+      dashboardDataNumArr.includes(index)
+    ); //chartlabel
 
     let chartArray = [];
     chartArray.push(t1);
@@ -201,94 +215,144 @@ class CardComponent extends Component {
     chartArray.push(ffr);
     chartArray.push(rpm);
 
-    let filteredData = chartArray.filter((_, index) => dashboardDataNumArr.includes(index));
+    let filteredData = chartArray.filter((_, index) =>
+      dashboardDataNumArr.includes(index)
+    );
     let filteredDataText;
     {
-      this.props.app.chartData[0] ?
-        filteredDataText = Object.values(this.props.app.chartData[0]).filter((_, index) => dashboardDataNumArr.includes(index)) : filteredDataText = []
+      this.props.app.chartData[0]
+        ? (filteredDataText = Object.values(this.props.app.chartData[0]).filter(
+            (_, index) => dashboardDataNumArr.includes(index)
+          ))
+        : (filteredDataText = []);
     }
 
     let textColor;
-    const chartValue = []
+    const chartValue = [];
     for (let i = 0; i < filteredData.length; i++) {
-      let chart =
-      {
-        size: 8,
-        labels: date_Time,
-        dataSet: {
-          title: filteredDataText,
-          chartData: filteredData[i],
-          filteredDataLabel: filteredDataLabel[i],
-          chartBackgroundColor: [
-            'rgba(24,144,255,0.2)'
-          ],
-          chartBorderColor: [
-            'rgba(24, 144, 255, 0.5)',
-            'rgba(24, 144, 255, 0.5)',
-            'rgba(24, 144, 255, 0.5)',
-            'rgba(24, 144, 255, 0.5)',
-            'rgba(24, 144, 255, 0.5)',
-            'rgba(24, 144, 255, 0.5)'
-          ],
-          chartTextColor: textColor,
-          upperLimitVal: this.props.app.tableViewData[i].upperlimit,
-          normalLimitVal: this.props.app.tableViewData[i].normallimit,
-          lowerLimitVal: this.props.app.tableViewData[i].lowerlimit
-        }
+      if (this.props.app.tableViewData) {
+        let chart = {
+          size: 8,
+          labels: date_Time,
+          dataSet: {
+            title: filteredDataText,
+            chartData: filteredData[i],
+            filteredDataLabel: filteredDataLabel[i],
+            chartBackgroundColor: ["rgba(24,144,255,0.2)"],
+            chartBorderColor: [
+              "rgba(24, 144, 255, 0.5)",
+              "rgba(24, 144, 255, 0.5)",
+              "rgba(24, 144, 255, 0.5)",
+              "rgba(24, 144, 255, 0.5)",
+              "rgba(24, 144, 255, 0.5)",
+              "rgba(24, 144, 255, 0.5)",
+            ],
+            chartTextColor: textColor,
+            upperLimitVal: this.props.app.tableViewData[i].upperlimit,
+            normalLimitVal: this.props.app.tableViewData[i].normallimit,
+            lowerLimitVal: this.props.app.tableViewData[i].lowerlimit,
+          },
+        };
+        chartValue.push(chart);
+        this.setState({
+          cardList: chartValue,
+        });
       }
-      chartValue.push(chart)
-      this.setState({
-        cardList: chartValue
-      })
     }
-  }
+  };
 
   render() {
-    if (this.state.cardList !== undefined && this.state.cardList.length >= chartMax) {
+    console.log(this.props.app.tableViewData);
+    if (
+      this.state.cardList !== undefined &&
+      this.state.cardList.length >= chartMax
+    ) {
       return (
         <div className="site-card-wrapper">
           <Row gutter={16}>
-            {this.state.cardList ?
-              this.state.cardList.map((it, y) => {
-                return (
-                  <Col span={8}>
-                    <Row style={{ paddingTop: '30px' }}>
-                      <Card style={{ backgroundColor: '#131633', height: '250px', border: 'none', borderRadius: '0px' }}>{it.title}
-                        <GraphComponent
-                          data={it.dataSet.chartData ? it.dataSet.chartData : []}
-                          labels={it.dataSet.filteredDataLabel ? it.dataSet.filteredDataLabel : []}
-                          label={it.dataSet.filteredDataLabel ? it.dataSet.filteredDataLabel : "No Label"}
-                          title={it.dataSet.title[y] ? it.dataSet.title[y] : "No Data"}
-                          backgroundColor={it.dataSet.chartBackgroundColor ? it.dataSet.chartBackgroundColor : []}
-                          borderColor={it.dataSet.chartBorderColor ? it.dataSet.chartBorderColor : []}
-                          textColor={it.dataSet.chartTextColor ? it.dataSet.chartTextColor : []}
-                          upperLimit={it.dataSet.upperLimitVal ? it.dataSet.upperLimitVal : []}
-                          normalLimit={it.dataSet.normalLimitVal ? it.dataSet.normalLimitVal : []}
-                          lowerLimit={it.dataSet.lowerLimitVal ? it.dataSet.lowerLimitVal : []}
-                        />
-                      </Card>
-                    </Row>
-                  </Col>
-                )
-              }) : []
-            }
+            {this.state.cardList
+              ? this.state.cardList.map((it, y) => {
+                  return (
+                    <Col span={8}>
+                      <Row style={{ paddingTop: "30px" }}>
+                        <Card
+                          style={{
+                            backgroundColor: "#131633",
+                            height: "250px",
+                            border: "none",
+                            borderRadius: "0px",
+                          }}
+                        >
+                          {it.title}
+                          <GraphComponent
+                            data={
+                              it.dataSet.chartData ? it.dataSet.chartData : []
+                            }
+                            labels={
+                              it.dataSet.filteredDataLabel
+                                ? it.dataSet.filteredDataLabel
+                                : []
+                            }
+                            label={
+                              it.dataSet.filteredDataLabel
+                                ? it.dataSet.filteredDataLabel
+                                : "No Label"
+                            }
+                            title={
+                              it.dataSet.title[y]
+                                ? it.dataSet.title[y]
+                                : "No Data"
+                            }
+                            backgroundColor={
+                              it.dataSet.chartBackgroundColor
+                                ? it.dataSet.chartBackgroundColor
+                                : []
+                            }
+                            borderColor={
+                              it.dataSet.chartBorderColor
+                                ? it.dataSet.chartBorderColor
+                                : []
+                            }
+                            textColor={
+                              it.dataSet.chartTextColor
+                                ? it.dataSet.chartTextColor
+                                : []
+                            }
+                            upperLimit={
+                              it.dataSet.upperLimitVal
+                                ? it.dataSet.upperLimitVal
+                                : []
+                            }
+                            normalLimit={
+                              it.dataSet.normalLimitVal
+                                ? it.dataSet.normalLimitVal
+                                : []
+                            }
+                            lowerLimit={
+                              it.dataSet.lowerLimitVal
+                                ? it.dataSet.lowerLimitVal
+                                : []
+                            }
+                          />
+                        </Card>
+                      </Row>
+                    </Col>
+                  );
+                })
+              : []}
           </Row>
         </div>
       );
-    }
-    else {
-      return (<div className="site-card-wrapper"></div>);
+    } else {
+      return <div className="site-card-wrapper"></div>;
     }
   }
 }
-const mapStateToProps = state => ({
-  app: state.app
-})
+const mapStateToProps = (state) => ({
+  app: state.app,
+});
 const mapDispatchToProps = {
-  updateTableViewData
-}
-const card = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CardComponent)
+  updateTableViewData,
+};
+const card = connect(mapStateToProps, mapDispatchToProps)(CardComponent);
 export default card;

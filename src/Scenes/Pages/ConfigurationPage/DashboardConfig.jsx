@@ -6,16 +6,13 @@ import ParamConfig from "../ConfigurationPage/ParamConfig";
 import { updateTitleElements } from "../../../Redux/action";
 
 export class DashboardConfig extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  componentDidMount() {
+    componentDidMount() {
     this.props.updateTitleElements({
       title: "Dashboard Config",
       type: "Config",
     });
   }
+
   render() {
     return (
       <div>

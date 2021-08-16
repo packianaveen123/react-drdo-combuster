@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Form, Spin, message } from "antd";
+import {
+  Col,
+  Row,
+  Layout,
+  Input,
+  Button,
+  Select,
+  Form,
+  Spin,
+  message,
+} from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
@@ -8,8 +18,8 @@ import Doc from "./DocService";
 import { CompanyDetails, reportAlert } from "../../../Services/constants";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
-const { drdo_logo } = CompanyDetails
-const { turboID_alert, testNo_alert, testno_check } = reportAlert
+const { drdo_logo } = CompanyDetails;
+const { turboID_alert, testNo_alert, testno_check } = reportAlert;
 const { Option } = Select;
 
 class RunningReport extends Component {
@@ -23,7 +33,7 @@ class RunningReport extends Component {
       tester: "",
       witness: "",
       loading: false,
-      defaultTestno: "Select Turbo ID"
+      defaultTestno: "Select Turbo ID",
     };
   }
   componentDidMount() {
@@ -145,26 +155,29 @@ class RunningReport extends Component {
 
   //view the report in table
   getReport = () => {
-    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+    if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
-    }
-    else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
+    } else if (this.state.testno1 === "" || this.state.testno1.length === 0) {
       message.warning(testNo_alert);
     }
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
+    if (
+      this.state.turboIdVal !== "" &&
+      this.state.testno1 !== "" &&
+      this.state.turboIdVal.length !== 0 &&
+      this.state.testno1.length !== 0
+    ) {
       axios
         .post("http://192.168.0.167:5000/runningReport.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof res.data)
-          if (res.data.length > 5 && typeof (res.data) !== "string") {
+          console.log(typeof res.data);
+          if (res.data.length > 5 && typeof res.data !== "string") {
             this.setState({
               reportOut1: res.data,
             });
-          }
-          else {
+          } else {
             message.warning(testno_check);
           }
         })
@@ -181,7 +194,7 @@ class RunningReport extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -276,10 +289,10 @@ class RunningReport extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}{" "}
+                        <Option key={it.testno} value={it.testno}>
+                          {it.testno}
+                        </Option>
+                      ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -296,13 +309,12 @@ class RunningReport extends Component {
             >
               <Col xs={4}>
                 <Form.Item>
-                  <Button onClick={this.getReport} > View</Button>
+                  <Button onClick={this.getReport}> View</Button>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
         </Layout>
-
         <Button
           onClick={this.getReportPDF}
           style={{
@@ -314,7 +326,6 @@ class RunningReport extends Component {
         >
           Export Report
         </Button>
-
         <Spin tip="Loading..." size="large" spinning={this.state.loading}>
           <Layout
             className="bottom-container"
@@ -329,7 +340,10 @@ class RunningReport extends Component {
                 className="mx-auto"
                 style={{ marginBottom: "1%", marginTop: "2%" }}
               >
-                <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+                <div
+                  className="sparkline12-hd"
+                  style={{ paddingBottom: "5px" }}
+                >
                   <div
                     className="main-sparkline12-hd"
                     style={{ textAlign: "center" }}
@@ -367,7 +381,7 @@ class RunningReport extends Component {
                         colSpan="10"
                       >
                         RUNNING IN TEST
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -378,7 +392,7 @@ class RunningReport extends Component {
                         }}
                       >
                         Speed
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -387,7 +401,7 @@ class RunningReport extends Component {
                         }}
                       >
                         Duration
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -395,8 +409,9 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compressor <br />Inlet Temp
-                    </th>
+                        Compressor <br />
+                        Inlet Temp
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -404,8 +419,10 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compressor<br />Outlet Temp
-                    </th>
+                        Compressor
+                        <br />
+                        Outlet Temp
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -413,8 +430,10 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compressor<br />Outlet Pr
-                    </th>
+                        Compressor
+                        <br />
+                        Outlet Pr
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -422,8 +441,9 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Turbine <br />Inlet Temp
-                    </th>
+                        Turbine <br />
+                        Inlet Temp
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -431,8 +451,9 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Turbine<br /> Outlet Temp
-                    </th>
+                        Turbine
+                        <br /> Outlet Temp
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -440,8 +461,10 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Kerosine<br />Flow Rate
-                    </th>
+                        Kerosine
+                        <br />
+                        Flow Rate
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -450,7 +473,7 @@ class RunningReport extends Component {
                         }}
                       >
                         Compressor <br /> Pr Ratio
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -459,7 +482,7 @@ class RunningReport extends Component {
                         }}
                       >
                         Mass <br /> Flow Rate
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -470,7 +493,7 @@ class RunningReport extends Component {
                         }}
                       >
                         RPM
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -479,7 +502,7 @@ class RunningReport extends Component {
                         }}
                       >
                         minutes
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -487,8 +510,10 @@ class RunningReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Pressure<br />(kg/cm^2)
-                    </th>
+                        Pressure
+                        <br />
+                        (kg/cm^2)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -497,9 +522,9 @@ class RunningReport extends Component {
                         }}
                       >
                         Tempr.
-                      <br />
-                      (deg.C)
-                    </th>
+                        <br />
+                        (deg.C)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -508,7 +533,7 @@ class RunningReport extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -517,7 +542,7 @@ class RunningReport extends Component {
                         }}
                       >
                         deg.C
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -526,7 +551,7 @@ class RunningReport extends Component {
                         }}
                       >
                         deg.C
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -535,7 +560,7 @@ class RunningReport extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -544,7 +569,7 @@ class RunningReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -553,7 +578,7 @@ class RunningReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -626,7 +651,8 @@ class RunningReport extends Component {
               </div>
             </div>
           </Layout>
-        </Spin>,
+        </Spin>
+        ,
       </div>
     );
   }

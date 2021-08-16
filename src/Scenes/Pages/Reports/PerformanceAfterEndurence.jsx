@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Form, message, Spin } from "antd";
+import {
+  Col,
+  Row,
+  Layout,
+  Input,
+  Button,
+  Select,
+  Form,
+  message,
+  Spin,
+} from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
@@ -20,7 +30,7 @@ const {
   AirMassFlow,
 } = performance;
 const { Option } = Select;
-const { turboID_alert, testNo_alert, testno_check } = reportAlert
+const { turboID_alert, testNo_alert, testno_check } = reportAlert;
 class PerformanceAfterEndurence extends Component {
   constructor(props) {
     super(props);
@@ -156,26 +166,29 @@ class PerformanceAfterEndurence extends Component {
 
   //viewing  report in the table
   getReport = () => {
-    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+    if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
-    }
-    else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
+    } else if (this.state.testno1 === "" || this.state.testno1.length === 0) {
       message.warning(testNo_alert);
     }
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
+    if (
+      this.state.turboIdVal !== "" &&
+      this.state.testno1 !== "" &&
+      this.state.turboIdVal.length !== 0 &&
+      this.state.testno1.length !== 0
+    ) {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          if (typeof (res.data) !== "string") {
+          if (typeof res.data !== "string") {
             this.setState({
               reportOut1: res.data[0],
               reportOut2: res.data[1],
             });
-          }
-          else {
+          } else {
             message.warning(testno_check);
           }
         })
@@ -192,7 +205,7 @@ class PerformanceAfterEndurence extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -237,8 +250,8 @@ class PerformanceAfterEndurence extends Component {
     this.setState({
       testno: null,
       turboIdVal: null,
-    })
-  }
+    });
+  };
   render() {
     var rpm1 = Math.round(this.state.reportOut1.speed_time * 100) / 100;
     var rpm2 = Math.round(this.state.reportOut2.speed_time * 100) / 100;
@@ -317,10 +330,10 @@ class PerformanceAfterEndurence extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}{" "}
+                        <Option key={it.testno} value={it.testno}>
+                          {it.testno}
+                        </Option>
+                      ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -369,7 +382,10 @@ class PerformanceAfterEndurence extends Component {
                 className="mx-auto"
                 style={{ marginBottom: "1%", marginTop: "2%" }}
               >
-                <div className="sparkline12-hd" style={{ paddingBottom: "15px" }}>
+                <div
+                  className="sparkline12-hd"
+                  style={{ paddingBottom: "15px" }}
+                >
                   <div
                     className="main-sparkline12-hd"
                     style={{ textAlign: "center" }}
@@ -407,7 +423,7 @@ class PerformanceAfterEndurence extends Component {
                         colSpan="12"
                       >
                         PERFORMANCE AFTER ENDURENCE TEST
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -427,7 +443,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Speed
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -436,7 +452,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Duration
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -446,7 +462,7 @@ class PerformanceAfterEndurence extends Component {
                         colSpan="2"
                       >
                         Oil
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -455,7 +471,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Turbo <br /> Inlet Temp
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -463,8 +479,10 @@ class PerformanceAfterEndurence extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compressor<br />Intlet Pr
-                    </th>
+                        Compressor
+                        <br />
+                        Intlet Pr
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -472,8 +490,9 @@ class PerformanceAfterEndurence extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compressor<br /> Outlet Pr
-                    </th>
+                        Compressor
+                        <br /> Outlet Pr
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -482,7 +501,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Pr Ratio
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -491,7 +510,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Air <br /> Mass Flow
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -500,7 +519,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Compressor <br /> Efficiency
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -509,7 +528,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Surge <br /> Margin
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -520,7 +539,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         RPM
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -529,7 +548,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         minutes
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -537,8 +556,9 @@ class PerformanceAfterEndurence extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Pressure<br /> (kg/cm^2)
-                    </th>
+                        Pressure
+                        <br /> (kg/cm^2)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -547,9 +567,9 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Temp.
-                      <br />
-                      (deg.C)
-                    </th>
+                        <br />
+                        (deg.C)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -558,7 +578,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         deg.C
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -567,7 +587,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -576,7 +596,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -585,7 +605,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -594,7 +614,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -603,7 +623,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -612,7 +632,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -625,7 +645,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Required
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -726,7 +746,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Actual(Avg)
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -832,7 +852,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Required
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -933,7 +953,7 @@ class PerformanceAfterEndurence extends Component {
                         }}
                       >
                         Actual(Avg)
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",

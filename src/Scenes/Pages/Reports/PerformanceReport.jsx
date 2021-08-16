@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Form, message, Spin } from "antd";
+import {
+  Col,
+  Row,
+  Layout,
+  Input,
+  Button,
+  Select,
+  Form,
+  message,
+  Spin,
+} from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
@@ -21,7 +31,7 @@ const {
   AirMassFlow,
 } = performance;
 
-const { turboID_alert, testNo_alert, testno_check } = reportAlert
+const { turboID_alert, testNo_alert, testno_check } = reportAlert;
 const { Option } = Select;
 class PerformanceReport extends Component {
   constructor(props) {
@@ -157,28 +167,31 @@ class PerformanceReport extends Component {
 
   //view the report in table
   getReport = () => {
-    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+    if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
-    }
-    else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
+    } else if (this.state.testno1 === "" || this.state.testno1.length === 0) {
       message.warning(testNo_alert);
     }
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
+    if (
+      this.state.turboIdVal !== "" &&
+      this.state.testno1 !== "" &&
+      this.state.turboIdVal.length !== 0 &&
+      this.state.testno1.length !== 0
+    ) {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          console.log(typeof res.data)
-          console.log(res.data)
-          if (typeof (res.data) !== "string") {
+          console.log(typeof res.data);
+          console.log(res.data);
+          if (typeof res.data !== "string") {
             this.setState({
               reportOut1: res.data[0],
               reportOut2: res.data[1],
             });
-          }
-          else {
+          } else {
             message.warning(testno_check);
           }
         })
@@ -195,7 +208,7 @@ class PerformanceReport extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -315,10 +328,10 @@ class PerformanceReport extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}{" "}
+                        <Option key={it.testno} value={it.testno}>
+                          {it.testno}
+                        </Option>
+                      ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -367,7 +380,10 @@ class PerformanceReport extends Component {
                 className="mx-auto"
                 style={{ marginBottom: "1%", marginTop: "2%" }}
               >
-                <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+                <div
+                  className="sparkline12-hd"
+                  style={{ paddingBottom: "5px" }}
+                >
                   <div
                     className="main-sparkline12-hd"
                     style={{ textAlign: "center" }}
@@ -405,7 +421,7 @@ class PerformanceReport extends Component {
                         colSpan="12"
                       >
                         PERFORMANCE TEST
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -425,7 +441,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Speed
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -434,7 +450,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Duration
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -444,7 +460,7 @@ class PerformanceReport extends Component {
                         colSpan="2"
                       >
                         Oil
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -453,7 +469,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Turbo <br /> Inlet Temp
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -462,7 +478,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Compressor <br /> Intlet Pr
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -470,8 +486,9 @@ class PerformanceReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Compresor<br /> Outlet Pr
-                    </th>
+                        Compresor
+                        <br /> Outlet Pr
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -480,7 +497,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Pr Ratio
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -488,8 +505,9 @@ class PerformanceReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Air<br /> Mass Flow
-                    </th>
+                        Air
+                        <br /> Mass Flow
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -498,7 +516,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Compressor <br /> Efficiency
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -507,7 +525,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Surge <br /> Margin
-                    </th>
+                      </th>
                     </tr>
                     <tr>
                       <th
@@ -518,7 +536,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         RPM
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -527,7 +545,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         minutes
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -535,8 +553,9 @@ class PerformanceReport extends Component {
                           textAlign: "center",
                         }}
                       >
-                        Pressure <br />(kg/cm^2)
-                    </th>
+                        Pressure <br />
+                        (kg/cm^2)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -545,9 +564,9 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Tempr.
-                      <br />
-                      (deg.C)
-                    </th>
+                        <br />
+                        (deg.C)
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -556,7 +575,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         deg.C
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -565,7 +584,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -574,7 +593,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         kg/cm^2
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -583,7 +602,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -592,7 +611,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -601,7 +620,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                       <th
                         style={{
                           verticalAlign: "middle",
@@ -610,7 +629,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         %
-                    </th>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -623,7 +642,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Required
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -724,7 +743,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Actual(Avg)
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -830,7 +849,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Required
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",
@@ -931,7 +950,7 @@ class PerformanceReport extends Component {
                         }}
                       >
                         Actual(Avg)
-                    </td>
+                      </td>
                       <td
                         style={{
                           verticalAlign: "middle",

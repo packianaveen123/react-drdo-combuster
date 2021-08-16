@@ -15,6 +15,7 @@ const url = {
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
   GRAPH_DATA: 'graph.php',
+  DELAY_DATA: 'delay.php'
 }
 
 const FormDetails = {
@@ -83,8 +84,7 @@ const titleElements = [
   }
 ]
 
-const testParamHash = {
-  Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
+const testParamHash = { 
   Startdata: ['Start Completed', 'Ignite', 'Gas Opened', 'Stage1', 'Ruel Opened', 'Stage2', 'Fuel Opened', 'Stage2', 'Gas Closed', 'Stage3'],
   Shutdowndata: ['Shutdown Initiated', 'N.Shutdown Completed'],
   Resetdata: ['Reset Values'],
@@ -133,6 +133,7 @@ const dashboardDataMessage = {
   description_data: " Must select 6 sensors.",
   msg_warning: "Select only 6 data",
 }
+
 const endurence = {
   RPM: "53900+/-1%",
   Minutes: "10+/-1",

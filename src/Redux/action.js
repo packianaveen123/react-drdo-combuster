@@ -221,3 +221,8 @@ export const startDbInsert = bool => ({
   type: 'START_DB_INSERT',
   payload: bool
 })
+//delayValue
+export const fetchingDelayValue = data => ({
+  type: 'FETCHING_DELAY_VALUE',
+  payload: data
+})

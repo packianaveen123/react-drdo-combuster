@@ -30,7 +30,7 @@ const InitialState = {
   // -- test page -- //
   statusData: '',
   reset: false,
-  chartData: [],
+  chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   shutdownInitiated: false,
   communicationFailed: false,
   communication: false,
@@ -50,5 +50,6 @@ const InitialState = {
   resetTemp: '',
   resetRPM: '',
   startDbInserting: false,
+  delayValue: ''
 }
 export default InitialState

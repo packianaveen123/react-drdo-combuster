@@ -185,12 +185,17 @@ const appReducer = (state = InitialState, action) => {
       newState.targetRPM = ''
       newState.targetTemp = ''
       newState.shutdownInitiated = false
-      return newState
+      return newState  
 
+    //startDbInserting
     case 'START_DB_INSERT':
-      newState.startDbInserting = false                                   //  startDbInserting
+      newState.startDbInserting = false                                 
       return newState
 
+  //delayValue
+    case 'FETCHING_DELAY_VALUE':
+      newState.delayValue = action.payload
+      return newState
     default:
       return newState
   }

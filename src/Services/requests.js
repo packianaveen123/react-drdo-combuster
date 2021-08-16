@@ -6,7 +6,6 @@ const BASE_URL = URL.BASE_URL
 const loginValidationUrl = `${BASE_URL}${URL.LOGIN_VALIDATION}`
 const forgotValidationUrl = `${BASE_URL}${URL.FORGOT_VALIDATION}`
 const registerPageValidationUrl = `${BASE_URL}${URL.REGISTERPAGE_VALIDATION}`
-
 const turboConfigUrl = `${BASE_URL}${URL.TURBO_CONFIG}`
 const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
 const configTableUrl = `${BASE_URL}${URL.TEST_CONFIG}`
@@ -18,7 +17,8 @@ const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const sensorDataUrl = `${BASE_URL}${URL.SENSOR_DATA}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-const graphDataUrl = `${BASE_URL}${URL.GRAPH_DATA}`
+const graphDataUrl = `${BASE_URL}${URL.GRAPH_DATA}`   
+const delayDataUrl = `${BASE_URL}${URL.DELAY_DATA}`
 
 
 // Form requests
@@ -169,6 +169,17 @@ const getHandleChangetestID = (body, callBack) => {
     })
 };
 
+
+const gettingDelayValue = (callBack) => {
+  axios.post(delayDataUrl)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
+
 export {
   getTurboConfigData, turbineConfigSubmit,
   getTestConfigData, getParamConfigData,
@@ -177,5 +188,5 @@ export {
   forgotValidation, registerPageValidation,
   getTableView, getSensorData,
   getHandleChangetestID, requestStatusData,
-  gettingChartData,
+  gettingChartData, gettingDelayValue,
 }

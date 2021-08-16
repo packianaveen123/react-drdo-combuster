@@ -1,17 +1,31 @@
 import React, { Component } from "react";
-import { Col, Row, Layout, Input, Button, Select, Form, message, Spin } from "antd";
+import {
+  Col,
+  Row,
+  Layout,
+  Input,
+  Button,
+  Select,
+  Form,
+  message,
+  Spin,
+} from "antd";
 import axios from "axios";
 import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
-import { endurence, CompanyDetails, reportAlert } from "../../../Services/constants";
+import {
+  endurence,
+  CompanyDetails,
+  reportAlert,
+} from "../../../Services/constants";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import logo2 from "../../../Images/logo2.png";
 
 const { Option } = Select;
 const { RPM, Minutes, trubineInletTemp } = endurence;
-const { turboID_alert, testNo_alert, testno_check } = reportAlert
-const { drdo_logo } = CompanyDetails
+const { turboID_alert, testNo_alert, testno_check } = reportAlert;
+const { drdo_logo } = CompanyDetails;
 class EndurenceReport extends Component {
   constructor(props) {
     super(props);
@@ -145,25 +159,28 @@ class EndurenceReport extends Component {
   };
 
   getReportTable = () => {
-    if (this.state.turboIdVal === '' || this.state.turboIdVal.length === 0) {
+    if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
-    }
-    else if (this.state.testno1 === '' || this.state.testno1.length === 0) {
+    } else if (this.state.testno1 === "" || this.state.testno1.length === 0) {
       message.warning(testNo_alert);
     }
-    if (this.state.turboIdVal !== '' && this.state.testno1 !== '' && this.state.turboIdVal.length !== 0 && this.state.testno1.length !== 0) {
+    if (
+      this.state.turboIdVal !== "" &&
+      this.state.testno1 !== "" &&
+      this.state.turboIdVal.length !== 0 &&
+      this.state.testno1.length !== 0
+    ) {
       axios
         .post("http://192.168.0.167:5000/Endurence.php", {
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
         .then((res) => {
-          if (typeof (res.data) !== "string") {
+          if (typeof res.data !== "string") {
             this.setState({
               reportOut: res.data[0],
             });
-          }
-          else {
+          } else {
             message.warning(testno_check);
           }
         })
@@ -180,7 +197,7 @@ class EndurenceReport extends Component {
           this.setState({
             tester: res.data[0].tester,
             witness: res.data[0].witness,
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -189,7 +206,8 @@ class EndurenceReport extends Component {
     }
   };
 
-  handleChangeTestID = (value) => {                                     //select the TestID
+  handleChangeTestID = (value) => {
+    //select the TestID
     axios
       .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
@@ -212,7 +230,8 @@ class EndurenceReport extends Component {
       });
   };
 
-  handleChangeTestNO = (value) => {                                   //select the Test Number
+  handleChangeTestNO = (value) => {
+    //select the Test Number
     this.setState({
       testno1: value,
     });
@@ -275,10 +294,10 @@ class EndurenceReport extends Component {
                     >
                       testno ?
                       {testno.map((it) => (
-                      <Option key={it.testno} value={it.testno}>
-                        {it.testno}
-                      </Option>
-                    ))}{" "}
+                        <Option key={it.testno} value={it.testno}>
+                          {it.testno}
+                        </Option>
+                      ))}{" "}
                       : []
                     </Select>
                   </Input.Group>
@@ -328,7 +347,10 @@ class EndurenceReport extends Component {
                   className="mx-auto"
                   style={{ marginBottom: "1%", marginTop: "2%" }}
                 >
-                  <div className="sparkline12-hd" style={{ paddingBottom: "5px" }}>
+                  <div
+                    className="sparkline12-hd"
+                    style={{ paddingBottom: "5px" }}
+                  >
                     <div
                       className="main-sparkline12-hd"
                       style={{ textAlign: "center" }}
@@ -366,7 +388,7 @@ class EndurenceReport extends Component {
                           colSpan="6"
                         >
                           ENDURANCE TEST
-                      </th>
+                        </th>
                       </tr>
                       <tr>
                         <th
@@ -386,7 +408,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Speed
-                      </th>
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -395,7 +417,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Duration
-                      </th>
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -405,7 +427,7 @@ class EndurenceReport extends Component {
                           colSpan="2"
                         >
                           Oil
-                      </th>
+                        </th>
 
                         <th
                           style={{
@@ -415,7 +437,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Turbo <br /> Inlet Temp
-                      </th>
+                        </th>
                       </tr>
                       <tr>
                         <th
@@ -426,7 +448,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           RPM
-                      </th>
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -435,7 +457,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           minutes
-                      </th>
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -444,7 +466,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Pressure <br /> (kg/cm^2)
-                      </th>
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -453,9 +475,9 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Temperature
-                        <br />
-                        (deg.C)
-                      </th>
+                          <br />
+                          (deg.C)
+                        </th>
                         <th
                           style={{
                             verticalAlign: "middle",
@@ -464,7 +486,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           deg.C
-                      </th>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -477,7 +499,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Required
-                      </td>
+                        </td>
                         <td
                           style={{
                             verticalAlign: "middle",
@@ -528,7 +550,7 @@ class EndurenceReport extends Component {
                           }}
                         >
                           Actual(Avg)
-                      </td>
+                        </td>
                         <td
                           style={{
                             border: "1px solid #6a6a6b",
