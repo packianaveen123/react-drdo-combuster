@@ -180,6 +180,7 @@ class PerformanceReport extends Component {
     ) {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
+          //getting table data from eb
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
@@ -199,6 +200,7 @@ class PerformanceReport extends Component {
       this.setState({ loading: true });
       axios
         .post("http://192.168.0.167:5000/getnames.php", {
+          //getting tester and witness name from db
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })

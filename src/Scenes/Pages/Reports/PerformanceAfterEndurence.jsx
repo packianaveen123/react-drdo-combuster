@@ -19,6 +19,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import logo from "../../../Images/logo.png";
 import logo2 from "../../../Images/logo2.png";
+
 const {
   RPM1,
   RPM2,
@@ -29,8 +30,10 @@ const {
   PrRatio,
   AirMassFlow,
 } = performance;
+
 const { Option } = Select;
 const { turboID_alert, testNo_alert, testno_check } = reportAlert;
+
 class PerformanceAfterEndurence extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +48,7 @@ class PerformanceAfterEndurence extends Component {
       loading: false,
     };
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: "Performance After Endurence Report",
@@ -135,6 +139,7 @@ class PerformanceAfterEndurence extends Component {
     }
     doc.setFontSize(8);
     //doc.setTextColor(255, 0, 0);
+
     doc.text(15, finalY + 10, "Tested By: ");
 
     const textWidth = doc.getTextWidth("Tested By: ");
@@ -164,13 +169,14 @@ class PerformanceAfterEndurence extends Component {
     doc.save("PerformanceafterendurenceReport.pdf");
   };
 
-  //viewing  report in the table
+  //viewing  exportdata report in the table
   getReport = () => {
     if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
     } else if (this.state.testno1 === "" || this.state.testno1.length === 0) {
       message.warning(testNo_alert);
     }
+
     if (
       this.state.turboIdVal !== "" &&
       this.state.testno1 !== "" &&
@@ -179,6 +185,7 @@ class PerformanceAfterEndurence extends Component {
     ) {
       axios
         .post("http://192.168.0.167:5000/Performance.php", {
+          //getting table data from db
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
@@ -198,6 +205,7 @@ class PerformanceAfterEndurence extends Component {
       this.setState({ loading: true });
       axios
         .post("http://192.168.0.167:5000/getnames.php", {
+          //getting tester & witness name from db
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
@@ -246,12 +254,7 @@ class PerformanceAfterEndurence extends Component {
       testno1: value,
     });
   };
-  clearReport = () => {
-    this.setState({
-      testno: null,
-      turboIdVal: null,
-    });
-  };
+
   render() {
     var rpm1 = Math.round(this.state.reportOut1.speed_time * 100) / 100;
     var rpm2 = Math.round(this.state.reportOut2.speed_time * 100) / 100;

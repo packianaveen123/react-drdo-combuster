@@ -41,6 +41,7 @@ class EndurenceReport extends Component {
       loading: false,
     };
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: "Endurance Report",
@@ -48,6 +49,7 @@ class EndurenceReport extends Component {
     });
   }
 
+  //downloading report event
   getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);
@@ -158,6 +160,7 @@ class EndurenceReport extends Component {
     doc.save("Endurence Report.pdf");
   };
 
+  //getting exportdata table value
   getReportTable = () => {
     if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning(turboID_alert);
@@ -206,6 +209,7 @@ class EndurenceReport extends Component {
     }
   };
 
+  //getting test number from db using turbo name
   handleChangeTestID = (value) => {
     //select the TestID
     axios
@@ -230,6 +234,7 @@ class EndurenceReport extends Component {
       });
   };
 
+  //test no select onchange event
   handleChangeTestNO = (value) => {
     //select the Test Number
     this.setState({

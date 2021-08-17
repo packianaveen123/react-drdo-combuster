@@ -36,6 +36,7 @@ class RunningReport extends Component {
       defaultTestno: "Select Turbo ID",
     };
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: "Running Report",
@@ -43,6 +44,7 @@ class RunningReport extends Component {
     });
   }
 
+  //downloading excel event
   getReportPDF = () => {
     var doc = new jsPDF();
     doc.setFontSize(12);

@@ -22,6 +22,12 @@ import html2canvas from "html2canvas";
 const { Option } = Select;
 const columns = [
   {
+    title: "testdata time",
+    dataIndex: "testdataDate",
+    key: "testdataDate",
+    fixed: "left",
+  },
+  {
     title: "RPM",
     dataIndex: "rpm",
     key: "rpm",
@@ -97,13 +103,8 @@ const columns = [
     dataIndex: "FFR",
     key: "FFR",
   },
-  {
-    title: "testdataDate",
-    dataIndex: "testdataDate",
-    key: "testdataDate",
-    fixed: "right",
-  },
 ];
+
 class ExportData extends Component {
   constructor(props) {
     super(props);
@@ -115,6 +116,7 @@ class ExportData extends Component {
       loading: false,
     };
   }
+
   componentDidMount() {
     this.props.updateTitleElements({
       title: "ExportData",
@@ -122,12 +124,14 @@ class ExportData extends Component {
     });
   }
 
+  //to view the report
   getReport = () => {
     if (this.state.turboIdVal === "" || this.state.turboIdVal.length === 0) {
       message.warning("Select the turbo ID");
     } else if (this.state.testno1 === "" || this.state.testno1 === undefined) {
       message.warning("Select the test No");
     }
+
     if (
       this.state.turboIdVal !== "" &&
       this.state.testno1 !== "" &&
@@ -136,6 +140,7 @@ class ExportData extends Component {
     ) {
       axios
         .post("http://192.168.0.167:5000/getReport.php", {
+          //getting the exportData table value
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
@@ -155,6 +160,7 @@ class ExportData extends Component {
       this.setState({ loading: true });
       axios
         .post("http://192.168.0.167:5000/getnames.php", {
+          //getting the tester and witness name
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
         })
@@ -201,6 +207,7 @@ class ExportData extends Component {
       testno1: value,
     });
   };
+
   //exporting csv
   exportToCSV = (csvData, fileName) => {
     const fileType =
