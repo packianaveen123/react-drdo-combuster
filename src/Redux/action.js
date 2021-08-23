@@ -125,6 +125,11 @@ export const initiateShutdown = bool => ({
   type: 'SHUTDOWN_INITIATED',
   payload: bool
 })
+//initializeEnable
+export const initializeEnableEvent = data => ({
+  type: 'INITIALIZE_ENABLE_EVENT',
+  payload: data
+})
 // showReset
 export const initiateShowReset = bool => ({
   type: 'SHOW_RESET_INITIATED',

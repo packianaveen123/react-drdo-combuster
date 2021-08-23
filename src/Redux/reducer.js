@@ -106,6 +106,10 @@ const appReducer = (state = InitialState, action) => {
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true
       return newState
+      //initializeEnable 
+      case 'INITIALIZE_ENABLE_EVENT':
+      newState.initializeEnable = true
+      return newState
     //showReset
     case 'SHOW_RESET_INITIATED':
       newState.showReset = true

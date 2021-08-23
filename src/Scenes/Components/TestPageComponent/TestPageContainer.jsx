@@ -48,6 +48,7 @@ import {
   stopDbInsert,
   startDbInsert,
   updateNotifyAction,
+  initializeEnableEvent,
 } from "../../../Redux/action";
 import {
   updateChartData,
@@ -137,7 +138,6 @@ class TestPageContainer extends Component {
       turbostartname: [],
       overalldata: [],
       errormsg: "",
-      shutdownEnable: false,
       tubineStatus: false,
       failedField: [],
     };
@@ -289,8 +289,8 @@ class TestPageContainer extends Component {
   shutdownClick = () => {
     this.setState({
       shutdownInitiated: true,
-      shutdownEnable: false,
     });
+    this.props.initializeEnableEvent(false);
     shutdownClickEvent((data) => {
       //updating to the store called shutdownInitiated
       this.props.initiateShutdown(data);
@@ -325,7 +325,7 @@ class TestPageContainer extends Component {
   //getting communication value in request page
   communicationstatus() {
     axios
-      .get("http://192.168.0.173:5000/initialize.php")
+      .get("http://localhost:5000/initialize.php")
       .then((res) => {
         let CommunicationData = res.data;
         if (CommunicationData.status === "1") {
@@ -381,7 +381,7 @@ class TestPageContainer extends Component {
       this.props.app.testIdValue.length !== 0
     ) {
       axios
-        .post("http://192.168.0.173:5000/gettestid.php", {
+        .post("http://localhost:5000/gettestid.php", {
           turboIdVal: this.props.app.testIdValue,
           testerItems: this.state.testerItems,
           witnessItems: this.state.witnessItems,
@@ -410,17 +410,15 @@ class TestPageContainer extends Component {
     this.setState({
       currentDateTime: time,
     });
-    this.setState({
-      shutdownEnable: true,
-    });
+    this.props.initializeEnableEvent(true);
     axios
-      .get("http://192.168.0.173:8000/testdata.php")
+      .get("http://localhost:8000/testdata.php")
       .then(function (response) {})
       .catch((err) => {
         console.log(err);
       });
     axios
-      .post("http://192.168.0.173:7000/testdatainsert.php")
+      .post("http://localhost:7000/testdatainsert.php")
       .then(function (response) {});
     console.log(this.props.app);
   };
@@ -429,7 +427,7 @@ class TestPageContainer extends Component {
   onClickhelp = () => {
     var self = this;
     axios
-      .get("http://192.168.0.173:5000/valvestatus.php")
+      .get("http://localhost:5000/valvestatus.php")
       .then(function (response) {
         let valveData = response.data.valvestatus.split(",");
         self.setState({
@@ -529,7 +527,7 @@ class TestPageContainer extends Component {
   //reset event onClick
   resetOnClick = () => {
     axios
-      .post("http://192.168.0.173:5000/reset.php", {
+      .post("http://localhost:5000/reset.php", {
         ResetRPM: this.props.app.resetRPM,
         ResetTemp: this.props.app.resetTemp,
       })
@@ -547,7 +545,7 @@ class TestPageContainer extends Component {
 
         //delay for receiving sensor data from plc
         axios
-          .post("http://192.168.0.173:5000/start.php", {
+          .post("http://localhost:5000/start.php", {
             //set target rpm & temp value to sent plc
             targetRPM: this.props.app.targetRPM,
             targetTemp: this.props.app.targetTemp,
@@ -1230,13 +1228,13 @@ class TestPageContainer extends Component {
             <Col span={4}>
               <Card
                 style={
-                  this.state.shutdownEnable
+                  this.props.app.initializeEnable
                     ? { width: 185, borderColor: "red", cursor: "pointer" }
                     : { width: 185, borderColor: "gray" }
                 }
               >
                 <div>
-                  {this.state.shutdownEnable ? (
+                  {this.props.app.initializeEnable ? (
                     <PoweroffOutlined
                       className="icon-button3"
                       onClick={() => this.shutdownClick()}
@@ -1245,7 +1243,7 @@ class TestPageContainer extends Component {
                     <PoweroffOutlined className="iconbutton3-basic" />
                   )}
                 </div>
-                {this.state.shutdownEnable ? (
+                {this.props.app.initializeEnable ? (
                   <p
                     style={{
                       color: "#42dad6",
@@ -1426,6 +1424,7 @@ const mapDispatchToProps = {
   updateTurboMode,
   updateDropDown,
   updateNotifyAction,
+  initializeEnableEvent,
 };
 
 const TestContainer = connect(

@@ -32,6 +32,7 @@ const InitialState = {
   reset: false,
   chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   shutdownInitiated: false,
+  initializeEnable:false,
   communicationFailed: false,
   communication: false,
   targetState: false,
