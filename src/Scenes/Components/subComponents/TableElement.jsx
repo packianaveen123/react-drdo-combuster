@@ -93,12 +93,18 @@ class TableComponent extends Component {
       editData: [],
       editCancel: false,
     });
+
+    //geting data from request page & updating to the turboconfig store
     getTurboConfigData((data) => {
       this.props.updateTurboConfig(data);
     });
+
+    //geting data from request page & updating to the testconfig store
     getTestConfigData((data) => {
       this.props.updateTestConfigPage(data);
     });
+
+    //geting data from request page & updating to the paramconfig store
     getParamConfigData((data) => {
       this.props.updateParamConfig(data);
     });

@@ -18,6 +18,7 @@ import { CgPerformance } from "react-icons/cg";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
+
 class LeftbarComponent extends Component {
   constructor(props) {
     super(props);

@@ -139,6 +139,7 @@ class TestPageContainer extends Component {
       errormsg: "",
       shutdownEnable: false,
       tubineStatus: false,
+      failedField: [],
     };
 
     this.startClick = this.startClick.bind(this);
@@ -306,10 +307,14 @@ class TestPageContainer extends Component {
     });
   }
 
+  //this event trigger while clicking the initialize
   sensorData() {
-    //getting initialization status from db
+    //fetching sensor data from DB
     getSensorData((data) => {
-      if (this.props.app.startDbInserting === false) {
+      if (
+        this.props.app.startDbInserting === false &&
+        this.props.app.communication === true
+      ) {
         this.props.initiateTurboStart(data);
       } else {
         this.props.initiateTurboStart(null);
@@ -320,7 +325,7 @@ class TestPageContainer extends Component {
   //getting communication value in request page
   communicationstatus() {
     axios
-      .get("http://192.168.0.167:5000/initialize.php")
+      .get("http://192.168.0.173:5000/initialize.php")
       .then((res) => {
         let CommunicationData = res.data;
         if (CommunicationData.status === "1") {
@@ -328,6 +333,7 @@ class TestPageContainer extends Component {
         }
         if (CommunicationData.status === "") {
           this.props.initiateCommunicationFailed();
+          this.setState({ failedField: true });
         }
         this.initializeTestClick();
       })
@@ -375,7 +381,7 @@ class TestPageContainer extends Component {
       this.props.app.testIdValue.length !== 0
     ) {
       axios
-        .post("http://192.168.0.167:5000/gettestid.php", {
+        .post("http://192.168.0.173:5000/gettestid.php", {
           turboIdVal: this.props.app.testIdValue,
           testerItems: this.state.testerItems,
           witnessItems: this.state.witnessItems,
@@ -385,7 +391,10 @@ class TestPageContainer extends Component {
           this.communicationstatus();
           let interval = setInterval(() => {
             this.sensorData();
-          }, 500); //delay for getData command status
+          }, 1000); //delay for getData command status
+          setInterval(() => {
+            this.requestChartData();
+          }, this.props.app.delayValue); // sensor value get
         })
         .catch((err) => {
           console.log(err);
@@ -401,19 +410,26 @@ class TestPageContainer extends Component {
     this.setState({
       currentDateTime: time,
     });
+    this.setState({
+      shutdownEnable: true,
+    });
     axios
-      .get("http://192.168.0.167:8000/testdata.php")
+      .get("http://192.168.0.173:8000/testdata.php")
       .then(function (response) {})
       .catch((err) => {
         console.log(err);
       });
+    axios
+      .post("http://192.168.0.173:7000/testdatainsert.php")
+      .then(function (response) {});
+    console.log(this.props.app);
   };
 
   //help event onClick
   onClickhelp = () => {
     var self = this;
     axios
-      .get("http://192.168.0.167:5000/valvestatus.php")
+      .get("http://192.168.0.173:5000/valvestatus.php")
       .then(function (response) {
         let valveData = response.data.valvestatus.split(",");
         self.setState({
@@ -513,7 +529,7 @@ class TestPageContainer extends Component {
   //reset event onClick
   resetOnClick = () => {
     axios
-      .post("http://192.168.0.167:5000/reset.php", {
+      .post("http://192.168.0.173:5000/reset.php", {
         ResetRPM: this.props.app.resetRPM,
         ResetTemp: this.props.app.resetTemp,
       })
@@ -528,14 +544,10 @@ class TestPageContainer extends Component {
     if (this.props.app.communication === true) {
       if (this.props.app.targetRPM !== "" && this.props.app.targetTemp !== "") {
         this.props.initiateShowTarget();
-        this.setState({
-          shutdownEnable: true,
-        });
-        setInterval(() => {
-          this.requestChartData();
-        }, this.props.app.delayValue); //delay for receiving sensor data from plc
+
+        //delay for receiving sensor data from plc
         axios
-          .post("http://192.168.0.167:5000/start.php", {
+          .post("http://192.168.0.173:5000/start.php", {
             //set target rpm & temp value to sent plc
             targetRPM: this.props.app.targetRPM,
             targetTemp: this.props.app.targetTemp,
@@ -545,9 +557,6 @@ class TestPageContainer extends Component {
             let startData = res.data;
 
             //read status from plc after start click => stage1,stage2 etc...
-            axios
-              .post("http://192.168.0.167:7000/testdatainsert.php")
-              .then(function (response) {});
           })
           .catch((err) => {
             console.log(err);
@@ -571,7 +580,7 @@ class TestPageContainer extends Component {
     this.props.updateTestIdCount("");
     this.props.updateTestIdValue("");
     this.props.updateTurboMode("");
-
+    // this.props.initiateCommunicationFailed();
     this.setState({
       turboIdDefaultValue: "Select Turbo ID",
       turboIdValue: "Select Turbo ID",
@@ -599,6 +608,7 @@ class TestPageContainer extends Component {
       overalldata: [],
       errormsg: "",
       turboIdTestCount: null,
+      failedField: [],
     });
   };
 
@@ -621,25 +631,33 @@ class TestPageContainer extends Component {
     const { Initializedata, Startdata, Shutdowndata, Resetdata } =
       testParamHash;
 
-    const InitializedataArray = turboStart.filter((it) =>
-      Initializedata.find((val) => val === it.name)
-    );
+    var InitializedataArray = [];
+    var StartdataArray = [];
+    var ShutdowndataArray = [];
+    var ResetdataArray = [];
+    var InitializedCompletedStatus = [];
 
-    const StartdataArray = turboStart.filter((it) =>
-      Startdata.find((val) => val === it.name)
-    );
+    if (this.props.app.turboStart !== "" || this.props.app.turboStart !== []) {
+      InitializedataArray = turboStart.filter((it) =>
+        Initializedata.find((val) => val === it.name)
+      );
 
-    const ShutdowndataArray = turboStart.filter((it) =>
-      Shutdowndata.find((val) => val === it.name)
-    );
+      StartdataArray = turboStart.filter((it) =>
+        Startdata.find((val) => val === it.name)
+      );
 
-    const ResetdataArray = turboStart.filter((it) =>
-      Resetdata.find((val) => val === it.name)
-    );
+      ShutdowndataArray = turboStart.filter((it) =>
+        Shutdowndata.find((val) => val === it.name)
+      );
 
-    const InitializedCompletedStatus = InitializedataArray.filter(
-      (word) => word.name === "Initialize Completed"
-    );
+      ResetdataArray = turboStart.filter((it) =>
+        Resetdata.find((val) => val === it.name)
+      );
+
+      InitializedCompletedStatus = InitializedataArray.filter(
+        (word) => word.name === "Initialize Completed"
+      );
+    }
 
     var testIdValue = null;
     if (
@@ -675,7 +693,7 @@ class TestPageContainer extends Component {
               <SubMenu
                 key="sub1"
                 className="test-dropdown"
-                title="Turbine Details"
+                title="Turbo Details"
                 style={{ fontSize: "18px" }}
               >
                 <Layout
@@ -768,7 +786,7 @@ class TestPageContainer extends Component {
                                     type="warning"
                                     style={{ color: "red" }}
                                   >
-                                    No active turbines
+                                    No active turbo
                                   </Space>
                                 )}
                               </Input.Group>
@@ -934,12 +952,19 @@ class TestPageContainer extends Component {
                 </p>
                 {communicationFailed ? (
                   <p>
-                    <Row>
-                      <CloseOutlined
-                        style={{ color: "red", marginTop: "1%" }}
-                      />
-                      <p>{this.state.currentDateTime}- Communication failed</p>
-                    </Row>
+                    {this.state.failedField === true ? (
+                      <Row>
+                        <CloseOutlined
+                          style={{ color: "red", marginTop: "1%" }}
+                        />
+
+                        <p>
+                          {this.state.currentDateTime}- Communication failed
+                        </p>
+                      </Row>
+                    ) : (
+                      []
+                    )}
                   </p>
                 ) : (
                   []
@@ -1205,13 +1230,13 @@ class TestPageContainer extends Component {
             <Col span={4}>
               <Card
                 style={
-                  showTarget
+                  this.state.shutdownEnable
                     ? { width: 185, borderColor: "red", cursor: "pointer" }
                     : { width: 185, borderColor: "gray" }
                 }
               >
                 <div>
-                  {showTarget ? (
+                  {this.state.shutdownEnable ? (
                     <PoweroffOutlined
                       className="icon-button3"
                       onClick={() => this.shutdownClick()}
@@ -1220,7 +1245,7 @@ class TestPageContainer extends Component {
                     <PoweroffOutlined className="iconbutton3-basic" />
                   )}
                 </div>
-                {showTarget ? (
+                {this.state.shutdownEnable ? (
                   <p
                     style={{
                       color: "#42dad6",

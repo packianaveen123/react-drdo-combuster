@@ -130,7 +130,7 @@ export const initiateShowReset = bool => ({
   type: 'SHOW_RESET_INITIATED',
   payload: bool
 })
-// communicationfailed
+// communicationFailed
 export const initiateCommunicationFailed = bool => ({
   type: 'COMMUNICATION_FAILED_INITIATED',
   payload: bool

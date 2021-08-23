@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Row } from "antd";
 import { connect } from "react-redux";
 import { dashboardSensor } from "../../../Services/constants";
+import { getTableView } from "../../../Services/requests";
 const { sensorLabel, n_shutdown, live, offline } = dashboardSensor;
 
 const styles = {
@@ -34,7 +35,26 @@ class StatusBlock extends Component {
       isT2UpArrow: true,
       isT9UpArrow: true,
       isP2UpArrow: true,
+      tabledata: [],
+      filteredTableData: [],
     };
+  }
+  componentDidMount() {
+    //getting data from DB once
+    getTableView((data) => {
+      const arrStr = this.props.app.targetKeys; //covertion string to number
+      const dashboardDataNumArr = arrStr.map((i) => Number(i));
+      this.setState({
+        tabledata: data,
+      });
+      //filtering the limit values
+      let filteredTableData = this.state.tabledata.filter((_, index) =>
+        dashboardDataNumArr.includes(index)
+      );
+      this.setState({
+        filteredTableData: filteredTableData,
+      });
+    });
   }
   render() {
     let nShutdown = false;
@@ -43,16 +63,18 @@ class StatusBlock extends Component {
     let filteredData;
     let filteredData1;
     let receivedDate;
+    let colors = [];
 
     //covertion string to number
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
-
-    this.props.app.turboStart.map((they) => {
-      if (they.name === "N.Shutdown Completed") {
-        nShutdown = true;
-      }
-    });
+    if (this.props.app.turboStart !== "" || this.props.app.turboStart !== []) {
+      this.props.app.turboStart.map((they) => {
+        if (they.name === "N.Shutdown Completed") {
+          nShutdown = true;
+        }
+      });
+    }
 
     //filltering the status block label
     let filteredDataLabel = sensorLabel.filter((_, index) =>
@@ -90,12 +112,24 @@ class StatusBlock extends Component {
         ? (receivedDate = this.props.app.chartData[0].testdatadate)
         : (receivedDate = null);
     }
-
+    // Assigning statusblock data color variation
+    /* eslint-disable */
+    this.state.filteredTableData
+      ? this.state.filteredTableData.map((it, y) => {
+          if (parseInt(persons[y]) > parseInt(it.upperlimit)) {
+            colors = colors.concat("red");
+          } else if (parseInt(persons[y]) < parseInt(it.lowerlimit)) {
+            colors = colors.concat("yellow");
+          } else {
+            colors = colors.concat("green");
+          }
+        })
+      : [];
     const date = new Date();
     const db_date = new Date(receivedDate);
     let isActive = false;
-
-    if (this.props.app.showTarget === true) {
+    // console.log(this.props.app);
+    if (this.props.app.communication === true) {
       isActive = true;
     }
     return (
@@ -151,7 +185,7 @@ class StatusBlock extends Component {
                     className="number dashtext-1"
                     style={{ paddingLeft: "20%", fontSize: "23px" }}
                   >
-                    <span>{It}</span>
+                    <span style={{ color: colors[y] }}>{It}</span>
                   </Col>
                 </Row>
 

@@ -128,19 +128,20 @@ class CardComponent extends Component {
     };
   }
 
-  //Rendering the 6 graph component
-  // componentDidMount() {
-  //   getTableView((data) => {
-  //     //getting this function(data) from request page
-  //     const arrStr = this.props.app.targetKeys; //covertion string to number
-  //     const dashboardDataNumArr = arrStr.map((i) => Number(i));
-  //     let filteredTableData = data.filter((_, index) =>
-  //       dashboardDataNumArr.includes(index)
-  //     );
-  //     this.props.updateTableViewData(filteredTableData);
-  //     console.log(this.props.app.tableViewData);
-  //   });
-  // }
+  //Rendering the 6 graph y axis limits while updatinh the table
+  componentDidMount() {
+    getTableView((data) => {
+      //getting this function(data) from request page
+      const arrStr = this.props.app.targetKeys; //covertion string to number
+      const dashboardDataNumArr = arrStr.map((i) => Number(i));
+      let filteredTableData = data.filter((_, index) =>
+        dashboardDataNumArr.includes(index)
+      );
+      //update the tableView rendering the component
+      this.props.updateTableViewData(filteredTableData);
+      console.log(this.props.app.tableViewData);
+    });
+  }
 
   //Initially to render graph with 0 value
   interval = setInterval(() => {

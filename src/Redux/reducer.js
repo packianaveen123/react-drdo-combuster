@@ -195,6 +195,7 @@ const appReducer = (state = InitialState, action) => {
     case 'FETCHING_DELAY_VALUE':
       newState.delayValue = action.payload
       return newState
+
     default:
       return newState
   }

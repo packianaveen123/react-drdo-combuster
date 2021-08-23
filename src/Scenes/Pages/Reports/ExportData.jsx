@@ -139,7 +139,7 @@ class ExportData extends Component {
       this.state.turboIdVal.length !== 0
     ) {
       axios
-        .post("http://192.168.0.167:5000/getReport.php", {
+        .post("http://192.168.0.173:5000/getReport.php", {
           //getting the exportData table value
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -159,7 +159,7 @@ class ExportData extends Component {
         });
       this.setState({ loading: true });
       axios
-        .post("http://192.168.0.167:5000/getnames.php", {
+        .post("http://192.168.0.173:5000/getnames.php", {
           //getting the tester and witness name
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -180,7 +180,7 @@ class ExportData extends Component {
   //select the TestID
   handleChangeTestID = (value) => {
     axios
-      .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
+      .post("http://192.168.0.173:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let data = res.data;
         if (typeof data === "string") {
