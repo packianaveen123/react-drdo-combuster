@@ -106,9 +106,10 @@ const appReducer = (state = InitialState, action) => {
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true
       return newState
-      //initializeEnable 
-      case 'INITIALIZE_ENABLE_EVENT':
-      newState.initializeEnable = true
+    //initializeEnable 
+      // {/* ADD_GTRE-8002 */}
+    case 'INITIALIZE_ENABLE_EVENT':
+      newState.initializeEnable = action.payload
       return newState
     //showReset
     case 'SHOW_RESET_INITIATED':

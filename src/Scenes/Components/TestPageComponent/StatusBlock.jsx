@@ -39,6 +39,7 @@ class StatusBlock extends Component {
       filteredTableData: [],
     };
   }
+
   componentDidMount() {
     //getting data from DB once
     getTableView((data) => {
@@ -56,8 +57,10 @@ class StatusBlock extends Component {
       });
     });
   }
+
   render() {
     let nShutdown = false;
+    let eShutdown = false;
     let persons;
     let persons1;
     let filteredData;
@@ -68,18 +71,22 @@ class StatusBlock extends Component {
     //covertion string to number
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
-    if (this.props.app.turboStart !== "" || this.props.app.turboStart !== []) {
-      this.props.app.turboStart.map((they) => {
-        if (they.name === "N.Shutdown Completed") {
-          nShutdown = true;
-        }
-      });
-    }
+
+    /* ADD_GTRE-8002--START */
+    this.props.app.turboStart.map((they) => {
+      if (they.name === "N.Shutdown Completed") {
+        nShutdown = true;
+      } else if (they.name === "eshutdown") {
+        eShutdown = true;
+      }
+    });
+    /* ADD_GTRE-8002--END */
 
     //filltering the status block label
     let filteredDataLabel = sensorLabel.filter((_, index) =>
       dashboardDataNumArr.includes(index)
     );
+
     {
       this.props.app.chartData[0]
         ? (filteredData = Object.values(this.props.app.chartData[0]).filter(
@@ -112,8 +119,9 @@ class StatusBlock extends Component {
         ? (receivedDate = this.props.app.chartData[0].testdatadate)
         : (receivedDate = null);
     }
-    // Assigning statusblock data color variation
+
     /* eslint-disable */
+    //Assigning statusblock data color variation
     this.state.filteredTableData
       ? this.state.filteredTableData.map((it, y) => {
           if (parseInt(persons[y]) > parseInt(it.upperlimit)) {
@@ -125,17 +133,20 @@ class StatusBlock extends Component {
           }
         })
       : [];
+
     const date = new Date();
     const db_date = new Date(receivedDate);
     let isActive = false;
-    // console.log(this.props.app);
-    if (this.props.app.communication === true) {
+
+    if (this.props.app.showTarget === true) {
       isActive = true;
     }
     return (
       <div>
         <div>
           <Row>
+            {/* ADD_GTRE-8002--START */}
+            {eShutdown ? <p style={styles.online}>E_shutdown</p> : []}{" "}
             {nShutdown ? (
               <p style={styles.offline}>{n_shutdown}</p>
             ) : (
@@ -148,7 +159,9 @@ class StatusBlock extends Component {
               </Row>
             )}
           </Row>
+          {/* ADD_GTRE-8002--END */}
         </div>
+
         <Row>
           {persons.map((It, y) => (
             <Col span={4} style={{ paddingRight: "10px" }}>
@@ -185,6 +198,7 @@ class StatusBlock extends Component {
                     className="number dashtext-1"
                     style={{ paddingLeft: "20%", fontSize: "23px" }}
                   >
+                    {/* getting the color from the color array */}
                     <span style={{ color: colors[y] }}>{It}</span>
                   </Col>
                 </Row>

@@ -1226,15 +1226,17 @@ class TestPageContainer extends Component {
             </Col>
 
             <Col span={4}>
+              {/* ADD_GTRE-8002 */}
               <Card
                 style={
-                  this.props.app.initializeEnable
+                  this.props.app.initializeEnable === true
                     ? { width: 185, borderColor: "red", cursor: "pointer" }
                     : { width: 185, borderColor: "gray" }
                 }
               >
                 <div>
-                  {this.props.app.initializeEnable ? (
+                  {/* ADD_GTRE-8002 */}
+                  {this.props.app.initializeEnable === true ? (
                     <PoweroffOutlined
                       className="icon-button3"
                       onClick={() => this.shutdownClick()}
@@ -1243,7 +1245,9 @@ class TestPageContainer extends Component {
                     <PoweroffOutlined className="iconbutton3-basic" />
                   )}
                 </div>
-                {this.props.app.initializeEnable ? (
+
+                {/* ADD_GTRE-8002 */}
+                {this.props.app.initializeEnable === true ? (
                   <p
                     style={{
                       color: "#42dad6",
