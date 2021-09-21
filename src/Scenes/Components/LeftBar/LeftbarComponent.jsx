@@ -36,6 +36,7 @@ class LeftbarComponent extends Component {
 
     //getting installed turbine name form db
     requestStatusData((data) => {
+      console.log(data);
       this.props.updateTableStatusData(data);
     });
   };

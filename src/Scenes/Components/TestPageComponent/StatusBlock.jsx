@@ -3,11 +3,11 @@ import { Col, Row } from "antd";
 import { connect } from "react-redux";
 import { dashboardSensor } from "../../../Services/constants";
 import { getTableView } from "../../../Services/requests";
-const { sensorLabel, n_shutdown, live, offline } = dashboardSensor;
+const { sensorLabel, n_shutdown, e_shutdown, live, offline } = dashboardSensor;
 
 const styles = {
   online: {
-    color: "green",
+    color: "#03fc28",
     position: "absolute",
     right: 20,
     top: 120,
@@ -30,11 +30,6 @@ class StatusBlock extends Component {
     this.state = {
       cardList: this.props.cardlist,
       persons: [],
-      isRpmUpArrow: true,
-      isT1UpArrow: true,
-      isT2UpArrow: true,
-      isT9UpArrow: true,
-      isP2UpArrow: true,
       tabledata: [],
       filteredTableData: [],
     };
@@ -72,15 +67,15 @@ class StatusBlock extends Component {
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
 
-    /* ADD_GTRE-8002--START */
-    this.props.app.turboStart.map((they) => {
-      if (they.name === "N.Shutdown Completed") {
-        nShutdown = true;
-      } else if (they.name === "eshutdown") {
-        eShutdown = true;
-      }
-    });
-    /* ADD_GTRE-8002--END */
+    if (this.props.app.turboStart.length >= 0) {
+      this.props.app.turboStart.map((they) => {
+        if (they.name === "N.Shutdown Completed") {
+          nShutdown = true;
+        } else if (they.name === "E.Shutdown Completed") {
+          eShutdown = true;
+        }
+      });
+    }
 
     //filltering the status block label
     let filteredDataLabel = sensorLabel.filter((_, index) =>
@@ -100,7 +95,7 @@ class StatusBlock extends Component {
         ? (filteredData1 = Object.values(this.props.app.chartData[1]).filter(
             (_, index) => dashboardDataNumArr.includes(index)
           ))
-        : (filteredData = []);
+        : (filteredData1 = []);
     }
 
     {
@@ -120,8 +115,8 @@ class StatusBlock extends Component {
         : (receivedDate = null);
     }
 
-    /* eslint-disable */
     //Assigning statusblock data color variation
+    /* eslint-disable */
     this.state.filteredTableData
       ? this.state.filteredTableData.map((it, y) => {
           if (parseInt(persons[y]) > parseInt(it.upperlimit)) {
@@ -129,7 +124,7 @@ class StatusBlock extends Component {
           } else if (parseInt(persons[y]) < parseInt(it.lowerlimit)) {
             colors = colors.concat("yellow");
           } else {
-            colors = colors.concat("green");
+            colors = colors.concat("#03fc28");
           }
         })
       : [];
@@ -141,27 +136,31 @@ class StatusBlock extends Component {
     if (this.props.app.showTarget === true) {
       isActive = true;
     }
+
     return (
       <div>
         <div>
+          {/* ADD -  GTRE_7005  */}
           <Row>
-            {/* ADD_GTRE-8002--START */}
-            {eShutdown ? <p style={styles.online}>E_shutdown</p> : []}{" "}
-            {nShutdown ? (
-              <p style={styles.offline}>{n_shutdown}</p>
+            {eShutdown ? (
+              <p style={styles.offline}>{e_shutdown}</p>
             ) : (
               <Row>
-                {isActive ? (
-                  <p style={styles.online}>{live}</p>
+                {nShutdown ? (
+                  <p style={styles.offline}>{n_shutdown}</p>
                 ) : (
-                  <p style={styles.offline}>{offline}</p>
+                  <Row>
+                    {isActive ? (
+                      <p style={styles.online}>{live}</p>
+                    ) : (
+                      <p style={styles.offline}>{offline}</p>
+                    )}
+                  </Row>
                 )}
               </Row>
             )}
           </Row>
-          {/* ADD_GTRE-8002--END */}
         </div>
-
         <Row>
           {persons.map((It, y) => (
             <Col span={4} style={{ paddingRight: "10px" }}>

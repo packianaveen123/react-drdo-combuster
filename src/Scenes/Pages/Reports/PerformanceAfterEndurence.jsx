@@ -184,7 +184,7 @@ class PerformanceAfterEndurence extends Component {
       this.state.testno1.length !== 0
     ) {
       axios
-        .post("http://localhost:5000/Performance.php", {
+        .post("http://192.168.0.167:5000/Performance.php", {
           //getting table data from db
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -204,7 +204,7 @@ class PerformanceAfterEndurence extends Component {
         });
       this.setState({ loading: true });
       axios
-        .post("http://localhost:5000/getnames.php", {
+        .post("http://192.168.0.167:5000/getnames.php", {
           //getting tester & witness name from db
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -227,7 +227,7 @@ class PerformanceAfterEndurence extends Component {
   //delect the test id
   handleChangeTestID = (value) => {
     axios
-      .post("http://localhost:5000/exportData.php", { turboIdVal: value })
+      .post("http://192.168.0.167:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let data = res.data;
         if (typeof data === "string") {

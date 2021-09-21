@@ -125,11 +125,7 @@ export const initiateShutdown = bool => ({
   type: 'SHUTDOWN_INITIATED',
   payload: bool
 })
-//initializeEnable
-export const initializeEnableEvent = data => ({
-  type: 'INITIALIZE_ENABLE_EVENT',
-  payload: data
-})
+
 // showReset
 export const initiateShowReset = bool => ({
   type: 'SHOW_RESET_INITIATED',
@@ -221,11 +217,26 @@ export const stopDbInsert = bool => ({
   type: 'STOP_DB_INSERT',
   payload: bool
 })
-
+//startDbInserting
 export const startDbInsert = bool => ({
   type: 'START_DB_INSERT',
   payload: bool
+})            
+
+ /*ADD bugid-(GTRE_7012) */
+//startDisable
+export const startDisableEvent = data => ({
+  type: 'SHUTDOWN_ENABLE_EVENT',
+  payload: data
 })
+
+ /* ADD bugid-(GTRE_7018)   */
+// testIdData
+export const gettingTestIdData = data => ({
+  type: 'GETTING_TEST_ID_DATA',
+  payload: data
+})
+
 //delayValue
 export const fetchingDelayValue = data => ({
   type: 'FETCHING_DELAY_VALUE',

@@ -61,7 +61,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    const appData = this.props.app;
     return (
       <div className="background">
         <div className="container">

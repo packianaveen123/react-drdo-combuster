@@ -4,7 +4,7 @@ const InitialState = {
   mainPage: 'testPage',
   appState: "login",
   userName: '',
-  userParams: null,
+  userParams: '',
   leftBarView: false,
   collapsed: true,
   titleElements: titleElements,
@@ -31,8 +31,7 @@ const InitialState = {
   statusData: '',
   reset: false,
   chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  shutdownInitiated: false,
-  initializeEnable:false,
+  shutdownInitiated: false, 
   communicationFailed: false,
   communication: false,
   targetState: false,
@@ -52,7 +51,12 @@ const InitialState = {
   resetRPM: '',
   startDbInserting: false,
   
+  /*ADD bugid-(GTRE_7012) */
+  startDisable: false,
+
+  /* ADD bugid-(GTRE_7018)   */
+  testIdData: 0,
   //grapgView
-  delayValue: ''
+  delayValue: 1000,
 }
 export default InitialState

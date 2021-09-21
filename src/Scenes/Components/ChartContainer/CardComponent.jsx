@@ -139,7 +139,6 @@ class CardComponent extends Component {
       );
       //update the tableView rendering the component
       this.props.updateTableViewData(filteredTableData);
-      console.log(this.props.app.tableViewData);
     });
   }
 
@@ -249,9 +248,16 @@ class CardComponent extends Component {
               "rgba(24, 144, 255, 0.5)",
             ],
             chartTextColor: textColor,
-            upperLimitVal: this.props.app.tableViewData[i].upperlimit,
+
+            // /*DEL bugid-(GTRE_7001)*/
+            // upperLimitVal: this.props.app.tableViewData[i].upperlimit,
+            // normalLimitVal: this.props.app.tableViewData[i].normallimit,
+            // lowerLimitVal: this.props.app.tableViewData[i].lowerlimit,
+
+            ///*ADD bugid-(GTRE_7001)*/
+            upperLimitVal: this.props.app.tableViewData[i].graph_upper,
             normalLimitVal: this.props.app.tableViewData[i].normallimit,
-            lowerLimitVal: this.props.app.tableViewData[i].lowerlimit,
+            lowerLimitVal: this.props.app.tableViewData[i].graph_lower,
           },
         };
         chartValue.push(chart);

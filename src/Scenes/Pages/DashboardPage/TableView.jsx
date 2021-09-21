@@ -43,7 +43,7 @@ const columns = [
         if (parseInt(liveData) > parseInt(upperlimit.upperlimit)) return "red";
         if (parseInt(liveData) < parseInt(upperlimit.lowerlimit))
           return "yellow";
-        return "green";
+        return "#03fc28";
       };
       return {
         props: {
@@ -113,7 +113,7 @@ class TableView extends Component {
     });
   }
 
-  //rendering table within the time limit
+  //getting live data in every delay loop
   testClick = () => {
     const liveDataObj = this.props.app.chartData[0];
     this.state.tabledata.map((item) => {

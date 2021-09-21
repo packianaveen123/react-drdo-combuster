@@ -17,6 +17,7 @@ import ExportData from "./Reports/ExportData";
 import PerformanceReport from "./Reports/PerformanceReport";
 import EndurenceReport from "./Reports/EndurenceReport";
 import PerformanceAfterEndurence from "./Reports/PerformanceAfterEndurence";
+import axios from "axios";
 import {
   updateTurboConfig,
   updateTestConfigPage,
@@ -26,6 +27,8 @@ import {
   updateTestIdCount,
   updateTableViewData,
   fetchingDelayValue,
+  updateChartData,
+  initiateTurboStart,
 } from "../../Redux/action";
 import {
   getTurboConfigData,
@@ -35,12 +38,21 @@ import {
   requestStatusData,
   getHandleChangetestID,
   getTableView,
-  gettingDelayValue,
+  gettingChartData,
+  getSensorData,
 } from "../../Services/requests";
 
 const { Content, Header, Footer } = Layout;
 
 export class MainComponent extends Component {
+  /*ADD bugid-(GTRE_7010) */
+  constructor(props) {
+    super(props);
+    this.state = {
+      testDataInsert: false,
+    };
+  }
+
   componentDidMount() {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
@@ -72,11 +84,11 @@ export class MainComponent extends Component {
       this.props.updateTestIdCount(data);
     });
 
-    // fetch DelayValue on application load
-    gettingDelayValue((data) => {
-      this.props.fetchingDelayValue(data);
-    });
-
+    // // fetch DelayValue on application load
+    // gettingDelayValue((data) => {
+    //   this.props.fetchingDelayValue(data);
+    // });
+    // fetch graphvalue on application load
     getTableView((data) => {
       //getting this function(data) from request page
       const arrStr = this.props.app.targetKeys; //covertion string to number
@@ -86,6 +98,45 @@ export class MainComponent extends Component {
       );
       this.props.updateTableViewData(filteredTableData);
     });
+
+    /*ADD bugid-(GTRE_7010) */
+    // fetch TestDatainsert on application load
+    if (this.state.testDataInsert === false) {
+      // let status = "Statusblock loading";
+      axios
+        .post("http://192.168.0.167:7000/testdatainsert.php", {
+          status: "Statusblock loading",
+        })
+        .then(function (response) {
+          this.setState({
+            testDataInsert: true,
+          });
+          console.log(this.state.testDataInsert);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    // {/*ADD bugid-(GTRE_7002) */}
+    // fetch livedata from DB application load
+    setInterval(() => {
+      gettingChartData((data) => {
+        this.props.updateChartData(data);
+      });
+    }, this.props.app.delayValue);
+
+    // {/*ADD bugid-(GTRE_7019) */}
+    setInterval(() => {
+      getSensorData((data) => {
+        let val = data;
+        console.log(val);
+        if (this.props.app.communication === true && val.length >= 1) {
+          console.log(val);
+          this.props.initiateTurboStart(val);
+        }
+      });
+    }, 1000);
   }
 
   render() {
@@ -139,6 +190,8 @@ const mapDispatchToProps = {
   updateTestIdCount,
   updateTableViewData,
   fetchingDelayValue,
+  updateChartData,
+  initiateTurboStart,
 };
 
 const MainContainer = connect(

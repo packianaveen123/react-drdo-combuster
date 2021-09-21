@@ -12,7 +12,6 @@ import {
   Radio,
   Popover,
   Space,
-  Typography,
   message,
   Menu,
 } from "antd";
@@ -48,7 +47,7 @@ import {
   stopDbInsert,
   startDbInsert,
   updateNotifyAction,
-  initializeEnableEvent,
+  gettingTestIdData,
 } from "../../../Redux/action";
 import {
   updateChartData,
@@ -57,14 +56,16 @@ import {
   updateTestIdCount,
   updateTurboMode,
   updateDropDown,
+  startDisableEvent,
 } from "../../../Redux/action";
 import ListItems from "../subComponents/ListItems";
 import {
   shutdownClickEvent,
-  getSensorData,
   getHandleChangetestID,
   requestStatusData,
-  gettingChartData,
+  //{/*ADD - GTRE_7003*/}
+  gettingTestdataAftershutdown,
+  logoutEvent,
 } from "../../../Services/requests";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -75,7 +76,6 @@ import {
 } from "../../../Services/constants";
 
 var { Option } = Select;
-const { Text } = Typography;
 const { SubMenu } = Menu;
 let count = 1;
 
@@ -85,6 +85,12 @@ const {
   warning_mode,
   warning_name,
   alert_targetval,
+  /*MOD bugid-(GTRE_7007) */
+  Initializedata,
+  Startdata,
+  nShutdowndata,
+  eShutdowndata,
+  Resetdata,
 } = testParamHash;
 
 const { installed_turbine } = turboConfigValue;
@@ -101,6 +107,8 @@ const {
   IgnitorSwitch,
   KerosenePump,
   LubeOilPump,
+  //  {/* ADD -  GTRE_7006 */}
+  ErrorCode,
 } = helpPopup;
 
 class TestPageContainer extends Component {
@@ -134,6 +142,8 @@ class TestPageContainer extends Component {
       IgnitorSwitch: "OFF",
       KerosenePump: "OFF",
       LubeOilPump: "OFF",
+      // ADD - BUG-ID(GTRE_7006)
+      ErrorCode: 0,
       currentDateTime: "",
       turbostartname: [],
       overalldata: [],
@@ -142,6 +152,7 @@ class TestPageContainer extends Component {
       failedField: [],
     };
 
+    this.interval = null;
     this.startClick = this.startClick.bind(this);
     this.addTesterItem = this.addTesterItem.bind(this);
     this.addWitnessItem = this.addWitnessItem.bind(this);
@@ -152,8 +163,6 @@ class TestPageContainer extends Component {
   }
 
   componentDidMount() {
-    // this.props.updateTestIdValue('')
-
     //getting installed turbine name form db
     requestStatusData((data) => {
       if (typeof data !== "string" && data.length > installed_turbine) {
@@ -167,10 +176,7 @@ class TestPageContainer extends Component {
 
   //helpPopover action
   handleVisibleChange = (visible) => {
-    if (
-      this.props.app.shutdownInitiated === false &&
-      this.props.app.showTarget === true
-    ) {
+    if (this.props.app.showTarget === true) {
       this.setState({ visible });
     }
   };
@@ -287,51 +293,56 @@ class TestPageContainer extends Component {
 
   //onclick for shutdown
   shutdownClick = () => {
-    this.setState({
-      shutdownInitiated: true,
+    /* ADD bugid-(GTRE_7003)*/
+    //getting testdata insert after shutdown
+    gettingTestdataAftershutdown((data) => {
+      console.log(data);
     });
-    this.props.initializeEnableEvent(false);
     shutdownClickEvent((data) => {
       //updating to the store called shutdownInitiated
       this.props.initiateShutdown(data);
     });
   };
 
-  //graph data
-  requestChartData() {
-    gettingChartData((data) => {
-      //this function from request page
-      let chartData = data;
-      //updating to the store called chartdata
-      this.props.updateChartData(chartData);
-    });
-  }
+  //  {/*DEL bugid-(GTRE_7002) */}
+  // //graph data
+  // requestChartData() {
+  //   gettingChartData((data) => {
+  //     //this function from request page
+  //     let chartData = data;
+  //     //updating to the store called chartdata
+  //     this.props.updateChartData(chartData);
+  //   });
+  // }
 
-  //this event trigger while clicking the initialize
-  sensorData() {
-    //fetching sensor data from DB
-    getSensorData((data) => {
-      if (
-        this.props.app.startDbInserting === false &&
-        this.props.app.communication === true
-      ) {
-        this.props.initiateTurboStart(data);
-      } else {
-        this.props.initiateTurboStart(null);
-      }
-    });
-  }
+  // {/*DEL bugid-(GTRE_7019) */}
+  // //this event trigger while clicking the initialize
+  // sensorData() {
+  //   //fetching sensor data from DB
+  //   getSensorData((data) => {
+  //     let val = data;
+  //     if (this.props.app.communication === true && val.length >= 1) {
+  //       this.props.initiateTurboStart(val);
+  //     }
+  //     // else {
+  //     //   this.props.initiateTurboStart([]);
+  //     // }
+  //   });
+  // }
 
   //getting communication value in request page
   communicationstatus() {
+    /* ADD bugid-(GTRE_7018)   */
     axios
-      .get("http://localhost:5000/initialize.php")
+      .post("http://192.168.0.167:5000/initialize.php", {
+        testId: this.props.app.testIdData,
+      })
       .then((res) => {
+        console.log(res.data);
         let CommunicationData = res.data;
         if (CommunicationData.status === "1") {
           this.props.initiateCommunication();
-        }
-        if (CommunicationData.status === "") {
+        } else if (CommunicationData.status === "") {
           this.props.initiateCommunicationFailed();
           this.setState({ failedField: true });
         }
@@ -381,28 +392,40 @@ class TestPageContainer extends Component {
       this.props.app.testIdValue.length !== 0
     ) {
       axios
-        .post("http://localhost:5000/gettestid.php", {
+        .post("http://192.168.0.167:5000/gettestid.php", {
           turboIdVal: this.props.app.testIdValue,
           testerItems: this.state.testerItems,
           witnessItems: this.state.witnessItems,
           turboMode: this.props.app.turboMode,
         })
         .then((res) => {
+          /* ADD bugid-(GTRE_7018)   */
+          let data = res.data;
+          console.log(data);
+          this.props.gettingTestIdData(data);
           this.communicationstatus();
-          let interval = setInterval(() => {
-            this.sensorData();
-          }, 1000); //delay for getData command status
-          setInterval(() => {
-            this.requestChartData();
-          }, this.props.app.delayValue); // sensor value get
+
+          // let interval = setInterval(() => {
+          //   this.sensorData();
+          // }, 1000); //delay for getData command status
+          // setInterval(() => {
+          //   this.requestChartData();
+          // }, this.props.app.delayValue); // sensor value get
         })
         .catch((err) => {
           console.log(err);
         });
     }
+
+    /*ADD bugid-(GTRE_7007) */
+    axios
+      .post("http://192.168.0.167:7000/testdatainsertwithtestid.php", {
+        status: "Start initiated",
+      })
+      .then(function (response) {});
   };
 
-  //start click event
+  //start click
   initializeTestClick = () => {
     var today = new Date(),
       time =
@@ -410,24 +433,20 @@ class TestPageContainer extends Component {
     this.setState({
       currentDateTime: time,
     });
-    this.props.initializeEnableEvent(true);
+
     axios
-      .get("http://localhost:8000/testdata.php")
+      .get("http://192.168.0.167:8000/testdata.php")
       .then(function (response) {})
       .catch((err) => {
         console.log(err);
       });
-    axios
-      .post("http://localhost:7000/testdatainsert.php")
-      .then(function (response) {});
-    console.log(this.props.app);
   };
 
   //help event onClick
   onClickhelp = () => {
     var self = this;
     axios
-      .get("http://localhost:5000/valvestatus.php")
+      .get("http://192.168.0.167:5000/valvestatus.php")
       .then(function (response) {
         let valveData = response.data.valvestatus.split(",");
         self.setState({
@@ -436,6 +455,10 @@ class TestPageContainer extends Component {
         self.setState({
           valvestatus: response.data.valvestatus,
         });
+        // {/* DEL -  GTRE_7006 */}
+        // self.setState({
+        //   ErrorCode: valveData[10],
+        // });
         if (valveData[0] === "1") {
           self.setState({
             PilotFlameAir: "ON",
@@ -527,7 +550,7 @@ class TestPageContainer extends Component {
   //reset event onClick
   resetOnClick = () => {
     axios
-      .post("http://localhost:5000/reset.php", {
+      .post("http://192.168.0.167:5000/reset.php", {
         ResetRPM: this.props.app.resetRPM,
         ResetTemp: this.props.app.resetTemp,
       })
@@ -542,10 +565,11 @@ class TestPageContainer extends Component {
     if (this.props.app.communication === true) {
       if (this.props.app.targetRPM !== "" && this.props.app.targetTemp !== "") {
         this.props.initiateShowTarget();
-
+        /*ADD bugid-(GTRE_7012) */
+        this.props.startDisableEvent(true);
         //delay for receiving sensor data from plc
         axios
-          .post("http://localhost:5000/start.php", {
+          .post("http://192.168.0.167:5000/start.php", {
             //set target rpm & temp value to sent plc
             targetRPM: this.props.app.targetRPM,
             targetTemp: this.props.app.targetTemp,
@@ -574,11 +598,18 @@ class TestPageContainer extends Component {
 
   //reSet action
   reloadAllEvents = () => {
+    /*ADD bugid-(GTRE_7018) */
+    this.props.gettingTestIdData(0);
     this.props.stopDbInsert();
     this.props.updateTestIdCount("");
     this.props.updateTestIdValue("");
     this.props.updateTurboMode("");
-    // this.props.initiateCommunicationFailed();
+    this.props.initiateTurboStart([]);
+    /*ADD bugid-(GTRE_7012) */
+    this.props.startDisableEvent(false);
+    /*ADD bugid-(GTRE_7003) */
+    logoutEvent((data) => {});
+
     this.setState({
       turboIdDefaultValue: "Select Turbo ID",
       turboIdValue: "Select Turbo ID",
@@ -625,37 +656,43 @@ class TestPageContainer extends Component {
     const targetRPM = this.props.app.targetRPM;
     const resetTemp = this.props.app.resetTemp;
     const resetRPM = this.props.app.resetRPM;
-    const turboStart = this.props.app.turboStart;
-    const { Initializedata, Startdata, Shutdowndata, Resetdata } =
-      testParamHash;
-
-    var InitializedataArray = [];
-    var StartdataArray = [];
-    var ShutdowndataArray = [];
-    var ResetdataArray = [];
-    var InitializedCompletedStatus = [];
-
-    if (this.props.app.turboStart !== "" || this.props.app.turboStart !== []) {
-      InitializedataArray = turboStart.filter((it) =>
-        Initializedata.find((val) => val === it.name)
-      );
-
-      StartdataArray = turboStart.filter((it) =>
-        Startdata.find((val) => val === it.name)
-      );
-
-      ShutdowndataArray = turboStart.filter((it) =>
-        Shutdowndata.find((val) => val === it.name)
-      );
-
-      ResetdataArray = turboStart.filter((it) =>
-        Resetdata.find((val) => val === it.name)
-      );
-
-      InitializedCompletedStatus = InitializedataArray.filter(
-        (word) => word.name === "Initialize Completed"
-      );
+    let turboStart = [];
+    if (this.props.app.turboStart) {
+      turboStart = this.props.app.turboStart;
     }
+    console.log(this.props.app);
+    /*DEL bugid-(GTRE_7007) */
+    // const {
+    //   Initializedata,
+    //   Startdata,
+    //   nShutdowndata,
+    //   eShutdowndata,
+    //   Resetdata,
+    // } = testParamHash;
+
+    const InitializedataArray = turboStart.filter((it) =>
+      Initializedata.find((val) => val === it.name)
+    );
+    const StartdataArray = turboStart.filter((it) =>
+      Startdata.find((val) => val === it.name)
+    );
+
+    const nShutdowndataArray = turboStart.filter((it) =>
+      nShutdowndata.find((val) => val === it.name)
+    );
+    /*ADD bugid-(GTRE_7007) */
+
+    const eShutdowndataArray = turboStart.filter((it) =>
+      eShutdowndata.find((val) => val === it.name)
+    );
+
+    const ResetdataArray = turboStart.filter((it) =>
+      Resetdata.find((val) => val === it.name)
+    );
+
+    const InitializedCompletedStatus = InitializedataArray.filter(
+      (word) => word.name === "Initialize Completed"
+    );
 
     var testIdValue = null;
     if (
@@ -697,7 +734,7 @@ class TestPageContainer extends Component {
                 <Layout
                   style={{
                     backgroundColor: "transparent",
-                    paddingTop: "20px",
+                    paddingTop: "0px",
                     paddingLeft: "20px",
                   }}
                 >
@@ -935,10 +972,15 @@ class TestPageContainer extends Component {
               <Card
                 style={{ width: 185, cursor: "pointer", borderColor: "green" }}
               >
-                <DownloadOutlined
-                  className="icon-button1"
-                  onClick={() => this.initializeClick()}
-                />
+                {/* MOD bugid-(GTRE_7009)  */}
+                {communication === true || communicationFailed === true ? (
+                  <DownloadOutlined className="iconbutton1-basic" />
+                ) : (
+                  <DownloadOutlined
+                    className="icon-button1"
+                    onClick={() => this.initializeClick()}
+                  />
+                )}
                 <p
                   style={{
                     color: "#42dad6",
@@ -982,7 +1024,6 @@ class TestPageContainer extends Component {
                   []
                 )}
               </Card>
-              ,
             </Col>
 
             <Col
@@ -999,12 +1040,14 @@ class TestPageContainer extends Component {
             <Col span={3}>
               <Card
                 style={
-                  InitializedCompletedStatus.length == 1 && communication
+                  InitializedCompletedStatus.length >= 1 && communication
                     ? { width: 185, cursor: "pointer", borderColor: "green" }
                     : { width: 185, borderColor: "gray" }
                 }
               >
-                {InitializedCompletedStatus.length == 1 && communication ? (
+                {InitializedCompletedStatus.length >= 1 &&
+                communication &&
+                this.props.app.startDisable === false ? (
                   <PlaySquareOutlined
                     className="icon-button1"
                     onClick={() => this.startClick()}
@@ -1012,7 +1055,7 @@ class TestPageContainer extends Component {
                 ) : (
                   <PlaySquareOutlined className="iconbutton1-basic" />
                 )}
-                {InitializedCompletedStatus.length == 1 && communication ? (
+                {InitializedCompletedStatus.length >= 1 && communication ? (
                   <p
                     style={{
                       color: "#42dad6",
@@ -1036,7 +1079,7 @@ class TestPageContainer extends Component {
                   </p>
                 )}
 
-                {InitializedCompletedStatus.length == 1 && communication ? (
+                {InitializedCompletedStatus.length >= 1 && communication ? (
                   <p>
                     <Row>
                       <Col>
@@ -1211,7 +1254,6 @@ class TestPageContainer extends Component {
                   []
                 )}
               </Card>
-              ,
             </Col>
 
             <Col
@@ -1226,17 +1268,17 @@ class TestPageContainer extends Component {
             </Col>
 
             <Col span={4}>
-              {/* ADD_GTRE-8002 */}
               <Card
                 style={
-                  this.props.app.initializeEnable === true
+                  /*ADD bugid-(GTRE_7013) */
+                  showTarget || communication
                     ? { width: 185, borderColor: "red", cursor: "pointer" }
                     : { width: 185, borderColor: "gray" }
                 }
               >
                 <div>
-                  {/* ADD_GTRE-8002 */}
-                  {this.props.app.initializeEnable === true ? (
+                  {/*ADD bugid-(GTRE_7013) */}
+                  {showTarget || communication ? (
                     <PoweroffOutlined
                       className="icon-button3"
                       onClick={() => this.shutdownClick()}
@@ -1245,9 +1287,8 @@ class TestPageContainer extends Component {
                     <PoweroffOutlined className="iconbutton3-basic" />
                   )}
                 </div>
-
-                {/* ADD_GTRE-8002 */}
-                {this.props.app.initializeEnable === true ? (
+                {/*ADD bugid-(GTRE_7013) */}
+                {showTarget || communication ? (
                   <p
                     style={{
                       color: "#42dad6",
@@ -1269,11 +1310,29 @@ class TestPageContainer extends Component {
                   </p>
                 )}
               </Card>
-              ,
+
               {shutdownInitiated ? (
-                <p style={{ height: "15px", color: "white" }}>
+                <p style={{ height: "15px", color: "white", marginTop: "7px" }}>
                   <Row>
-                    {ShutdowndataArray.map((item) => {
+                    {nShutdowndataArray.map((item) => {
+                      return (
+                        <div>
+                          <CheckOutlined style={{ color: "green" }} />
+                          {item.testcommandsTime} - {item.name}
+                        </div>
+                      );
+                    })}
+                  </Row>
+                </p>
+              ) : (
+                []
+              )}
+              {/* ADD bugid-(GTRE_7007)  */}
+              {/* E-shutdown */}
+              {showTarget ? (
+                <p style={{ height: "15px", color: "white", marginTop: "7px" }}>
+                  <Row>
+                    {eShutdowndataArray.map((item) => {
                       return (
                         <div>
                           <CheckOutlined style={{ color: "green" }} />
@@ -1291,14 +1350,24 @@ class TestPageContainer extends Component {
             <Col span={3}>
               <Card
                 style={
-                  shutdownInitiated ||
+                  //  ADD bugid-(GTRE_7011)
+                  (nShutdowndataArray.length >= 1 &&
+                    eShutdowndataArray.length >= 1) ||
+                  nShutdowndataArray.length >= 2 ||
+                  /*ADD bugid-(GTRE_7007) */
+                  eShutdowndataArray.length >= 2 ||
                   (showTarget === false && communication === false)
                     ? { width: 100, cursor: "pointer", borderColor: "green" }
                     : { width: 100, borderColor: "gray" }
                 }
               >
                 <div>
-                  {shutdownInitiated ||
+                  {/* ADD bugid-(GTRE_7011) */}
+                  {(nShutdowndataArray.length >= 1 &&
+                    eShutdowndataArray.length >= 1) ||
+                  nShutdowndataArray.length >= 2 ||
+                  /*DEL bugid-(GTRE_7007) */
+                  eShutdowndataArray.length >= 2 ||
                   (showTarget === false && communication === false) ? (
                     <RedoOutlined
                       className="icon-button2"
@@ -1308,14 +1377,20 @@ class TestPageContainer extends Component {
                     <RedoOutlined className="iconbutton2-basic" />
                   )}
                 </div>
-                {shutdownInitiated ||
-                (showTarget === false && communication === false) ? (
+
+                {/* ADD bugid-(GTRE_7011) */}
+                {(nShutdowndataArray.length >= 1 &&
+                  eShutdowndataArray.length >= 1) ||
+                nShutdowndataArray.length >= 2 ||
+                //  {/* ADD bugid-(GTRE_7007) */}
+                eShutdowndataArray.length >= 2 ||
+                (showTarget === false && communication === false) ||
+                communicationFailed === true ? (
                   <p style={{ color: "#42dad6", fontSize: "20px" }}>Reset</p>
                 ) : (
                   <p style={{ color: "gray", fontSize: "20px" }}>Reset</p>
                 )}
               </Card>
-              ,
             </Col>
 
             <Col span={2}>
@@ -1358,6 +1433,10 @@ class TestPageContainer extends Component {
                     </p>
                     <p>
                       {LubeOilPump} {this.state.LubeOilPump}
+                    </p>
+                    {/* ADD -  GTRE_7006 */}
+                    <p>
+                      {ErrorCode} {this.state.ErrorCode}
                     </p>
                   </div>
                 }
@@ -1428,7 +1507,8 @@ const mapDispatchToProps = {
   updateTurboMode,
   updateDropDown,
   updateNotifyAction,
-  initializeEnableEvent,
+  startDisableEvent,
+  gettingTestIdData,
 };
 
 const TestContainer = connect(

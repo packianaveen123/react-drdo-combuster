@@ -106,11 +106,6 @@ const appReducer = (state = InitialState, action) => {
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true
       return newState
-    //initializeEnable 
-      // {/* ADD_GTRE-8002 */}
-    case 'INITIALIZE_ENABLE_EVENT':
-      newState.initializeEnable = action.payload
-      return newState
     //showReset
     case 'SHOW_RESET_INITIATED':
       newState.showReset = true
@@ -196,7 +191,19 @@ const appReducer = (state = InitialState, action) => {
       newState.startDbInserting = false                                 
       return newState
 
-  //delayValue
+   /*ADD bugid-(GTRE_7012) */
+    //startDisable
+    case 'SHUTDOWN_ENABLE_EVENT':
+     newState.startDisable = action.payload
+    return newState
+    
+     /* ADD bugid-(GTRE_7018)   */
+    //testIdData
+    case 'GETTING_TEST_ID_DATA':
+      newState.testIdData = action.payload
+     return newState 
+                    
+     //delayValue
     case 'FETCHING_DELAY_VALUE':
       newState.delayValue = action.payload
       return newState

@@ -1,5 +1,5 @@
 const url = {
-  BASE_URL: 'http://localhost:5000/',
+  BASE_URL: 'http://192.168.0.167:5000/',
   LOGIN_VALIDATION: 'login_validation.php',
   FORGOT_VALIDATION: 'forget.php',
   REGISTERPAGE_VALIDATION: 'Registration.php',
@@ -11,11 +11,12 @@ const url = {
   TABLE_VIEW: 'tableview.php',
   SHUTDOWN_CLICK: 'shutdown.php',
   RESET_CLICK: 'reset.php',
-  SENSOR_DATA: 'getdata.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
   GRAPH_DATA: 'graph.php',
-  DELAY_DATA: 'delay.php'
+  DELAY_DATA: 'delay.php',     
+     /* ADD bugid-(GTRE_7003)*/
+  LOGOUT_EVENT: 'logout.php',     
 }
 
 const FormDetails = {
@@ -42,11 +43,11 @@ const CompanyDetails = {
 }
 
 const dashboardDataVal = [
-  { "key": "0", "Name": "Combustor Outlet Temperature", "chosen": false },
+  { "key": "0", "Name": "Combustor Outlet Temperature", "chosen": true },
   { "key": "1", "Name": " Turbine Inlet Temperature", "chosen": true },
   { "key": "2", "Name": "Turbine Outlet Temperature", "chosen": true },
   { "key": "3", "Name": "Compressor Inlet Temperature", "chosen": false },
-  { "key": "4", "Name": "Compressor Outlet Temperature", "chosen": true },
+  { "key": "4", "Name": "Compressor Outlet Temperature", "chosen": false },
   { "key": "5", "Name": "Ambient Temperature", "chosen": false },
   { "key": "6", "Name": "Combustor Inlet Pressure", "chosen": false },
   { "key": "7", "Name": "Fuel Line Pressure", "chosen": false },
@@ -71,11 +72,12 @@ const dashboardSensor = {
   dummyData: 0,
   chartMax: 5,
   n_shutdown: 'N-Shutdown',
+  e_shutdown: 'E-Shutdown',
   live: 'LIVE',
   offline: 'OFFLINE'
 
 }
-const targetKeysVal = ["1", "2", "4", "8", "13", "14"]
+const targetKeysVal = ["0","1", "2", "8", "13", "14"]
 
 const titleElements = [
   {
@@ -87,7 +89,9 @@ const titleElements = [
 const testParamHash = { 
   Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
   Startdata: ['Start Completed', 'Ignite', 'Gas Opened', 'Stage1', 'Ruel Opened', 'Stage2', 'Fuel Opened', 'Stage2', 'Gas Closed', 'Stage3'],
-  Shutdowndata: ['Shutdown Initiated', 'N.Shutdown Completed'],
+  nShutdowndata: ['N.Shutdown Initiated', 'N.Shutdown Completed'],
+   // {/*ADD bugid-(GTRE_7007) */}
+  eShutdowndata: ['E.Shutdown Initiated', 'E.Shutdown Completed'],
   Resetdata: ['Reset Values'],
   Tester_warning: 'Already exists',
   Witness_warning: 'Already exists',
@@ -109,6 +113,8 @@ const helpPopup = {
   IgnitorSwitch: 'IgnitorSwitch : ',
   KerosenePump: 'KerosenePump : ',
   LubeOilPump: 'LubeOilPump : ',
+   // {/*ADD bugid-(GTRE_7006) */}
+   ErrorCode: 'ERROR CODE : ',
 }
 
 const turboConfigValue = {
