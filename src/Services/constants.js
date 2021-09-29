@@ -100,6 +100,8 @@ const testParamHash = {
   warning_mode: "Please select turbo mode",
   warning_name: "Please enter tester name",
   alert_targetval: "Please enter target values",
+  alert_temptext:"Temprature must be below 1500",
+  alert_rpmtext:"RPM must be below 100000"
 }
 const helpPopup = {
   value: 'VALVE STATUS AT :',

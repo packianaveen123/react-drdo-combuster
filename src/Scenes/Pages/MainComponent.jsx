@@ -111,7 +111,6 @@ export class MainComponent extends Component {
           this.setState({
             testDataInsert: true,
           });
-          console.log(this.state.testDataInsert);
         })
         .catch((err) => {
           console.log(err);
@@ -130,9 +129,7 @@ export class MainComponent extends Component {
     setInterval(() => {
       getSensorData((data) => {
         let val = data;
-        console.log(val);
         if (this.props.app.communication === true && val.length >= 1) {
-          console.log(val);
           this.props.initiateTurboStart(val);
         }
       });

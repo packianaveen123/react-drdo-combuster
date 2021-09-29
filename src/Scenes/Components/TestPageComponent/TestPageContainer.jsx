@@ -14,6 +14,7 @@ import {
   Space,
   message,
   Menu,
+  Tooltip,
 } from "antd";
 import {
   DownloadOutlined,
@@ -91,6 +92,8 @@ const {
   nShutdowndata,
   eShutdowndata,
   Resetdata,
+  alert_temptext,
+  alert_rpmtext,
 } = testParamHash;
 
 const { installed_turbine } = turboConfigValue;
@@ -338,7 +341,6 @@ class TestPageContainer extends Component {
         testId: this.props.app.testIdData,
       })
       .then((res) => {
-        console.log(res.data);
         let CommunicationData = res.data;
         if (CommunicationData.status === "1") {
           this.props.initiateCommunication();
@@ -531,7 +533,7 @@ class TestPageContainer extends Component {
     }
   };
 
-  //targetTemp onclick
+  //targetTemp onchange
   onChangetempvalue = (event) => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === "" || re.test(event.target.value)) {
@@ -539,7 +541,7 @@ class TestPageContainer extends Component {
     }
   };
 
-  //targetRPM onclick
+  //targetRPM onchange
   onChangeRPMvalue = (event) => {
     const re = /^[0-9\b]+$/;
     if (event.target.value === "" || re.test(event.target.value)) {
@@ -563,28 +565,40 @@ class TestPageContainer extends Component {
   //start event onClick
   startClick = () => {
     if (this.props.app.communication === true) {
-      if (this.props.app.targetRPM !== "" && this.props.app.targetTemp !== "") {
-        this.props.initiateShowTarget();
-        /*ADD bugid-(GTRE_7012) */
-        this.props.startDisableEvent(true);
-        //delay for receiving sensor data from plc
-        axios
-          .post("http://192.168.0.167:5000/start.php", {
-            //set target rpm & temp value to sent plc
-            targetRPM: this.props.app.targetRPM,
-            targetTemp: this.props.app.targetTemp,
-          })
-          .then((res) => {
-            //read the response from plc for trget temp & rpm
-            let startData = res.data;
-
-            //read status from plc after start click => stage1,stage2 etc...
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      if (
+        parseInt(this.props.app.targetTemp) >
+          parseInt(this.props.app.paramConfig[12].upperlimit) ||
+        parseInt(this.props.app.targetRPM) >
+          parseInt(this.props.app.paramConfig[10].upperlimit)
+      ) {
+        message.error("Temprature or RPM exceeded the limit");
       } else {
-        this.props.initiateTargetState();
+        if (
+          this.props.app.targetRPM !== "" &&
+          this.props.app.targetTemp !== ""
+        ) {
+          this.props.initiateShowTarget();
+          /*ADD bugid-(GTRE_7012) */
+          this.props.startDisableEvent(true);
+          //delay for receiving sensor data from plc
+          axios
+            .post("http://192.168.0.167:5000/start.php", {
+              //set target rpm & temp value to sent plc
+              targetRPM: this.props.app.targetRPM,
+              targetTemp: this.props.app.targetTemp,
+            })
+            .then((res) => {
+              //read the response from plc for trget temp & rpm
+              let startData = res.data;
+
+              //read status from plc after start click => stage1,stage2 etc...
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          this.props.initiateTargetState();
+        }
       }
     }
   };
@@ -660,7 +674,9 @@ class TestPageContainer extends Component {
     if (this.props.app.turboStart) {
       turboStart = this.props.app.turboStart;
     }
+    console.log(this.props.app.targetTemp, this.props.app.targetRPM);
     console.log(this.props.app);
+
     /*DEL bugid-(GTRE_7007) */
     // const {
     //   Initializedata,
@@ -1090,20 +1106,24 @@ class TestPageContainer extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Input
-                        placeholder=""
-                        value={targetTemp}
-                        onChange={this.onChangetempvalue}
-                        name="Target_temp"
-                        style={{ width: "75px" }}
-                      />
-                      <Input
-                        placeholder=""
-                        value={targetRPM}
-                        onChange={this.onChangeRPMvalue}
-                        name="Targrt_RPM"
-                        style={{ width: "75px" }}
-                      />
+                      <Tooltip placement="topLeft" title={alert_temptext}>
+                        <Input
+                          placeholder=""
+                          value={targetTemp}
+                          onChange={this.onChangetempvalue}
+                          name="Target_temp"
+                          style={{ width: "75px" }}
+                        />
+                      </Tooltip>
+                      <Tooltip placement="topLeft" title={alert_rpmtext}>
+                        <Input
+                          placeholder=""
+                          value={targetRPM}
+                          onChange={this.onChangeRPMvalue}
+                          name="Targrt_RPM"
+                          style={{ width: "75px" }}
+                        />
+                      </Tooltip>
                     </Row>
                   </p>
                 ) : (
