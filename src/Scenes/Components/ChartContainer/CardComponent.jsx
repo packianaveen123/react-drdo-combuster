@@ -287,6 +287,7 @@ class CardComponent extends Component {
                             height: "250px",
                             border: "none",
                             borderRadius: "0px",
+                            width: "450px",
                           }}
                         >
                           {it.title}

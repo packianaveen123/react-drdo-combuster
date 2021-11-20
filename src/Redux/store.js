@@ -22,7 +22,6 @@ const InitialState = {
   notifyStatus: 'false',
 
   // -- test details -- //
-  testingPage: [],
   testIdValue: '',
   turboIdTestCount: '',
   testDropdown: 'sub1',
@@ -37,19 +36,12 @@ const InitialState = {
   targetState: false,
   showReset: false,
   showTarget: false,
-  turboStart: [],
-  gasOpend: false,
-  stageOne: false,
-  fuelOpened: false,
-  stageTwo: false,
-  gasClosed: false,
+  turboStart: [],  
   stageThree: false,
-  currentDateTime: '',
   targetRPM: '',
   targetTemp: '',
   resetTemp: '',
   resetRPM: '',
-  startDbInserting: false,
   
   /*ADD bugid-(GTRE_7012) */
   startDisable: false,

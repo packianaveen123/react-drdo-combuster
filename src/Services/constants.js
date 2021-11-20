@@ -1,5 +1,5 @@
 const url = {
-  BASE_URL: 'http://192.168.0.167:5000/',
+  BASE_URL: 'http://localhost:5000/',
   LOGIN_VALIDATION: 'login_validation.php',
   FORGOT_VALIDATION: 'forget.php',
   REGISTERPAGE_VALIDATION: 'Registration.php',
@@ -10,11 +10,11 @@ const url = {
   UPDATE_CONFIG_DATA: 'testconfigedit.php',
   TABLE_VIEW: 'tableview.php',
   SHUTDOWN_CLICK: 'shutdown.php',
-  RESET_CLICK: 'reset.php',
   TURBOID_VALUE: 'turboIdValue.php',
   TABLE_STATUSDATA: 'statusValue.php',
   GRAPH_DATA: 'graph.php',
   DELAY_DATA: 'delay.php',     
+
      /* ADD bugid-(GTRE_7003)*/
   LOGOUT_EVENT: 'logout.php',     
 }
@@ -90,6 +90,7 @@ const testParamHash = {
   Initializedata: ['Communication', 'Initialize Started', 'Initialize Completed'],
   Startdata: ['Start Completed', 'Ignite', 'Gas Opened', 'Stage1', 'Ruel Opened', 'Stage2', 'Fuel Opened', 'Stage2', 'Gas Closed', 'Stage3'],
   nShutdowndata: ['N.Shutdown Initiated', 'N.Shutdown Completed'],
+
    // {/*ADD bugid-(GTRE_7007) */}
   eShutdowndata: ['E.Shutdown Initiated', 'E.Shutdown Completed'],
   Resetdata: ['Reset Values'],
@@ -100,9 +101,8 @@ const testParamHash = {
   warning_mode: "Please select turbo mode",
   warning_name: "Please enter tester name",
   alert_targetval: "Please enter target values",
-  alert_temptext:"Temprature must be below 1500",
-  alert_rpmtext:"RPM must be below 100000"
 }
+
 const helpPopup = {
   value: 'VALVE STATUS AT :',
   PilotFlameAir: 'PilotFlameAir :',
@@ -115,6 +115,7 @@ const helpPopup = {
   IgnitorSwitch: 'IgnitorSwitch : ',
   KerosenePump: 'KerosenePump : ',
   LubeOilPump: 'LubeOilPump : ',
+
    // {/*ADD bugid-(GTRE_7006) */}
    ErrorCode: 'ERROR CODE : ',
 }
@@ -135,6 +136,7 @@ const turboConfigValue = {
   description_data:
     "The system is installed with more than 1 turbines. Make sure there is only 1 turbine is installed. ",
 }
+
 const dashboardDataMessage = {
   transfer_warning: 'Select transfer data',
   transfer_success: 'Submitted successfully',
@@ -148,6 +150,7 @@ const endurence = {
   Minutes: "10+/-1",
   trubineInletTemp: "700/-50"
 }
+
 const performance = {
   RPM1: "41500+/-1%",
   RPM2: "49000+/-1%",
@@ -158,6 +161,7 @@ const performance = {
   PrRatio: '2.4+/-0.1',
   AirMassFlow: '0.97'
 }
+
 const ComparisonTableDetails = {
   FixedSpeed: '5000',
   FixedOilPr: '5.00 - 6.00',
@@ -169,6 +173,7 @@ const ComparisonTableDetails = {
   FixedComperMassFlowRate: '50',
   FixedTotalMassFlowOfAir: '10',
 }
+
 const Details = {
   Speed: '3000',
   OilPr: '5.55',
@@ -180,6 +185,7 @@ const Details = {
   ComperMassFlowRate: '55000',
   TotalMassFlowOfAir: '9000',
 }
+
 const reportAlert = {
   turboID_alert: "Select the turbo ID",
   testNo_alert: "Select the test No",

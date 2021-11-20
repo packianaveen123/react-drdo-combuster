@@ -93,11 +93,6 @@ export const updateForgotEvent = data => ({
 })
 
 /* ---Test page/test details --- */
-//testingPage
-export const updateTestingPage = data => ({
-  type: 'UPDATE_TESTING_PAGE',
-  payload: data
-})
 // testIdValue
 export const updateTestIdValue = data => ({
   type: 'UPDATE_TESTID_VALUE',
@@ -132,9 +127,9 @@ export const initiateShowReset = bool => ({
   payload: bool
 })
 // communicationFailed
-export const initiateCommunicationFailed = bool => ({
+export const initiateCommunicationFailed = data => ({
   type: 'COMMUNICATION_FAILED_INITIATED',
-  payload: bool
+  payload: data
 })
 // communication
 export const initiateCommunication = bool => ({
@@ -156,41 +151,12 @@ export const initiateTurboStart = data => ({
   type: 'TURBO_START_INITIATED',
   payload: data
 })
-// gasOpend
-export const initiateGasOpened = bool => ({
-  type: 'GAS_OPEN_INITIATED',
-  payload: bool
-})
-// stageOne
-export const initiateStageOne = bool => ({
-  type: 'STAGE_ONE_INITIATED',
-  payload: bool
-})
-// fuelOpened
-export const initiateFuelOpened = bool => ({
-  type: 'FUEL_OPENED_INITIATED',
-  payload: bool
-})
-// stageTwo
-export const initiateStageTwo = bool => ({
-  type: 'STAGE_TWO_INITIATED',
-  payload: bool
-})
-// gasClosed
-export const initiateGasClosed = bool => ({
-  type: 'GAS_CLOSED',
-  payload: bool
-})
 // stageThree
 export const initiateStageThree = bool => ({
   type: 'STAGE_THREE_INITIATED',
   payload: bool
 })
-// currentDateTime
-export const getCurrentDateTime = data => ({
-  type: 'CURRENT_DATE_TIME',
-  payload: data
-})
+
 // targetRPM
 export const getTargetRPM = data => ({
   type: 'TARGET_RPM',
@@ -216,12 +182,7 @@ export const getResetRPM = data => ({
 export const stopDbInsert = bool => ({
   type: 'STOP_DB_INSERT',
   payload: bool
-})
-//startDbInserting
-export const startDbInsert = bool => ({
-  type: 'START_DB_INSERT',
-  payload: bool
-})            
+})         
 
  /*ADD bugid-(GTRE_7012) */
 //startDisable

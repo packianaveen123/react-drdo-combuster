@@ -11,17 +11,16 @@ const turboConfigSubmitUrl = `${BASE_URL}${URL.TURBO_CONFIG_SUBMIT}`
 const configTableUrl = `${BASE_URL}${URL.TEST_CONFIG}`
 const paramConfigUrl = `${BASE_URL}${URL.PARAM_CONFIG}`
 const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
-const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
 const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
-const sensorDataUrl = `http://192.168.0.167:8002/getdata.php`
+const sensorDataUrl = `http://localhost:8002/getdata.php`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-const graphDataUrl = `http://192.168.0.167:8001/graph.php`   
+const graphDataUrl = `http://localhost:8001/graph.php`   
 const delayDataUrl = `${BASE_URL}${URL.DELAY_DATA}`
+
 // {/*ADD bugid-(GTRE_7003) */}
 const logoutEventUrl = `${BASE_URL}${URL.LOGOUT_EVENT}`
-const testdataAfterShutdownUrl = `http://192.168.0.167:7000/testdatainsertaftershutdown.php`
 
 // Form requests
 const loginValidation = (values, callBack) => {
@@ -140,16 +139,6 @@ const gettingChartData = (callBack) => {
       console.log(err);
     })
 }
-const resetClickEvent = (dataBody, callBack) => {
-  axios.post(resetClickEventUrl, dataBody)
-    .then(res => {
-      if (res.data) {
-        callBack(res.data)
-      }
-    }).catch(err => {
-      console.log(err.res)
-    })
-}
 
 const getSensorData = (callBack) => {
   axios.post(sensorDataUrl)
@@ -193,25 +182,14 @@ const logoutEvent = (callBack) => {
     })
 };
 
- /* ADD bugid-(GTRE_7003)*/
-const gettingTestdataAftershutdown = (callBack) => {
-  axios.post(testdataAfterShutdownUrl)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-}; 
 
 export {
   getTurboConfigData, turbineConfigSubmit,
   getTestConfigData, getParamConfigData,
-  shutdownClickEvent, resetClickEvent,
-  updateConfigData, loginValidation,
-  forgotValidation, registerPageValidation,
-  getTableView, getSensorData,
-  getHandleChangetestID, requestStatusData,
-  gettingChartData, gettingDelayValue,
-logoutEvent,gettingTestdataAftershutdown
+  shutdownClickEvent, updateConfigData, 
+  loginValidation, forgotValidation,
+  registerPageValidation, getTableView,
+  getSensorData, getHandleChangetestID,
+  requestStatusData, gettingChartData, 
+  gettingDelayValue, logoutEvent
 }
