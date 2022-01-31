@@ -29,78 +29,78 @@ const columns = [
   },
   {
     title: "RPM",
-    dataIndex: "rpm",
-    key: "rpm",
+    dataIndex: "RPM",
+    key: "RPM",
     fixed: "left",
   },
   {
     title: "Combuster outlet Temperature",
-    dataIndex: "T1",
+    dataIndex: "Combustor Outlet Temp",
     key: "T1",
   },
   {
     title: "Turbine Inlet Temperature",
-    dataIndex: "T2",
+    dataIndex: "Turbine Inlet Temperature",
     key: "T2",
   },
   {
     title: "Turbine outlet Temperature",
-    dataIndex: "T3",
+    dataIndex: "Turbine Outlet Temperature",
     key: "T3",
   },
   {
     title: "Compressor Inlet Temperature",
-    dataIndex: "T4",
+    dataIndex: "Compressor Inlet Temperature",
     key: "T4",
   },
   {
     title: "Compressor Outlet Temperature",
-    dataIndex: "T5",
+    dataIndex: "Compressor Outlet Temperature",
     key: "T5",
   },
   {
     title: "Ambient Temperature",
-    dataIndex: "T11",
+    dataIndex: "Ambient Temperature",
     key: "T11",
   },
   {
     title: "Combuster Inlet Pressure",
-    dataIndex: "P1",
+    dataIndex: "Combustor Inlet Pressure",
     key: "P1",
   },
   {
     title: "Fuel Line Pressure",
-    dataIndex: "P2",
+    dataIndex: "Fuel Line Pressure",
     key: "P2",
   },
   {
     title: "Turbine Inlet Pressure",
-    dataIndex: "P3",
+    dataIndex: "Turbine Inlet Pressure",
     key: "P3",
   },
   {
     title: "Ambient Pressure",
-    dataIndex: "P4",
+    dataIndex: "Turbine Inlet Pressure",
     key: "P4",
   },
   {
     title: "Compressor Inlet Pressure",
-    dataIndex: "P5",
+    dataIndex: "Compressor Inlet Pressure",
     key: "P5",
   },
   {
     title: "Compressor Outlet Pressure",
-    dataIndex: "P6",
+    dataIndex: "Compressor Outlet Pressure",
     key: "P6",
   },
   {
     title: "Ventury meter differencial Pressure",
-    dataIndex: "P7",
+    dataIndex: "Ventury meter diff pressure",
     key: "P7",
   },
   {
     title: "Fuel Flow Rate",
-    dataIndex: "FFR",
+    dataIndex: "Fuel Flow Rate",
     key: "FFR",
   },
 ];
@@ -139,7 +139,7 @@ class ExportData extends Component {
       this.state.turboIdVal.length !== 0
     ) {
       axios
-        .post("http://192.168.0.173:5000/getReport.php", {
+        .post("http://localhost:5000/getReport.php", {
           //getting the exportData table value
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -159,7 +159,7 @@ class ExportData extends Component {
         });
       this.setState({ loading: true });
       axios
-        .post("http://192.168.0.173:5000/getnames.php", {
+        .post("http://localhost:5000/getnames.php", {
           //getting the tester and witness name
           turboIdVal: this.state.turboIdVal,
           testno: this.state.testno1,
@@ -180,7 +180,7 @@ class ExportData extends Component {
   //select the TestID
   handleChangeTestID = (value) => {
     axios
-      .post("http://192.168.0.173:5000/exportData.php", { turboIdVal: value })
+      .post("http://localhost:5000/exportData.php", { turboIdVal: value })
       .then((res) => {
         let data = res.data;
         if (typeof data === "string") {
@@ -352,7 +352,7 @@ class ExportData extends Component {
               columns={columns}
               pagination={false}
               dataSource={this.state.reportDetails}
-              scroll={{ x: 2000 }}
+              scroll={{ x: 2000, y: 500 }}
             />
           </Layout>
         </Spin>

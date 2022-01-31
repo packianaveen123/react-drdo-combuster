@@ -10,13 +10,11 @@ import LeftbarComponent from "../Components/LeftBar/LeftbarComponent";
 import TestPage from "./TestPage";
 import GraphView from "../Pages/DashboardPage/GraphView";
 import TableView from "./DashboardPage/TableView";
-import RunningReport from "./Reports/RunningReport";
 import TestConfig from "./ConfigurationPage/TestConfig";
 import ParamConfig from "./ConfigurationPage/ParamConfig";
 import ExportData from "./Reports/ExportData";
-import PerformanceReport from "./Reports/PerformanceReport";
-import EndurenceReport from "./Reports/EndurenceReport";
-import PerformanceAfterEndurence from "./Reports/PerformanceAfterEndurence";
+import axios from "axios";
+
 import {
   updateTurboConfig,
   updateTestConfigPage,
@@ -26,6 +24,8 @@ import {
   updateTestIdCount,
   updateTableViewData,
   fetchingDelayValue,
+  updateChartData,
+  initiateTurboStart,
 } from "../../Redux/action";
 import {
   getTurboConfigData,
@@ -35,12 +35,22 @@ import {
   requestStatusData,
   getHandleChangetestID,
   getTableView,
-  gettingDelayValue,
+  gettingChartData,
+  getSensorData,
 } from "../../Services/requests";
+import { testParamHash } from "../../Services/constants";
 
 const { Content, Header, Footer } = Layout;
+const { nShutdowndata, eShutdowndata } = testParamHash;
 
 export class MainComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      testDataInsert: false,
+    };
+  }
+
   componentDidMount() {
     // fetch turbo config data on application load
     getTurboConfigData((data) => {
@@ -72,12 +82,8 @@ export class MainComponent extends Component {
       this.props.updateTestIdCount(data);
     });
 
-    // fetch DelayValue on application load
-    gettingDelayValue((data) => {
-      this.props.fetchingDelayValue(data);
-    });
-
     getTableView((data) => {
+      console.log(data);
       //getting this function(data) from request page
       const arrStr = this.props.app.targetKeys; //covertion string to number
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
@@ -86,12 +92,57 @@ export class MainComponent extends Component {
       );
       this.props.updateTableViewData(filteredTableData);
     });
+
+    if (this.state.testDataInsert === false) {
+      axios
+        .post("http://localhost:7000/testdatainsert.php")
+        .then(function (response) {
+          this.setState({
+            testDataInsert: true,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    //graph.php
+    //getting live value from db
+    setInterval(() => {
+      gettingChartData((data) => {
+        this.props.updateChartData(data);
+      });
+    }, 1000);
+
+    //getdata.php
+    setInterval(() => {
+      const nShutdowndataArray = this.props.app.turboStart.filter((it) =>
+        nShutdowndata.find((val) => val === it.name)
+      );
+
+      const eShutdowndataArray = this.props.app.turboStart.filter((it) =>
+        eShutdowndata.find((val) => val === it.name)
+      );
+
+      if (
+        this.props.app.testIdData !== 0 &&
+        nShutdowndataArray.length < 2 &&
+        eShutdowndataArray.length < 2
+      ) {
+        getSensorData((data) => {
+          let val = data;
+          if (this.props.app.communication === true && val.length >= 1) {
+            this.props.initiateTurboStart(val);
+          }
+        });
+      }
+    }, 2000);
   }
 
   render() {
     const appData = this.props.app;
     const { mainPage } = appData;
-
+    console.log(this.props.app);
     return (
       <Layout>
         <Header style={{ paddingLeft: "10px", paddingRight: "0" }}>
@@ -108,15 +159,7 @@ export class MainComponent extends Component {
             {mainPage === "testConfig" ? <TestConfig /> : []}
             {mainPage === "paramConfig" ? <ParamConfig /> : []}
             {mainPage === "testPage" ? <TestPage /> : []}
-            {mainPage === "runningReport" ? <RunningReport /> : []}
             {mainPage === "exportData" ? <ExportData /> : []}
-            {mainPage === "performanceReport" ? <PerformanceReport /> : []}
-            {mainPage === "endurenceReport" ? <EndurenceReport /> : []}
-            {mainPage === "performanceafterEndurence" ? (
-              <PerformanceAfterEndurence />
-            ) : (
-              []
-            )}
           </Content>
         </Layout>
         <Footer>
@@ -139,6 +182,8 @@ const mapDispatchToProps = {
   updateTestIdCount,
   updateTableViewData,
   fetchingDelayValue,
+  updateChartData,
+  initiateTurboStart,
 };
 
 const MainContainer = connect(

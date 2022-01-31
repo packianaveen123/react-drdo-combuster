@@ -8,7 +8,6 @@ const InitialState = {
   leftBarView: false,
   collapsed: true,
   titleElements: titleElements,
-  turboMode: '1',
   IsLogin: false,
   IsUserName: [],
 
@@ -32,6 +31,7 @@ const InitialState = {
   reset: false,
   chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   shutdownInitiated: false,
+  initializeEnable: false,
   communicationFailed: false,
   communication: false,
   targetState: false,
@@ -50,8 +50,10 @@ const InitialState = {
   resetTemp: '',
   resetRPM: '',
   startDbInserting: false,
-  
+  testIdData: 0,
+  startDisable: false,
   //grapgView
-  delayValue: ''
+  delayValue: '',
+  cvStageValue:[],
 }
 export default InitialState

@@ -7,11 +7,15 @@ import ForgotPassword from "./Scenes/Components/Forms/ForgotPassword";
 import "antd/dist/antd.css";
 import "../src/Styles/style.css";
 import Cookies from "universal-cookie";
+import { gettingConfigurationValue } from "./Services/requests";
+import { fetchingDelayValue, fetchingCvstageValue } from "./Redux/action";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.stste = {};
+  componentDidMount() {
+    gettingConfigurationValue((data) => {
+      this.props.fetchingDelayValue(data[0].Delay * 1000);
+      this.props.fetchingCvstageValue(data[0]);
+    });
   }
 
   render() {
@@ -36,7 +40,7 @@ const mapStateToProps = (state) => ({
   appState: state.app.appState,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { fetchingDelayValue, fetchingCvstageValue };
 
 const appPage = connect(mapStateToProps, mapDispatchToProps)(App);
 export default appPage;

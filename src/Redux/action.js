@@ -109,11 +109,6 @@ export const updateTestIdCount = data => ({
   payload: data
 })
 
-// turboMode
-export const updateTurboMode = data => ({
-  type: 'UPDATE_TURBO_MODE',
-  payload: data
-})
 export const updateDropDown = data => ({
   type: 'UPDATE_DROPDOWN',
   payload: data
@@ -124,6 +119,11 @@ export const updateDropDown = data => ({
 export const initiateShutdown = bool => ({
   type: 'SHUTDOWN_INITIATED',
   payload: bool
+})
+//initializeEnable
+export const initializeEnableEvent = data => ({
+  type: 'INITIALIZE_ENABLE_EVENT',
+  payload: data
 })
 // showReset
 export const initiateShowReset = bool => ({
@@ -221,8 +221,23 @@ export const startDbInsert = bool => ({
   type: 'START_DB_INSERT',
   payload: bool
 })
+// testIdData
+export const gettingTestIdData = data => ({
+  type: 'GETTING_TEST_ID_DATA',
+  payload: data
+})
+//startDisable
+export const startDisableEvent = data => ({
+  type: 'SHUTDOWN_ENABLE_EVENT',
+  payload: data
+})
 //delayValue
 export const fetchingDelayValue = data => ({
   type: 'FETCHING_DELAY_VALUE',
+  payload: data
+})
+//cvStageValue
+export const fetchingCvstageValue = data => ({
+  type: 'FETCHING_CVSTAGE_VALUE',
   payload: data
 })

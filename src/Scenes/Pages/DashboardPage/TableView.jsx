@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import StatusBlock from "../../Components/TestPageComponent/StatusBlock";
 import { Table, Row, Col } from "antd";
-import {
-  updateTitleElements,
-  updateTableViewData,
-} from "../../../Redux/action";
+import { updateTitleElements } from "../../../Redux/action";
 import { connect } from "react-redux";
 import { getTableView } from "../../../Services/requests";
 
@@ -43,7 +40,7 @@ const columns = [
         if (parseInt(liveData) > parseInt(upperlimit.upperlimit)) return "red";
         if (parseInt(liveData) < parseInt(upperlimit.lowerlimit))
           return "yellow";
-        return "green";
+        return "#03fc28";
       };
       return {
         props: {
@@ -109,7 +106,6 @@ class TableView extends Component {
       this.setState({
         filteredTableData: filteredTableData,
       });
-      // this.props.updateTableViewData(filteredTableData);
     });
   }
 
@@ -171,7 +167,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
   updateTitleElements,
-  updateTableViewData,
 };
 const Tabledata = connect(mapStateToProps, mapDispatchToProps)(TableView);
 export default Tabledata;

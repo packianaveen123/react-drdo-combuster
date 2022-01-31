@@ -14,12 +14,12 @@ const shutdownClickEventUrl = `${BASE_URL}${URL.SHUTDOWN_CLICK}`
 const resetClickEventUrl = `${BASE_URL}${URL.RESET_CLICK}`
 const updateConfigDataUrl = `${BASE_URL}${URL.UPDATE_CONFIG_DATA}`
 const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
-const sensorDataUrl = `http://192.168.0.173:8002/getdata.php`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
-const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`
-const graphDataUrl = `http://192.168.0.173:8001/graph.php`   
-const delayDataUrl = `${BASE_URL}${URL.DELAY_DATA}`
-
+const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`  
+const configurationDataUrl = `${BASE_URL}${URL.CONFIGURATION_DATA}`
+const sensorDataUrl = `http://localhost:8002/getdata.php`
+const graphDataUrl = `http://localhost:8001/graph.php` 
+const fcvStageUrl =`http://localhost:8003/fcvStage.php`
 
 // Form requests
 const loginValidation = (values, callBack) => {
@@ -169,9 +169,18 @@ const getHandleChangetestID = (body, callBack) => {
     })
 };
 
+const gettingConfigurationValue = (callBack) => {
+  axios.post(configurationDataUrl)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
 
-const gettingDelayValue = (callBack) => {
-  axios.post(delayDataUrl)
+const fcvTransferEvent = (body,callBack) => {
+  axios.post(fcvStageUrl, body)
     .then(res => {
       callBack(res.data)
     })
@@ -188,5 +197,5 @@ export {
   forgotValidation, registerPageValidation,
   getTableView, getSensorData,
   getHandleChangetestID, requestStatusData,
-  gettingChartData, gettingDelayValue,
+  gettingChartData, gettingConfigurationValue,fcvTransferEvent
 }

@@ -36,7 +36,7 @@ const appReducer = (state = InitialState, action) => {
       newState.testConfigPage = action.payload ? action.payload : []
       return newState
     //turboConfig
-    case 'UPDATE_TURBO_CONFIG':    
+    case 'UPDATE_TURBO_CONFIG':
       newState.turboConfig = action.payload ? action.payload : []
       return newState
     //paramConfig
@@ -92,10 +92,6 @@ const appReducer = (state = InitialState, action) => {
       newState.turboIdTestCount = action.payload ? action.payload : []
       return newState
 
-    //turboMode
-    case 'UPDATE_TURBO_MODE':
-      newState.turboMode = action.payload ? action.payload : []
-      return newState
     //testDropdown
     case 'UPDATE_DROPDOWN':
       newState.testDropdown = action.payload
@@ -105,6 +101,10 @@ const appReducer = (state = InitialState, action) => {
     //shutdownInitiated
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true
+      return newState
+    //initializeEnable 
+    case 'INITIALIZE_ENABLE_EVENT':
+      newState.initializeEnable = true
       return newState
     //showReset
     case 'SHOW_RESET_INITIATED':
@@ -184,17 +184,32 @@ const appReducer = (state = InitialState, action) => {
       newState.targetRPM = ''
       newState.targetTemp = ''
       newState.shutdownInitiated = false
-      return newState  
+      return newState
 
     //startDbInserting
     case 'START_DB_INSERT':
-      newState.startDbInserting = false                                 
+      newState.startDbInserting = false
       return newState
 
-  //delayValue
+    //testIdData
+    case 'GETTING_TEST_ID_DATA':
+      newState.testIdData = action.payload
+      return newState
+
+    //startDisable
+    case 'SHUTDOWN_ENABLE_EVENT':
+      newState.startDisable = action.payload
+      return newState
+
+    //delayValue
     case 'FETCHING_DELAY_VALUE':
       newState.delayValue = action.payload
       return newState
+      
+  //cvStageValue
+  case 'FETCHING_CVSTAGE_VALUE':
+    newState.cvStageValue = action.payload
+    return newState
 
     default:
       return newState

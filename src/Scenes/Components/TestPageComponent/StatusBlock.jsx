@@ -3,11 +3,13 @@ import { Col, Row } from "antd";
 import { connect } from "react-redux";
 import { dashboardSensor } from "../../../Services/constants";
 import { getTableView } from "../../../Services/requests";
-const { sensorLabel, n_shutdown, live, offline } = dashboardSensor;
+import CVStageComponent from "./CVStageComponent";
+
+const { sensorLabel, n_shutdown, e_shutdown, live, offline } = dashboardSensor;
 
 const styles = {
   online: {
-    color: "green",
+    color: "#03fc28",
     position: "absolute",
     right: 20,
     top: 120,
@@ -58,6 +60,7 @@ class StatusBlock extends Component {
   }
   render() {
     let nShutdown = false;
+    let eShutdown = false;
     let persons;
     let persons1;
     let filteredData;
@@ -68,10 +71,18 @@ class StatusBlock extends Component {
     //covertion string to number
     const arrStr = this.props.app.targetKeys;
     const dashboardDataNumArr = arrStr.map((i) => Number(i));
-    if (this.props.app.turboStart !== "" || this.props.app.turboStart !== []) {
-      this.props.app.turboStart.map((they) => {
+
+    let turboStart = [];
+    if (this.props.app.turboStart) {
+      turboStart = this.props.app.turboStart;
+    }
+
+    if (turboStart.length >= 0) {
+      turboStart.map((they) => {
         if (they.name === "N.Shutdown Completed") {
           nShutdown = true;
+        } else if (they.name === "E.Shutdown Completed") {
+          eShutdown = true;
         }
       });
     }
@@ -80,6 +91,7 @@ class StatusBlock extends Component {
     let filteredDataLabel = sensorLabel.filter((_, index) =>
       dashboardDataNumArr.includes(index)
     );
+
     {
       this.props.app.chartData[0]
         ? (filteredData = Object.values(this.props.app.chartData[0]).filter(
@@ -112,6 +124,7 @@ class StatusBlock extends Component {
         ? (receivedDate = this.props.app.chartData[0].testdatadate)
         : (receivedDate = null);
     }
+
     // Assigning statusblock data color variation
     /* eslint-disable */
     this.state.filteredTableData
@@ -121,14 +134,15 @@ class StatusBlock extends Component {
           } else if (parseInt(persons[y]) < parseInt(it.lowerlimit)) {
             colors = colors.concat("yellow");
           } else {
-            colors = colors.concat("green");
+            colors = colors.concat("#03fc28");
           }
         })
       : [];
+
     const date = new Date();
     const db_date = new Date(receivedDate);
     let isActive = false;
-    // console.log(this.props.app);
+
     if (this.props.app.communication === true) {
       isActive = true;
     }
@@ -136,14 +150,20 @@ class StatusBlock extends Component {
       <div>
         <div>
           <Row>
-            {nShutdown ? (
-              <p style={styles.offline}>{n_shutdown}</p>
+            {eShutdown ? (
+              <p style={styles.offline}>{e_shutdown}</p>
             ) : (
               <Row>
-                {isActive ? (
-                  <p style={styles.online}>{live}</p>
+                {nShutdown ? (
+                  <p style={styles.offline}>{n_shutdown}</p>
                 ) : (
-                  <p style={styles.offline}>{offline}</p>
+                  <Row>
+                    {isActive ? (
+                      <p style={styles.online}>{live}</p>
+                    ) : (
+                      <p style={styles.offline}>{offline}</p>
+                    )}
+                  </Row>
                 )}
               </Row>
             )}
@@ -210,6 +230,9 @@ class StatusBlock extends Component {
               </div>
             </Col>
           ))}
+          <Col>
+            <CVStageComponent />
+          </Col>
         </Row>
       </div>
     );

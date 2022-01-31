@@ -477,6 +477,38 @@ div#allreport h1 {
   color: rgba(187, 184, 184, 0.25);
   cursor: not-allowed;
 }
+
+/* progress bar */
+.arrow-btn {
+  color: rgb(72, 212, 72);
+}
+.arrow-btn:hover {
+  color: #42dbdc;
+  padding: 4%;
+  border: 1px;
+  cursor: pointer;
+}
+.arrow-btn:active {
+  color: red;
+}
+.arrow-btn-disable {
+  color: #5f6363;
+}
+.ant-progress-text {
+  color: white !important;
+}
+.progress_box {
+  border: 1px solid green;
+  border-radius: 7px;
+  background: #131633;
+  padding: 11px 7px 8px 7px;
+}
+.progress_title {
+  font-size: 13px;
+  color: white;
+  text-transform: uppercase;
+}
+
 /*
 * =============================
 *      Table
@@ -768,7 +800,7 @@ div#allreport h1 {
   padding-left: 10px;
   padding-right: 10px;
   background: #131633;
-  color: #8a8d93;
+  color: white;
 }
 .statistic-block .title {
   text-align: center;
@@ -781,7 +813,7 @@ div#allreport h1 {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 13px !important;
-  color: #8a8d93;
+  color: white;
   margin-bottom: -5px !important;
 }
 .statistic-block .number {

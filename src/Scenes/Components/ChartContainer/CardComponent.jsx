@@ -139,7 +139,6 @@ class CardComponent extends Component {
       );
       //update the tableView rendering the component
       this.props.updateTableViewData(filteredTableData);
-      console.log(this.props.app.tableViewData);
     });
   }
 
@@ -150,7 +149,7 @@ class CardComponent extends Component {
         ? this.prepareChartParams(this.props.app.chartData)
         : this.prepareChartParams(this.state.dummygraphData);
     }
-  }, 1000);
+  });
 
   prepareChartParams = (chartdata) => {
     let t1 = [];
@@ -249,9 +248,10 @@ class CardComponent extends Component {
               "rgba(24, 144, 255, 0.5)",
             ],
             chartTextColor: textColor,
-            upperLimitVal: this.props.app.tableViewData[i].upperlimit,
+
+            upperLimitVal: this.props.app.tableViewData[i].graph_upper,
             normalLimitVal: this.props.app.tableViewData[i].normallimit,
-            lowerLimitVal: this.props.app.tableViewData[i].lowerlimit,
+            lowerLimitVal: this.props.app.tableViewData[i].graph_lower,
           },
         };
         chartValue.push(chart);
