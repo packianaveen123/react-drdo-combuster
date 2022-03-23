@@ -172,81 +172,69 @@ class TurboConfig extends Component {
                   : this.onFinishSubmit();
               }
             }}
+            style={{ paddingLeft: "3%" }}
           >
-            <Row style={{ paddingTop: "20px" }}>
-              <Col sm={2}>
-                <label className="label">
-                  Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
-                </label>
-              </Col>
-              <Col sm={6}>
-                <Form.Item name="Turbo ID" rules={[{ required: true }]}>
+            <Row gutter={[16, 8]} style={{ paddingTop: "20px" }}>
+              <Form.Item
+                name="Turbo ID"
+                label="Turbo ID"
+                rules={[{ required: true }]}
+              >
+                <div>
+                  <Input
+                    name="turbo_id"
+                    style={{ width: "320px" }}
+                    placeholder="Turbo ID"
+                    defaultValue={this.state.turboID}
+                    onChange={this.onchangeTurboID}
+                  />
+                </div>
+              </Form.Item>
+
+              <Form.Item
+                style={{ paddingLeft: "5%" }}
+                name="Date"
+                label=" Installed Date"
+                rules={[{ required: true }]}
+              >
+                <DatePicker
+                  name="date"
+                  disabledDate={(current) => {
+                    return current && current > moment(Date.now());
+                  }}
+                  style={{ backgroundColor: "transparent" }}
+                  onChange={this.updateDate}
+                />
+              </Form.Item>
+
+              <Form.Item
+                style={{ paddingLeft: "5%" }}
+                name="Date"
+                label="Nozzle Area"
+                rules={[{ required: true }]}
+              >
+                <Tooltip
+                  placement="bottom"
+                  title="Range 0.0002 to 0.0005 m2"
+                  style={{ backgroundColor: "pink" }}
+                >
                   <div>
-                    <Input
-                      name="turbo_id"
+                    <InputNumber
                       style={{ width: "320px" }}
-                      placeholder="Turbo ID"
-                      defaultValue={this.state.turboID}
-                      onChange={this.onchangeTurboID}
+                      min={nozzleArea_min}
+                      max={nozzleArea_max}
+                      step={nozzleArea_step}
+                      defaultValue={nozzleArea_defalutValue}
+                      value={this.state.nozzleArea || nozzleArea_defalutValue}
+                      onChange={this.handleNumber}
+                      stringMode
                     />
                   </div>
-                </Form.Item>
-              </Col>
-              <Col sm={3}>
-                <label htmlFor="name" className="label">
-                  Installed Date
-                  <i style={{ color: "red", fontSize: "15px" }}> *</i>
-                </label>
-              </Col>
-              <Col sm={5}>
-                <Form.Item name="Date " rules={[{ required: true }]}>
-                  <DatePicker
-                    name="date"
-                    disabledDate={(current) => {
-                      return current && current > moment(Date.now());
-                    }}
-                    style={{ backgroundColor: "#131633" }}
-                    onChange={this.updateDate}
-                  />
-                </Form.Item>
-              </Col>
-              <Col sm={2}>
-                <label className="label">
-                  Nozzle Area
-                  <i style={{ color: "red", fontSize: "15px" }}> *</i>
-                </label>
-              </Col>
-              <Col sm={6}>
-                <div>
-                  <Tooltip
-                    placement="bottom"
-                    title="Range 0.0002 to 0.0005 m2"
-                    style={{ backgroundColor: "pink" }}
-                  >
-                    <div>
-                      <InputNumber
-                        style={{ width: "320px" }}
-                        min={nozzleArea_min}
-                        max={nozzleArea_max}
-                        step={nozzleArea_step}
-                        defaultValue={nozzleArea_defalutValue}
-                        value={this.state.nozzleArea || nozzleArea_defalutValue}
-                        onChange={this.handleNumber}
-                        stringMode
-                      />
-                    </div>
-                  </Tooltip>
-                </div>
-              </Col>
+                </Tooltip>
+              </Form.Item>
             </Row>
-            <Row style={{ marginTop: "5px" }}>
-              <Col sm={2}>
-                <label className="label">
-                  Description{" "}
-                  <i style={{ color: "red", fontSize: "15px" }}> </i>
-                </label>
-              </Col>
-              <Col sm={14}>
+            <Row gutter={[16, 8]} style={{ marginTop: "5px" }}>
+              <Form.Item name="Description" label=" Description">
                 <Tooltip placement="bottomLeft" title="Allowed 200 words only">
                   <Input
                     name="description"
@@ -256,38 +244,32 @@ class TurboConfig extends Component {
                     onChange={this.updateDiscription}
                   />
                 </Tooltip>
-              </Col>
+              </Form.Item>
 
-              <Col sm={2}>
-                <label className="label">
-                  No of Blades
-                  <i style={{ color: "red", fontSize: "15px" }}> *</i>
-                </label>
-              </Col>
-              <Col sm={3}>
-                <Form.Item name="No of Blades ">
-                  <InputNumber
-                    min={blade_min}
-                    max={blade_max}
-                    defaultValue={blade_defalutValue}
-                    step={1}
-                    precision={0}
-                    required
-                    style={{ width: "320px" }}
-                    onChange={this.updateBlades}
-                  />
-                </Form.Item>
-              </Col>
+              <Form.Item
+                style={{ marginLeft: "3%" }}
+                name="No of Blades"
+                label="No of Blades "
+              >
+                <InputNumber
+                  min={blade_min}
+                  max={blade_max}
+                  defaultValue={blade_defalutValue}
+                  step={1}
+                  precision={0}
+                  required
+                  style={{ width: "320px" }}
+                  onChange={this.updateBlades}
+                />
+              </Form.Item>
             </Row>
 
-            <Row sm={6} style={{ paddingTop: "25px", marginLeft: "93%" }}>
-              <Col xs={4}>
-                <Form.Item>
-                  <div>
-                    <Button htmlType="submit"> Save</Button>
-                  </div>
-                </Form.Item>
-              </Col>
+            <Row style={{ paddingTop: "25px", marginLeft: "90%" }}>
+              <Form.Item>
+                <div>
+                  <Button htmlType="submit"> Save</Button>
+                </div>
+              </Form.Item>
             </Row>
           </Form>
         </Layout>

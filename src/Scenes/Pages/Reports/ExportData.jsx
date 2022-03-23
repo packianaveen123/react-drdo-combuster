@@ -20,92 +20,9 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const { Option } = Select;
-const columns = [
-  {
-    title: "testdata time",
-    dataIndex: "testdataDate",
-    key: "testdataDate",
-    fixed: "left",
-  },
-  {
-    title: "RPM",
-    dataIndex: "RPM",
-    key: "RPM",
-    fixed: "left",
-  },
-  {
-    title: "Combuster outlet Temperature",
-    dataIndex: "Combustor Outlet Temp",
-    key: "T1",
-  },
-  {
-    title: "Turbine Inlet Temperature",
-    dataIndex: "Turbine Inlet Temperature",
-    key: "T2",
-  },
-  {
-    title: "Turbine outlet Temperature",
-    dataIndex: "Turbine Outlet Temperature",
-    key: "T3",
-  },
-  {
-    title: "Compressor Inlet Temperature",
-    dataIndex: "Compressor Inlet Temperature",
-    key: "T4",
-  },
-  {
-    title: "Compressor Outlet Temperature",
-    dataIndex: "Compressor Outlet Temperature",
-    key: "T5",
-  },
-  {
-    title: "Ambient Temperature",
-    dataIndex: "Ambient Temperature",
-    key: "T11",
-  },
-  {
-    title: "Combuster Inlet Pressure",
-    dataIndex: "Combustor Inlet Pressure",
-    key: "P1",
-  },
-  {
-    title: "Fuel Line Pressure",
-    dataIndex: "Fuel Line Pressure",
-    key: "P2",
-  },
-  {
-    title: "Turbine Inlet Pressure",
-    dataIndex: "Turbine Inlet Pressure",
-    key: "P3",
-  },
-  {
-    title: "Ambient Pressure",
-    dataIndex: "Turbine Inlet Pressure",
-    key: "P4",
-  },
-  {
-    title: "Compressor Inlet Pressure",
-    dataIndex: "Compressor Inlet Pressure",
-    key: "P5",
-  },
-  {
-    title: "Compressor Outlet Pressure",
-    dataIndex: "Compressor Outlet Pressure",
-    key: "P6",
-  },
-  {
-    title: "Ventury meter differencial Pressure",
-    dataIndex: "Ventury meter diff pressure",
-    key: "P7",
-  },
-  {
-    title: "Fuel Flow Rate",
-    dataIndex: "Fuel Flow Rate",
-    key: "FFR",
-  },
-];
-
+let paramObj = {};
 class ExportData extends Component {
+  formRef = React.createRef(); //this is used to reset datas
   constructor(props) {
     super(props);
     this.state = {
@@ -114,6 +31,28 @@ class ExportData extends Component {
       reportDetails: [],
       emptyTestno: false,
       loading: false,
+      title: [],
+
+      formulaUnit: {
+        "Combuster outlet Temperature": "Degree C",
+        "Turbine Inlet Temperature": "Degree C",
+        "Turbine outlet Temperature": "Degree C",
+        "Compressor Inlet Temperature": "Degree C",
+        "Compressor Outlet Temperature": "Degree C",
+        "Ambient Temperature": "Degree C",
+        "Combuster Inlet Pressure": "Kg/cm2",
+        "Fuel Line Pressure": "Kg/cm2",
+        "Turbine Inlet Pressure": "Kg/cm2",
+        "Ambient Pressure": "Kg/cm2",
+        "Compressor Inlet Pressure": "Kg/cm2",
+        "Compressor Outlet Pressure": "Kg/cm2",
+        "Ventury meter differencial Pressure": "Kg/cm2",
+        "Fuel Flow Rate": "LPM",
+        "RPM Sensor": "RPM",
+      },
+      timeUnit: {
+        testdataTime: "Time",
+      },
     };
   }
 
@@ -122,7 +61,31 @@ class ExportData extends Component {
       title: "ExportData",
       type: "Report",
     });
+    let paramValue = this.props.app.paramConfig
+      ? this.props.app.paramConfig
+      : [];
+
+    //while adding the unit row in the table,exported excel sheet not in the correct order,
+    //so here changed the order of the array index value
+
+    const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+
+    const createdData = index.map((i) => paramValue[i]);
+
+    let createParam = this.props.app.paramConfig
+      ? createdData.map((It) => It.Paramname)
+      : [];
+    console.log(createParam);
+    let createUnit = this.props.app.paramConfig
+      ? createdData.map((It) => It.unitname)
+      : [];
+
+    createParam.forEach((key, i) => (paramObj[key] = createUnit[i]));
   }
+  //to reset the input box
+  onReset = () => {
+    this.formRef.current.resetFields();
+  };
 
   //to view the report
   getReport = () => {
@@ -147,8 +110,23 @@ class ExportData extends Component {
         .then((res) => {
           let data = res.data;
           if (data.length > 5 && typeof data !== "string") {
+            //updated the export data title
             this.setState({
-              reportDetails: data,
+              title: Object.keys(data[0]),
+            });
+
+            //merging the testdatatime,live data unit,formula unit
+            let unitMerged = {
+              ...this.state.timeUnit,
+              ...paramObj,
+              ...this.state.formulaUnit,
+            };
+            //concatinating the unitData with the live data
+            let exportdataData = [].concat(unitMerged, data);
+
+            //updating the data to the state
+            this.setState({
+              reportDetails: exportdataData,
             });
           } else {
             message.warning("Check the test No");
@@ -220,38 +198,144 @@ class ExportData extends Component {
     FileSaver.saveAs(data, fileName + fileExtension);
   };
 
-  //export pdf
-  exportToPDF = () => {
-    const input = document.getElementById("someRandomID");
-    html2canvas(input).then((canvas) => {
-      var imgWidth = 200;
-      var imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      var position = 0;
-      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-      pdf.save("download.pdf");
-    });
-  };
+  // //export pdf
+  // exportToPDF = () => {
+  //   const input = document.getElementById("someRandomID");
+  //   html2canvas(input).then((canvas) => {
+  //     var imgWidth = 200;
+  //     var imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF("p", "mm", "a4");
+  //     var position = 0;
+  //     pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+  //     pdf.save("download.pdf");
+  //   });
+  // };
 
   render() {
     const testIdValue = this.props.app.turboConfig;
     const testno = this.state.testno;
-
+    console.log(this.state.title[0]);
+    const columns = [
+      {
+        title: this.state.title[0],
+        dataIndex: this.state.title[0],
+        key: this.state.title[0],
+        fixed: "left",
+        width: 20,
+      },
+      {
+        title: this.state.title[1],
+        dataIndex: this.state.title[1],
+        key: this.state.title[1],
+        fixed: "left",
+        width: 20,
+      },
+      {
+        title: this.state.title[2],
+        dataIndex: this.state.title[2],
+        key: this.state.title[2],
+        width: 20,
+      },
+      {
+        title: this.state.title[3],
+        dataIndex: this.state.title[3],
+        key: this.state.title[3],
+        width: 20,
+      },
+      {
+        title: this.state.title[4],
+        dataIndex: this.state.title[4],
+        key: this.state.title[4],
+        width: 20,
+      },
+      {
+        title: this.state.title[5],
+        dataIndex: this.state.title[5],
+        key: this.state.title[5],
+        width: 20,
+      },
+      {
+        title: this.state.title[6],
+        dataIndex: this.state.title[6],
+        key: this.state.title[6],
+        width: 20,
+      },
+      {
+        title: this.state.title[7],
+        dataIndex: this.state.title[7],
+        key: this.state.title[7],
+        width: 20,
+      },
+      {
+        title: this.state.title[8],
+        dataIndex: this.state.title[8],
+        key: this.state.title[8],
+        width: 15,
+      },
+      {
+        title: this.state.title[9],
+        dataIndex: this.state.title[9],
+        key: this.state.title[9],
+        width: 20,
+      },
+      {
+        title: this.state.title[10],
+        dataIndex: this.state.title[10],
+        key: this.state.title[10],
+        width: 20,
+      },
+      {
+        title: this.state.title[11],
+        dataIndex: this.state.title[11],
+        key: this.state.title[11],
+        width: 20,
+      },
+      {
+        title: this.state.title[12],
+        dataIndex: this.state.title[12],
+        key: this.state.title[12],
+        width: 20,
+      },
+      {
+        title: this.state.title[13],
+        dataIndex: this.state.title[13],
+        key: this.state.title[13],
+        width: 20,
+      },
+      {
+        title: this.state.title[14],
+        dataIndex: this.state.title[14],
+        key: this.state.title[14],
+        width: 20,
+      },
+      {
+        title: this.state.title[15],
+        dataIndex: this.state.title[15],
+        key: this.state.title[15],
+        width: 20,
+      },
+    ];
     return (
       <div style={{ paddingTop: "1px" }}>
         <Layout className="layout-container">
           <h2 className="h2"> Export Report</h2>
-          <Row style={{ paddingTop: "10px" }}>
-            <Col sm={2}>
-              <label className="label">
-                Turbo ID<i style={{ color: "red", fontSize: "15px" }}> *</i>
-              </label>
-              <span> &nbsp; &nbsp; &nbsp;</span>
-            </Col>
-            <Col sm={10}>
+          <Form
+            ref={this.formRef}
+            style={{ paddingLeft: "3%" }}
+            name="control-ref"
+          >
+            <Row style={{ paddingTop: "10px" }}>
               <Col sm={10}>
-                <Form.Item name="option">
+                <Form.Item
+                  name="option"
+                  label="Turbo ID"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
                   <Input.Group compact>
                     <Input.Group compact>
                       <Select
@@ -269,16 +353,16 @@ class ExportData extends Component {
                   </Input.Group>
                 </Form.Item>
               </Col>
-            </Col>
 
-            <Col sm={2}>
-              <label className="label">
-                Test No <i style={{ color: "red", fontSize: "15px" }}> *</i>
-              </label>
-              <span> &nbsp; &nbsp; &nbsp;</span>
-            </Col>
-            <Col sm={10}>
-              <Form.Item name="options">
+              <Form.Item
+                name="options"
+                label="Test No"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
                 <Input.Group compact>
                   <Select
                     defaultValue="Select Test No"
@@ -295,20 +379,25 @@ class ExportData extends Component {
                   </Select>
                 </Input.Group>
               </Form.Item>
-            </Col>
-          </Row>
-          <Row
-            style={{
-              paddingTop: "0px",
-              paddingLeft: "38%",
-              paddingBottom: "25px",
-            }}
-          >
-            <Col xs={4}>
+            </Row>
+            <Row
+              style={{
+                paddingTop: "0px",
+                paddingLeft: "38%",
+                paddingBottom: "25px",
+              }}
+            >
               <Button onClick={() => this.getReport()}> View</Button>
-              <span> &nbsp;</span>
-            </Col>
-          </Row>
+
+              <Button
+                htmlType="button"
+                style={{ marginLeft: "4%" }}
+                onClick={this.onReset}
+              >
+                Reset
+              </Button>
+            </Row>
+          </Form>
         </Layout>
 
         <Button
@@ -327,15 +416,7 @@ class ExportData extends Component {
         </Button>
 
         <Spin tip="Loading..." size="large" spinning={this.state.loading}>
-          <Layout
-            style={{
-              backgroundColor: "#131633",
-              paddingLeft: "20px",
-              width: "auto",
-              paddingTop: "10px",
-              border: "solid white",
-            }}
-          >
+          <Layout className="export-layout">
             <div id="allreport">
               <div className="mx-auto" style={{ marginTop: "2%" }}>
                 <div

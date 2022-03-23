@@ -23,7 +23,6 @@ import {
   updateTableStatusData,
   updateTestIdCount,
   updateTableViewData,
-  fetchingDelayValue,
   updateChartData,
   initiateTurboStart,
 } from "../../Redux/action";
@@ -36,7 +35,6 @@ import {
   getHandleChangetestID,
   getTableView,
   gettingChartData,
-  getSensorData,
 } from "../../Services/requests";
 import { testParamHash } from "../../Services/constants";
 
@@ -83,16 +81,17 @@ export class MainComponent extends Component {
     });
 
     getTableView((data) => {
-      console.log(data);
       //getting this function(data) from request page
       const arrStr = this.props.app.targetKeys; //covertion string to number
       const dashboardDataNumArr = arrStr.map((i) => Number(i));
+
       let filteredTableData = data.filter((_, index) =>
         dashboardDataNumArr.includes(index)
       );
       this.props.updateTableViewData(filteredTableData);
     });
 
+    //fetch TestDatainsert on application load
     if (this.state.testDataInsert === false) {
       axios
         .post("http://localhost:7000/testdatainsert.php")
@@ -109,34 +108,19 @@ export class MainComponent extends Component {
     //graph.php
     //getting live value from db
     setInterval(() => {
-      gettingChartData((data) => {
-        this.props.updateChartData(data);
-      });
-    }, 1000);
+      if (this.props.app.resetButtonClick !== 1) {
+        gettingChartData((data) => {
+          let ChartValue = data.slice(0, 7);
+          this.props.updateChartData(ChartValue);
 
-    //getdata.php
-    setInterval(() => {
-      const nShutdowndataArray = this.props.app.turboStart.filter((it) =>
-        nShutdowndata.find((val) => val === it.name)
-      );
-
-      const eShutdowndataArray = this.props.app.turboStart.filter((it) =>
-        eShutdowndata.find((val) => val === it.name)
-      );
-
-      if (
-        this.props.app.testIdData !== 0 &&
-        nShutdowndataArray.length < 2 &&
-        eShutdowndataArray.length < 2
-      ) {
-        getSensorData((data) => {
-          let val = data;
-          if (this.props.app.communication === true && val.length >= 1) {
-            this.props.initiateTurboStart(val);
-          }
+          let CommandValue = data.slice(7);
+          this.props.initiateTurboStart(CommandValue[0]);
         });
+      } else {
+        let chartArray = [0, 0, 0, 0, 0, 0, 0, 0];
+        this.props.updateChartData(chartArray);
       }
-    }, 2000);
+    }, 1000);
   }
 
   render() {
@@ -181,7 +165,6 @@ const mapDispatchToProps = {
   updateUserParameter,
   updateTestIdCount,
   updateTableViewData,
-  fetchingDelayValue,
   updateChartData,
   initiateTurboStart,
 };

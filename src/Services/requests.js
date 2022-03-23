@@ -17,9 +17,9 @@ const tableViewUrl = `${BASE_URL}${URL.TABLE_VIEW}`
 const turboIdValueUrl = `${BASE_URL}${URL.TURBOID_VALUE}`
 const tableStatusDataUrl = `${BASE_URL}${URL.TABLE_STATUSDATA}`  
 const configurationDataUrl = `${BASE_URL}${URL.CONFIGURATION_DATA}`
-const sensorDataUrl = `http://localhost:8002/getdata.php`
+const logoutEventUrl = `${BASE_URL}${URL.LOGOUT_EVENT}`
 const graphDataUrl = `http://localhost:8001/graph.php` 
-const fcvStageUrl =`http://localhost:8003/fcvStage.php`
+const fcvStageUrl =`http://localhost:8002/fcvStage.php`
 
 // Form requests
 const loginValidation = (values, callBack) => {
@@ -149,16 +149,6 @@ const resetClickEvent = (dataBody, callBack) => {
     })
 }
 
-const getSensorData = (callBack) => {
-  axios.post(sensorDataUrl)
-    .then(res => {
-      callBack(res.data)
-    })
-    .catch(err => {
-      console.log(err.res)
-    })
-};
-
 const getHandleChangetestID = (body, callBack) => {
   axios.post(turboIdValueUrl, body)
     .then(res => {
@@ -188,6 +178,15 @@ const fcvTransferEvent = (body,callBack) => {
       console.log(err.res)
     })
 };
+const logoutEvent = (callBack) => {
+  axios.post(logoutEventUrl)
+    .then(res => {
+      callBack(res.data)
+    })
+    .catch(err => {
+      console.log(err.res)
+    })
+};
 
 export {
   getTurboConfigData, turbineConfigSubmit,
@@ -195,7 +194,8 @@ export {
   shutdownClickEvent, resetClickEvent,
   updateConfigData, loginValidation,
   forgotValidation, registerPageValidation,
-  getTableView, getSensorData,
+  getTableView, 
   getHandleChangetestID, requestStatusData,
-  gettingChartData, gettingConfigurationValue,fcvTransferEvent
+  gettingChartData, gettingConfigurationValue,
+  fcvTransferEvent,logoutEvent
 }

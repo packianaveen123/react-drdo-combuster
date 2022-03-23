@@ -82,7 +82,7 @@ class ForgotPassword extends Component {
                       >
                         <Input
                           className="form-input"
-                          style={{ backgroundColor: "#131633" }}
+                          style={{ backgroundColor: "transparent" }}
                           prefix={
                             <UserOutlined className="site-form-item-icon" />
                           }
@@ -96,7 +96,7 @@ class ForgotPassword extends Component {
                         hasFeedback
                       >
                         <Input.Password
-                          style={{ backgroundColor: "#131633" }}
+                          style={{ backgroundColor: "transparent" }}
                           prefix={
                             <LockOutlined className="site-form-item-icon" />
                           }
@@ -130,7 +130,7 @@ class ForgotPassword extends Component {
                         ]}
                       >
                         <Input.Password
-                          style={{ backgroundColor: "#131633" }}
+                          style={{ backgroundColor: "transparent" }}
                           prefix={
                             <LockOutlined className="site-form-item-icon" />
                           }

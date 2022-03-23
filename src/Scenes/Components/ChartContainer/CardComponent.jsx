@@ -7,7 +7,6 @@ import { dashboardSensor } from "../../../Services/constants";
 import { getTableView } from "../../../Services/requests";
 
 const { sensorLabel, dummyData, chartMax } = dashboardSensor;
-
 class CardComponent extends Component {
   constructor(props) {
     super(props);
@@ -250,7 +249,6 @@ class CardComponent extends Component {
             chartTextColor: textColor,
 
             upperLimitVal: this.props.app.tableViewData[i].graph_upper,
-            normalLimitVal: this.props.app.tableViewData[i].normallimit,
             lowerLimitVal: this.props.app.tableViewData[i].graph_lower,
           },
         };
@@ -275,14 +273,7 @@ class CardComponent extends Component {
                   return (
                     <Col span={8}>
                       <Row style={{ paddingTop: "30px" }}>
-                        <Card
-                          style={{
-                            backgroundColor: "#131633",
-                            height: "250px",
-                            border: "none",
-                            borderRadius: "0px",
-                          }}
-                        >
+                        <Card className="graph-card">
                           {it.title}
                           <GraphComponent
                             data={
@@ -321,11 +312,6 @@ class CardComponent extends Component {
                             upperLimit={
                               it.dataSet.upperLimitVal
                                 ? it.dataSet.upperLimitVal
-                                : []
-                            }
-                            normalLimit={
-                              it.dataSet.normalLimitVal
-                                ? it.dataSet.normalLimitVal
                                 : []
                             }
                             lowerLimit={

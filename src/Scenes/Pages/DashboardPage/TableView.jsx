@@ -17,11 +17,6 @@ const columns = [
     key: "lowerlimit",
   },
   {
-    title: "normallimit",
-    dataIndex: "normallimit",
-    key: "normallimit",
-  },
-  {
     title: "unitName",
     dataIndex: "unitname",
     key: "unitname",
@@ -135,7 +130,7 @@ class TableView extends Component {
           <Row>
             <Col>
               <Table
-                style={{ marginTop: "50px", minWidth: "700px", float: "left" }}
+                style={{ marginTop: "25px", minWidth: "700px", float: "left" }}
                 size="middle"
                 pagination={false}
                 columns={columns}

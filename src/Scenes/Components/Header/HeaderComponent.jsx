@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toggleLeftBar, updateAppState } from "../../../Redux/action";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { logoutEvent } from "../../../Services/requests";
 import { Space } from "antd";
 
 class HeaderComponent extends Component {
@@ -21,6 +22,7 @@ class HeaderComponent extends Component {
   //function for logout
   backToLoginEvent = () => {
     window.location.reload(false);
+    logoutEvent((data) => {});
   };
 
   render() {

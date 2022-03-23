@@ -45,6 +45,7 @@ class TableComponent extends Component {
       editRowIndex: null,
       editData: [],
       editCancel: false,
+      configID: 0,
       col: "",
       turbo_status: [
         { status: "installed" },
@@ -75,6 +76,18 @@ class TableComponent extends Component {
     const { editData: newEditData } = this.state;
     newEditData[colName] = event.target.value;
     this.setState({ editData: newEditData });
+
+    let val = this.state.editRowIndex;
+    let editedIndex = this.state.data[val];
+
+    if (this.state.editRowIndex >= 0) {
+      //var testConfigId = editedIndex[Object.keys(editedIndex)[0]];
+      // console.log(Object.keys(editedIndex)[0]);
+      // console.log(editedIndex[Object.keys(editedIndex)[0]]);
+      //console.log(testConfigId);
+
+      this.setState({ configID: editedIndex[Object.keys(editedIndex)[0]] });
+    }
   };
 
   //Onchange for table select input
@@ -117,6 +130,7 @@ class TableComponent extends Component {
       editData: Object.assign({}, this.state.editData),
       editRowIndex: this.state.editRowIndex,
       turboIdVal: value.turboconfig_id,
+      configID: this.state.configID,
       paramIdVal: value.paramconfig_id,
       testIdVal: value.testparamconfig_id,
     };
@@ -313,15 +327,7 @@ class TableComponent extends Component {
           </Row>
         </div>
 
-        <Table
-          dataSource={tableData}
-          size="middle"
-          style={{
-            backgroundColor: "#131633",
-            paddingBottom: "10px",
-            marginTop: "10px",
-          }}
-        >
+        <Table dataSource={tableData} size="middle" className="table-container">
           {columns && columns.length > 0
             ? columns.map((col) => {
                 if (col !== this.props.configIdKeyValue) {

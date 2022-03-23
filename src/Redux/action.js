@@ -120,20 +120,16 @@ export const initiateShutdown = bool => ({
   type: 'SHUTDOWN_INITIATED',
   payload: bool
 })
-//initializeEnable
-export const initializeEnableEvent = data => ({
-  type: 'INITIALIZE_ENABLE_EVENT',
-  payload: data
-})
+
 // showReset
 export const initiateShowReset = bool => ({
   type: 'SHOW_RESET_INITIATED',
   payload: bool
 })
 // communicationFailed
-export const initiateCommunicationFailed = bool => ({
+export const initiateCommunicationFailed = data => ({
   type: 'COMMUNICATION_FAILED_INITIATED',
-  payload: bool
+  payload: data
 })
 // communication
 export const initiateCommunication = bool => ({
@@ -217,10 +213,6 @@ export const stopDbInsert = bool => ({
   payload: bool
 })
 
-export const startDbInsert = bool => ({
-  type: 'START_DB_INSERT',
-  payload: bool
-})
 // testIdData
 export const gettingTestIdData = data => ({
   type: 'GETTING_TEST_ID_DATA',
@@ -239,5 +231,20 @@ export const fetchingDelayValue = data => ({
 //cvStageValue
 export const fetchingCvstageValue = data => ({
   type: 'FETCHING_CVSTAGE_VALUE',
+  payload: data
+})
+//resetButtonClick
+export const updateResetButtonClick = data => ({
+  type: 'UPDATE_RESET_BUTTONCLICK',
+  payload: data
+})
+//airFCVInput
+export const updatingAirFCVInput = data => ({
+  type: 'UPDATING_AIRFCV_INPUTVALUE',
+  payload: data
+})
+//keroseneFCVInput
+export const updatingKeroseneFCVInput = data => ({
+  type: 'UPDATING_KEROSENEFCV_INPUTVALUE',
   payload: data
 })

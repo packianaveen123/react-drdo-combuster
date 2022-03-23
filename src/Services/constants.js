@@ -10,12 +10,12 @@ const url = {
   UPDATE_CONFIG_DATA: "testconfigedit.php",
   TABLE_VIEW: "tableview.php",
   SHUTDOWN_CLICK: "shutdown.php",
-  RESET_CLICK: "reset_targetVal.php",
-  SENSOR_DATA: "getdata.php",
+  RESET_CLICK: "reset_targetVal.php",  
   TURBOID_VALUE: "turboIdValue.php",
   TABLE_STATUSDATA: "statusValue.php",
   GRAPH_DATA: "graph.php",
   CONFIGURATION_DATA: "configuration.php",
+  LOGOUT_EVENT: 'logout.php',  
 };
 
 const FormDetails = {
@@ -102,7 +102,7 @@ const testParamHash = {
     "Ignite",
     "Gas Opened",
     "Stage1",
-    "Ruel Opened",
+    "Fuel Opened",
     "Stage2",
     "Fuel Opened",
     "Stage2",
@@ -118,6 +118,7 @@ const testParamHash = {
   warning_Id: "Please select the turbo ID",
   warning_name: "Please enter tester name",
   alert_targetval: "Please enter target values",
+  airFCVValue_warning: "Please enter  between 0.1 to 0.5",
 };
 const helpPopup = {
   value: "VALVE STATUS AT :",

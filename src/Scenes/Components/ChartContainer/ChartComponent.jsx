@@ -13,7 +13,6 @@ class ChartComponent extends Component {
       borderColor: this.props.borderColor,
       textColor: "blue",
       upperLimit: this.props.upperLimit,
-      normalLimit: this.props.lowerLimit,
       lowerLimit: this.props.lowerLimit,
     };
   }
@@ -46,7 +45,7 @@ class ChartComponent extends Component {
     return (
       <div>
         <Line
-          height={240}
+          height={300}
           data={{
             labels: ["", "", "", "", "", ""],
             datasets: [

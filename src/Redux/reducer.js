@@ -102,17 +102,14 @@ const appReducer = (state = InitialState, action) => {
     case 'SHUTDOWN_INITIATED':
       newState.shutdownInitiated = true
       return newState
-    //initializeEnable 
-    case 'INITIALIZE_ENABLE_EVENT':
-      newState.initializeEnable = true
-      return newState
+    
     //showReset
     case 'SHOW_RESET_INITIATED':
       newState.showReset = true
       return newState
     //communicationFailed
     case 'COMMUNICATION_FAILED_INITIATED':
-      newState.communicationFailed = true
+      newState.communicationFailed = action.payload
       return newState
     //communication
     case 'COMMUNICATION_INITIATED':
@@ -186,11 +183,6 @@ const appReducer = (state = InitialState, action) => {
       newState.shutdownInitiated = false
       return newState
 
-    //startDbInserting
-    case 'START_DB_INSERT':
-      newState.startDbInserting = false
-      return newState
-
     //testIdData
     case 'GETTING_TEST_ID_DATA':
       newState.testIdData = action.payload
@@ -206,13 +198,26 @@ const appReducer = (state = InitialState, action) => {
       newState.delayValue = action.payload
       return newState
       
-  //cvStageValue
-  case 'FETCHING_CVSTAGE_VALUE':
-    newState.cvStageValue = action.payload
-    return newState
-
-    default:
+    //cvStageValue
+    case 'FETCHING_CVSTAGE_VALUE':
+      newState.cvStageValue = action.payload
       return newState
+
+    //resetButtonClick   
+    case 'UPDATE_RESET_BUTTONCLICK':
+      newState.resetButtonClick = action.payload
+      return newState
+
+    //airFCVInput
+    case 'UPDATING_AIRFCV_INPUTVALUE':
+      newState.airFCVInput = action.payload
+      return newState
+    //keroseneFCVInput
+    case 'UPDATING_KEROSENEFCV_INPUTVALUE':
+      newState.keroseneFCVInput = action.payload
+      return newState
+  default:
+    return newState
   }
 }
 

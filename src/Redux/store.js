@@ -30,8 +30,7 @@ const InitialState = {
   statusData: '',
   reset: false,
   chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  shutdownInitiated: false,
-  initializeEnable: false,
+  shutdownInitiated: false, 
   communicationFailed: false,
   communication: false,
   targetState: false,
@@ -49,11 +48,15 @@ const InitialState = {
   targetTemp: '',
   resetTemp: '',
   resetRPM: '',
-  startDbInserting: false,
+
   testIdData: 0,
   startDisable: false,
   //grapgView
   delayValue: '',
   cvStageValue:[],
+  resetButtonClick:1,
+  configId: 0,
+  airFCVInput: 0,
+  keroseneFCVInput:0,
 }
 export default InitialState

@@ -129,8 +129,6 @@ class LeftbarComponent extends Component {
             >
               Export Data{" "}
             </Menu.Item>
-
-           
           </SubMenu>
         </Menu>
       </Sider>

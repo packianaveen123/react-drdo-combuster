@@ -105,7 +105,7 @@ class StatusBlock extends Component {
         ? (filteredData1 = Object.values(this.props.app.chartData[1]).filter(
             (_, index) => dashboardDataNumArr.includes(index)
           ))
-        : (filteredData = []);
+        : (filteredData1 = []);
     }
 
     {
@@ -176,35 +176,22 @@ class StatusBlock extends Component {
                 <Row className="progress-details d-flex align-items-end justify-content-between">
                   {/* up and down arrow column */}
                   <Col>
-                    {persons1[y] < It ? (
+                    {persons1[y] <= It ? (
                       <img
                         src="./images/up-arrow-1.gif"
                         alt="Arrow"
-                        style={{
-                          width: "20px",
-                          height: "30px",
-                          marginTop: "8px",
-                          marginLeft: "30px",
-                        }}
+                        className="statistic-arrow"
                       />
                     ) : (
                       <img
                         src="./images/down-arrow-1.gif"
                         alt="Arrow"
-                        style={{
-                          width: "20px",
-                          height: "30px",
-                          marginTop: "8px",
-                          marginLeft: "30px",
-                        }}
+                        className="statistic-arrow"
                       />
                     )}
                   </Col>
                   {/* value displaying column */}
-                  <Col
-                    className="number dashtext-1"
-                    style={{ paddingLeft: "20%", fontSize: "23px" }}
-                  >
+                  <Col className="statistic-number">
                     <span style={{ color: colors[y] }}>{It}</span>
                   </Col>
                 </Row>
@@ -222,10 +209,8 @@ class StatusBlock extends Component {
                   ></div>
                 </div>
                 {/*  Title column */}
-                <div className="title">
-                  <div style={{ fontSize: "10px" }}>
-                    <strong>{filteredDataLabel[y]}</strong>
-                  </div>
+                <div className="statistic-block-title">
+                  <strong>{filteredDataLabel[y]}</strong>
                 </div>
               </div>
             </Col>
